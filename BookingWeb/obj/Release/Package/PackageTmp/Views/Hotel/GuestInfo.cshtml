@@ -1,0 +1,644 @@
+﻿@model GogojiiWeb.Models.HotelSelected
+@section styles
+{
+    <link href="~/Content/hotels/result.css?@(DateTime.Now.ToString("ddMMyyhhmmss"))" rel="stylesheet" />
+    <link href="~/Vendors/tel-input/build/css/intlTelInput.css" rel="stylesheet" />
+    <style>
+        iti__flag {
+            background-image: url("../../Vendors/tel-input/build/img/flags.png");
+        }
+
+        @@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .iti__flag {
+                background-image: url("../../Vendors/tel-input/build/img/flags@2x.png");
+            }
+        }
+    </style>
+}
+@{
+
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang().ToLower() == "th" ? "th-TH" : "en-US");
+    GogojiiWeb.Models.HotelSearchModel searchModel = (GogojiiWeb.Models.HotelSearchModel)ViewBag.SearchModel;
+}
+
+@section width100head
+{
+    <div class="process-bar text-center">
+        <table class="font-weight-bold" style="margin-left: auto; margin-right: auto;">
+            <tr>
+                <td><div class="number-circle-orange">1</div></td>
+                <td>@Localize.Show("DETAIL")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-grey">2</div></td>
+                <td>@Localize.Show("PAYMENT")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-grey">3</div></td>
+                <td>@Localize.Show("TICKET")</td>
+            </tr>
+        </table>
+    </div>
+
+    @using (Html.BeginForm("Booking", "Hotel", FormMethod.Get, new { data_parsley_validate = "", role = "form", enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(m => m.hotelDetail.hotel.hotelSource)
+        @Html.HiddenFor(m => m.hotelDetail.hotel.hotelCode)
+        <div class="bg-white" style="padding-top: 15px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                @if (Model.hotelDetail.hotel.images != null && Model.hotelDetail.hotel.images.Count > 0)
+                                {
+                                    var hotelImg = Model.hotelDetail.hotel.images.FirstOrDefault(x => x.url.IndexOf("_a_") >= 0);
+                                    if (hotelImg == null)
+                                    {
+                                        hotelImg = Model.hotelDetail.hotel.images[0];
+                                    }
+                                    if (Model.hotelDetail.hotel.hotelSource == "EXT")
+                                    {
+                                        <div class="hotel-image" style="background-image: url('@ViewBag.hotelExtURL/@(hotelImg.url)'); height: 140px;"></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="hotel-image" style="background-image: url('//photos.hotelbeds.com/giata/@(hotelImg.url)'); height: 140px;"></div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="hotel-image" style="background-image: url('../Images/hotel_blank.jpg'); height: 140px;"></div>
+                                }
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <strong class="font-14">
+                                    @Model.hotelDetail.hotel.hotelName
+                                </strong>
+                                <div class="font-12">
+                                    <img src="~/Images/icon_gogo/pin.svg" style="height:12px; margin-right: 10px;" /> @Model.hotelDetail.hotel.address @Model.hotelDetail.hotel.postalCode
+                                </div>
+                                <div>
+
+                                    @if (Model.hotelDetail.hotel.category != null && Model.hotelDetail.hotel.category.code != null)
+                                    {
+                                        char star = Model.hotelDetail.hotel.category.code[0];
+                                        if (Char.IsDigit(star))
+                                        {
+                                            int iStar = int.Parse(star.ToString());
+                                            for (int i = 1; i <= iStar; i++)
+                                            {
+                                                <i class="fas fa-star yellow-star"></i>
+                                            }
+                                            for (int i = iStar + 1; i <= 5; i++)
+                                            {
+                                                <i class="fas fa-star grey-star"></i>
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="font-14 mt-2 font-weight-bold">
+                            <div>
+                                <img src="~/Images/icon_gogo/calendar.svg" style="height:12px; margin-right: 10px;" /> @searchModel.dtCheckIn.ToString("dd MMM yyyy", ci) - @searchModel.dtCheckOut.ToString("dd MMM yyyy", ci)
+                                <span class="font-12" style="position: absolute; right: 20px">@searchModel.night @Localize.Show("NIGHTS")</span>
+                            </div>
+                            @{
+                                int iRoom = 1;
+                            }
+                            @foreach (var room in Model.hotelRate.hotel.rooms)
+                            {
+                                foreach (var rate in room.rates)
+                                {
+                                    if (iRoom != 1)
+                                    {
+                                        <hr />
+                                    }
+                                    <div>
+                                        <img src="~/Images/icon_gogo/hotel.svg" style="height:12px; margin-right: 10px;" />
+                                        @Localize.Show("ROOM") @iRoom:
+                                        @room.roomName
+                                        (@rate.boardName)
+                                    </div>
+                                    <div class="font-14">
+                                        <img src="~/Images/icon_gogo/pax.svg" style="height:12px; margin-right: 10px;" />
+                                        @rate.forRoom.adults @Localize.Show("ADULTS")
+                                        @if (rate.forRoom.children > 0)
+                                        {
+                                            <span>
+                                                , @rate.forRoom.children  @Localize.Show("CHILDREN")
+                                                (@Localize.Show("AGE"): @String.Join(",", rate.forRoom.childAge))
+                                            </span>
+                                        }
+                                    </div>
+                                    <div>
+                                        @if (rate.cancellationPolicies != null && rate.cancellationPolicies.Count > 0)
+                                        {
+                                            <span class="hotel-facility">
+                                                @Localize.Show("FREE_CANCELLATION_BEFORE") @rate.cancellationPolicies.Min(x => x.fromDate).ToString("dd MMM yyyy", ci)
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="hotel-facility">
+                                                @Localize.Show("NON_REFUNDABLE")
+                                            </span>
+                                        }
+                                    </div>
+                                    iRoom++;
+                                }
+                            }
+                        </div>
+                        
+                        <div class="info-box mt-4">
+                            <strong class="font-16">
+                                @Localize.Show("PRICE_DETAIL")
+                            </strong>
+                            <table style="width:100%" class="font-14">
+                                @{
+                                    decimal total = 0;
+                                }
+                                @foreach (var room in Model.hotelRate.hotel.rooms)
+                                {
+                                    foreach (var rate in room.rates)
+                                    {
+                                        total += rate.sellingPrice;
+                                        <tr>
+                                            <td>
+                                                <strong>@room.roomName</strong>
+                                                <br />
+                                                <small>@rate.boardName</small>
+                                            </td>
+                                            <td class="text-muted" style="vertical-align: top">
+                                                @Model.hotelRate.hotel.currencyCode
+                                            </td>
+                                            <td class="text-right" style="vertical-align: top">
+                                                <strong>
+                                                    @rate.sellingPrice.ToString("N2")
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                <input type="hidden" id="hdn-total-amount" value="@total" />
+                                @{ string promoBoxDisplay = ""; string promoMessageDisplay = ""; string promoDiscountDisplay = "";
+                                    if (Model.discount != null && Model.discount.promotionProductType == "H" && Model.discount.discountCode != "")
+                                    {
+                                        promoBoxDisplay = "none";
+                                        promoMessageDisplay = "";
+                                        promoDiscountDisplay = "";
+                                        total -= Model.discount.discountAmount;
+                                    }
+                                    else
+                                    {
+                                        promoBoxDisplay = "";
+                                        promoMessageDisplay = "none";
+                                        promoDiscountDisplay = "none";
+                                    }
+                                }
+                                <tr class="row-promotion-discount" style="display:@promoDiscountDisplay;">
+                                    <td><small>@Localize.Show("DISCOUNT")</small></td>
+                                    <td class="text-muted" style="vertical-align: top">@Model.hotelRate.hotel.currencyCode</td>
+                                    <td class="text-right" style="vertical-align: top" id="promotion-discount-amount">-@Model.discount.discountAmount.ToString("N2")</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-blue">
+                                        <strong>@Localize.Show("TOTAL")</strong>
+                                    </td>
+                                    <td class="text-muted" style="vertical-align: top">
+                                        @Model.hotelRate.hotel.currencyCode
+                                    </td>
+                                    <td class="text-right font-18 text-blue" style="vertical-align: top" id="total-amount">
+                                        <strong>
+                                            @total.ToString("N2")
+                                        </strong>
+                                    </td>
+                                </tr>
+                                @if (Currency.GetCurrency() != "THB")
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-blue">
+                                            <hr />
+                                            <strong>@Localize.Show("YOUR_CURRENCY")</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-green">
+                                            <strong>@Localize.Show("TOTAL")</strong>
+                                        </td>
+                                        <td class="text-muted" style="vertical-align: top">
+                                            @Currency.GetCurrency()
+                                        </td>
+                                        <td class="text-right font-18 text-green" style="vertical-align: top">
+                                            <strong>
+                                                @Currency.convertFromTHB(total).ToString("N2")
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" class="font-10">
+                                            *@String.Format(Localize.Show("CURRENCY_CONDITION"), Currency.GetCurrency())
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                        <div class="info-box mt-4">
+                            <strong class="font-16">
+                                @Localize.Show("DISCOUNT_CODE")
+                            </strong>
+                            <table style="width:100%" class="font-14">
+                                <tr class="row-promotion-box" style="display:@promoBoxDisplay;">
+                                    <td>@Html.TextBoxFor(m => m.discount.discountCode, new { @class = "form-control" })</td>
+                                    <td><button class="btn btn-md cust-btn" style="margin-bottom:0px !important;" type="button" id="discount-btn"><strong>@Localize.Show("APPLY")</strong></button></td>
+                                </tr>
+                                <tr class="row-promotion-detail" style="display:@promoMessageDisplay;">
+                                    <td class="promotion-col-left" id="promotion-code">@Model.discount.discountCode </td>
+                                    <td class="promotion-col-right"><span id="btn-remove-promotion-code" class="promotion-link-remove"><small>@Localize.Show("REMOVE")</small></span></td>
+                                </tr>
+                                <tr class="row-promotion-message" style="display:none;">
+                                    <td colspan="2" id="lbPromotion"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        @if (Model.hotelDetail.hotel.hotelSource != "EXT")
+                        {
+                            <div class="info-box mt-4">
+                                <strong class="font-16">@Localize.Show("ROOM_CONDITIONS")</strong>
+                                <div class="font-12">
+
+                                    @{
+                                        int ir = 1;
+                                    }
+                                    @foreach (var room in Model.hotelRate.hotel.rooms)
+                                    {
+                                        foreach (var rate in room.rates)
+                                        {
+                                            if (ir != 1)
+                                            {
+                                                <hr />
+                                            }
+                                            <div>
+                                                <strong>
+                                                    @Localize.Show("ROOM") @ir:
+                                                    @room.roomName
+                                                </strong>
+                                            </div>
+                                            <div>
+                                                @rate.boardName
+                                            </div>
+
+                                            <div>
+                                                @if (!String.IsNullOrEmpty(rate.rateComment))
+                                                {
+                                                    @Html.Raw(rate.rateComment.Replace(".", "<br>"))
+                                                }
+                                            </div>
+                                            ir++;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                        <br />
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        <div class="font-24 font-weight-bold">@Localize.Show("PAX_TOPIC")</div>
+                        <div class="font-14 text-muted font-weight-bold">@Localize.Show("PERSONAL_INFO")</div>
+                        <br />
+                        <div class="info-box">
+                            <div class="font-18 font-weight-bold">@Localize.Show("CONTACT_DETAIL")</div>
+                            <div class="row row-mt">
+                                <div class="col-md-2 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("TITLE")*</small>
+                                    @Html.DropDownListFor(m => m.hotelRate.contactInfo.title, ViewData["adtTitleList"] as SelectList, new
+                           {
+                               @class = "form-control form-control-pax",
+                               required = "required"
+                           })
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("FIRSTNAME")*</small>
+                                    @Html.TextBoxFor(m => m.hotelRate.contactInfo.firstname, new { required = "required", @class = "form-control form-control-pax only-text booking-holder" })
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("MIDDLENAME") </small>
+                                    @Html.TextBoxFor(m => m.hotelRate.contactInfo.middlename, new { @class = "form-control form-control-pax only-text booking-holder" })
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("LASTNAME")*</small>
+                                    @Html.TextBoxFor(m => m.hotelRate.contactInfo.lastname, new { required = "required", @class = "form-control form-control-pax only-text booking-holder" })
+                                </div>
+                            </div>
+                            <div class="row row-mt">
+                                <div class="col-lg-4 col-md-6 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("EMAIL")*</small>
+                                    <div class="input-group input-icon">
+                                        <img src="~/Images/icon_gogo/Email.svg" class="ml-2" />
+                                        @Html.TextBoxFor(m => m.hotelRate.contactInfo.email, new { required = "required", @class = "form-control form-control-pax email-text ADT-E-0", @type = "email" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("TELNO")*</small>
+                                    <div class="input-group input-icon">
+                                        @Html.TextBoxFor(m => m.hotelRate.contactInfo.telNo, new { required = "required", @class = "form-control form-control-pax tel-number-text ADT-T-0", autocomplete = "off" })
+                                        @Html.Hidden("phoneCode", "66")
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("COUNTRY_OF_RESIDENCE")</small>
+                                    @Html.DropDownListFor(m => m.hotelRate.contactInfo.countryCode, ViewData["countryList"] as SelectList, new
+                           {
+                               @class = "form-control form-control-pax",
+                               required = "required"
+                           })
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
+
+                                    <div class="abc-checkbox abc-checkbox-info abc-checkbox-circle">
+                                        <input class="styled" type="checkbox" value="" name="as_other" id="as_other" />
+                                        <label class="font-12" for="as_other">
+                                            @Localize.Show("BOOK_TO_OTHER")
+                                        </label>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="contact_id" style="display: none">
+                                <hr />
+                                <div class="row row-mt mt-3">
+                                    <div class="col-6 font-14">
+                                        <div class="font-20">
+                                            <strong>@Localize.Show("GUEST_INFORMATION")</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <small>@Localize.Show("FIRSTNAME")*</small>
+                                        @Html.TextBoxFor(m => m.hotelRate.bookingHolder.firstName, new { required = "required", @class = "form-control form-control-pax only-text" })
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <small>@Localize.Show("LASTNAME")*</small>
+                                        @Html.TextBoxFor(m => m.hotelRate.bookingHolder.lastName, new { required = "required", @class = "form-control form-control-pax only-text" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="font-20 mt-3">
+                                <strong>@Localize.Show("SPECIAL_REQUEST")</strong>
+                            </div>
+                            <div class="info-whitebox mt-2 font-14">
+                                <strong>@Localize.Show("SPECIAL_REQUEST")</strong>
+                                <br />
+                                <small>@Localize.Show("REQUEST_SUBJECT_AVAILABLE")</small>
+                                <div class="row mt-2">
+                                    <div class="col-md-6 col-12">
+                                        <strong>
+                                            @Localize.Show("BED_PREFER")
+                                        </strong>
+                                        <div>
+                                            <label class="radio font-14" style="margin-bottom: 0px; font-size: 14px;">
+                                                @Localize.Show("SINGLE_BED")
+                                                <input type="radio" name="request1" value="@Localize.Show("SINGLE_BED")">
+                                                <span class="checkround-blue"></span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label class="radio font-14" style="margin-bottom: 0px; font-size: 14px;">
+                                                @Localize.Show("TWIN_BED")
+                                                <input type="radio" name="request1" value="@Localize.Show("TWIN_BED")">
+                                                <span class="checkround-blue"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <strong>
+                                            @Localize.Show("SMOKING_PREFER")
+                                        </strong>
+                                        <div>
+                                            <label class="radio font-14" style="margin-bottom: 0px; font-size: 14px;">
+                                                @Localize.Show("NON_SMOKING_ROOM")
+                                                <input type="radio" name="request2" value="@Localize.Show("NON_SMOKING_ROOM")">
+                                                <span class="checkround-blue"></span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label class="font-14 radio " style="margin-bottom: 0px; font-size: 14px;">
+                                                @Localize.Show("SMOKING_ROOM")
+                                                <input type="radio" name="request2" value="@Localize.Show("SMOKING_ROOM")">
+                                                <span class="checkround-blue"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div>
+                                    <strong>
+                                        @Localize.Show("OTHER_REQUESTS")
+                                    </strong>
+                                    @Html.TextAreaFor(m => m.hotelRate.bookingHolder.remark, new { @class = "form-control form-search" })
+                                </div>
+                            </div>
+
+                            <div class="mt-5">
+                                <div class="row">
+                                    <div class="col-md-9 col-12">
+                                        <div class="abc-checkbox abc-checkbox-info abc-checkbox-circle abc-checkbox-big">
+                                            <input class="styled" type="checkbox" value="" name="agree" id="agree" required />
+                                            <label for="agree" style="width: calc(100% - 20px);">
+                                                <strong>
+                                                    @Localize.Show("PROCESS_BOOKING1")
+                                                    <a href="@(WebContent.mainWeb)Home/TermOfUse/" target="_blank">
+                                                        @Localize.Show("PROCESS_BOOKING2")
+                                                    </a>
+                                                    <br />
+                                                    @Localize.Show("PROCESS_BOOKING3")
+                                                    <a href="@(WebContent.mainWeb)Home/PrivacyPolicy/" target="_blank">
+                                                        @Localize.Show("PROCESS_BOOKING4")
+                                                    </a>
+                                                </strong>
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12 text-right">
+                                        <button class="btn btn-lg cust-btn" type="submit" id="book">
+                                            <strong>@Localize.Show("BOOK_NOW_PAY_LATER")</strong>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+    }
+}
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#btn-remove-promotion-code').click(function (e) {
+                e.preventDefault();
+                $('.row-promotion-message').hide();
+                $('.row-promotion-discount').hide();
+                $('#total-amount').html(currencyFormat($('#hdn-total-amount').val()));
+                var promotionModel = { "id":"@ViewBag.id", "product": "H" };
+                $.ajax({
+                    url: "@Url.Action("RemoveCode", "Promotion")",
+                    data: promotionModel,
+                    cache: false,
+                    method: "post",
+                    success: function (data) {
+                        console.log(data);
+                        $('.row-promotion-box').show();
+                        $('.row-promotion-detail').hide();
+                        $('#promotion-code').html('');
+                        $('#promotion-discount-amount').html('0.00');
+                    },
+                    error: function () {
+                        console.log('errror');
+                        $('.row-promotion-message').show();
+                        $('#lbPromotion').html('<small>@Localize.Show("REMOVE_DISCOUNT_CODE_ERROR")</small>');
+                    }
+
+
+                });
+            });
+
+            $('#discount-btn').click(function (e) {
+                e.preventDefault();
+                $('.row-promotion-message').hide();
+                if ($('#discount_discountCode').val().trim() != "") {
+                    var promotionModel = { "id":"@ViewBag.id","product": "H", "code": $('#discount_discountCode').val() };
+                    $.ajax({
+                        url: "@Url.Action("CheckCode", "Promotion")",
+                        data: promotionModel,
+                        cache: false,
+                        method: "post",
+                        success: function (data) {
+                            console.log(data);
+                            if (!data.isError) {
+                                $('.row-promotion-box').hide();
+                                $('.row-promotion-detail').show();
+                                $('.row-promotion-discount').show();
+                                $('#promotion-code').html(data.discountCode);
+                                $('#promotion-discount-amount').html('-' + currencyFormat(data.discountAmount));
+
+                                $('#total-amount').html(currencyFormat(parseFloat($('#hdn-total-amount').val()) - parseFloat(data.discountAmount)));
+                            }
+                            else {
+                                console.log('fail');
+                                $('.row-promotion-message').show();
+                                $('#lbPromotion').html('<small>' + data.errorMessage + '</small>');
+                            }
+                        },
+                        error: function () {
+                            console.log('errror');
+                            $('.row-promotion-message').show();
+                            $('#promotion-discount-amount').html('0.00');
+                            $('#lbPromotion').html('<small>@Localize.Show("ENTER_DISCOUNT_CODE_ERROR")</small>');
+                        }
+
+
+                    });
+                } else {
+                    $('.row-promotion-message').show();
+                    $('#promotion-discount-amount').html('0.00');
+                    $('#lbPromotion').html('<small>@Localize.Show("ENTER_DISCOUNT_CODE")</small>');
+                }
+            });
+
+
+            $('#as_other').click(function () {
+                if (this.checked) {
+                    $('#contact_id').slideDown();
+                    $('#hotelRate_bookingHolder_firstName').val('');
+                    $('#hotelRate_bookingHolder_lastName').val('');
+                } else {
+                    $('#contact_id').slideUp();
+                    autofill();
+                }
+            });
+
+            var autofill = function () {
+                $('#hotelRate_bookingHolder_firstName').val($('#hotelRate_contactInfo_firstname').val() + ' ' + $('#hotelRate_contactInfo_middlename').val());
+                $('#hotelRate_bookingHolder_lastName').val($('#hotelRate_contactInfo_lastname').val());
+            };
+            $('.booking-holder').change(function () {
+                if (document.getElementById('contact_id').style.display == 'none') {
+                    autofill();
+                }
+            });
+
+
+            $(".only-text").keypress(function (event) {
+                var ew = event.which;
+                //if (ew == 32) //space
+                //    return true;
+                if (65 <= ew && ew <= 90)
+                    return true;
+                if (97 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+            $(".tel-number-text").keypress(function (event) {
+                var ew = event.which;
+                if (ew == 35)
+                    return true;
+                if (ew == 42)
+                    return true;
+                if (ew == 43)
+                    return true;
+                if (48 <= ew && ew <= 57)
+                    return true;
+                return false;
+            });
+            $(".email-text").keypress(function (event) {
+                var ew = event.which;
+                if (ew == 45) //-
+                    return true;
+                if (ew == 46) //.
+                    return true;
+                if (ew == 95) //_
+                    return true;
+                if (ew == 64) //at
+                    return true;
+                if (48 <= ew && ew <= 57)
+                    return true;
+                if (65 <= ew && ew <= 90)
+                    return true;
+                if (97 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+        });
+
+        function currencyFormat(num) {
+            num = parseFloat(num);
+            return  num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        }
+    </script>
+    <script src="~/Vendors/tel-input/build/js/intlTelInput.js"></script>
+    <script>
+        var input = document.querySelector("#hotelRate_contactInfo_telNo");
+        var iti = window.intlTelInput(input, {
+            initialCountry: 'th',
+            preferredCountries: ['th'],
+            separateDialCode: true,
+            nationalMode: false
+        });
+        input.addEventListener("countrychange", function () {
+            var pc = iti.getSelectedCountryData();
+            console.log(pc);
+            $('#phoneCode').val(pc.dialCode);
+        });
+    </script>
+}

@@ -1,0 +1,171 @@
+﻿@model List<BL.Entities.DiscountTag.DiscountTagEntities>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Discount tag List</h6>
+            <a href="@Url.Action("DiscountTagDetail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-plus fa-sm text-white-50"></i>
+                Create New
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">Enable</th>
+                        <th style="text-align:center">Airline Code</th>
+                        <th style="text-align:center">RBD</th>
+                        <th style="text-align:center">Fare Basis</th>
+                        <th style="text-align:center">Pax Type</th>
+                        <th style="text-align:center">From - To</th>
+                        <th style="text-align:center">Discount</th>
+                        <th style="width:75px!important;text-align:center;">Booking Period</th>
+                        <th style="text-align:center">Promotion Group Code</th>
+                        <th style="text-align:center">Promotion Text</th>
+                        <th style="text-align:center">Last Update</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tag in Model)
+                    {
+                    <tr>
+                        <td align="center">
+                            @(tag.discountTag.IsActive.GetValueOrDefault() ? "1" : "2")
+                        </td>
+                        <td align="center">
+                            @tag.discountTag.AirlineCodes
+                        </td>
+                        <td align="center">
+                            @tag.discountTag.RBD
+                        </td>
+                        <td align="center">
+                            @tag.discountTag.FareBasis
+                        </td>
+                        <td align="center">
+                            @if (tag.discountTag.PaxTypeADT == true && tag.discountTag.PaxTypeCHD == true && tag.discountTag.PaxTypeINF == true)
+                            {
+                                @(tag.discountTag.PaxTypeADT.GetValueOrDefault() ? "ADT," : "") @(tag.discountTag.PaxTypeCHD.GetValueOrDefault() ? "CHD," : "") @(tag.discountTag.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                            }
+
+                            @if (tag.discountTag.PaxTypeADT == true && tag.discountTag.PaxTypeCHD == true && tag.discountTag.PaxTypeINF == false)
+                            {
+                                @(tag.discountTag.PaxTypeADT.GetValueOrDefault() ? "ADT," : "") @(tag.discountTag.PaxTypeCHD.GetValueOrDefault() ? "CHD" : "") @(tag.discountTag.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                            }
+
+
+                            @if (tag.discountTag.PaxTypeADT == true && tag.discountTag.PaxTypeCHD == false && tag.discountTag.PaxTypeINF == true)
+                            {
+                                @(tag.discountTag.PaxTypeADT.GetValueOrDefault() ? "ADT," : "") @(tag.discountTag.PaxTypeCHD.GetValueOrDefault() ? "CHD" : "") @(tag.discountTag.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                            }
+
+                            @if (tag.discountTag.PaxTypeADT == true && tag.discountTag.PaxTypeCHD == false && tag.discountTag.PaxTypeINF == false)
+                            {
+                                @(tag.discountTag.PaxTypeADT.GetValueOrDefault() ? "ADT" : "") @(tag.discountTag.PaxTypeCHD.GetValueOrDefault() ? "CHD" : "") @(tag.discountTag.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                            }
+
+                            @if (tag.discountTag.PaxTypeADT == false && tag.discountTag.PaxTypeCHD == true && tag.discountTag.PaxTypeINF == true)
+                            {
+                                @(tag.discountTag.PaxTypeADT.GetValueOrDefault() ? "ADT" : "") @(tag.discountTag.PaxTypeCHD.GetValueOrDefault() ? "CHD," : "") @(tag.discountTag.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                            }
+
+                            @if (tag.discountTag.PaxTypeADT == false && tag.discountTag.PaxTypeCHD == false && tag.discountTag.PaxTypeINF == true)
+                            {
+                                @(tag.discountTag.PaxTypeADT.GetValueOrDefault() ? "ADT" : "") @(tag.discountTag.PaxTypeCHD.GetValueOrDefault() ? "CHD" : "") @(tag.discountTag.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                            }
+
+
+                            @if (tag.discountTag.PaxTypeADT == false && tag.discountTag.PaxTypeCHD == true && tag.discountTag.PaxTypeINF == false)
+                            {
+                                @(tag.discountTag.PaxTypeADT.GetValueOrDefault() ? "ADT" : "") @(tag.discountTag.PaxTypeCHD.GetValueOrDefault() ? "CHD" : "") @(tag.discountTag.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                            }
+                        </td>
+                        <td align="center">
+                            @tag.discountTag.ZoneFrom - @tag.discountTag.ZoneTo
+                        </td>
+                        <td align="center" style="width: 100px;">
+                            @tag.discountTag.DiscountAmt.GetValueOrDefault().ToString("N2") @(tag.discountTag.DiscountIsPercent.GetValueOrDefault() ? "%" : "฿")
+                        </td>
+                        <td align="center" style="width:90px;">
+                            @tag.discountTag.StartBookingDate.GetValueOrDefault().ToString("dd/MM/yyyy") - <br />@tag.discountTag.FinishBookingDate.GetValueOrDefault().ToString("dd/MM/yyyy")
+                        </td>
+                        <td align="center">
+                            @(tag.promotionGroupCode!=null ? tag.promotionGroupCode.PromotionGroupCode1:"")
+                        </td>
+                        <td>@tag.discountTagDetail.Find(x => x.LanguageCode == "en").PromotionTag</td>
+                        <td align="center">
+                            @tag.discountTag.LastUpdate.GetValueOrDefault().ToString("dd/MM/yyyy HH:mm:ss tt")
+                        </td>
+                        <td>
+                            <a href="@Url.Action("DiscountTagDetail", new { id = tag.discountTag.DiscountTagOID })">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" onclick="deleteRow('@tag.discountTag.DiscountTagOID' , '@tag.discountTag.AirlineCodes')"><i class="fas fa-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        var isSave = '@Request["save"]';
+        $(document).ready(function () {
+            $('#grid').DataTable({
+                columnDefs: [{
+                    "orderable": false,
+                   // "targets": [4]
+                }, {
+                    "render": function (data, type) {
+                        if (type == 'sort') {
+                            return data + '';
+                        } else {
+                            var html = '';
+                            if (data == 1) {
+                                html = '<i class="fas fa-check" style= "color: #00ff21" ></i>'
+                            } else {
+                                html = '<i class="fas fa-times" style= "color: #ff0000" ></i>'
+                            }
+                            return html;
+                        }
+                    },
+                    "targets": [0]
+                }]
+            });
+
+            if (isSave == 't') {
+                new PNotify({
+                    title: 'Success',
+                    text: 'Data have been updated',
+                    type: 'success',
+                    styling: 'bootstrap3',
+                    delay: 2000,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    buttons: {
+                        show_on_nonblock: true
+                    }
+                });
+            }
+        });
+
+        var deleteRow = function (id, name) {
+            if (confirm("Do you want to delete Airline Code " + name + "?")) {
+                window.location.href = '@Url.Action("DiscountTagDelete")' + '/' + id;
+            }
+        }
+    </script>
+}
+

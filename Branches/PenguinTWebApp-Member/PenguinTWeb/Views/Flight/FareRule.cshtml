@@ -1,0 +1,74 @@
+﻿@model BL.Entities.GogojiiFare.AirFare
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <table style="width: 100%">
+                    <tr>
+                        <td width="80px;">
+                            <img src="~/Images/36.png" style="vertical-align:middle;" class="img-fluid" />
+                        </td>
+                        <td>
+                            <span>@Html.Raw(Localize.Show("FARE_CONDITION_DETAIL"))</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card-body">
+                <h2>@ViewBag.Error</h2>
+                @if (Model.fareRules != null)
+                {
+                    foreach (var fareRule in Model.fareRules)
+                    {
+                        if (Model.fareRules.Count > 1)
+                        {
+                        <div>
+                            <strong>@fareRule.origin.name - @fareRule.destination.name</strong>
+                        </div>
+                        }
+                    <div id="@(fareRule.origin.code + fareRule.destination.code)">
+                        @foreach (var rule in fareRule.rules)
+                        {
+                            string id = Guid.NewGuid().ToString();
+                            <div class="card">
+                                <div class="card-header" id="heading@(id)" style="padding: 0px;">
+                                    <div class="mb-0">
+                                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse@(id)" aria-expanded="false" aria-controls="collapse@(id)" style="font-size: 12px;" type="button">
+                                            @if (rule.category == "SR")
+                                            {
+                                                <strong><i class="far fa-caret-square-down"></i> SALES RESTRICTIONS</strong>
+                                            }
+                                            else if (rule.category == "AP")
+                                            {
+                                                <strong><i class="far fa-caret-square-down"></i> ADVANCE PURCHASE / RESERVATIONS AND TICKETING</strong>
+                                            }
+                                            else if (rule.category == "PE")
+                                            {
+                                                <strong><i class="far fa-caret-square-down"></i> PENALTIES</strong>
+                                            }
+
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="collapse@(id)" class="collapse" aria-labelledby="heading@(id)" data-parent="#@(fareRule.origin.code + fareRule.destination.code)">
+                                    <div class="card-body" style="font-size: 12px;">
+                                        @foreach (var item in rule.fareRuleText)
+                                        {
+                                            <p style="margin-bottom: 0px;">@item</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

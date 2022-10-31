@@ -1,0 +1,29 @@
+﻿@model Dictionary<int, string>
+<br />
+<form method="POST" action="@ViewBag.SubmitURL">
+    <div class="row row-mt">
+        <div class="col-12">
+            <small class="font-weight-bold">@Localize.Show("SELECT_INSTALLMENT_PLAN")*</small>
+            <select class="form-control form-control-pax" name="ggMonth" id="ggMonth">
+                @foreach (var m in Model)
+                {
+                    <option value="@m.Key" @(m.Key.ToString() == ViewBag.Month ? "selected" : "")>
+                        @m.Value
+                    </option>
+                }
+            </select>
+            <br />
+        </div>
+    </div>
+    <script type="text/javascript"
+            src="@ViewBag.KBankButtonLink"
+            data-apikey="@ViewBag.KBankAPIKEY"
+            data-amount="@ViewBag.Price"
+            data-currency="THB"
+            data-payment-methods="card"
+            data-name="GOGOJII"
+            data-term="@ViewBag.Month"
+            data-mid="@ViewBag.KBankSmartPayMerchantID"
+            data-smartpayid="@ViewBag.KBankSmartPayID">
+    </script>
+</form>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>Icons/Rating/Active</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icons/Rating/Active" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group">
+            <path d="M15.0369081,8.46848269 L20.2011685,9.14620063 C20.961276,9.23967897 21.2742615,10.2445711 20.7153589,10.8054411 L16.9371771,14.521205 L17.8984896,19.8494702 C18.0549823,20.644036 17.2278064,21.2750148 16.5571233,20.8777319 L11.9964778,18.2603385 L7.45818836,20.8777319 C6.76514909,21.2750148 5.96032929,20.644036 6.09446592,19.8494702 L7.07813456,14.521205 L3.29995275,10.8054411 C2.718694,10.2445711 3.03167948,9.23967897 3.81414317,9.14620063 L8.95604742,8.46848269 L11.1693019,3.56087002 C11.5046434,2.81304333 12.5106682,2.81304333 12.8460098,3.56087002 L15.0369081,8.46848269 Z" id="Path" fill="#FAA90D"></path>
+            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

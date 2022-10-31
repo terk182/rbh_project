@@ -1,0 +1,101 @@
+﻿@model BL.Entities.Member.MainProFile
+@{
+    BL.Entities.Member.GogojiiUser user = MemberUI.GetUser();
+}
+@{
+    Layout = null;
+}
+
+<div class="modal-body">
+
+    @using (Html.BeginForm("Companion", "Member", FormMethod.Post, new { data_parsley_validate = "", role = "form", enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(m => m.MyProFile[0].FoodService)
+        @Html.HiddenFor(m => m.MyProFile[0].ID)
+        @Html.HiddenFor(m => m.MyProFile[0].IsOwner)
+        @Html.HiddenFor(m => m.MyProFile[0].UserId)
+        @Html.HiddenFor(m => m.MyProFile_MileMember[0].ID)
+        @Html.HiddenFor(m => m.MyProFile_MileMember[0].UserId)
+        @Html.HiddenFor(m => m.MyProFile_MileMember[0].Index)
+        <div class="font-18">
+            <strong>@Localize.Show("COMPANION")</strong>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row row-mt">
+                    <div class="col-lg-2 col-12">
+                        <small>@Localize.Show("TITLE")*</small>
+                        <input type="hidden" id="title" value="@Model.MyProFile[0].TitleName" />
+                        @Html.DropDownListFor(m => m.MyProFile[0].TitleName, ViewData["TitleList"] as SelectList, new
+                   {
+                       @class = "form-control",
+                       required = "required"
+                   })
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <small>@Localize.Show("FIRSTNAME")*</small>
+                        @Html.TextBoxFor(m => m.MyProFile[0].FirstName, new { required = "required", @class = "form-control only-text" })
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <small>@Localize.Show("MIDDLENAME") <span class="text-red">(@Localize.Show("OPTIONAL"))</span></small>
+                        @Html.TextBoxFor(m => m.MyProFile[0].MiddleName, new { @class = "form-control only-text" })
+                    </div>
+                    <div class="col-lg-4 col-12">
+                        <small>@Localize.Show("LASTNAME")*</small>
+                        @Html.TextBoxFor(m => m.MyProFile[0].LastName, new { required = "required", @class = "form-control only-text" })
+                    </div>
+                </div>
+                <div class="row row-mt">
+                    <div class="col-lg-4 col-12">
+                        <input type="hidden" id="tBDAY" value="@(Model.MyProFile[0].DateOfBirth == DateTime.Today ? "" : Model.MyProFile[0].DateOfBirth.ToString("dd'/'MM'/'yyyy"))" />
+                        <small>@Localize.Show("BIRTHDAY")</small>
+                        <input name="BDAY" id="BDAY" type="text" value="" class="form-control form-control-bg-white birthday" autocomplete="off" />
+                    </div>
+                    <div class="col-lg-4 col-12">
+                        <small>@Localize.Show("EMAIL")</small>
+                        @Html.TextBoxFor(m => m.MyProFile[0].Email, new { @class = "form-control email-text", @type = "email",  pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$" })
+                    </div>
+                    <div class="col-lg-4 col-12">
+                        <small>@Localize.Show("TELNO")</small>
+                        @Html.TextBoxFor(m => m.MyProFile[0].Phone, new {  @class = "form-control tel-number-text" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-12">
+                <div class="font-18">
+                    <br />
+                    <strong>@Localize.Show("FF")</strong>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <div class="font-14">
+                                    @Localize.Show("FFA")
+                                </div>
+                                <input type="hidden" id="FFA" value="@Model.MyProFile_MileMember[0].MileAirline" />
+                                @Html.DropDownListFor(m => m.MyProFile_MileMember[0].MileAirline, ViewData["AirlineList"] as SelectList, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="font-14">
+                                    @Localize.Show("FFN")
+                                </div>
+                                @Html.TextBoxFor(m => m.MyProFile_MileMember[0].MileMember, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12 text-center" style="min-height: 80px;">
+                <button class="btn cust-btn search-btn" type="submit" id="submit" style="width: 100px; position:absolute; bottom: 0;">
+                    <strong>@Localize.Show("SAVE")</strong>
+                </button>
+
+            </div>
+        </div>
+    }
+</div>
+

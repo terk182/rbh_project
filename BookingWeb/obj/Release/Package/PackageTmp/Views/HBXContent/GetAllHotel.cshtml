@@ -1,0 +1,23 @@
+﻿@{ 
+    var random = new Random();
+}
+<strong style="color: white; background-color: @(String.Format("#{0:X6}", random.Next(0x1000000))); font-size: 70px">@ViewBag.Code</strong>
+
+@section Scripts
+{
+    <script>
+    $.post('@(Url.Action("GetHotelContent", "HBXContent"))/@(ViewBag.ID)', function (data) {
+        if (data == 0) {
+            alert('Done!!!!');
+        } else {
+            window.location.href = '/HBXContent/GetAllHotel/' + data;
+        }
+
+    });
+
+
+        window.setTimeout(function () {
+            window.location.reload();
+        }, 600000);
+    </script>
+}

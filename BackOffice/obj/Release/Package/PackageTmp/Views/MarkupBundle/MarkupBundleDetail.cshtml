@@ -1,0 +1,252 @@
+﻿@model DataModel.MarkupBundle
+
+@using (Html.BeginForm("MarkupBundleDetails", "MarkupBundle", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.MarkupBundleOID)
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Discount Bundle Config</h6>
+            </div>
+        </div>
+        <br /><div class="text-danger" style="font-size:24px;color:red;font-weight:bold; text-align:center; padding-bottom:20px;" id="messe">@TempData["ErrorMessage"]</div>
+        <div class="card-body">
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Active <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    Disable  @Html.EditorFor(m => m.IsActive, new { required = "required" })  Enable
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Origin <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.AirportOrigin, new { required = "required", @class = "form-control form-control-sm col-lg-4", @onkeypress = "return ValidateKey3()" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Destination <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.HotelDestination, new { required = "required", @class = "form-control form-control-sm col-lg-4", @onkeypress = "return ValidateKey3()" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Start Booking Date <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(m => m.StartBookingDate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-4", @id = "startBooking", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Finish Booking Date <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(m => m.FinishBookingDate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-4", @id = "finishBooking", @readonly = "readonly" })
+                </div>
+            </div>
+
+
+            @*<div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                        Start Travel Date <span class="asterisk">*</span>
+                    </div>
+                    <div class="col-lg-8 col-md-6 col-sm-12">
+                        @Html.TextBoxFor(m => m.StartTravelDate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-4", @id = "startTravel", @readonly = "readonly" })
+                    </div>
+                </div>
+
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                        Finish Travel Date <span class="asterisk">*</span>
+                    </div>
+                    <div class="col-lg-8 col-md-6 col-sm-12">
+                        @Html.TextBoxFor(m => m.FinishTravelDate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-4", @id = "finishTravel", @readonly = "readonly" })
+                    </div>
+                </div>*@
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Fare Type P Value <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.PublishedfareValue, "{0 :N2}", new { required = "required", @class = "form-control form-control-sm", style = "width: 200px;", step = "any", @type = "number", onkeydown = "return event.keyCode !== 69" })
+                    (฿ @Html.EditorFor(m => m.IsPercentPublishedfare, new { required = "required" })  %)
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Fare Type A Value <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.AtpcofareValue, "{0 :N2}", new { required = "required", @class = "form-control form-control-sm", style = "width: 200px;", step = "any", @type = "number", onkeydown = "return event.keyCode !== 69" })
+                    (฿ @Html.EditorFor(m => m.IsPercentAtpcofare, new { required = "required" })  %)
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Fare Type N Value <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.NetfareValue, "{0 :N2}", new { required = "required", @class = "form-control form-control-sm", style = "width: 200px;", step = "any", @type = "number", onkeydown = "return event.keyCode !== 69" })
+                    (฿ @Html.EditorFor(m => m.IsPercentNetfare, new { required = "required" })  %)
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Hotel Value <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.HotelValue, "{0 :N2}", new { required = "required", @class = "form-control form-control-sm", style = "width: 200px;", step = "any", @type = "number", onkeydown = "return event.keyCode !== 69" })
+                    (฿ @Html.EditorFor(m => m.IsPercentHotel, new { required = "required" })  %)
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-4 col-sm-4">
+                    Domain Name <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(m => m.DomainName, new { required = "required", @class = "form-control form-control-sm col-lg-4", @onkeypress = "return ValidateKey5()" })
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="text-right">
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="btn_Save">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+                @if (Model.MarkupBundleOID != new Guid())
+                {
+                    <button type="submit" class="d-sm-inline-block btn btn-sm btn-primaryblue shadow-sm" name="btn_Save" value="2">
+                        <i class="fas fa-save fa-sm text-white-50"></i>
+                        &nbsp;&nbsp;Save As&nbsp;&nbsp;
+                    </button>
+                }
+                <button type="submit" id="btn_submit" style="display: none;"></button>
+                <a href="@Url.Action("MarkupBundleList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts
+{
+        <script>
+            $(document).ready(function () {
+                //Date Picker
+                var today = new Date();
+                var defaultDepDateText = $('#startBooking').val().split('/');
+                var defaultDepDate = new Date(parseInt(defaultDepDateText[2]), parseInt(defaultDepDateText[1]) - 1, parseInt(defaultDepDateText[0]));
+                console.log(defaultDepDate);
+                var defaultRetDateText = $('#finishBooking').val().split('/');
+                var defaultRetDate = new Date(parseInt(defaultRetDateText[2]), parseInt(defaultRetDateText[1]) - 1, parseInt(defaultRetDateText[0]));
+
+                var depDatepicker = $('#startBooking').datepicker({
+                    minDate: today,
+                    //maxDate: addDays(today, 365),
+                    language: 'en',
+                    autoClose: true,
+                    toggleSelected: false,
+                    onSelect: function onSelect(fd, date) {
+                        if (retDatepicker) {
+                            var retDate = retDatepicker.data('datepicker');
+                            var ret = retDate.selectedDates[0];
+                            //alert(ret);
+                            if (date > ret) {
+                                retDate.selectDate(addDays(date, 2));
+                            }
+                            retDate.update('minDate', date);
+                        }
+                    }
+                });
+                var depDateDate = depDatepicker.data('datepicker');
+                depDateDate.selectDate(defaultDepDate);
+                var retDatepicker = $('#finishBooking').datepicker({
+                    minDate: today,
+                    //maxDate: addDays(today, 365),
+                    language: 'en',
+                    autoClose: true,
+                    toggleSelected: false
+                });
+                var retDateDate = retDatepicker.data('datepicker');
+                retDateDate.selectDate(defaultRetDate);
+
+
+
+
+                var defaultDepDateTextTravel = $('#startTravel').val().split('/');
+                var defaultDepDateTravel = new Date(parseInt(defaultDepDateTextTravel[2]), parseInt(defaultDepDateTextTravel[1]) - 1, parseInt(defaultDepDateTextTravel[0]));
+                console.log(defaultDepDateTravel);
+                var defaultRetDateTextTravel = $('#finishTravel').val().split('/');
+                var defaultRetDateTravel = new Date(parseInt(defaultRetDateTextTravel[2]), parseInt(defaultRetDateTextTravel[1]) - 1, parseInt(defaultRetDateTextTravel[0]));
+
+                var depDatepickerTravel = $('#startTravel').datepicker({
+                    minDate: today,
+                    //maxDate: addDays(today, 365),
+                    language: 'en',
+                    autoClose: true,
+                    toggleSelected: false,
+                    onSelect: function onSelect(fd, date) {
+                        if (retDatepickerTravel) {
+                            var retDate = retDatepickerTravel.data('datepicker');
+                            var ret = retDate.selectedDates[0];
+                            //alert(retDate);
+                            if (date > ret) {
+                                retDate.selectDate(addDays(date, 2));
+                            }
+                            retDate.update('minDate', date);
+                        }
+                    }
+                });
+                var depDateDateTravel = depDatepickerTravel.data('datepicker');
+                depDateDateTravel.selectDate(defaultDepDateTravel);
+                var retDatepickerTravel = $('#finishTravel').datepicker({
+                    minDate: today,
+                    //maxDate: addDays(today, 365),
+                    language: 'en',
+                    autoClose: true,
+                    toggleSelected: false
+                });
+                var retDateDateTravel = retDatepickerTravel.data('datepicker');
+                retDateDateTravel.selectDate(defaultRetDateTravel);
+
+
+            });
+            var addDays = function (date, days) {
+                var result = new Date(date);
+                result.setDate(result.getDate() + days);
+                return result;
+            }
+
+            function ValidateKey3() {
+                var key3 = window.event.keyCode;
+                var allowed3 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,*';
+
+                return allowed3.indexOf(String.fromCharCode(key3)) != -1;
+            }
+
+            function ValidateKey5() {
+                var key2 = window.event.keyCode;
+                var allowed2 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890,/*.';
+
+                return allowed2.indexOf(String.fromCharCode(key2)) != -1;
+            }
+
+        </script>
+    }
+
+}

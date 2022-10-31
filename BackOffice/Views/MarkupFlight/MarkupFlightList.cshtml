@@ -1,0 +1,224 @@
+﻿@model List<DataModel.MarkupFlight>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Markup Flight List</h6>
+            <a href="@Url.Action("MarkupFlightDetail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-plus fa-sm text-white-50"></i>
+                Create New
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">Enable</th>
+                        <th style="text-align:center">Airline Code</th>
+                        <th style="text-align:center">Mix Airline</th>
+                        <th style="text-align:center">RBD</th>
+                        <th style="text-align:center">Fare Basis</th>
+                        <th style="text-align:center">Flight No.</th>
+                        <th style="text-align:center">Pax Type</th>
+                        <th style="text-align:center">From - To</th>
+                        <th style="text-align:center">Type</th>
+                        <th style="text-align:center">Min - Max Price</th>
+                        <th style="text-align:center;">Oneway</th>
+                        <th style="text-align:center">Roundtrip</th>
+                        <th style="width:75px!important;text-align:center;">Booking Period</th>
+                        <th style="text-align:center">Domain Name</th>
+                        @*<th align="center">Travelling Period</th>*@
+                        <th style="text-align:center">Last Update</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var markup in Model)
+                    {
+                        <tr>
+                            <td align="center">
+                                @(markup.IsActive.GetValueOrDefault() ? "1" : "2")
+                            </td>
+                            <td align="center">
+                                @markup.AirlineCodes
+                            </td>
+                            <td align="center">
+                                @markup.MixAirlineCodes
+                            </td>
+                            <td align="center">
+                                @markup.RBD
+                            </td>
+                            <td align="center">
+                                @markup.FareBasis
+                            </td>
+                            <td align="center">
+                                @markup.FlightNo
+                            </td>
+                            <td align="center">
+                                @if (markup.PaxTypeADT == true && markup.PaxTypeCHD == true && markup.PaxTypeINF == true)
+                                {
+                                    @(markup.PaxTypeADT.GetValueOrDefault() ? "ADT," : "") @(markup.PaxTypeCHD.GetValueOrDefault() ? "CHD," : "") @(markup.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                                }
+
+                                @if (markup.PaxTypeADT == true && markup.PaxTypeCHD == true && markup.PaxTypeINF == false)
+                                {
+                                    @(markup.PaxTypeADT.GetValueOrDefault() ? "ADT," : "") @(markup.PaxTypeCHD.GetValueOrDefault() ? "CHD" : "") @(markup.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                                }
+
+
+                                @if (markup.PaxTypeADT == true && markup.PaxTypeCHD == false && markup.PaxTypeINF == true)
+                                {
+                                    @(markup.PaxTypeADT.GetValueOrDefault() ? "ADT," : "") @(markup.PaxTypeCHD.GetValueOrDefault() ? "CHD" : "") @(markup.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                                }
+
+                                @if (markup.PaxTypeADT == true && markup.PaxTypeCHD == false && markup.PaxTypeINF == false)
+                                {
+                                    @(markup.PaxTypeADT.GetValueOrDefault() ? "ADT" : "") @(markup.PaxTypeCHD.GetValueOrDefault() ? "CHD" : "") @(markup.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                                }
+
+                                @if (markup.PaxTypeADT == false && markup.PaxTypeCHD == true && markup.PaxTypeINF == true)
+                                {
+                                    @(markup.PaxTypeADT.GetValueOrDefault() ? "ADT" : "") @(markup.PaxTypeCHD.GetValueOrDefault() ? "CHD," : "") @(markup.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                                }
+
+                                @if (markup.PaxTypeADT == false && markup.PaxTypeCHD == false && markup.PaxTypeINF == true)
+                                {
+                                    @(markup.PaxTypeADT.GetValueOrDefault() ? "ADT" : "") @(markup.PaxTypeCHD.GetValueOrDefault() ? "CHD" : "") @(markup.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                                }
+
+
+                                @if (markup.PaxTypeADT == false && markup.PaxTypeCHD == true && markup.PaxTypeINF == false)
+                                {
+                                    @(markup.PaxTypeADT.GetValueOrDefault() ? "ADT" : "") @(markup.PaxTypeCHD.GetValueOrDefault() ? "CHD" : "") @(markup.PaxTypeINF.GetValueOrDefault() ? "INF" : "")
+                                }
+                            </td>
+                            <td align="center">
+                                @markup.ZoneFrom - @markup.ZoneTo
+                            </td>
+                            <td align="center">
+                                @markup.Type
+                            </td>
+                            <td align="center" style="width: 190px;">
+                                @markup.MinPrice.GetValueOrDefault().ToString("N0") - @markup.MaxPrice.GetValueOrDefault().ToString("N0")
+                            </td>
+                            <td align="left" style="width: 110px;">
+                                @if (markup.LV1Type == "Mark Up")
+                                {
+                                    <span>LV1: +</span> @markup.LV1Value.GetValueOrDefault().ToString("N2") @(markup.IsPercentLV1.GetValueOrDefault() ? "%" : "฿")
+                                }
+
+                                @if (markup.LV1Type == "Discount")
+                                {
+                                    <span>LV1: -</span> @markup.LV1Value.GetValueOrDefault().ToString("N2") @(markup.IsPercentLV1.GetValueOrDefault() ? "%" : "฿")
+                                }<br />
+                                @if (markup.LV2Type == "Mark Up")
+                                {
+                                    <span>LV2: +</span>@markup.LV2Value.GetValueOrDefault().ToString("N2") @(markup.IsPercentLV2.GetValueOrDefault() ? "%" : "฿")
+                                }
+                                @if (markup.LV2Type == "Discount")
+                                {
+                                    <span>LV2: -</span>@markup.LV2Value.GetValueOrDefault().ToString("N2") @(markup.IsPercentLV2.GetValueOrDefault() ? "%" : "฿")
+                                }
+                            </td>
+                            <td align="left" style="width: 110px;">
+                                @if (markup.LV1TypeRT == "Mark Up")
+                                {
+                                    <span>LV1: +</span> @markup.LV1ValueRT.GetValueOrDefault().ToString("N2") @(markup.IsPercentLV1RT.GetValueOrDefault() ? "%" : "฿")
+                                }
+
+                                @if (markup.LV1TypeRT == "Discount")
+                                {
+                                    <span>LV1: -</span> @markup.LV1ValueRT.GetValueOrDefault().ToString("N2") @(markup.IsPercentLV1RT.GetValueOrDefault() ? "%" : "฿")
+                                }<br />
+                                @if (markup.LV2TypeRT == "Mark Up")
+                                {
+                                    <span>LV2: +</span>@markup.LV2ValueRT.GetValueOrDefault().ToString("N2") @(markup.IsPercentLV2RT.GetValueOrDefault() ? "%" : "฿")
+                                }
+                                @if (markup.LV2TypeRT == "Discount")
+                                {
+                                    <span>LV2: -</span>@markup.LV2ValueRT.GetValueOrDefault().ToString("N2") @(markup.IsPercentLV2RT.GetValueOrDefault() ? "%" : "฿")
+                                }
+                            </td>
+                            <td align="center" style="width:90px;">
+                                @markup.StartBookingDate.GetValueOrDefault().ToString("dd/MM/yyyy") - <br />@markup.FinishBookingDate.GetValueOrDefault().ToString("dd/MM/yyyy")
+                            </td>
+                            @*<td align="center">
+                                    @markup.StartTravelDate.GetValueOrDefault().ToString("dd MMM yyyy") - <br />@markup.FinishTravelDate.GetValueOrDefault().ToString("dd MMM yyyy")
+                                </td>*@
+                            <td align="center">
+                                @markup.DomainName
+                            </td>
+                            <td align="center">
+                                @markup.LastUpdate.GetValueOrDefault().ToString("dd/MM/yyyy HH:mm:ss tt")
+                            </td>
+                            <td>
+                                <a href="@Url.Action("MarkupFlightDetail", new { id = markup.RobinhoodMarkupOID})">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#" onclick="deleteRow('@markup.RobinhoodMarkupOID' , '@markup.AirlineCodes')"><i class="fas fa-trash"></i> Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        var isSave = '@Request["save"]';
+        $(document).ready(function () {
+            $('#grid').DataTable({
+                columnDefs: [{
+                    "orderable": false,
+                   // "targets": [4]
+                }, {
+                    "render": function (data, type) {
+                        if (type == 'sort') {
+                            return data + '';
+                        } else {
+                            var html = '';
+                            if (data == 1) {
+                                html = '<i class="fas fa-check" style= "color: #00ff21" ></i>'
+                            } else {
+                                html = '<i class="fas fa-times" style= "color: #ff0000" ></i>'
+                            }
+                            return html;
+                        }
+                    },
+                    "targets": [0]
+                }]
+            });
+
+            if (isSave == 't') {
+                new PNotify({
+                    title: 'Success',
+                    text: 'Data have been updated',
+                    type: 'success',
+                    styling: 'bootstrap3',
+                    delay: 2000,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    buttons: {
+                        show_on_nonblock: true
+                    }
+                });
+            }
+        });
+
+        var deleteRow = function (id, name) {
+            if (confirm("Do you want to delete Airline Code " + name + "?")) {
+                window.location.href = '@Url.Action("MarkupFlightDelete")' + '/' + id;
+            }
+        }
+    </script>
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>Icons/Search/White</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icons/Search/White" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(12.413980, 13.071021) rotate(-45.000000) translate(-12.413980, -13.071021) translate(5.413980, 3.071021)" fill="#FFFFFF" id="Combined-Shape">
+            <path d="M7,0.25 C10.7279221,0.25 13.75,3.27207794 13.75,7 C13.75,10.3006652 11.380946,13.0480082 8.25046896,13.634398 L8.25,18.497055 C8.25,18.9112686 7.91421356,19.247055 7.5,19.247055 C7.08578644,19.247055 6.75,18.9112686 6.75,18.497055 L6.75,18.497055 L6.749978,13.7454554 C3.13788851,13.6139311 0.25,10.6442168 0.25,7 C0.25,3.27207794 3.27207794,0.25 7,0.25 Z M7,1.75 C4.10050506,1.75 1.75,4.10050506 1.75,7 C1.75,9.89949494 4.10050506,12.25 7,12.25 C9.89949494,12.25 12.25,9.89949494 12.25,7 C12.25,4.10050506 9.89949494,1.75 7,1.75 Z"></path>
+        </g>
+        <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+    </g>
+</svg>

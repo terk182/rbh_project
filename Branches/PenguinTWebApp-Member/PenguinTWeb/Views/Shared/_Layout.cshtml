@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="apple-itunes-app" content="app-id=1101588342">
+    <meta name="google-play-app" content="app-id=com.dev.developer.Gogojii">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gogojii</title>
+    <link href="~/Vendors/Bootstrap4/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Vendors/Bootstrap4/css/bootstrap-reboot.min.css" rel="stylesheet" />
+    <link href="~/Vendors/Bootstrap4/css/bootstrap-grid.min.css" rel="stylesheet" />
+    <link href="~/Vendors/fontawesome/css/fontawesome-all.css" rel="stylesheet" />
+    <link href="~/Vendors/EasyAutocomplete-1.3.5/easy-autocomplete.min.css" rel="stylesheet" />
+    <link href="~/Vendors/EasyAutocomplete-1.3.5/easy-autocomplete.themes.min.css" rel="stylesheet" />
+    @*<link href="~/Vendors/pickadate/lib/themes/classic.css" rel="stylesheet" />
+    <link href="~/Vendors/pickadate/lib/themes/classic.date.css" rel="stylesheet" />*@
+    <link href="~/Vendors/air-datepicker/dist/css/datepicker.css" rel="stylesheet" />
+    <link href="~/Vendors/webui-popover/dist/jquery.webui-popover.css" rel="stylesheet" />
+    <link href="~/Content/Gogojii.css?@(DateTime.Now.ToString("ddMMyyhhmmss"))" rel="stylesheet" />
+    <script src="~/Vendors/jQuery3.3.1/jquery.min.js"></script>
+    <link href="~/Vendors/SmartApp/smart-app-banner.css" rel="stylesheet" media="screen" />
+    <link rel="apple-touch-icon" href="/Images/icon_web/ios.png">
+    <link rel="android-touch-icon" href="/Images/icon_web/android.png" />
+    @RenderSection("styles", required: false)
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '220123272016249');
+        fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none"
+             src="https://www.facebook.com/tr?id=220123272016249&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+</head>
+<body>
+    <input type="hidden" id="web_lang" name="web_lang" value="@Localize.GetLang()" />
+    <div class="container">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                    <img src="~/Images/Gogojii_logo2.png" class="img-fluid" style="width: 200px;" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav font-20" style="margin-left: auto;">
+                        <li class="nav-item active">
+                            <a class="nav-link @(ViewBag.Menu == "1" || ViewBag.Menu == "2" ? "menu-select" : "")" href ="@Url.Action("Index", "Home")">@Localize.Show("HOME")</a>
+                        </li>
+                        <li class="nav-item active d-none" >
+                            <a class="nav-link @(ViewBag.Menu == "2" ? "menu-select" : "")" href="@Url.Action("Index", "Home")">@Localize.Show("AIR_TICKET")</a>
+                        </li>
+                        <li class="nav-item active d-none">
+                            <a class="nav-link" href="#">@Localize.Show("DEALS")</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link @(ViewBag.Menu == "3" ? "menu-select" : "")" href="@Url.Action("Index", "AboutUs")">@Localize.Show("ABOUT_US")</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+    </div>
+    @RenderSection("width100head", required: false)
+    <div class="container">
+        @RenderBody()
+        <br />
+    </div>
+    <footer class="bg-footer">
+        <br />
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <table style="width: 100%">
+                        <tr>
+                            <td>
+                                <img src="~/Images/footer/bns_registered.png" />
+                            </td>
+                            <td>
+                                <img src="~/Images/footer/tat logo.png" />
+                            </td>
+                            <td>
+                                <a href="http://122.155.9.61:8087/mobiletourguide/info/license/LicenseType/B/LicNo/11B08856" target="_blank" class="font-12">
+                                    ใบอนุญาตประกอบธุรกิจท่องเที่ยว<br />
+                                    เลขที่ 11/08856
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-12 col-md-6">
+                            <div class="box"><img src="~/Images/footer/Mobile.png" /> Hotline: 098 551 0947-48</div>
+                            <div class="box"><img src="~/Images/footer/Phone.png" /> 02-0263474</div>
+                            <div class="box"><img src="~/Images/footer/Mail.png" /> contact@penguin.travel</div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <table class="social-table">
+                        <tr>
+                            <td class="social-td">
+                                <a href="https://www.facebook.com/paiteawkunmai/" target="_blank">
+                                    <img src="~/Images/footer/facebook.png" />
+                                </a>
+                            </td>
+                            <td class="social-td">
+                                <a href="http://line.me/R/ti/p/%40Gogojii" target="_blank">
+                                    <img src="~/Images/footer/Line.png" />
+                                </a>
+                            </td>
+                            <td class="social-td">
+                                <a href="https://www.instagram.com/paiteawkunmai/" target="_blank">
+                                    <img src="~/Images/footer/Instagram.png" />
+                                </a>
+                            </td>
+                            <td class="social-td">
+                                <a href="https://twitter.com/Paiteawkunmai" target="_blank">
+                                    <img src="~/Images/footer/Twitter.png" />
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </div>
+        </div>
+        <br />
+        <br />
+    </footer>
+    <script src="~/Vendors/popper/popper.js"></script>
+    <script src="~/Vendors/Bootstrap4/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Vendors/Bootstrap4/js/bootstrap.min.js"></script>
+    <script src="~/Vendors/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.js"></script>
+    @*<script src="~/Vendors/pickadate/lib/picker.js"></script>
+    <script src="~/Vendors/pickadate/lib/picker.date.js"></script>
+    <script src="~/Vendors/pickadate/lib/legacy.js"></script>*@
+    <script src="~/Vendors/air-datepicker/dist/js/datepicker.js"></script>
+    <script src="~/Vendors/air-datepicker/dist/js/i18n/datepicker.@(Localize.GetLang()).js"></script>
+    <script src="~/Vendors/webui-popover/dist/jquery.webui-popover.min.js"></script>
+    @RenderSection("scripts", required: false)
+    
+    <script src="~/Vendors/SmartApp/smart-app-banner.js"></script>
+    <script type="text/javascript">
+            new SmartBanner({
+                daysHidden: 15,   // days to hide banner after close button is clicked (defaults to 15)
+                daysReminder: 90, // days to hide banner after "VIEW" button is clicked (defaults to 90)
+                appStoreLanguage: 'us', // language code for the App Store (defaults to user's browser language)
+                title: 'Gogojii',
+                author: 'Asia One Click',
+                button: 'VIEW',
+                store: {
+                    ios: 'On the App Store',
+                    android: 'In Google Play',
+                    windows: 'In Windows store'
+                },
+                price: {
+                    ios: 'FREE',
+                    android: 'FREE',
+                    windows: 'FREE'
+                }
+                // , theme: '' // put platform type ('ios', 'android', etc.) here to force single theme on all device
+                // , icon: '' // full path to icon image if not using website icon image
+                // , force: 'ios' // Uncomment for platform emulation
+            });
+    </script>
+</body>
+</html>
+<!-- @ViewBag.WebMode -->

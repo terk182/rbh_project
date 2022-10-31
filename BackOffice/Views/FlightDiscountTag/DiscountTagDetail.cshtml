@@ -1,0 +1,239 @@
+﻿@model BL.Entities.DiscountTag.DiscountTagEntities
+
+@using (Html.BeginForm("DiscountTagDetailSave", "FlightDiscountTag", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.discountTag.DiscountTagOID)
+    @Html.HiddenFor(x => x.discountTag.IsDelete)
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Discount Tag Details</h6>
+            </div>
+        </div>
+        <br />
+        <div class="text-danger" style="font-size:24px;color:red;font-weight:bold; text-align:center; padding-bottom:20px;" id="messe">@TempData["ErrorMessage"]</div>
+        <div class="card-body">
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Active <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    Disable  @Html.EditorFor(m => m.discountTag.IsActive, new { required = "required" })  Enable
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Airline Codes <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.discountTag.AirlineCodes, new { required = "required", @class = "form-control form-control-sm col-lg-4", @placeholder = "YY - for all airlines", @maxlength = "2", @onkeypress = "return ValidateKey()" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    RBD <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.discountTag.RBD, new { required = "required", @class = "form-control form-control-sm col-lg-4", @placeholder = "* for all RBDs", @onkeypress = "return ValidateKey3()" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Fare Basis <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.discountTag.FareBasis, new { required = "required", @class = "form-control form-control-sm col-lg-4", @placeholder = "* for all Fare Basis", @onkeypress = "return ValidateKey2()" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Pax Type <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    ADT :  @Html.EditorFor(x => x.discountTag.PaxTypeADT)
+                    CHD :  @Html.EditorFor(x => x.discountTag.PaxTypeCHD)
+                    INF :  @Html.EditorFor(x => x.discountTag.PaxTypeINF)
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Start Booking Date <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.discountTag.StartBookingDate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-4", @id = "startBooking", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Finish Booking Date <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.discountTag.FinishBookingDate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-4", @id = "finishBooking", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Zone From <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.discountTag.ZoneFrom, new { required = "required", @class = "form-control form-control-sm col-lg-4", @placeholder = "Insert Country/City Code or * for all zones", @onkeypress = "return ValidateKey3()" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Zone To <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.discountTag.ZoneTo, new { required = "required", @class = "form-control form-control-sm col-lg-4", @placeholder = "Insert Country/City Code or * for all zones", @onkeypress = "return ValidateKey3()" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Discount <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.discountTag.DiscountAmt, new { required = "required", @class = "form-control form-control-sm", style = "width: 200px;", step = "any", @type = "number" })
+                    (฿@Html.EditorFor(x => x.discountTag.DiscountIsPercent)%)
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Promotion Group Code <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @{
+                        SelectList selectListPromotionGroupCode = (SelectList)ViewData["PromotionGroupCodeList"];
+                    }
+
+
+                    @*//ใน text บวก value จาก controller มาด้วย                   Orderby(x=>x.Text จะเรียงตามตัวอักษร x.value เรียงตาม id)*@
+                    @Html.DropDownListFor(m => m.discountTag.PromotionGroupCodeOID, selectListPromotionGroupCode.OrderBy(x => x.Value).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.promotionGroupCode!=null?(Model.promotionGroupCode.PromotionGroupCodeOID.ToString() == (s.Value)):false) }), new
+                                       {
+                                           @class = "form-control form-control-sm col-lg-4",
+
+                                       })
+                   
+                </div>
+            </div>
+
+            @if (Model.discountTagDetail != null && Model.discountTagDetail.Count > 0)
+            {
+                for (int i = 0; i < Model.discountTagDetail.Count; i++)
+                {
+                    @Html.HiddenFor(x => x.discountTagDetail[i].LanguageCode)
+                    <div class="row mb-1">
+                        <div class="col-lg-2 col-md-6 col-sm-12">
+                            Promotion Text @Model.discountTagDetail[i].LanguageCode <span class="asterisk">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-6 col-sm-12">
+                            @Html.TextBoxFor(m => m.discountTagDetail[i].PromotionTag, new { required = "required", @class = "form-control form-control-sm col-lg-4" })
+                        </div>
+                    </div>
+
+                }
+            }
+        </div>
+        <div class="card-footer">
+            <div class="text-right">
+                <button type="submit" id="submit_handle" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+                <a class="d-sm-inline-block btn btn-sm btn-warning shadow-sm" href="@Url.Action("DiscountTagDetailList")">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            //Date Picker
+            var today = new Date();
+            var defaultDepDateText = $('#startBooking').val().split('/');
+            var defaultDepDate = new Date(parseInt(defaultDepDateText[2]), parseInt(defaultDepDateText[1]) - 1, parseInt(defaultDepDateText[0]));
+            console.log(defaultDepDate);
+            var defaultRetDateText = $('#finishBooking').val().split('/');
+            var defaultRetDate = new Date(parseInt(defaultRetDateText[2]), parseInt(defaultRetDateText[1]) - 1, parseInt(defaultRetDateText[0]));
+
+            var depDatepicker = $('#startBooking').datepicker({
+                minDate: today,
+                //maxDate: addDays(today, 365),
+                language: 'en',
+                autoClose: true,
+                toggleSelected: false,
+                onSelect: function onSelect(fd, date) {
+                    if (retDatepicker) {
+                        var retDate = retDatepicker.data('datepicker');
+                        var ret = retDate.selectedDates[0];
+                        //alert(ret);
+                        if (date > ret) {
+                            retDate.selectDate(addDays(date, 2));
+                        }
+                        retDate.update('minDate', date);
+                    }
+                }
+            });
+            var depDateDate = depDatepicker.data('datepicker');
+            depDateDate.selectDate(defaultDepDate);
+            var retDatepicker = $('#finishBooking').datepicker({
+                minDate: today,
+                //maxDate: addDays(today, 365),
+                language: 'en',
+                autoClose: true,
+                toggleSelected: false
+            });
+            var retDateDate = retDatepicker.data('datepicker');
+            retDateDate.selectDate(defaultRetDate);
+        });
+        var addDays = function (date, days) {
+            var result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
+        }
+        function ValidateKey() {
+            var key = window.event.keyCode;
+            var allowed = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+
+            return allowed.indexOf(String.fromCharCode(key)) != -1;
+        }
+
+        function ValidateKey1() {
+            var key1 = window.event.keyCode;
+            var allowed1 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890,*';
+
+            return allowed1.indexOf(String.fromCharCode(key1)) != -1;
+        }
+
+        function ValidateKey2() {
+            var key2 = window.event.keyCode;
+            var allowed2 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890,/*';
+
+            return allowed2.indexOf(String.fromCharCode(key2)) != -1;
+        }
+
+        function ValidateKey3() {
+            var key3 = window.event.keyCode;
+            var allowed3 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,*';
+
+            return allowed3.indexOf(String.fromCharCode(key3)) != -1;
+        }
+
+        function ValidateKey5() {
+            var key2 = window.event.keyCode;
+            var allowed2 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890,/*.';
+
+            return allowed2.indexOf(String.fromCharCode(key2)) != -1;
+        }
+    </script>
+}

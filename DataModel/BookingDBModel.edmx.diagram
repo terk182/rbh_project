@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="87deea3aaff049c9a55f3c8c920f2a47" Name="Diagram1" ZoomLevel="82">
+        <EntityTypeShape EntityType="BookingDBModel.AirlineCode" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.AirlineControl" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.AirlineControlSub" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.AirlineQtaxControl" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.AirportCode" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.AirportLocation" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.AirportTranfer" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.AirportWithCity" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.AirPromotion" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.APIToken" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.APIUser" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.BackOfficeAdmin" Width="1.5" PointX="4.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.ChillPayBackground" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.ChillPayInquiry" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.ChillPayResult" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.CityCode" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.CountryCode" Width="1.5" PointX="10.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.CurrencyExchange" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightBookingBaggage" Width="1.5" PointX="12.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightBookingContactInfo" Width="1.5" PointX="4.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightBookingFare" Width="1.5" PointX="6.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightBookingFareRule" Width="1.5" PointX="12.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightBookingFareRuleDatail" Width="1.5" PointX="12.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightBookingPaxInfo" Width="1.5" PointX="10.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightBookingRefund" Width="1.5" PointX="12.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightBookingReissue" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightSearchLog" Width="1.5" PointX="14.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.FourDigitControl" Width="1.5" PointX="14.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.Information" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.KBankCharge" Width="1.5" PointX="16.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.PassportConfig" Width="1.5" PointX="16.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.Payment" Width="1.5" PointX="16.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.PaymentReference" Width="1.5" PointX="12.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.RunningNumber" Width="1.5" PointX="18.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.SeatMapControl" Width="1.5" PointX="18.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.HBHotelName" Width="1.5" PointX="18.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightFareRuleDetail" Width="1.5" PointX="19.375" PointY="10.75" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightFareRuleConfig" Width="1.5" PointX="7.375" PointY="19.75" />
+        <EntityTypeShape EntityType="BookingDBModel.AirlineConfig" Width="1.5" PointX="19.375" PointY="13.75" />
+        <EntityTypeShape EntityType="BookingDBModel.SiteConfig" Width="1.5" PointX="0.75" PointY="13.75" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightSearchMultiTicket" Width="1.5" PointX="19.375" PointY="17.75" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightBookingFlightDetail" Width="1.5" PointX="13.375" PointY="20.75" />
+        <EntityTypeShape EntityType="BookingDBModel.DiscountTagDetail" Width="1.5" PointX="5.375" PointY="16.75" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightBooking" Width="1.5" PointX="19.75" PointY="20.75" />
+        <EntityTypeShape EntityType="BookingDBModel.DiscountTag" Width="1.5" PointX="0.75" PointY="16.75" />
+        <EntityTypeShape EntityType="BookingDBModel.PromotionGroupCode" Width="1.5" PointX="7.75" PointY="16.75" />
+        <EntityTypeShape EntityType="BookingDBModel.PaymentLog" Width="1.5" PointX="21.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BookingDBModel.FlightFareRule" Width="1.5" PointX="21.375" PointY="3.75" />
+        <EntityTypeShape EntityType="BookingDBModel.MarkupFlight" Width="1.5" PointX="3.375" PointY="19.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

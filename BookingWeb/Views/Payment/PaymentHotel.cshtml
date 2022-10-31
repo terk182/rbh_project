@@ -1,0 +1,243 @@
+﻿@model BL.Entities.HotelCheckRate.Response
+@{
+    if (ViewBag.Mode == "app")
+    {
+        Layout = "~/Views/Shared/LayoutNoHF.cshtml";
+    }
+}
+@section styles
+{
+    <link href="~/Content/flights/paxinfo.css?v1" rel="stylesheet" />
+    <style>
+
+        .abc-checkbox label::before {
+            border: 1px solid #fff !important;
+        }
+
+        .modal-backdrop {
+            background-color: #fff;
+        }
+    </style>
+}
+
+@section width100head
+{
+    <div class="process-bar text-center" style="margin-bottom: 15px;">
+        <table class="font-weight-bold" style="margin-left: auto; margin-right: auto;">
+            <tr>
+                <td><div class="number-circle-grey">1</div></td>
+                <td>@Localize.Show("DETAIL")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-orange">2</div></td>
+                <td>@Localize.Show("PAYMENT")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-grey">3</div></td>
+                <td>@Localize.Show("TICKET")</td>
+            </tr>
+        </table>
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-md-12" style="padding-right: 30px;">
+            <div class="font-18">
+                <strong>
+                    @Model.hotel.hotelName
+                </strong>
+            </div>
+            <div class="font-12">
+                @if (Model.hotelInformation.hotel.address != null) { @Model.hotelInformation.hotel.address }
+                @if (Model.hotelInformation.hotel.country != null && Model.hotelInformation.hotel.country.name != null) {@Model.hotelInformation.hotel.country.name}
+                @if (Model.hotelInformation.hotel.postalCode != null) {@Model.hotelInformation.hotel.postalCode}
+            </div>
+            <div>
+                <div class="font-14 mr-2">
+                    <div>
+                        <img src="~/Images/icon_gogo/calendar.svg" style="height:12px; margin-right: 10px;" /> @Model.searchRequest.checkIn.ToString("dd MMM") - @Model.searchRequest.checkOut.ToString("dd MMM")
+                        <span class="font-12" style="position: absolute; right: 20px">@Model.searchRequest.night @Localize.Show("NIGHTS")</span>
+                    </div>
+                    @{
+                        int iRoom = 1;
+                    }
+                    @foreach (var room in Model.hotel.rooms)
+                    {
+                        foreach (var rate in room.rates)
+                        {
+                            if (iRoom != 1)
+                            {
+                                <hr />
+                            }
+                            <div>
+                                <img src="~/Images/icon_gogo/hotel.svg" style="height:12px; margin-right: 10px;" />
+                                @Localize.Show("ROOM") @iRoom:
+                                @room.roomName
+                                (@rate.boardName)
+                            </div>
+                            iRoom++;
+                        }
+                    }
+                </div>
+            </div>
+            <hr />
+            <div class="font-18"><strong>@Localize.Show("GUEST_INFORMATION")</strong></div>
+            <div class="font-14">
+                <div class="row row-mt">
+                    <div class="col-12">
+                        <div>
+                            @Model.bookingHolder.firstName  @Model.bookingHolder.lastName
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="info-box mt-3" style="padding: 10px;">
+                <div class="price-box">
+                    <div class="font-14"><strong>@Localize.Show("PRICE_DETAIL")</strong></div>
+                    <table style="width:100%" class="font-14">
+                        @{
+                            decimal total = 0;
+                        }
+                        @foreach (var room in Model.hotel.rooms)
+                        {
+                            foreach (var rate in room.rates)
+                            {
+                                total += rate.sellingPrice;
+                                <tr>
+                                    <td>
+                                        <strong>@room.roomName</strong>
+                                        <br />
+                                        <small>@rate.boardName</small>
+                                    </td>
+                                    <td class="text-muted" style="vertical-align: top">
+                                        @Model.hotel.currencyCode
+                                    </td>
+                                    <td class="text-right" style="vertical-align: top">
+                                        <strong>
+                                            @rate.sellingPrice.ToString("N2")
+                                        </strong>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        @if (Model.promotionDiscount > 0)
+                        {
+                            total -= Model.promotionDiscount;
+                        <tr class="row-promotion-discount" >
+                            <td><small>@Localize.Show("DISCOUNT")</small></td>
+                            <td class="text-muted" style="vertical-align: top">@Model.hotel.currencyCode</td>
+                            <td class="text-right" style="vertical-align: top" id="promotion-discount-amount">-@Model.promotionDiscount.ToString("N2")</td>
+                        </tr>
+                        }
+                        <tr>
+                            <td class="text-blue">
+                                <strong>@Localize.Show("TOTAL")</strong>
+                            </td>
+                            <td class="text-muted" style="vertical-align: top">
+                                @Model.hotel.currencyCode
+                            </td>
+                            <td class="text-right font-18 text-blue" style="vertical-align: top">
+                                <strong>
+                                    @total.ToString("N2")
+                                </strong>
+                            </td>
+                        </tr>
+                        @if (Currency.GetCurrency() != "THB")
+                        {
+                            <tr>
+                                <td colspan="3" class="text-blue">
+                                    <hr />
+                                    <strong>@Localize.Show("YOUR_CURRENCY")</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-green">
+                                    <strong>@Localize.Show("TOTAL")</strong>
+                                </td>
+                                <td class="text-muted" style="vertical-align: top">
+                                    @Currency.GetCurrency()
+                                </td>
+                                <td class="text-right font-18 text-green" style="vertical-align: top">
+                                    <strong>
+                                        @Currency.convertFromTHB(total).ToString("N2")
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="font-10">
+                                    *@String.Format(Localize.Show("CURRENCY_CONDITION"), Currency.GetCurrency())
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-12">
+            <div class="font-24 font-weight-bold">@Localize.Show("PAYMENT_DETAIL")</div>
+
+            <div class="info-box" style="padding: 20px;">
+                @{
+                    string PaymentID = (string)(ViewBag.PaymentID);
+                }
+                <div class="row row-mt">
+                    <div class="col-12">
+                        <small class="font-weight-bold">@Localize.Show("SELECT_PAYMENT_METHOD")*</small>
+                        <select class="form-control form-control-pax" id="ggpaymentMethod">
+                            <option value="3" @(PaymentID == "3" ? "selected" : "")>
+                                @Localize.Show("PROMPT_PAY_QR")
+                            </option>
+                            <option value="1" @(PaymentID == "1" ? "selected" : "")>@Localize.Show("CREDIT_DEBIT_CARD")</option>
+                            @if (false && total >= 3000)
+                            {
+                                <option value="2" @(PaymentID == "2" ? "selected" : "")>@Localize.Show("KBANK_INSTALLMENT")</option>
+                            }
+                            @if (total >= 700)
+                            {
+                                <option value="5" @(PaymentID == "5" ? "selected" : "")>@Localize.Show("CHILLPAY")</option>
+                            }
+
+                        </select>
+                    </div>
+                </div>
+                @Html.Action("Payment" + PaymentID, new { price = total.ToString("N2").Replace(",", ""), product = "H", pid = Request["fid"] })
+            </div>
+        </div>
+    </div>
+
+    <div id="loading-ani" class="d-none">
+        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    
+    <div class="modal-dialog" role="document">
+        <div>
+            <img src="~/Images/waiting.gif" style="vertical-align:middle;" class="img-fluid" />
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var getPayment = function () {
+                var paymentid = $('#ggpaymentMethod').val();
+                $('#loadingModal').modal('show');
+                window.location.href = "@Url.Action("PaymentHotel", new { id = "" })" + "/" + paymentid + "?fid=@Request["fid"]";
+            };
+            $('#ggpaymentMethod').change(getPayment);
+
+            $('#ggpaymentMethod').change(getPayment);
+            var getMonth = function () {
+                var paymentid = $('#ggpaymentMethod').val();
+                var month = $('#ggMonth').val();
+                $('#loadingModal').modal('show');
+                window.location.href = "@Url.Action("PaymentHotel", new { id = "" })" + "/" + paymentid + "?fid=@Request["fid"]&month=" + month;
+            };
+            $('#ggMonth').change(getMonth);
+        });
+    </script>
+}

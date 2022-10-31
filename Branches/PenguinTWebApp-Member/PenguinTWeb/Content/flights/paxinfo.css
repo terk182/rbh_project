@@ -1,0 +1,157 @@
+﻿.price-box{
+    font-size: 13px;
+}
+
+.row-mt {
+    margin-top: 5px;
+}
+
+.card-header {
+    background-color: #ffffff !important;
+}
+
+.text-red {
+    color: #ff0000;
+}
+
+.i-agree-box {
+   padding: 20px;
+}
+
+.connection-blue-text {
+    color: #00BEE4;
+}
+
+.connection-red-text {
+    color: #ff0000;
+}
+
+.table-flight-info {
+    width: 100%;
+}
+
+.td-flight-info {
+    padding: 3px;
+}
+
+.td-flight-info-airline {
+    width: 115px;
+}
+.td-flight-info-logo {
+    width: 95px;
+}
+
+.td-flight-info-plane {
+    width: 50px;
+}
+
+
+.timeline-head {
+    padding: 0px;
+    width: 30px;
+    vertical-align: top;
+    background-image: url(../../Images/icon_web/timeline-line.png);
+}
+
+.timeline-connection-head {
+    padding: 0px;
+    width: 30px;
+    vertical-align: top;
+    background-image: url(../../Images/icon_web/timeline-connection-line.png);
+}
+
+.timeline-flight {
+    padding: 0px;
+    width: 30px;
+    vertical-align: middle;
+    background-image: url(../../Images/icon_web/timeline-line.png);
+}
+
+.timeline-date {
+    width: 180px;
+}
+
+.timeline-airline {
+    width: 180px;
+    color: #D7D7D7;
+}
+
+.timeline-end {
+    padding: 0px;
+    width: 30px;
+    vertical-align: bottom;
+    background-image: url(../../Images/icon_web/timeline-line.png);
+}
+
+.timeline-connection-time {
+    color: #FF8484;
+    font-size: 14px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.guint-hero-box {
+    width: 100%;
+    background-color: #FFF5DA;
+    padding: 10px;
+}
+.guint-hero-head {
+    font-size: 18px;
+    color: #4C1111;
+    font-weight: bold;
+}
+.guint-hero-text {
+    font-size: 14px;
+}
+.guint-check {
+    display: block;
+    position: relative;
+    /* padding-left: 25px; */
+    margin-bottom: 20px;
+    padding-right: 15px;
+    margin-right: 20px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-left: 10px;
+}
+/* Hide the browser's default checkbox */
+    .guint-check input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+
+/* When the checkbox is checked, add a blue background */
+        .guint-check input:checked ~ .checkmark {
+            background-color: #E9E9E9;
+        }
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.guint-check input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.guint-check .checkmark:after {
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 9px;
+    border: solid;
+    border-color: #ff6a00;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}

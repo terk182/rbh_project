@@ -1,0 +1,610 @@
+﻿@model BL.Entities.HFCheckRate.Response
+@{
+
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang().ToLower() == "th" ? "th-TH" : "en-US");
+}
+@{
+    string URL = System.Configuration.ConfigurationManager.AppSettings["webpages_URL"].ToString();
+    string clsStr = "";
+    switch (Model.searchDetail.svcClass)
+    {
+        case "F":
+            clsStr = Localize.Show("FIRST");
+            break;
+        case "C":
+            clsStr = Localize.Show("BUSINESS");
+            break;
+        case "P":
+            clsStr = Localize.Show("PREMIUM_ECONOMY");
+            break;
+        case "Y":
+            clsStr = Localize.Show("ECONOMY");
+            break;
+    }
+}
+
+<div>
+    <div class="summary-head-bg text-center" style="background-color:#0393CD; color:#fff; padding:20px; width:100%; text-align:center" bgcolor="#0393CD" width="100%" align="center">
+        <div class="font-24" style="font-size:24px">
+            @Localize.Show("BOOKING_IS_CONFIRMED")
+        </div>
+        <div class="font-30" style="font-size:30px">
+            @Model.gogojiiID
+        </div>
+    </div>
+    <div class="summary-card-bg" style="background-image:url(@(URL)Images/icon_gogo/summary-bg.png), linear-gradient(180deg, rgba(3, 147, 205, 1) 0%, rgba(3, 147, 205, 1) 10%, rgba(236, 242, 255, 1) 10%, rgba(236, 242, 255, 1) 100%); background-position:center; background-repeat:no-repeat; width:100%" width="100%">
+        <div class="card card-summary  mb-5" style="-ms-flex-direction:column; background-clip:border-box; background-color:#fff; border:none; border-radius:0.25rem;  flex-direction:column; min-width:0; position:relative; word-wrap:break-word; margin-left:auto; margin-right:auto; max-width:630px; margin-bottom:3rem" bgcolor="#ffffff">
+            <div class="card-header card-header-summary" style="background-color:#FAA90D; border-bottom:1px solid rgba(0, 0, 0, 0.125); margin-bottom:0; padding:0.75rem 1.25rem; border-radius:calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0; color:#fff" bgcolor="#FAA90D">
+                <div class="row" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                    <div class="col-6" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 50%; flex:0 0 50%; max-width:50%" width="100%">
+                        <img src="@(URL)Images/icon_gogo/logo-w-b.png" style="border-style:none; vertical-align:middle" valign="middle">
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" style="-ms-flex:1 1 auto; flex:1 1 auto; padding:1.25rem">
+
+
+
+                <div>
+                    <div>
+                        <div class="font-18" style="font-size:18px">
+                            <strong style="font-weight:bolder">
+                                @Model.flightInformation.depFlight[0].depCity.name (@Model.flightInformation.depFlight[0].depCity.code)
+
+                                <img src="@(URL)Images/icon_gogo/Round.png" style="border-style:none; vertical-align:middle" valign="middle"> @Model.flightInformation.retFlight[0].depCity.name (@Model.flightInformation.retFlight[0].depCity.code)
+                            </strong>
+                        </div>
+                        <hr style="box-sizing:content-box; height:0; overflow:visible; border:0; border-top:1px solid rgba(0, 0, 0, 0.1); margin-bottom:1rem; margin-top:1rem" height="0">
+
+                        <div class="row" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                            <div class="col-md-6 col-sm-12" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%" width="100%">
+                                @if (!String.IsNullOrEmpty(Model.hotelInformation.defaultImage))
+                                {
+                                    if (Model.hotelInformation.hotelSource == "EXT")
+                                    {
+                                        <img src="@ViewBag.hotelExtURL/@(Model.hotelInformation.defaultImage)" style=" height: 140px;" />
+                                    }
+                                    else
+                                    {
+                                        <img src="https://photos.hotelbeds.com/giata/@(Model.hotelInformation.defaultImage)" style=" height: 140px;" />
+                                    }
+                                }
+                                else
+                                {
+                                    <img src="@(WebContent.bookingWeb)Images/hotel_blank.jpg" height="140" />
+                                }
+
+
+                            </div>
+                            <div class="col-md-6 col-sm-12" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%" width="100%">
+                                <strong class="font-14" style="font-weight:bolder; font-size:14px">
+                                    @Model.hotelInformation.hotelName
+                                </strong>
+                                <div class="font-12" style="font-size:12px">
+                                    <img src="@(URL)Images/icon_gogo/pin.png" style="border-style:none; vertical-align:middle; height:12px; margin-right:10px" valign="middle" height="12"> @Model.hotelInformation.hotelAddress
+                                </div>
+                                <div class="font-12" style="font-size:12px">
+                                    <strong style="font-weight:bolder">Hotel Ref No.: </strong> @Model.hotelBookingNo
+                                </div>
+                            </div>
+                        </div>
+                        <div class="font-14 mt-2 font-weight-bold" style="font-size:14px; margin-top:0.5rem; font-weight:700">
+                            <div>
+                                <img src="@(URL)Images/icon_gogo/calendar.png" style="border-style:none; vertical-align:middle; height:12px; margin-right:10px" valign="middle" height="12"> @Model.searchDetail.hotelCheckIn.ToString("dd MMM yyyy") - @Model.searchDetail.hotelCheckOut.ToString("dd MMM yyyy")
+                                <span class="font-12" style="font-size:12px; position:absolute; right:35px">@Model.searchDetail.getHotelNights() @Localize.Show("NIGHTS")</span>
+                            </div>
+                            <div>
+                                <img src="@(URL)Images/icon_gogo/hotel.png" style="border-style:none; vertical-align:middle; height:12px; margin-right:10px" valign="middle" height="12">
+                                @Model.hotelInformation.roomInformation.roomName (x @Model.searchDetail.rooms.Count)
+                            </div>
+                            <div>
+                                @Model.hotelInformation.roomInformation.rate.boardName
+                            </div>
+                            <div>
+                                @if (Model.hotelInformation.roomInformation.rate.cancellationPolicies != null && Model.hotelInformation.roomInformation.rate.cancellationPolicies.Count > 0)
+                                {
+                                    <span style="margin-right: 5px;background-color: #F0F9E6;color: #72CA15;font-size: 13px;">
+                                        @Localize.Show("FREE_CANCELLATION_BEFORE") @Model.hotelInformation.roomInformation.rate.cancellationPolicies.Min(x => x.fromDate).ToString("dd MMM yyyy", ci)
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span style="margin-right: 5px;background-color: #F0F9E6;color: #72CA15;font-size: 13px;">
+                                        @Localize.Show("NON_REFUNDABLE")
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                        <hr style="box-sizing:content-box; height:0; overflow:visible; border:0; border-top:1px solid rgba(0, 0, 0, 0.1); margin-bottom:1rem; margin-top:1rem" height="0">
+                        <div class="font-12" style="font-size:12px">
+                            <strong style="font-weight:bolder">Flight Ref No.: </strong>@Model.pnr
+                        </div>
+                        <div>
+                            <strong class="font-14 mr-2" style="font-weight:bolder; font-size:14px; margin-right:0.5rem">
+                                @Model.flightInformation.depFlight[0].departureDateTime.ToString("ddd, dd MMM yyyy")
+                            </strong>
+                        </div>
+                        @for (int i = 0; i < Model.flightInformation.depFlight.Count; i++)
+                        {
+                            <div class="font-12" style="font-size:12px">
+                                <div class="row" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                                    <div class="col-6" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 50%; flex:0 0 50%; max-width:50%" width="100%">
+                                        <img style="border-style:none; vertical-align:middle; margin-right:0.5rem; height:25px" class="mr-2" src="https://ai-r-logo.azurewebsites.net/square/@(Model.flightInformation.depFlight[i].airline.code).png" valign="middle" height="25">
+                                        @Model.flightInformation.depFlight[i].airline.name
+                                        @if (Model.flightInformation.depFlight[i].airline.code != Model.flightInformation.depFlight[i].operatedAirline.code)
+                                        {
+                                            <div class="font-10">@Localize.Show("OPERATED_BY") <img style="vertical-align:middle; height: 15px;" src="//ai-r-logo.azurewebsites.net/square/@(Model.flightInformation.depFlight[i].operatedAirline.code).png" /> @Model.flightInformation.depFlight[i].operatedAirline.name</div>
+                                        }
+
+
+                                        <div>
+
+                                            @Aircraft.Show(Model.flightInformation.depFlight[i].equipmentType)
+                                        </div>
+                                    </div>
+                                    <div class="col-6" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 50%; flex:0 0 50%; max-width:50%" width="100%">
+                                        <strong style="font-weight:bolder">
+                                            @Model.flightInformation.depFlight[i].airline.code @Model.flightInformation.depFlight[i].flightNumber
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="row" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                                    <table>
+                                        <tr>
+                                            <td style="min-height:1px; padding-left:15px; padding-right:15px;  font-size:16px; color:#0393CD; font-weight:700">
+                                                @Html.Raw(Model.flightInformation.depFlight[i].depDisplayDateTime.displayTime.Replace("(", "<sup>").Replace(")", "</sup>"))
+                                                <div>
+
+                                                    @{
+                                                        var dCity = Model.flightInformation.depFlight[i].depCity.name.Split(',');
+                                                    }
+                                                    <strong>@dCity[dCity.Length - 1]</strong>
+                                                    <div>
+                                                        @dCity[0] (@Model.flightInformation.depFlight[i].depCity.code)
+                                                    </div>
+                                                    @if (!String.IsNullOrEmpty(Model.flightInformation.depFlight[i].depCity.terminal))
+                                                    {
+                                                        <div>
+                                                            Terminal @Model.flightInformation.depFlight[i].depCity.terminal
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <img src="@(URL)Images/icon_gogo/air-dot.png" style="border-style:none; vertical-align:middle;  right:10px" valign="middle">
+                                            </td>
+                                            <td style="min-height:1px; padding-left:15px; padding-right:15px;  font-size:16px; color:#0393CD; font-weight:700">
+                                                @Html.Raw(Model.flightInformation.depFlight[i].arrDisplayDateTime.displayTime.Replace("(", "<sup>").Replace(")", "</sup>"))
+                                                <div>
+                                                    @{
+                                                        var dCity2 = Model.flightInformation.depFlight[i].arrCity.name.Split(',');
+                                                    }
+                                                    <strong>@dCity2[dCity2.Length - 1]</strong>
+                                                    <div>
+                                                        @dCity2[0] (@Model.flightInformation.depFlight[i].arrCity.code)
+                                                    </div>
+                                                    @if (!String.IsNullOrEmpty(Model.flightInformation.depFlight[i].arrCity.terminal))
+                                                    {
+                                                        <div>
+                                                            Terminal @Model.flightInformation.depFlight[i].arrCity.terminal
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                @if (Model.flightInformation.depFlight[i].connectingTime != null && Model.flightInformation.depFlight[i].connectingTime != "0")
+                                {
+                                    <br />
+                                    <br />
+                                    <div class="row mt-3 mb-3">
+                                        <div class="col-12">
+                                            <u>
+                                                <strong>
+                                                    @{
+                                                        string connectTime = Model.flightInformation.depFlight[i].connectingTime.PadLeft(4, '0');
+                                                    }
+                                                    @connectTime.Substring(0, 2) @Localize.Show("H")
+                                                    @connectTime.Substring(2, 2) @Localize.Show("M")
+                                                    @Localize.Show("STOP")
+                                                </strong>
+                                            </u>
+                                            <span class="ml-2">
+                                                @dCity[dCity.Length - 1] (@Model.flightInformation.depFlight[i].arrCity.code)
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+
+                                }
+
+                            </div>
+                        }
+
+                        <div class="font-12 mt-3" style="font-size:12px; margin-top:1rem">
+                            <div>
+                                <strong class="text-blue" style="font-weight:bolder; color:#0393CD">@Localize.Show("TOTAL_TRAVEL_TIME")</strong>
+                                @Model.flightInformation.depFlight[0].flightTime.Substring(0, 2) @Localize.Show("HRS") @Model.flightInformation.depFlight[0].flightTime.Substring(2, 2) @Localize.Show("MINS")
+                            </div>
+                            @if (Model.flightInformation.adtFare.baggages != null && Model.flightInformation.adtFare.baggages.Count > 0 && Model.flightInformation.adtFare.baggages[0].baggageNo != "")
+                            {
+                                <div>
+                                    <img src="@(URL)Images/icon_gogo/Baggage.png" />
+                                    @Localize.Show("ADULT") @Model.flightInformation.adtFare.baggages[0].baggageNo @Localize.Show("BAGGAAGE_UNIT_" + Model.flightInformation.adtFare.baggages[0].baggageUnit)
+
+                                    @if (Model.flightInformation.noOfChildren > 0 && Model.flightInformation.chdFare.baggages.Count > 0 && Model.flightInformation.chdFare.baggages[0].baggageNo != "")
+                                    {
+                                        <span>
+                                            &bull;
+                                            @Localize.Show("CHILD") @Model.flightInformation.chdFare.baggages[0].baggageNo @Localize.Show("BAGGAAGE_UNIT_" + Model.flightInformation.chdFare.baggages[0].baggageUnit)
+                                        </span>
+                                    }
+                                    @if (Model.flightInformation.noOfInfants > 0 && Model.flightInformation.infFare.baggages.Count > 0 && Model.flightInformation.infFare.baggages[0].baggageNo != "")
+                                    {
+                                        <span>
+                                            &bull;
+                                            @Localize.Show("INFANT") @Model.flightInformation.infFare.baggages[0].baggageNo @Localize.Show("BAGGAAGE_UNIT_" + Model.flightInformation.infFare.baggages[0].baggageUnit)
+                                        </span>
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                        @if (Model.flightInformation.retFlight != null && Model.flightInformation.retFlight.Count > 0)
+                        {
+                            <hr />
+                            <div>
+                                <strong class="font-14 mr-2" style="font-weight:bolder; font-size:14px; margin-right:0.5rem">
+                                    @Model.flightInformation.retFlight[0].departureDateTime.ToString("ddd, dd MMM yyyy")
+                                </strong>
+                            </div>
+                            for (int i = 0; i < Model.flightInformation.retFlight.Count; i++)
+                            {
+                                <div class="font-12" style="font-size:12px">
+                                    <div class="row" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                                        <div class="col-6" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 50%; flex:0 0 50%; max-width:50%" width="100%">
+                                            <img style="border-style:none; vertical-align:middle; margin-right:0.5rem; height:25px" class="mr-2" src="https://ai-r-logo.azurewebsites.net/square/@(Model.flightInformation.retFlight[i].airline.code).png" valign="middle" height="25">
+                                            @Model.flightInformation.retFlight[i].airline.name
+                                            @if (Model.flightInformation.retFlight[i].airline.code != Model.flightInformation.retFlight[i].operatedAirline.code)
+                                            {
+                                                <div class="font-10">@Localize.Show("OPERATED_BY") <img style="vertical-align:middle; height: 15px;" src="https://ai-r-logo.azurewebsites.net/square/@(Model.flightInformation.retFlight[i].operatedAirline.code).png" /> @Model.flightInformation.retFlight[i].operatedAirline.name</div>
+                                            }
+
+
+                                            <div>
+
+                                                @Aircraft.Show(Model.flightInformation.retFlight[i].equipmentType)
+                                            </div>
+                                        </div>
+                                        <div class="col-6" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 50%; flex:0 0 50%; max-width:50%" width="100%">
+                                            <strong style="font-weight:bolder">
+                                                @Model.flightInformation.retFlight[i].airline.code @Model.flightInformation.retFlight[i].flightNumber
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                                        <table>
+                                            <tr>
+                                                <td style="min-height:1px; padding-left:15px; padding-right:15px;  font-size:16px; color:#0393CD; font-weight:700">
+                                                    @Html.Raw(Model.flightInformation.retFlight[i].depDisplayDateTime.displayTime.Replace("(", "<sup>").Replace(")", "</sup>"))
+                                                    <div>
+
+                                                        @{
+                                                            var dCity = Model.flightInformation.retFlight[i].depCity.name.Split(',');
+                                                        }
+                                                        <strong>@dCity[dCity.Length - 1]</strong>
+                                                        <div>
+                                                            @dCity[0] (@Model.flightInformation.retFlight[i].depCity.code)
+                                                        </div>
+                                                        @if (!String.IsNullOrEmpty(Model.flightInformation.retFlight[i].depCity.terminal))
+                                                        {
+                                                            <div>
+                                                                Terminal @Model.flightInformation.retFlight[i].depCity.terminal
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <img src="@(URL)Images/icon_gogo/air-dot.png" style="border-style:none; vertical-align:middle;  right:10px" valign="middle">
+                                                </td>
+                                                <td style="min-height:1px; padding-left:15px; padding-right:15px;  font-size:16px; color:#0393CD; font-weight:700">
+                                                    @Html.Raw(Model.flightInformation.retFlight[i].arrDisplayDateTime.displayTime.Replace("(", "<sup>").Replace(")", "</sup>"))
+                                                    <div>
+                                                        @{
+                                                            var dCity2 = Model.flightInformation.retFlight[i].arrCity.name.Split(',');
+                                                        }
+                                                        <strong>@dCity2[dCity2.Length - 1]</strong>
+                                                        <div>
+                                                            @dCity2[0] (@Model.flightInformation.retFlight[i].arrCity.code)
+                                                        </div>
+                                                        @if (!String.IsNullOrEmpty(Model.flightInformation.retFlight[i].arrCity.terminal))
+                                                        {
+                                                            <div>
+                                                                Terminal @Model.flightInformation.retFlight[i].arrCity.terminal
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    @if (Model.flightInformation.retFlight[i].connectingTime != null && Model.flightInformation.retFlight[i].connectingTime != "0")
+                                    {
+                                        <br />
+                                        <br />
+                                        <div class="row mt-3 mb-3">
+                                            <div class="col-12">
+                                                <u>
+                                                    <strong>
+                                                        @{
+                                                            string connectTime = Model.flightInformation.retFlight[i].connectingTime.PadLeft(4, '0');
+                                                        }
+                                                        @connectTime.Substring(0, 2) @Localize.Show("H")
+                                                        @connectTime.Substring(2, 2) @Localize.Show("M")
+                                                        @Localize.Show("STOP")
+                                                    </strong>
+                                                </u>
+                                                <span class="ml-2">
+                                                    @dCity[dCity.Length - 1] (@Model.flightInformation.retFlight[i].arrCity.code)
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <br />
+
+                                    }
+
+                                </div>
+                            }
+
+                            <div class="font-12 mt-3" style="font-size:12px; margin-top:1rem">
+                                <div>
+                                    <strong class="text-blue" style="font-weight:bolder; color:#0393CD">@Localize.Show("TOTAL_TRAVEL_TIME")</strong>
+                                    @Model.flightInformation.retFlight[0].flightTime.Substring(0, 2) @Localize.Show("HRS") @Model.flightInformation.retFlight[0].flightTime.Substring(2, 2) @Localize.Show("MINS")
+                                </div>
+                                @if (Model.flightInformation.adtFare.baggages != null && Model.flightInformation.adtFare.baggages.Count > 0 && Model.flightInformation.adtFare.baggages[0].baggageNo != "")
+                                {
+                                    <div>
+                                        <img src="@(URL)Images/icon_gogo/Baggage.png" />
+                                        @Localize.Show("ADULT") @Model.flightInformation.adtFare.baggages[0].baggageNo @Localize.Show("BAGGAAGE_UNIT_" + Model.flightInformation.adtFare.baggages[0].baggageUnit)
+
+                                        @if (Model.flightInformation.noOfChildren > 0 && Model.flightInformation.chdFare.baggages.Count > 0 && Model.flightInformation.chdFare.baggages[0].baggageNo != "")
+                                        {
+                                            <span>
+                                                &bull;
+                                                @Localize.Show("CHILD") @Model.flightInformation.chdFare.baggages[0].baggageNo @Localize.Show("BAGGAAGE_UNIT_" + Model.flightInformation.chdFare.baggages[0].baggageUnit)
+                                            </span>
+                                        }
+                                        @if (Model.flightInformation.noOfInfants > 0 && Model.flightInformation.infFare.baggages.Count > 0 && Model.flightInformation.infFare.baggages[0].baggageNo != "")
+                                        {
+                                            <span>
+                                                &bull;
+                                                @Localize.Show("INFANT") @Model.flightInformation.infFare.baggages[0].baggageNo @Localize.Show("BAGGAAGE_UNIT_" + Model.flightInformation.infFare.baggages[0].baggageUnit)
+                                            </span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
+                        <br>
+                        <div class="font-18" style="font-size:18px"><strong style="font-weight:bolder">@Localize.Show("CONTACT_DETAIL")</strong></div>
+                        <div class="row row-mt" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px; margin-top:4px">
+                            <div class="col-12" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 100%; flex:0 0 100%; max-width:100%" width="100%">
+                                <div>
+                                    <strong>@Localize.Show("NAME"):</strong>
+                                    @Model.flightInformation.contactInfo.title  @Model.flightInformation.contactInfo.firstname   @Model.flightInformation.contactInfo.middlename   @Model.flightInformation.contactInfo.lastname
+                                </div>
+                                <div>
+                                    <strong>@Localize.Show("EMAIL"):</strong> @Model.flightInformation.contactInfo.email
+                                    <br />
+                                    <strong>@Localize.Show("TELNO"):</strong> @Model.flightInformation.contactInfo.telNo
+                                </div>
+
+                            </div>
+                        </div>
+                        <br>
+                        <div class="font-18" style="font-size:18px"><strong style="font-weight:bolder">@Localize.Show("PAX_DETAIL")</strong></div>
+                        <div class="font-14" style="font-size:14px">
+
+                            <div class="row row-mt" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px; margin-top:4px">
+                                <div class="col-12" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 100%; flex:0 0 100%; max-width:100%" width="100%">
+                                    @{
+                                        int paxNo = 1;
+                                    }
+                                    @for (int i = 0; i < Model.flightInformation.noOfAdults; i++)
+                                    {
+                                        <div class="row row-mt">
+                                            <div class="col-12">
+                                                <div>
+                                                    <strong>@(paxNo.ToString()). </strong>
+                                                    @Model.flightInformation.adtPaxs[i].title  @Model.flightInformation.adtPaxs[i].firstname   @Model.flightInformation.adtPaxs[i].middlename   @Model.flightInformation.adtPaxs[i].lastname
+                                                </div>
+                                            </div>
+                                        </div>
+                                        paxNo++;
+                                    }
+                                    @for (int i = 0; i < Model.flightInformation.noOfChildren; i++)
+                                    {
+                                        <div class="row row-mt">
+                                            <div class="col-12">
+                                                <div>
+                                                    <strong>@(paxNo.ToString()). </strong>
+                                                    @Model.flightInformation.chdPaxs[i].title  @Model.flightInformation.chdPaxs[i].firstname   @Model.flightInformation.chdPaxs[i].middlename   @Model.flightInformation.chdPaxs[i].lastname
+                                                </div>
+                                                <div>
+                                                    <strong>@Localize.Show("BIRTHDAY"):</strong> @Model.flightInformation.chdPaxs[i].birthday.ToString("dd'/'MM'/'yyyy")
+                                                </div>
+                                            </div>
+                                        </div>
+                                        paxNo++;
+                                    }
+                                    @for (int i = 0; i < Model.flightInformation.noOfInfants; i++)
+                                    {
+                                        <div class="row row-mt">
+                                            <div class="col-12">
+                                                <div>
+                                                    <strong>@(paxNo.ToString()).</strong>
+                                                    @Model.flightInformation.infPaxs[i].title  @Model.flightInformation.infPaxs[i].firstname   @Model.flightInformation.infPaxs[i].middlename   @Model.flightInformation.chdPaxs[i].lastname
+                                                </div>
+                                                <div>
+                                                    <strong>@Localize.Show("BIRTHDAY"):</strong> @Model.flightInformation.infPaxs[i].birthday.ToString("dd'/'MM'/'yyyy")
+                                                </div>
+                                            </div>
+                                        </div>
+                                        paxNo++;
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-5" style="margin-top:3rem">
+                            <div class="font-18" style="font-size:18px"><strong style="font-weight:bolder">@Localize.Show("TOTAL")</strong></div>
+                            <div class="row font-14" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px; font-size:14px">
+                                <div class="col-5 text-right text-green font-18" style=" margin-left:15px; margin-right:-15px;font-size:18px; color:#72CA15;">
+                                    <strong style="font-weight:bolder">THB @Model.totalPackagePrice.ToString("N2")</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-5" style="margin-top:3rem">
+
+
+                            <div class="font-18" style="font-size:18px"><strong style="font-weight:bolder">@Localize.Show("FARE_CONDITION")</strong></div>
+                            <div class="card" style="-ms-flex-direction:column; background-clip:border-box; background-color:#fff; border:1px solid rgba(0, 0, 0, 0.125); border-radius:0.25rem;  flex-direction:column; min-width:0; position:relative; word-wrap:break-word" bgcolor="#ffffff">
+                                <div class="card-header font-14" style="background-color:rgba(0, 0, 0, 0.03); border-bottom:1px solid rgba(0, 0, 0, 0.125); margin-bottom:0; padding:0.75rem 1.25rem; border-radius:calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0; font-size:14px" bgcolor="rgba(0, 0, 0, 0.03)">
+                                    <table style="border-collapse:collapse; width:100%" width="100%">
+                                        <tr>
+                                            <td>
+                                                <span>@Html.Raw(Localize.Show("FARE_CONDITION_DETAIL"))</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="card-body" style="-ms-flex:1 1 auto; flex:1 1 auto; padding:1.25rem">
+                                    @foreach (var fareRule in Model.flightInformation.fareRules)
+                                    {
+                                        if (Model.flightInformation.fareRules.Count > 1)
+                                        {
+                                            <div>
+                                                <strong>@fareRule.origin.name - @fareRule.destination.name</strong>
+                                            </div>
+                                        }
+                                        <div id="@(fareRule.origin.code + fareRule.destination.code)">
+                                            @foreach (var rule in fareRule.rules)
+                                            {
+                                                string id = Guid.NewGuid().ToString();
+                                                <div class="card" style="-ms-flex-direction:column; background-clip:border-box; background-color:#fff; border:1px solid rgba(0, 0, 0, 0.125); border-radius:0.25rem;  flex-direction:column; min-width:0; position:relative; word-wrap:break-word" bgcolor="#ffffff">
+                                                    <div class="card-header" id="headingb7466d43-6459-407b-8216-f2759958e9db" style="background-color:rgba(0, 0, 0, 0.03); border-bottom:1px solid rgba(0, 0, 0, 0.125); margin-bottom:0; padding:0; border-radius:calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0" bgcolor="rgba(0, 0, 0, 0.03)">
+                                                        <div class="mb-0" style="margin-bottom:0">
+                                                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseb7466d43-6459-407b-8216-f2759958e9db" aria-expanded="false" aria-controls="collapseb7466d43-6459-407b-8216-f2759958e9db" style="border-radius:0.25rem; font-family:inherit; font-size:12px; line-height:1.5; margin:0; overflow:visible; text-transform:none; -webkit-appearance:button; -moz-user-select:none; -ms-user-select:none; -webkit-user-select:none; border:1px solid transparent; display:inline-block; font-weight:400; padding:0.375rem 0.75rem; text-align:left; transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; user-select:none; vertical-align:middle; white-space:normal; background-color:transparent; color:#007bff; word-wrap:break-word" align="left" valign="middle">
+                                                                @if (rule.category == "SR")
+                                                                {
+                                                                    <strong><i class="far fa-caret-square-down"></i> SALES RESTRICTIONS</strong>
+                                                                }
+                                                                else if (rule.category == "AP")
+                                                                {
+                                                                    <strong><i class="far fa-caret-square-down"></i> ADVANCE PURCHASE / RESERVATIONS AND TICKETING</strong>
+                                                                }
+                                                                else if (rule.category == "PE")
+                                                                {
+                                                                    <strong><i class="far fa-caret-square-down"></i> PENALTIES</strong>
+                                                                }
+                                                                else if (rule.category == "MN")
+                                                                {
+                                                                    <strong><i class="far fa-caret-square-down"></i> MIN STAY</strong>
+                                                                }
+                                                                else if (rule.category == "MX")
+                                                                {
+                                                                    <strong><i class="far fa-caret-square-down"></i> MAX STAY</strong>
+                                                                }
+
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div id="collapseb7466d43-6459-407b-8216-f2759958e9db" class="collapse" aria-labelledby="headingb7466d43-6459-407b-8216-f2759958e9db" data-parent="#SINSIN">
+                                                        <div class="card-body" style="-ms-flex:1 1 auto; flex:1 1 auto; padding:1.25rem; font-size:12px">
+                                                            @foreach (var item in rule.fareRuleText)
+                                                            {
+                                                                <p style="margin-bottom: 0px;">@item</p>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="mt-5" style="margin-top:3rem; ">
+
+
+                            <div class="font-18" style="font-size:18px"><strong style="font-weight:bolder">@Localize.Show("HOTEL_CONDITION")</strong></div>
+                            <div class="card" style="-ms-flex-direction:column; background-clip:border-box; background-color:#fff; border:1px solid rgba(0, 0, 0, 0.125); border-radius:0.25rem;  flex-direction:column; min-width:0; position:relative; word-wrap:break-word" bgcolor="#ffffff">
+                                
+                                <div class="card-body" style="-ms-flex:1 1 auto; flex:1 1 auto; padding:1.25rem">
+                                    @if (Model.hotelInformation.roomInformation.rate != null)
+                                    {
+                                        <div class="card" style="-ms-flex-direction:column; background-clip:border-box; background-color:#fff; border:1px solid rgba(0, 0, 0, 0.125); border-radius:0.25rem;  flex-direction:column; min-width:0; position:relative; word-wrap:break-word" bgcolor="#ffffff">
+                                            <div class="card-header" id="headingb7466d43-6459-407b-8216-f2759958e9db" style="background-color:rgba(0, 0, 0, 0.03); border-bottom:1px solid rgba(0, 0, 0, 0.125); margin-bottom:0; padding:0; border-radius:calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0" bgcolor="rgba(0, 0, 0, 0.03)">
+                                                <div class="mb-0" style="margin-bottom:0">
+                                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseb7466d43-6459-407b-8216-f2759958e9db" aria-expanded="false" aria-controls="collapseb7466d43-6459-407b-8216-f2759958e9db" style="border-radius:0.25rem; font-family:inherit; font-size:12px; line-height:1.5; margin:0; overflow:visible; text-transform:none; -webkit-appearance:button; -moz-user-select:none; -ms-user-select:none; -webkit-user-select:none; border:1px solid transparent; display:inline-block; font-weight:400; padding:0.375rem 0.75rem; text-align:left; transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; user-select:none; vertical-align:middle; white-space:normal; background-color:transparent; color:#007bff; word-wrap:break-word" align="left" valign="middle">
+                                                        
+                                                        <strong><i class="far fa-caret-square-down"></i>  @Model.hotelInformation.roomInformation.roomName (x @Model.searchDetail.rooms.Count)</strong>
+                                                        
+
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div id="collapseb7466d43-6459-407b-8216-f2759958e9db" class="collapse" aria-labelledby="headingb7466d43-6459-407b-8216-f2759958e9db" data-parent="#SINSIN">
+                                                <div class="card-body" style="-ms-flex:1 1 auto; flex:1 1 auto; padding:1.25rem; font-size:12px">
+                                                    
+                                                    @if (Model.hotelInformation.roomInformation.rate.cancellationPolicies != null && Model.hotelInformation.roomInformation.rate.cancellationPolicies.Count > 0)
+                                                    {
+                                                        <p style="margin-bottom: 0px;">@Localize.Show("FREE_CANCELLATION_BEFORE") @Model.hotelInformation.roomInformation.rate.cancellationPolicies.Min(x => x.fromDate).ToString("dd MMM yyyy", ci)</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p style="margin-bottom: 0px;">@Localize.Show("NON_REFUNDABLE")</p>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-head-bg text-center" style="width:100%; text-align:center" width="100%" align="center">
+                <a href="@(WebContent.bookingWeb)HFPackage/Voucher/@Model.bookingKeyReference" style="background-color: #0393cd; color: #ffffff; padding: 18px; font-size:20px; border-radius: 10px; text-decoration:none;">
+                    @Localize.Show("MANAGE_BOOKING")
+                </a>
+                <br />
+                <br />
+                <br />
+                <br />
+                <a href="@WebContent.mainWeb" style="text-decoration:none;">
+                    @switch (DateTime.Now.Second % 3)
+                    {
+                        case 0:
+                            <img src="@(WebContent.bookingWeb)Images/moreH.jpg" />
+                            break;
+                        case 1:
+                            <img src="@(WebContent.bookingWeb)Images/moreF.jpg" />
+                            break;
+                        case 2:
+                            <img src="@(WebContent.bookingWeb)Images/moreT.jpg" />
+                            break;
+                    }
+                </a>
+            </div>
+            <br />
+            <br />
+        </div>

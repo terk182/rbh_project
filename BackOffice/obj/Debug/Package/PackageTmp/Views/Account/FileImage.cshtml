@@ -1,0 +1,65 @@
+﻿@model DataModel.NFT_Voucher
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FileImage</title>
+</head>
+<body style="padding:0px; margin:0; height:100%;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    @if (Model != null)
+    {
+        <div style="padding:0px">
+            <div style="width:800px;height:500px;">
+                <div style="background-image:url('@(System.Configuration.ConfigurationManager.AppSettings["booking_URL"].ToString())images/NFT-BG/NFT-TICKET@(Model.NFTType=="S"?"6":"4").png');width: 100%;height: 100%;background-size: cover;">
+                    <div style="position:relative;width:100%;height:100%;">
+                        <div style="position: absolute;color: #FFF;top: 0;left: 0;padding-left:80px;padding-top:70px;">
+                            <table>
+                                <tr>
+                                    <td colspan="3" style="font-size:40px;line-height: 40px;font-weight:bold;">
+                                        @(Model.NFTNameZone)
+                                    </td>
+                                </tr>
+                                <tr><td colspan="3" style="height:5px;"></td></tr>
+                                <tr>
+                                    <td>Trip Type</td>
+                                    <td>:</td>
+                                    <td style="line-height:15px;"> @(Model.TripType == "O" ? "Oneway" : "Roundtrip")</td>
+                                </tr>
+                                <tr><td colspan="3" style="height:5px;"></td></tr>
+                                <tr><td>RBD</td><td>:</td><td style="line-height:15px;"> @(Model.RBD)</td></tr>
+                                <tr><td colspan="3" style="height:5px;"></td></tr>
+                                <tr><td>Booking</td><td>:</td><td style="line-height:15px;"> @(String.Format("{0} - {1}", Model.BookingStartDate.Value.ToString("dd MMM yyyy"), Model.BookingFinishDate.Value.ToString("dd MMM yyyy")))</td></tr>
+                                <tr><td colspan="3" style="height:5px;"></td></tr>
+                                <tr><td>Travel</td><td>:</td><td style="line-height:15px;"> @(String.Format("{0} - {1}", Model.TravelStartDate.Value.ToString("dd MMM yyyy"), Model.TravelFinishDate.Value.ToString("dd MMM yyyy")))</td></tr>
+                            </table>
+
+                        </div>
+                        <div style="top: 0;right: 0;position: absolute;color: #000;padding-right: 63px;padding-top: 80px;"><img src="//ai-r-logo.azurewebsites.net/square/@(Model.AirlineCode).png" /></div>
+                        <div style="bottom: 0;right: 0;position: absolute;color: #000;padding-right: 63px;padding-bottom: 180px;font-weight: bold;">
+                            @(Model.NFTType=="P" ? "PREMUIM" : "STANDARD")
+                        </div>
+                        <div style="bottom: 0;left: 0;padding-left:80px;position: absolute;color: #000;padding-bottom: 68px;font-size:30px;color:#FFF;">
+                            @{
+                                string BookingClass = "";
+                                switch (Model.BookingClass)
+                                {
+                                    case "Y": BookingClass = "ECONOMY CLASS"; break;
+                                    case "P": BookingClass = "PREMIUM ECONOMY CLASS"; break;
+                                    case "C": BookingClass = "BUSINESS CLASS"; break;
+                                    case "F": BookingClass = "FIRST CLASS"; break;
+                                }
+                                <span>@BookingClass</span>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</body>
+</html>

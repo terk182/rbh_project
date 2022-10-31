@@ -1,0 +1,209 @@
+﻿@model List<BL.Entities.Member.MainProFile>
+@{
+    BL.Entities.Member.GogojiiUser user = MemberUI.GetUser();
+}
+
+<div class="row">
+    <div class="col-md-3 d-none d-md-block" id="menu-div">
+        <div class="list-group list-group-flush">
+            <a href="@Url.Action("MProfile", "Member")" class="list-group-item list-group-item-action font-14 member-list">
+                <img src="~/Images/member/Profile_black.png" class="icon-member" /> @Localize.Show("PROFILE")
+            </a>
+            <a href="@Url.Action("MyTrip", "Member")" class="list-group-item list-group-item-action font-14 member-list ">
+                <img src="~/Images/member/Flag_black.png" class="icon-member" /> @Localize.Show("MY_TRIP")
+            </a>
+            <a href="@Url.Action("Companion", "Member")" class="list-group-item list-group-item-action font-14 member-list  member-list-active">
+
+                <img src="~/Images/member/Passenger_brown.png" class="icon-member" /> @Localize.Show("COMPANION")
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-12 d-block d-md-none d-lg-none d-xl-none">
+        <div class="dropdown show">
+            <a class="btn btn-outline-warning dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 100%">
+                <img src="~/Images/member/Passsenger_black.png" class="icon-member" /> @Localize.Show("COMPANION")
+            </a>
+            <div id="memberMenuDropdown" class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 100%">
+                <a href="@Url.Action("MProfile", "Member")" class="dropdown-item">
+                    <img src="~/Images/member/Profile_black.png" class="icon-member" /> @Localize.Show("PROFILE")
+                </a>
+                <a href="@Url.Action("MyTrip", "Member")" class="dropdown-item">
+                    <img src="~/Images/member/Flag_black.png" class="icon-member" /> @Localize.Show("MY_TRIP")
+                </a>
+            </div>
+        </div>
+        <br />
+    </div>
+    <div class='col-md-9 col-sm-12' id="member-div">
+        <div class="font-18">
+            <strong>@Localize.Show("COMPANION")</strong>
+        </div>
+
+        <br />
+        <div class="card">
+            <div class="card-body text-center">
+                <div style="cursor:pointer" onclick="openModal('@Url.Action("CompanionDetail", "Member", new { id = 0 })')">
+                    <img src="~/Images/member/add.png" /> @Localize.Show("ADD_COMPANION_MESSAGE")
+                </div>
+            </div>
+        </div>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <br />
+            <div class="card @(i % 2 == 1 ? "bg-light" : "")">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-6">
+                            <div class="font-16 text-orange">
+                                <strong>@Model[i].MyProFile[0].TitleName @Model[i].MyProFile[0].FirstName @Model[i].MyProFile[0].MiddleName @Model[i].MyProFile[0].LastName</strong>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-6">
+                            <img src="~/Images/member/Birthday.png" /> @(Model[i].MyProFile[0].DateOfBirth == DateTime.Today ? "" : Model[i].MyProFile[0].DateOfBirth.ToString("dd'/'MM'/'yyyy"))
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-6">
+                            <img src="~/Images/member/email2.png" /> @Model[i].MyProFile[0].Email
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-6">
+                            <img src="~/Images/member/phone2.png" /> @Model[i].MyProFile[0].Phone
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-12 text-right">
+                            <img src="~/Images/member/Edit.png" />
+
+                            <a href="javascript:openModal('@Url.Action("CompanionDetail", "Member", new { id = Model[i].MyProFile[0].ID })')">@Localize.Show("EDIT")</a>
+                            <img src="~/Images/member/Bin.png" style="height: 15px; margin-left: 15px;" />
+                            <a href="javascript:deleteCompanion('@(Model[i].MyProFile[0].ID)','@Model[i].MyProFile[0].TitleName @Model[i].MyProFile[0].FirstName @Model[i].MyProFile[0].MiddleName @Model[i].MyProFile[0].LastName')">@Localize.Show("DELETE")</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<div id="companionModal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-content-comp">
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="deleteID" value="" />
+<div class="modal " id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div>
+                    <div class="text-center">
+                        <img src="~/Images/guint_confuse.png" />
+                        <br />
+                        <strong class="font-18">@Localize.Show("CONFIRM")</strong>
+                        <br />
+                        <span class="font-12">@Localize.Show("DELETE_COMPANION_CONFIRM") <span id="deleteName"></span>?</span>
+                    </div>
+                    <table style="border-spacing: 10px; border-collapse: separate; width:100%">
+                        <tr>
+                            <td style="width:50%">
+                                <button class="btn cust-btn search-btn" type="button" id="memberDelete">
+                                    <strong>@Localize.Show("YES")</strong>
+                                </button>
+                            </td>
+                            <td style="width:50%">
+                                <button class="btn cancel-btn search-btn" type="button" data-dismiss="modal">
+                                    <strong>@Localize.Show("CANCEL")</strong>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+
+
+    <script>
+
+        var setModalScript = function () {
+
+            $('#MyProFile_0__TitleName').val($('#title').val());
+            $('#MyProFile_MileMember_0__MileAirline').val($('#FFA').val());
+
+            var birthday = $('.birthday').datepicker({
+                language: $('#web_lang').val(),
+                maxDate: new Date(),
+                autoClose: true,
+                toggleSelected: false,
+                view: 'years'
+            });
+            $(".birthday").on('keydown paste', function (e) {
+                e.preventDefault();
+            });
+
+            $('#BDAY').val($('#tBDAY').val());
+
+            $(".only-text").keypress(function (event) {
+                var ew = event.which;
+                //if (ew == 32) //space
+                //    return true;
+                if (65 <= ew && ew <= 90)
+                    return true;
+                if (97 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+            $(".tel-number-text").keypress(function (event) {
+                var ew = event.which;
+                if (ew == 35)
+                    return true;
+                if (ew == 42)
+                    return true;
+                if (ew == 43)
+                    return true;
+                if (48 <= ew && ew <= 57)
+                    return true;
+                return false;
+            });
+            $(".email-text").keypress(function (event) {
+                var ew = event.which;
+                if (ew == 45) //-
+                    return true;
+                if (ew == 46) //.
+                    return true;
+                if (ew == 95) //_
+                    return true;
+                if (ew == 64) //at
+                    return true;
+                if (48 <= ew && ew <= 57)
+                    return true;
+                if (65 <= ew && ew <= 90)
+                    return true;
+                if (97 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+        };
+
+        var openModal = function (url) {
+            $('.modal-content-comp').load(url, function () {
+                $('#companionModal').modal({ show: true });
+                setModalScript();
+            });
+        };
+
+        var deleteCompanion = function (id, name) {
+            $('#deleteID').val(id);
+            $('#deleteName').html(name);
+            $('#deleteModal').modal({ show: true });
+        };
+
+        $('#memberDelete').click(function() {
+            window.location.href = '@Url.Action("CompanionDelete")' + '/' + $('#deleteID').val();
+        });
+    </script>
+}

@@ -1,0 +1,1384 @@
+﻿@model BL.Entities.HFGetFlight.Response
+@section styles
+{
+    <link href="~/Content/flights/result.css?@(DateTime.Now.ToString("ddMMyyhhmmss"))" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.structure.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jRange/jquery.range.css" rel="stylesheet" />
+    <style>
+
+        #searchBox {
+            padding: 20px;
+            background-color: #FAA90D;
+        }
+
+        .badge-light {
+            background-color: #ECF2FF;
+        }
+    </style>
+}
+@{
+
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang().ToLower() == "th" ? "th-TH" : "en-US");
+    GogojiiWeb.Models.HotelFlightSearchModel searchModel = (GogojiiWeb.Models.HotelFlightSearchModel)ViewBag.SearchModel;
+}
+
+@section width100head
+{
+
+    <div class="d-none d-md-block" id="searchBox">
+        @Html.Partial("~/Views/HFPackage/SearchBox.cshtml", searchModel)
+        <br />
+    </div>
+}
+
+<div class="container container-flight" id="loading">
+    <div class="row">
+        <div class="col-md-3 d-none d-md-block" style="padding: 10px;">
+            <div class="flight-box">
+                <div class="font-24"><strong>@Localize.Show("FILTER")</strong></div>
+                <div class="loader">Loading...</div>
+            </div>
+        </div>
+        <div class='col-md-9 col-sm-12'>
+            <div class="flight-box text-center">
+                <img src="~/Images/waiting.gif" style="vertical-align:middle; width: 120px;" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container container-flight" id="error" style="display: none;">
+    <div class="text-center">
+        <h4>Flight not found!!</h4>
+    </div>
+</div>
+<div class="container container-flight" id="result" style="display: none;">
+    <div class='row'>
+        <div class="col-md-3 col-sm-12 d-block d-md-none d-lg-none d-xl-none text-right">
+            <button type="button" class="btn btn-outline-warning" id="mobileFilter" style="width: 48%">
+                <strong><i class="fas fa-filter"></i> @Localize.Show("FILTER")</strong>
+            </button>
+            <button type="button" class="btn btn-outline-warning" id="mobileSearch" style="width: 48%">
+                <strong><i class="fas fa-search"></i> @Localize.Show("CHANGE_SEARCH")</strong>
+            </button>
+            <button type="button" class="btn btn-warning" id="mobileCloseFilter" style="display: none;">
+                @Localize.Show("APPLY")
+            </button>
+            <br />
+            <br />
+        </div>
+        <div class="col-md-3 col-md-3-go col-sm-12 d-none d-md-block" id="filter-div" style="padding-right: 30px;">
+            <div class="flight-box" style="padding: 10px;">
+                <div class="font-24 d-none d-md-block"><strong>@Localize.Show("FILTERS")</strong></div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mb-2 font-weight-bold">@Localize.Show("AIRLINES")</div>
+                    </div>
+                    <div class="col-6 text-right font-12">
+                        @Localize.Show("From")
+                    </div>
+                </div>
+                <div data-bind="foreach: fileterAirlines">
+                    <div class="abc-checkbox abc-checkbox-info abc-checkbox-circle">
+                        <input class="styled" type="checkbox" value="" data-bind="checkedValue: code, checked: $parent.selectedAirlines, attr: { id: 'filter_' + code }">
+                        <label class="font-12" data-bind="attr: { for: 'filter_' + code }" style="width: 90%">
+                            <img style="vertical-align:middle; height: 15px;" class="img-fluid" data-bind="attr:{src: getAirLogoSquareLink(code)}" />
+                            <strong data-bind="text: name"></strong>
+                            <div class="row font-12">
+                                <div class="col-6 text-muted">
+
+                                    <span data-bind="text: results" style="margin-left: 20px;"></span> results
+                                </div>
+                                <div class="col-6 text-right font-weight-bold">
+                                    +@Currency.GetCurrency() <span data-bind="text: formatWOCurrency(minPrice)"></span>
+                                </div>
+                            </div>
+                        </label>
+
+                    </div>
+                    <hr class="mt-2 mb-2" />
+                </div>
+                <br />
+                <div class="mb-2  font-weight-bold">Add-on Price</div>
+                <div class="slider-box">
+                    <input type="hidden" class="slider-price" value="0,100" />
+                    @*<div id="slider-price"></div>*@
+                    <div class="row">
+                        <div class="col-6">
+                            <span class="font-12" data-bind="text: '+' + formatCurrency(filterPrice()[0])"></span>
+                        </div>
+                        <div class="col-6 text-right">
+                            <span class="font-12" data-bind="text: '+' + formatCurrency(filterPrice()[1])"></span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-2 mb-2" />
+                <br />
+                <div class="mb-2 font-weight-bold">@Localize.Show("STOP_POINT")</div>
+                <div data-bind="foreach: filterStops">
+                    <div class="abc-checkbox abc-checkbox-info abc-checkbox-circle">
+                        <input class="styled" type="checkbox" value="" data-bind="checkedValue: id, checked: $parent.selectedStops, attr: { id: 'stop_' + id }">
+                        <label class="font-12" data-bind="attr: { for: 'stop_' + id }">
+                            <strong data-bind="text: name"></strong>
+                            <div class="text-muted">
+                                <span data-bind="text: results"></span> results
+                            </div>
+                        </label>
+                    </div>
+                    <hr class="mt-2 mb-2" />
+                </div>
+                <br />
+                <div class="mb-2 font-weight-bold">@Localize.Show("DEPARTURE_TIME")</div>
+                <div class="slider-box">
+                    <input type="hidden" class="slider-dep" value="0,100" />
+                    @*<div id="slider-dep"></div>*@
+                    <div class="row">
+                        <div class="col-6">
+                            <span class="font-12" data-bind="text: formatIntToTime(filterDep()[0])"></span>
+                        </div>
+                        <div class="col-6 text-right">
+                            <span class="font-12" data-bind="text: formatIntToTime(filterDep()[1])"></span>
+                        </div>
+                    </div>
+                </div>
+                @if ("R" == "R")
+                {
+                    <hr class="mt-2 mb-2" />
+                    <br />
+                    <div class="mb-2 font-weight-bold">@Localize.Show("RETURN_TIME")</div>
+                    <div class="slider-box">
+                        <input type="hidden" class="slider-ret" value="0,100" />
+                        @*<div id="slider-ret"></div>*@
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="font-12" data-bind="text: formatIntToTime(filterRet()[0])"></span>
+                            </div>
+                            <div class="col-6 text-right">
+                                <span class="font-12" data-bind="text: formatIntToTime(filterRet()[1])"></span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <hr class="mt-2 mb-2" />
+                <br />
+                <div class="mb-2 font-weight-bold">@Localize.Show("DEPARTURE_AIRPORT")</div>
+                <div data-bind="foreach: filterDepAirport">
+                    <div class="abc-checkbox abc-checkbox-info abc-checkbox-circle">
+                        <input class="styled" type="checkbox" value="" data-bind="checkedValue: code, checked: $parent.selectedDepAirport, attr: { id: 'depa_' + code }">
+                        <label class="font-12" data-bind="attr: { for: 'depa_' + code }">
+                            <strong>
+                                <span data-bind="text: name"></span> (<span data-bind="text: code"></span>)
+                            </strong>
+                            <div class="text-muted">
+                                <span data-bind="text: results"></span> results
+                            </div>
+                        </label>
+                    </div>
+                    <hr class="mt-2 mb-2" />
+                </div>
+                <br />
+                <div class="mb-2 font-weight-bold">@Localize.Show("ARRIVAL_AIRPORT")</div>
+                <div data-bind="foreach: filterArrAirport">
+                    <div class="abc-checkbox abc-checkbox-info abc-checkbox-circle">
+                        <input class="styled" type="checkbox" value="" data-bind="checkedValue: code, checked: $parent.selectedArrAirport, attr: { id: 'arra_' + code }">
+                        <label class="font-12" data-bind="attr: { for: 'arra_' + code }">
+                            <strong>
+                                <span data-bind="text: name"></span> (<span data-bind="text: code"></span>)
+                            </strong>
+                            <div class="text-muted">
+                                <span data-bind="text: results"></span> results
+                            </div>
+                        </label>
+                    </div>
+                    <hr class="mt-2 mb-2" />
+                </div>
+            </div>
+        </div>
+        <div class='col-md-9 col-md-9-go col-sm-12' id="flight-list-div">
+            <div class="row">
+                <div class="col-12">
+                    <div class="text-right font-12">
+                        <table style="margin-right: 0px;margin-left: auto;">
+                            <tr>
+                                <td class="font-weight-bold font-14">@Localize.Show("SORT_BY")</td>
+                                <td>
+                                    <select id="sortBy" class="form-control form-control-sm " style="border: none; background-color:#ECF2FF" data-bind="options: sorting,
+                       optionsText: 'text',
+                       optionsValue: 'value',
+                       value: selectedSort"></select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="flight-box mt-2 mb-2 d-none d-md-block" data-bind="foreach: firstRecord">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="font-18 text-blue ml-3">@Localize.Show("TRIP_DETAIL")</div>
+                    </div>
+                    <div class="col-6 text-right">
+                        <div class="font-18  mr-3">
+                            <span class="font-14">@Currency.GetCurrency()</span>  <strong class="ml-1 text-blue">
+                                @Model.totalPackagePriceStart.ToString("N2")
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="ml-3 mr-3">
+                            @searchModel.getTotalPax() @Localize.Show("FLIGHT_TICKETS") + @Localize.Show("HOTEL") @searchModel.night @Localize.Show("NIGHTS"), @Localize.Show("TAX_INCLUDED")
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="ml-3 mr-3">
+
+                            <table class="w-100">
+                                <tr>
+                                    <td style="width: 180px;">
+                                        @if (Model.hotelInformation.hotelSource == "EXT")
+                                        {
+                                            <img src="@ViewBag.hotelExtURL/@(Model.hotelInformation.defaultImage)" style="width: 160px;" />
+                                        }
+                                        else
+                                        {
+                                            <img src="//photos.hotelbeds.com/giata/@(Model.hotelInformation.defaultImage)" style="width: 160px;" />
+                                        }
+                                    </td>
+                                    <td valign="top">
+                                        <strong class="font-16">
+                                            <img src="~/Images/icon_gogo/hotel.svg" style="height:16px; margin-right: 10px;" />
+                                            @Model.hotelInformation.hotelName
+                                        </strong>
+                                        <div class="font-12">
+                                            @Model.hotelInformation.roomInformation.roomName - @Model.hotelInformation.roomInformation.rate.boardName
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-bind="fastForEach: filteredBox">
+                <form action="@Url.Action("SelectFlight", "HFPackage")" method="get" data-bind="attr:{id: ('form_' + id), name: ('form_' + id)}">
+                    <div class="flight-box flight-main flight-box-top" data-bind="attr:{style: ($index() >= 30 && !showAll ? 'display: none' : ''), id: 'fb_' + $index()}" >
+                        <div class="head toggle-flight" data-bind="attr:{id: id, onclick: printOpenPBoxFn(id)}">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div style="margin-top: 20px;">
+                                        <img style="vertical-align:middle; height: 37px;" class="img-fluid ml-3" data-bind="attr:{src: getAirLogoSquareLink(mainAirline.code)}" />
+                                        <span data-bind="text: mainAirline.name"></span>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-connection text-right" style="padding-right: 30px; padding-top: 16px;">
+                                    <div class="adt-price mr-3">
+                                        <span class="font-14">+@Currency.GetCurrency()</span> <span class="adt-price text-blue" data-bind="text: formatWOCurrency(addOnPrice)"></span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="margin-left: 9px; margin-right: 9px;" />
+
+                        <input id="price" name="price" type="hidden" data-bind="attr: { value: addOnPrice }">
+                        <input id="hotelSource" name="hotelSource" type="hidden" value="@Model.hotelInformation.hotelSource" />
+                        <input id="searchKey" name="searchKey" type="hidden" value="@Model.searchKey" />
+                        <input id="rateKey" name="rateKey" type="hidden" value="@Model.hotelInformation.roomInformation.rate.rateKey" />
+                        <div class="flight-time-table">
+                            <div class="table-flight-head">
+                                <img src="~/Images/icon_gogo/dep_flight_icon_black.svg" /> @Localize.Show("SELECT_DEPARTURE_FLIGHT") @searchModel.destinationName @Model.searchDetail.flightDepartDate.ToString("ddd, dd MMM", ci) @Model.searchDetail.flightDepartDate.ToString("yyyy")
+                            </div>
+                            <table class="table-flight" data-bind="attr:{id: ('D_' + id)}">
+                                <tbody data-bind="foreach: departureFlight">
+                                    <tr data-bind="attr:{id: 'D_' +$parent.id + '_' + $index(), onClick: 'clickFlight(\'' + 'D_' + $parent.id + '_' + $index() + '\')'}">
+                                        <td style="width: 15px; padding-top: 20px" valign="top">
+                                            <label class="radio" style="margin-right: 2px;">
+                                                <!-- ko if: $parent.departureFlight.length == 1 -->
+                                                <input type="radio" name="S1" data-bind="attr: {value: bookingCode, onClick: 'clickFlight(\'' + 'D_' + $parent.id + '_' + $index() + '\')', id: 'rad_D_' + $parent.id + '_' + $index(), class: 'D_' + $parent.id}" checked />
+                                                <!-- /ko -->
+                                                <!-- ko if: $parent.departureFlight.length > 1 -->
+                                                <input type="radio" name="S1" data-bind="attr: {value: bookingCode, onClick: 'clickFlight(\'' + 'D_' + $parent.id + '_' + $index() + '\')', id: 'rad_D_' + $parent.id + '_' + $index(), class: 'D_' + $parent.id}" />
+                                                <!-- /ko -->
+                                                <span class="checkround-blue"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <div data-bind="attr:{id: 'DB_' +$parent.id + '_' + $index(),  class: ($parent.departureFlight.length == 1 ? 'flight-box table-flight-tr  table-flight-tr-select' : 'flight-box table-flight-tr ')}">
+                                                <div>
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-4 col-12">
+                                                            <div>
+                                                                <strong><span data-bind="text: flightDetails[0].airline.code + ' ' + flightDetails[0].flightNumber"></span></strong>
+                                                                <span>
+                                                                    @searchModel.svc_class_name
+                                                                </span>
+                                                            </div>
+                                                            <div>
+                                                                <span data-bind="text: flightDetails[0].airline.name" class="text-muted"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-8 col-12">
+                                                            <table style="width: 100%">
+                                                                <tr>
+                                                                    <td><span class="font-weight-bold font-16" data-bind="html: timeSpace(flightDetails[0].depDisplayDateTime.displayTime)"></span></td>
+                                                                    <td class="text-center font-10">
+                                                                        <span data-bind="text: getDuration(totalTime)" class="mr-2 ml-2"></span>
+
+                                                                        <!-- ko if: flightDetails.length == 1 -->
+                                                                        <span>@Localize.Show("NO_STOP").ToLower()</span>
+                                                                        <!-- /ko -->
+                                                                        <!-- ko if: flightDetails.length == 2 -->
+                                                                        <span data-bind="text: (flightDetails.length - 1)"></span>
+                                                                        <span>@Localize.Show("STOP").ToLower()</span>
+                                                                        <!-- /ko -->
+                                                                        <!-- ko if: flightDetails.length > 2 -->
+                                                                        <span data-bind="text: (flightDetails.length - 1)"></span>
+                                                                        <span>@Localize.Show("STOPS").ToLower()</span>
+                                                                        <!-- /ko -->
+                                                                    </td>
+                                                                    <td class="text-right"><span class="font-weight-bold font-16" data-bind="html: timeSpace(flightDetails[flightDetails.length - 1].arrDisplayDateTime.displayTime)"></span></td>
+                                                                </tr>
+                                                            </table>
+                                                            <table style="width: 100%">
+                                                                <tr data-bind="foreach: flightDetails">
+                                                                    <!-- ko if: $index() == 0 -->
+                                                                    <td style="width:25px">
+                                                                        <span class="badge badge-pill badge-light font-10" data-bind="text: depCity.code"></span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div data-bind="attr: { class: ($parent.flightDetails.length == 1 ? 'blue-line' : 'green-line')}"></div>
+                                                                    </td>
+                                                                    <!-- /ko -->
+                                                                    <!-- ko if: $index() != 0 -->
+                                                                    <td>
+                                                                        <div data-bind="attr: { class: ($parent.flightDetails.length == 1 ? 'blue-line' : 'green-line')}"></div>
+                                                                    </td>
+                                                                    <!-- /ko -->
+                                                                    <td style="width:25px">
+                                                                        <span class="badge badge-pill badge-light font-10" data-bind="text: arrCity.code"></span>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <table style="width: 100%" class="text-muted">
+                                                                <tr>
+                                                                    <td>
+                                                                        <span>
+                                                                            <span data-bind="text: getOnlyAirport(flightDetails[0].depCity.name)"></span>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td class="text-right">
+                                                                        <span>
+                                                                            <span data-bind="text: getOnlyAirport(flightDetails[flightDetails.length - 1].arrCity.name)"></span>
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-6 col-12 text-right">
+                                                            <!-- ko if: flightDetails[0].availableSeat <= 6 -->
+                                                            <div class="connection-red-text"> <span data-bind="text: flightDetails[0].availableSeat"></span> @Localize.Show("LAST_SEATS")</div>
+                                                            <!-- /ko -->
+                                                            <div class="flight-see-more" onclick="seemore(this.id);" data-bind="attr:{id: 'Seemore_DB_' +$parent.id + '_' + $index()}">
+                                                                @Localize.Show("SEE_MORE")
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div data-bind="attr:{id: 'Detail_DB_' +$parent.id + '_' + $index()}" style="display: none">
+                                                        <hr />
+                                                        <div data-bind="foreach: flightDetails">
+
+                                                            <div class="row font-12">
+                                                                <div class="col-lg-4 col-6 mb-1">
+                                                                    <img style="vertical-align:middle; height: 20px; margin-left: 13px;" class="img-fluid " data-bind="attr:{src: getAirLogoSquareLink(airline.code)}" />
+                                                                    <span data-bind="text: airline.name"></span>
+                                                                    <!-- ko if: operatedAirline.code != airline.code -->
+                                                                    <div class="font-10 mt-2 ml-3">
+                                                                        <i>
+                                                                            @Localize.Show("OPERATED_BY") <img style="vertical-align:middle; height: 16px;" class="img-fluid ml-1" data-bind="attr:{src: getAirLogoSquareLink(operatedAirline.code)}" /> <span data-bind="text: operatedAirline.name"></span>
+                                                                        </i>
+                                                                    </div>
+                                                                    <!-- /ko -->
+                                                                </div>
+                                                                <div class="col-lg-4 col-6 mb-1">
+                                                                    <strong data-bind="text: airline.code"></strong>
+                                                                    <strong data-bind="text: flightNumber"></strong>
+                                                                    (<span data-bind="text: rbd"></span>)
+                                                                </div>
+                                                                <div class="col-lg-4 col-6 mb-1">
+                                                                    <span data-bind="text: equipmentTypeName"></span>
+
+                                                                </div>
+                                                            </div>
+                                                            <table class="w-100 ml-3 vert-flight">
+                                                                <tr>
+                                                                    <td style="width: 30%">
+                                                                        <strong data-bind="text: depDisplayDateTime.shortDate"></strong>
+                                                                        <strong data-bind="text: depDisplayDateTime.displayTime"></strong>
+                                                                    </td>
+                                                                    <td style="width: 30px" rowspan="3">
+                                                                        <!-- ko if: $parent.flightDetails.length == 1 -->
+                                                                        <img src="~/Images/icon_gogo/vert-blue-line.svg" style="height: 40%" />
+                                                                        <!-- /ko -->
+                                                                        <!-- ko if: $parent.flightDetails.length > 1 -->
+                                                                        <img src="~/Images/icon_gogo/vert-green-line.svg" style="height: 40%" />
+                                                                        <!-- /ko -->
+                                                                    </td>
+                                                                    <td style="width: 90px">
+                                                                        <strong data-bind="text: depCity.code"></strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        <strong data-bind="text: depCity.name"></strong>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                        <!-- ko if: depCity.terminal != null -->
+                                                                        Terminal <span data-bind="text: depCity.terminal"></span>
+                                                                        <!-- /ko -->
+                                                                        <br />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong data-bind="text: arrDisplayDateTime.shortDate"></strong>
+                                                                        <strong data-bind="text: arrDisplayDateTime.displayTime"></strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        <strong data-bind="text: arrCity.code"></strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        <strong data-bind="text: arrCity.name"></strong>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                        <!-- ko if: arrCity.terminal != null -->
+                                                                        Terminal <span data-bind="text: arrCity.terminal"></span>
+                                                                        <!-- /ko -->
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <div class="ml-3">
+
+                                                                <!-- ko if: inFlightServices.wifiInternet == true -->
+
+                                                                <img src="~/Images/icon_gogo/Wifi.svg" style="height: 20px; margin-bottom: 3px;" />
+                                                                <span class="text-blue mr-3">Wifi Internet</span>
+                                                                <!-- /ko -->
+                                                                <!-- ko if: inFlightServices.inSeatPower == true -->
+                                                                <img src="~/Images/icon_gogo/Power.svg" style="height: 20px; margin-bottom: 3px;" />
+                                                                <span class="text-blue mr-3">In-seat power</span>
+                                                                <!-- /ko -->
+                                                                <!-- ko if: inFlightServices.inflightEntertain == true -->
+                                                                <img src="~/Images/icon_gogo/Entertainment.svg" style="height: 20px; margin-bottom: 3px;" />
+                                                                <span class="text-blue mr-3">In-flight Entertainment</span>
+                                                                <!-- /ko -->
+                                                                <!-- ko if: inFlightServices.dutyFreeSale == true -->
+                                                                <img src="~/Images/icon_gogo/DutyFree.svg" style="height: 20px; margin-bottom: 3px;" />
+                                                                <span class="text-blue mr-3">Duty free sale</span>
+                                                                <!-- /ko -->
+                                                            </div>
+
+                                                            <!-- ko if: connectingTime != "0" -->
+                                                            <hr />
+                                                            <strong data-bind="text: getDuration(connectingTime)" class="mr-2 ml-2"></strong> <strong class="mr-5 ml-2">@Localize.Show("STOP")</strong>
+                                                            <span data-bind="text: arrCity.name"></span>
+
+                                                            <hr />
+                                                            <!-- /ko -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+
+                            @if ("R" == "R")
+                            {
+                                <div class="table-flight-head">
+                                    <img src="~/Images/icon_gogo/arr_flight_icon_black.svg" />
+                                    @Localize.Show("SELECT_RETURN_FLIGHT") @searchModel.originName @Model.searchDetail.flightReturnDate.ToString("ddd, dd MMM", ci) @Model.searchDetail.flightReturnDate.ToString("yyyy")
+                                </div>
+                                <table class="table-flight" data-bind="attr:{id: ('R_' + id)}">
+                                    <tbody data-bind="foreach: returnFlight">
+                                        <tr data-bind="attr:{id: 'R_' +$parent.id + '_' + $index(), onClick: 'clickFlight(\'' + 'R_' + $parent.id + '_' + $index() + '\')'}">
+                                            <td style="width: 15px; padding-top: 20px" valign="top">
+                                                <label class="radio" style="margin-right: 2px;">
+                                                    <!-- ko if: $parent.returnFlight.length == 1 -->
+                                                    <input type="radio" name="S2" data-bind="attr: {value: bookingCode, onClick: 'clickFlight(\'' + 'R_' + $parent.id + '_' + $index() + '\')', id: 'rad_R_' + $parent.id + '_' + $index(), class: 'R_' + $parent.id }" checked />
+                                                    <!-- /ko -->
+                                                    <!-- ko if: $parent.returnFlight.length > 1 -->
+                                                    <input type="radio" name="S2" data-bind="attr: {value: bookingCode, onClick: 'clickFlight(\'' + 'R_' + $parent.id + '_' + $index() + '\')', id: 'rad_R_' + $parent.id + '_' + $index(), class: 'R_' + $parent.id }" />
+                                                    <!-- /ko -->
+                                                    <span class="checkround-blue"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <div data-bind="attr:{id: 'RB_' +$parent.id + '_' + $index(),  class: ($parent.returnFlight.length == 1 ? 'flight-box table-flight-tr  table-flight-tr-select' : 'flight-box table-flight-tr ')}">
+                                                    <div>
+                                                        <div class="row">
+                                                            <div class="col-lg-3 col-md-4 col-12">
+                                                                <div>
+                                                                    <strong><span data-bind="text: flightDetails[0].airline.code + ' ' + flightDetails[0].flightNumber"></span></strong> <span>@searchModel.svc_class_name</span>
+                                                                </div>
+                                                                <div>
+                                                                    <span data-bind="text: flightDetails[0].airline.name" class="text-muted">
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-8 col-12">
+                                                                <table style="width: 100%">
+                                                                    <tr>
+                                                                        <td><span class="font-weight-bold font-16" data-bind="html: timeSpace(flightDetails[0].depDisplayDateTime.displayTime)"></span></td>
+                                                                        <td class="text-center font-10">
+                                                                            <span data-bind="text: getDuration(totalTime)" class="mr-2 ml-2"></span>
+
+                                                                            <!-- ko if: flightDetails.length == 1 -->
+                                                                            <span>@Localize.Show("NO_STOP").ToLower()</span>
+                                                                            <!-- /ko -->
+                                                                            <!-- ko if: flightDetails.length == 2 -->
+                                                                            <span data-bind="text: (flightDetails.length - 1)"></span>
+                                                                            <span>@Localize.Show("STOP").ToLower()</span>
+                                                                            <!-- /ko -->
+                                                                            <!-- ko if: flightDetails.length > 2 -->
+                                                                            <span data-bind="text: (flightDetails.length - 1)"></span>
+                                                                            <span>@Localize.Show("STOPS").ToLower()</span>
+                                                                            <!-- /ko -->
+                                                                        </td>
+                                                                        <td class="text-right"><span class="font-weight-bold font-16" data-bind="html: timeSpace(flightDetails[flightDetails.length - 1].arrDisplayDateTime.displayTime)"></span></td>
+                                                                    </tr>
+                                                                </table>
+                                                                <table style="width: 100%">
+                                                                    <tr data-bind="foreach: flightDetails">
+                                                                        <!-- ko if: $index() == 0 -->
+                                                                        <td style="width:25px">
+                                                                            <span class="badge badge-pill badge-light font-10" data-bind="text: depCity.code"></span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div data-bind="attr: { class: ($parent.flightDetails.length == 1 ? 'blue-line' : 'green-line')}"></div>
+                                                                        </td>
+                                                                        <!-- /ko -->
+                                                                        <!-- ko if: $index() != 0 -->
+                                                                        <td>
+                                                                            <div data-bind="attr: { class: ($parent.flightDetails.length == 1 ? 'blue-line' : 'green-line')}"></div>
+                                                                        </td>
+                                                                        <!-- /ko -->
+                                                                        <td style="width:25px">
+                                                                            <span class="badge badge-pill badge-light font-10" data-bind="text: arrCity.code"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                <table style="width: 100%" class="text-muted">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <span>
+                                                                                <span data-bind="text: getOnlyAirport(flightDetails[0].depCity.name)"></span>
+                                                                            </span>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span>
+                                                                                <span data-bind="text: getOnlyAirport(flightDetails[flightDetails.length - 1].arrCity.name)"></span>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-6 col-12 text-right">
+                                                                <!-- ko if: flightDetails[0].availableSeat <= 6 -->
+                                                                <div class="connection-red-text"> <span data-bind="text: flightDetails[0].availableSeat"></span> @Localize.Show("LAST_SEATS")</div>
+                                                                <!-- /ko -->
+                                                                <div class="flight-see-more" onclick="seemore(this.id);" data-bind="attr:{id: 'Seemore_RB_' +$parent.id + '_' + $index()}">
+                                                                    @Localize.Show("SEE_MORE")
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div data-bind="attr:{id: 'Detail_RB_' +$parent.id + '_' + $index()}" style="display: none">
+                                                            <hr />
+                                                            <div data-bind="foreach: flightDetails">
+
+                                                                <div class="row font-12">
+                                                                    <div class="col-lg-4 col-6 mb-1">
+                                                                        <img style="vertical-align:middle; height: 20px;" class="img-fluid ml-3" data-bind="attr:{src: getAirLogoSquareLink(airline.code)}" />
+                                                                        <span data-bind="text: airline.name"></span>
+                                                                        <!-- ko if: operatedAirline.code != airline.code -->
+                                                                        <div class="font-10 mt-2 ml-3">
+                                                                            <i>
+                                                                                @Localize.Show("OPERATER_BY") <img style="vertical-align:middle; height: 16px;" class="img-fluid ml-1" data-bind="attr:{src: getAirLogoSquareLink(operatedAirline.code)}" /> <span data-bind="text: operatedAirline.name"></span>
+                                                                            </i>
+                                                                        </div>
+                                                                        <!-- /ko -->
+                                                                    </div>
+                                                                    <div class="col-lg-4 col-6 mb-1">
+                                                                        <strong data-bind="text: airline.code"></strong>
+                                                                        <strong data-bind="text: flightNumber"></strong>
+                                                                        (<span data-bind="text: rbd"></span>)
+                                                                    </div>
+                                                                    <div class="col-lg-4 col-6 mb-1">
+                                                                        <span data-bind="text: equipmentTypeName"></span>
+
+                                                                    </div>
+                                                                </div>
+                                                                <table class="w-100 ml-3 vert-flight">
+                                                                    <tr>
+                                                                        <td style="width: 30%">
+                                                                            <strong data-bind="text: depDisplayDateTime.shortDate"></strong>
+                                                                            <strong data-bind="text: depDisplayDateTime.displayTime"></strong>
+                                                                        </td>
+                                                                        <td style="width: 30px" rowspan="3">
+                                                                            <img src="~/Images/icon_gogo/vert-green-line.svg" style="height: 40%" />
+                                                                        </td>
+                                                                        <td style="width: 90px">
+                                                                            <strong data-bind="text: depCity.code"></strong>
+                                                                        </td>
+                                                                        <td>
+                                                                            <strong data-bind="text: depCity.name"></strong>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                        </td>
+                                                                        <td>
+                                                                        </td>
+                                                                        <td>
+                                                                            <!-- ko if: depCity.terminal != null -->
+                                                                            Terminal <span data-bind="text: depCity.terminal"></span>
+                                                                            <!-- /ko -->
+                                                                            <br />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <strong data-bind="text: arrDisplayDateTime.shortDate"></strong>
+                                                                            <strong data-bind="text: arrDisplayDateTime.displayTime"></strong>
+                                                                        </td>
+                                                                        <td>
+                                                                            <strong data-bind="text: arrCity.code"></strong>
+                                                                        </td>
+                                                                        <td>
+                                                                            <strong data-bind="text: arrCity.name"></strong>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                        </td>
+                                                                        <td>
+                                                                        </td>
+                                                                        <td>
+                                                                        </td>
+                                                                        <td>
+                                                                            <!-- ko if: arrCity.terminal != null -->
+                                                                            Terminal <span data-bind="text: arrCity.terminal"></span>
+                                                                            <!-- /ko -->
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                <div class="ml-3">
+
+                                                                    <!-- ko if: inFlightServices.wifiInternet == true -->
+
+                                                                    <img src="~/Images/icon_gogo/Wifi.svg" style="height: 20px; margin-bottom: 3px;" />
+                                                                    <span class="text-blue mr-3">Wifi Internet</span>
+                                                                    <!-- /ko -->
+                                                                    <!-- ko if: inFlightServices.inSeatPower == true -->
+                                                                    <img src="~/Images/icon_gogo/Power.svg" style="height: 20px; margin-bottom: 3px;" />
+                                                                    <span class="text-blue mr-3">In-seat power</span>
+                                                                    <!-- /ko -->
+                                                                    <!-- ko if: inFlightServices.inflightEntertain == true -->
+                                                                    <img src="~/Images/icon_gogo/Entertainment.svg" style="height: 20px; margin-bottom: 3px;" />
+                                                                    <span class="text-blue mr-3">In-flight Entertainment</span>
+                                                                    <!-- /ko -->
+                                                                    <!-- ko if: inFlightServices.dutyFreeSale == true -->
+                                                                    <img src="~/Images/icon_gogo/DutyFree.svg" style="height: 20px; margin-bottom: 3px;" />
+                                                                    <span class="text-blue mr-3">Duty free sale</span>
+                                                                    <!-- /ko -->
+                                                                </div>
+
+                                                                <!-- ko if: connectingTime != "0" -->
+                                                                <hr />
+                                                                <strong data-bind="text: getDuration(connectingTime)" class="mr-2 ml-2"></strong> <strong class="mr-5 ml-2">@Localize.Show("STOP")</strong>
+                                                                <span data-bind="text: arrCity.name"></span>
+
+                                                                <hr />
+                                                                <!-- /ko -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                    <div class="flight-box-foot">
+                        <div class="row" style="margin-right: 0px; margin-top: 10px;">
+                            <div class="col-12 text-right">
+
+                                <img src="~/Images/icon_gogo/arrow_left.svg" class="mr-3" />
+                                <span class="font-12" style="margin-right: 25px; cursor:pointer;"
+                                      data-bind="attr:{onclick: 'farerule(\'' + id + '\')'}" onclick="farerule(this.form)">
+                                    <strong>@Localize.Show("FARE_CONDITION")</strong>
+                                </span>
+                                <button class="btn cust-book-btn " type="button" id="booknoe" onclick="book(this.form)"><strong>@Localize.Show("BOOK_NOW")</strong></button>
+                            </div>
+                            <div class="d-none" data-bind="attr:{id: 'farerule_' + id }">
+                                <div data-bind="foreach: fareRules">
+                                    <div data-bind="text: $data"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            @*<div class="text-center" id="flight-show-all" style="display: none;">
+                    <h5>
+                        <span class="badge badge-pill badge-info" style="padding: 10px; width: 50%; cursor: pointer;">@Localize.Show("SHOW_ALL")</span>
+                    </h5>
+                </div>
+                <div class="text-center" id="flight-show-less" style="display: none;">
+                    <h5>
+                        <span class="badge badge-pill badge-secondary" style="padding: 10px; width: 50%; cursor: pointer;">@Localize.Show("SHOW_LESS")</span>
+                    </h5>
+                </div>*@
+            <!-- /ko -->
+        </div>
+    </div>
+</div>
+
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <img src="~/Images/waiting.gif" style="vertical-align:middle; width: 80%;" class="img-fluid" />
+
+    </div>
+</div>
+
+<!-- Farerule Modal -->
+<div class="modal fade" id="fareruleModal" tabindex="-1" role="dialog" aria-labelledby="fareruleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fareruleModalLabel">@Localize.Show("FARE_CONDITION")</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="farerule_loading" class="text-center">
+                    <img src="~/Images/waiting.gif" style="vertical-align:middle; width: 200px;" class="img-fluid" />
+                </div>
+                <div id="farerule_content" style="display: none;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/input-add-minus.js"></script>
+    <script src="~/Vendors/knockout/knockout-3.4.2.js"></script>
+    <script src="~/Vendors/knockout/knockout-fast-foreach.min.js"></script>
+    <script src="~/Vendors/jquery-ui-1.12.1/jquery-ui.min.js?v2"></script>
+    <script src="~/Vendors/jRange/jquery.range-min.js"></script>
+    <script>
+        var showAll = true;
+        function dealModel() {
+            var self = this;
+            self.records = ko.observableArray([]);
+            self.fileterAirlines = ko.observableArray([]);
+            self.selectedAirlines = ko.observableArray([]);
+            self.filterPrice = ko.observableArray([]);
+            self.filterStops = ko.observableArray([]);
+            self.selectedStops = ko.observableArray([]);
+            self.filterDep = ko.observableArray([]);
+            self.filterRet = ko.observableArray([]);
+            self.tripType = 'R';
+            self.firstRecord = ko.observableArray([]);
+            self.sorting = ko.observableArray([]);
+            self.selectedSort = ko.observable('price_asc');
+            self.filterDepAirport = ko.observableArray([]);
+            self.selectedDepAirport = ko.observableArray([]);
+            self.filterArrAirport = ko.observableArray([]);
+            self.selectedArrAirport = ko.observableArray([]);
+
+            //$('#loadingModal').modal('show');
+            $.ajax({
+                url: "@Url.Action("FlightResult", new { id = Model.searchKey })",
+                cache: true,
+                method: "post",
+                success: function (data) {
+                console.log(data);
+                if (data && data.flights && data.flights.length > 0) {
+                    $('#loading').hide();
+                    $('#result').show();
+                } else {
+                    $('#loading').hide();
+                    $('#error').show();
+                }
+
+                //window.setTimeout(function () {
+                //    $('#loadingModal').modal('hide');
+                //}, 1000);
+
+                    self.records(data.flights);
+                    var firstRecord = [];
+                    firstRecord.push(data.flights[0]);
+                    self.firstRecord(firstRecord);
+                window.setTimeout(function () {
+                    if (data.flights.length >= 30) {
+                        $('#flight-show-all').show();
+                    }
+                }, 5000);
+
+                //filter airline
+                self.fileterAirlines(data.filter.airlines);
+                //filter airport
+                self.filterDepAirport(data.filter.departureAirport);
+                self.filterArrAirport(data.filter.arrivalAirport);
+                //var selectedAir = [];
+                //for (var i = 0; i < data.filter.airlines.length; i++) {
+                //    selectedAir.push(data.filter.airlines[i].code);
+                //}
+                //self.selectedAirlines(selectedAir);
+
+                var swidth = $('#filter-div').width() * 0.85;
+                if (swidth <= 0) {
+                    swidth = $('#flight-list-div').width() * 0.85;
+                }
+                console.log(swidth);
+                //filter price
+                var fInitPrice = [];
+                fInitPrice.push(0);
+                fInitPrice.push(data.filter.maxPrice);
+                self.filterPrice(fInitPrice);
+                //$("#slider-price").slider({
+                //    range: true,
+                //    min: 0,
+                //    max: data.filter.maxPrice,
+                //    step: 1,
+                //    values: [0, data.filter.maxPrice],
+                //    slide: function (e, ui) {
+                //        var filterPrice = [];
+                //        filterPrice.push(ui.values[0]);
+                //        filterPrice.push(ui.values[1]);
+                //        self.filterPrice(filterPrice);
+                //    }
+                //});
+                $('.slider-price').jRange({
+                    from: 0,
+                    to: data.filter.maxPrice,
+                    step: 1,
+                    format: '%s',
+                    showLabels: false,
+                    showScale: false,
+                    isRange: true,
+                    width: swidth,
+                    onstatechange: function (values) {
+                        console.log(values);
+                        var val = values.split(',');
+                        self.filterPrice(val);
+                    }
+                });
+                $('.slider-price').jRange('setValue', '0,' + data.filter.maxPrice);
+
+                //filter stop
+                var fStop = [];
+                var fSelectedStop = [];
+                for (var i = 0; i <= data.filter.maxStop; i++) {
+                    fSelectedStop.push(i);
+                    var stopObj = {};
+                    stopObj.id = i;
+                    if (i === 0) {
+                        stopObj.name = '@Localize.Show("NO_STOP")';
+                    } else if (i === 1) {
+                        stopObj.name = i + (i === 2 ? '+ ' : ' ') + '@Localize.Show("STOP")';
+                    } else {
+                        stopObj.name = i + (i === 2 ? '+ ' : ' ') + '@Localize.Show("STOPS")';
+                    }
+                    var count = 0;
+                    for (var k = 0; k < data.flights.length; k++) {
+                        if (data.flights[k].departureFlight[0].flightDetails.length == i + 1) {
+                            count++;
+                        }
+                    }
+                    stopObj.results = count;
+                    if (count > 0) {
+                        fStop.push(stopObj);
+                    }
+                }
+                self.filterStops(fStop);
+                //self.selectedStops(fSelectedStop);
+                    var sortObj = [{
+                        text: '@Localize.Show("PRICE_MIN_MAX")',
+                        value: 'price_asc'
+                    }, {
+                        text: '@Localize.Show("PRICE_MAX_MIN")',
+                        value: 'price_desc'
+                    }, {
+                        text: '@Localize.Show("DURATION_SHORT_LONG")',
+                        value: 'shortDuration_asc'
+                    }, {
+                        text: '@Localize.Show("DURATION_LONG_SHORT")',
+                        value: 'longDuration_desc'
+                        }];
+                    self.sorting(sortObj);
+
+                //filter dep
+                self.filterDep([0, 1439]);
+                //$("#slider-dep").slider({
+                //    range: true,
+                //    min: 0,
+                //    max: 1439,
+                //    step: 1,
+                //    values: [0, data.filter.maxPrice],
+                //    slide: function (e, ui) {
+                //        var filterDep = [];
+                //        filterDep.push(ui.values[0]);
+                //        filterDep.push(ui.values[1]);
+                //        self.filterDep(filterDep);
+                //    }
+                //});
+
+                $('.slider-dep').jRange({
+                    from: 0,
+                    to: 1439,
+                    step: 1,
+                    format: '%s',
+                    showLabels: false,
+                    showScale: false,
+                    isRange: true,
+                    width: swidth,
+                    onstatechange: function (values) {
+                        var val = values.split(',');
+                        self.filterDep(val);
+                    }
+                });
+                $('.slider-dep').jRange('setValue', '0,1439');
+
+
+                if (self.tripType == 'R') {
+                    //filter ret
+                    self.filterRet([0, 1439]);
+                    //$("#slider-ret").slider({
+                    //    range: true,
+                    //    min: 0,
+                    //    max: 1439,
+                    //    step: 1,
+                    //    values: [0, data.filter.maxPrice],
+                    //    slide: function (e, ui) {
+                    //        var filterRet = [];
+                    //        filterRet.push(ui.values[0]);
+                    //        filterRet.push(ui.values[1]);
+                    //        self.filterRet(filterRet);
+                    //    }
+                    //});
+
+
+                    $('.slider-ret').jRange({
+                        from: 0,
+                        to: 1439,
+                        step: 1,
+                        format: '%s',
+                        showLabels: false,
+                        showScale: false,
+                        isRange: true,
+                        width: swidth,
+                        onstatechange: function (values) {
+                            var val = values.split(',');
+                            self.filterRet(val);
+                        }
+                    });
+                    $('.slider-ret').jRange('setValue', '0,1439');
+                }
+
+
+                },
+                error: function () {
+                   // $('#loadingModal').modal('hide');
+                    $('#loading').hide();
+                    $('#error').show();
+                }
+
+
+            });
+
+            //filter
+            self.filteredBox = ko.computed(function () {
+                if (!self.selectedSort()) {
+                    return null;
+                }
+                count = 0;
+                var sortBy = self.selectedSort().split('_');
+                var sortedArray = self.records().sort(function (left, right) {
+                    if (sortBy[1] == 'asc') {
+                        return left[sortBy[0]] === right[sortBy[0]] ? 0
+                            : left[sortBy[0]] < right[sortBy[0]] ? -1
+                                : 1;
+                    } else {
+                        return left[sortBy[0]] === right[sortBy[0]] ? 0
+                            : left[sortBy[0]] > right[sortBy[0]] ? -1
+                                : 1;
+                    }
+                });
+                var filtered = ko.utils.arrayFilter(sortedArray, function (record) {
+                    var show = true;
+                    if (self.selectedAirlines().length > 0) {
+                        show = self.selectedAirlines().indexOf(record.mainAirline.code) >= 0;
+                    }
+
+                    if (self.selectedStops().length > 0) {
+                        if (show) {
+                            show = self.selectedStops().indexOf(record.departureFlight[0].flightDetails.length - 1) >= 0;
+                        }
+                    }
+                    if (self.selectedDepAirport().length > 0) {
+                        if (show) {
+                            show = self.selectedDepAirport().indexOf(record.depCity) >= 0;
+                        }
+                    }
+                    if (self.selectedArrAirport().length > 0) {
+                        if (show) {
+                            show = self.selectedArrAirport().indexOf(record.arrCity) >= 0;
+                        }
+                    }
+                    if (show) {
+                        show = record.addOnPrice >= self.filterPrice()[0] && record.addOnPrice <= self.filterPrice()[1];
+                    }
+                    if (show) {
+                        var depShow = false;
+                        for (var i = 0; i < record.departureFlight.length; i++) {
+                            var time = record.departureFlight[i].flightDetails[0].depDisplayDateTime.time;
+                            var intTime = ((Math.floor(time / 100)) * 60) + (time % 100);
+                            depShow = depShow || (intTime >= self.filterDep()[0] && intTime <= self.filterDep()[1]);
+                        }
+                        show = depShow;
+                    }
+                    if (show && self.tripType == 'R') {
+                        var retShow = false;
+                        for (var i = 0; i < record.returnFlight.length; i++) {
+                            var time = record.returnFlight[i].flightDetails[0].depDisplayDateTime.time;
+                            var intTime = ((Math.floor(time / 100)) * 60) + (time % 100);
+                            retShow = retShow || (intTime >= self.filterRet()[0] && intTime <= self.filterRet()[1]);
+                        }
+                        show = retShow;
+                    }
+                    return show;
+                });
+                if (filtered.length > 30) {
+                    if (showAll == true) {
+                        $('#flight-show-all').hide();
+                        $('#flight-show-less').show();
+                    } else {
+                        $('#flight-show-all').show();
+                        $('#flight-show-less').hide();
+                    }
+                } else {
+                    $('#flight-show-all').hide();
+                    $('#flight-show-less').hide();
+                }
+                return filtered;
+            }).extend({ throttle: 300 });  ;
+
+
+            self.formatCurrency = function (amount) {
+                return "@Currency.GetCurrency() " + self.formatWOCurrency(amount);
+            };
+
+            self.formatWOCurrency = function (amount) {
+
+                if (!amount) {
+                    amount = 0;
+                }
+                amount = parseFloat(amount);
+                var convertRate = @(Currency.convertFromTHB(1));
+                amount *= convertRate;
+            amount = amount.toFixed(2)
+
+                amount += '';
+                x = amount.split('.');
+                x1 = x[0];
+                x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                }
+                return x1 + x2;
+            };
+
+            self.formatIntToTime = function (amount) {
+
+                var hours1 = Math.floor(amount / 60);
+                var minutes1 = amount - (hours1 * 60);
+                hours1 = hours1 + '';
+                minutes1 = minutes1 + '';
+                if (hours1.length == 1) hours1 = '0' + hours1;
+                if (minutes1.length == 1) minutes1 = '0' + minutes1;
+                if (minutes1 == '0') minutes1 = '00';
+                return hours1 + ":" + minutes1;
+            };
+        }
+        ko.applyBindings(new dealModel());
+        
+        var formatWOCurrency = function (amount) {
+            if (!amount) {
+                amount = 0;
+            }
+            amount = parseFloat(amount);
+            var convertRate = @(Currency.convertFromTHB(1));
+            amount *= convertRate;
+            amount = amount.toFixed(2)
+            amount += '';
+            x = amount.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return x1 + x2;
+        };
+        var formatCurrency = function (amount) {
+            return "@Currency.GetCurrency() " + formatWOCurrency(amount);
+        };
+        var printOpenPBoxFn = function (id) {
+            return "openPBox('" + id + "');";
+        };
+
+        var openPBox = function (id) {
+            $("#select_" + id).slideToggle();
+        };
+        setInterval(function () {
+            $('.popper').popover({
+                placement: 'bottom',
+                container: 'body',
+                trigger: 'focus',
+                html: true,
+                content: function () {
+                    return $(this).next('.popper-content').html();
+                }
+            });
+        }, 5000);
+
+        //$('.toggle-flight').click(function (t) {
+        //    var targetId = t.currentTarget.id;
+        //    $("#select_" + targetId).slideToggle();
+        //});
+        var getAirLogoLink = function (airlineCode) {
+            return "//ai-r-logo.azurewebsites.net/rect/" + airlineCode + ".png";
+        };
+        var getAirLogoSquareLink = function (airlineCode) {
+            return "//ai-r-logo.azurewebsites.net/square/" + airlineCode + ".png";
+        };
+
+        var getOnlyCity = function (cityName) {
+            var c = cityName.split(',');
+            if (c[1]) {
+                return c[1].trim();
+            }
+            return c[0];
+        }
+
+        var getOnlyAirport = function (cityName) {
+            var c = cityName.split(',');
+            return c[0];
+        }
+
+        var getTimePercentage = function (t) {
+            var p = (t * 100) / 2400;
+            return "margin-left: calc(" + p.toFixed(0) + "% - 4px);";
+        };
+
+        var getTimeFormat = function (d) {
+            d = pad(d, 4);
+            return d.substr(0, 2) + ":" + d.substr(2, 2);
+        };
+
+        var getDuration = function (d) {
+            d = pad(d, 4);
+            return d.substr(0, 2) + " h " + d.substr(2, 2) + " m";
+        };
+
+        var timeSpace = function (t) {
+            var s = '';
+            var time = t.split(':');
+            s += time[0] + ' : ';
+            s += time[1].substr(0, 2);
+            if (time[1].length > 2) {
+            s += '<sup>' + time[1].substr(3, 2) + '</sup>';
+            }
+            return s;
+
+        }
+
+        var getWidthSyle = function (w) {
+            return "width: " + w + "%";
+        };
+
+        var pad = function (num, size) {
+            var s = num + "";
+            while (s.length < size) s = "0" + s;
+            return s;
+        };
+
+        var book = function (form) {
+            var tripType = 'R';
+            if (form.S1.length) {
+                if (!form.S1.value || form.S1.value == "") {
+                    alert('@Localize.Show("PLEASE_SELECT_DEP")');
+                    return;
+                }
+            } else {
+                if (!form.S1.checked) {
+                    alert('@Localize.Show("PLEASE_SELECT_DEP")');
+                    return;
+                }
+            }
+
+            if (tripType == "R") {
+                if (form.S2.length) {
+                    if (!form.S2.value || form.S2.value == "") {
+                    alert('@Localize.Show("PLEASE_SELECT_RET")');
+                        return;
+                    }
+                } else {
+                    if (!form.S2.checked) {
+                    alert('@Localize.Show("PLEASE_SELECT_RET")');
+                        return;
+                    }
+                }
+            }
+            form.submit();
+        };
+
+        var farerule = function (id) {
+            var form = document.getElementById('form_' + id);
+
+            @*var tripType = '@"R"';
+            if (form.S1.length) {
+                if (!form.S1.value || form.S1.value == "") {
+                    alert('@Localize.Show("PLEASE_SELECT_DEP")');
+                    return;
+                }
+            } else {
+                if (!form.S1.checked) {
+                    alert('@Localize.Show("PLEASE_SELECT_DEP")');
+                    return;
+                }
+            }
+
+            if (tripType == "R") {
+                if (form.S2.length) {
+                    if (!form.S2.value || form.S2.value == "") {
+                    alert('@Localize.Show("PLEASE_SELECT_RET")');
+                        return;
+                    }
+                } else {
+                    if (!form.S2.checked) {
+                    alert('@Localize.Show("PLEASE_SELECT_RET")');
+                        return;
+                    }
+                }
+            }*@
+
+            $('#fareruleModal').modal('show');
+            @*$('#farerule_loading').show();
+            $('#farerule_content').hide();
+            console.log($('#form_' + id).serialize());
+            $.post("@Url.Action("FareRule", "Flight")", $('#form_' + id).serialize())
+                .done(function (data) {
+                    $('#farerule_loading').hide();
+                    $('#farerule_content').show();
+                    $('#farerule_content').html(data);
+                });*@
+
+            $('#farerule_loading').hide();
+            $('#farerule_content').show();
+            $('#farerule_content').html($('#farerule_' + id).html());
+        };
+
+        var clickFlight = function (id) {
+            var ids = id.split('_');
+            if (ids[0] == 'D') {
+                $('.D_' + ids[1]).prop('checked', false);
+            } else {
+                $('.R_' + ids[1]).prop('checked', false);
+            }
+            $('#rad_' + id).prop('checked', true);
+            $('[id^="' + ids[0] + 'B_' + ids[1] + '"]').removeClass('table-flight-tr-select');
+            $('#' + ids[0] + 'B_' + ids[1] + '_' + ids[2]).addClass('table-flight-tr-select').removeClass('table-flight-tr');
+
+        };
+
+        var seemore = function (id) {
+            var divId = id.replace('Seemore', 'Detail');
+            $("#" + divId).slideToggle();
+        };
+        $(document).ready(function () {
+            $('#flight-show-all').click(function () {
+                $('#flight-show-all').hide();
+                $('#flight-show-less').show();
+                $('.flight-main').show();
+                showAll = true;
+            });
+            $('#flight-show-less').click(function () {
+                $('#flight-show-less').hide();
+                $('#flight-show-all').show();
+                $.each($('.flight-main'), function () {
+                    var ids = this.id.split('_');
+                    if (parseInt(ids[1]) >= 30) {
+                        this.style.display = 'none';
+                    }
+                });
+                showAll = true; //showAll = false;
+            });
+            $('#mobileFilter').click(function () {
+                $('#mobileFilter').hide();
+                $('#mobileSearch').hide();
+                $('#mobileCloseFilter').show();
+                $('#flight-list-div').hide();
+                $('#filter-div').show();
+                $('#filter-div').removeClass("d-none");
+            });
+            $('#mobileCloseFilter').click(function () {
+                $('#mobileFilter').show();
+                $('#mobileSearch').show();
+                $('#mobileCloseFilter').hide();
+                $('#flight-list-div').show();
+                $('#filter-div').hide();
+            });
+
+            $('#mobileSearch').click(function () {
+                if ($('#searchBox').hasClass("d-none")) {
+                    $('#searchBox').removeClass("d-none");
+                    $('#searchBox').hide();
+                }
+                $('#searchBox').slideToggle();
+            });
+
+        });
+
+    </script>
+}

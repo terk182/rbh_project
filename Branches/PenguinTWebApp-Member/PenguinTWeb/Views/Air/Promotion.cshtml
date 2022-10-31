@@ -1,0 +1,29 @@
+﻿@model DataModel.AirPromotion
+<div>
+    @{
+        var urlPath = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+        string imgName = urlPath + "images/promotions/" + Model.AirPromotionOID + ".jpg?" + DateTime.Now.ToString("hhmmss");
+    }
+    <img class="d-block w-100" src="@imgName" />
+</div>
+<br />
+<div style="margin-left: 5px;">
+    <span class="font-30">
+        <strong>@ViewBag.From - @ViewBag.To</strong>
+    </span>
+    <span class="font-20" style="margin-left: 10px;">
+        <strong>@Localize.Show("PRICE_START_FROM")</strong>
+    </span>
+    <span class="font-30 text-red">
+        <strong>@Model.Price.GetValueOrDefault().ToString("N0")</strong>
+    </span>
+    <span class="font-20">
+        <strong>@Localize.Show("BAHT/PAX")</strong>
+    </span>
+<br />
+    <span class="font-16">
+        @Html.Raw(Model.Detail.Replace("\n","<br />"))
+    </span>
+</div>
+<br />
+@Html.Partial("~/Views/Flight/SearchBox.cshtml", (GogojiiWeb.Models.SearchModel)ViewBag.SearchModel)

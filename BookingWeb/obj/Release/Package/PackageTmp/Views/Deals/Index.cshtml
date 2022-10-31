@@ -1,0 +1,68 @@
+﻿@section styles
+{
+    <link href="~/Vendors/bricklayer/dist/bricklayer.css" rel="stylesheet" />
+    <style>
+        #mainScreen {
+            display: none;
+        }
+    </style>
+}
+
+@section width100head
+{
+    @{
+        List<string> categories = (List<string>)ViewBag.Categories;
+    }
+    <input type="hidden" id="page" value="1" />
+    <input type="hidden" id="alldeal" value="false" />
+    <input type="hidden" id="dealURL" value="@Url.Action("GetDeals", "Deals")" />
+    <div class="bg-footer">
+        <div class="container">
+            <br />
+            <div>
+                @Localize.Show("HOME") &gt; <span class="menu-select">@Localize.Show("DEALS")</span>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-12 col-xs-12 col-md-4 col-lg-2">
+                    <div class="font-24"><strong>@Localize.Show("DEALS")</strong></div>
+                </div>
+                <div class="col-12 col-xs-12 col-md-8 col-lg-10 text-right">
+                    @foreach (string cat in categories)
+                    {
+                        <span class="badge badge-pill badge-warning" id="badge_@(cat)" style="margin-bottom: 2px;">
+                            <label class="font-14" style="margin-top: 3px;margin-bottom: 3px;">
+                                <input type="checkbox" value="@(cat)" id="check_@(cat)" checked class="check-deal" />
+                                @Localize.Show("DEALS_" + cat)
+                            </label>
+                        </span>
+                    }
+                </div>
+            </div>
+            <br />
+            <section class="bricklayer">
+                <!-- item here -->
+            </section>
+            <div id="more" class="text-center">
+            </div>
+            <div class="flight-box text-center" id="waiting">
+                <br />
+                <br />
+                <img src="~/Images/waiting.gif" style="vertical-align:middle; width: 120px;" class="img-fluid" />
+                <br />
+                <br />
+                <br />
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts
+{
+    <script src="~/Vendors/waypoints/lib/noframework.waypoints.min.js"></script>
+    <script src="~/Vendors/moment/moment.js"></script>
+    <script src="~/Vendors/moment/moment-with-locales.js"></script>
+    <script src="~/Vendors/bricklayer/dist/bricklayer.js"></script>
+    <script src="~/Scripts/deal.js?v2"></script>
+}

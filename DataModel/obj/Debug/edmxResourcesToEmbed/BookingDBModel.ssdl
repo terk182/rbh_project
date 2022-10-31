@@ -1,0 +1,779 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BookingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AirlineCode">
+    <Key>
+      <PropertyRef Name="Code" />
+      <PropertyRef Name="Language" />
+    </Key>
+    <Property Name="Code" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="Language" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="AirlineConfig">
+    <Key>
+      <PropertyRef Name="AirlineConfigOID" />
+    </Key>
+    <Property Name="AirlineConfigOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="DepartureCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="DestinationCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsInclude" Type="bit" />
+    <Property Name="AirlineCode" Type="nvarchar" MaxLength="300" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="AirlineControl">
+    <Key>
+      <PropertyRef Name="AirlineOID" />
+    </Key>
+    <Property Name="AirlineOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="OriginalCountryCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="DestinationCountryCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="AirlineControlSub">
+    <Key>
+      <PropertyRef Name="AirlineSubOID" />
+    </Key>
+    <Property Name="AirlineSubOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AirlineOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="AirlineCode" Type="nvarchar" MaxLength="500" />
+    <Property Name="ClassOfService" Type="nvarchar" MaxLength="200" />
+    <Property Name="FareBasis" Type="nvarchar" MaxLength="200" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="AirlineQtaxControl">
+    <Key>
+      <PropertyRef Name="AirlineQtaxOID" />
+    </Key>
+    <Property Name="AirlineQtaxOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AirlineCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="OriginalCountryCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="DestinationCountryCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="AirportCode">
+    <Key>
+      <PropertyRef Name="Code" />
+      <PropertyRef Name="Language" />
+    </Key>
+    <Property Name="Code" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="Language" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="255" />
+    <Property Name="CountryCode" Type="nvarchar" MaxLength="2" />
+  </EntityType>
+  <EntityType Name="AirportLocation">
+    <Key>
+      <PropertyRef Name="AirportCode" />
+    </Key>
+    <Property Name="AirportCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="CityCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="CountryCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="Latitude" Type="nvarchar" MaxLength="50" />
+    <Property Name="Longitude" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="AirportTranfer">
+    <Key>
+      <PropertyRef Name="AirportTranferOID" />
+    </Key>
+    <Property Name="AirportTranferOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Destination" Type="nvarchar" MaxLength="200" />
+    <Property Name="StartBookingDate" Type="datetime" />
+    <Property Name="FinishBookingDate" Type="datetime" />
+    <Property Name="StartTravelDate" Type="datetime" />
+    <Property Name="FinishTravelDate" Type="datetime" />
+    <Property Name="Discount" Type="nvarchar" MaxLength="60" />
+    <Property Name="IsPercentDiscount" Type="bit" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+    <Property Name="AirportCode" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="AirportWithCity">
+    <Key>
+      <PropertyRef Name="AirportCode" />
+    </Key>
+    <Property Name="AirportCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="FacilityCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="CityCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="Latitude" Type="float" />
+    <Property Name="Longitude" Type="float" />
+    <Property Name="CountryCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="IsCommercialAirport" Type="nvarchar" MaxLength="5" />
+    <Property Name="ProvinceCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="ProvinceCountryCode" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="AirPromotion">
+    <Key>
+      <PropertyRef Name="AirPromotionOID" />
+    </Key>
+    <Property Name="AirPromotionOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Origin" Type="nvarchar" MaxLength="5" />
+    <Property Name="Destination" Type="nvarchar" MaxLength="5" />
+    <Property Name="Price" Type="money" />
+    <Property Name="Detail" Type="ntext" />
+    <Property Name="DepartDate" Type="datetime" />
+    <Property Name="ReturnDate" Type="datetime" />
+    <Property Name="PeriodStart" Type="datetime" />
+    <Property Name="PeriodEnd" Type="datetime" />
+    <Property Name="DeepLinkText" Type="nvarchar" MaxLength="500" />
+    <Property Name="AirlineCode" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="APIToken">
+    <Key>
+      <PropertyRef Name="Token" />
+      <PropertyRef Name="APIUserOID" />
+    </Key>
+    <Property Name="Token" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="APIUserOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Expires" Type="datetime" />
+    <Property Name="CreateDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="APIUser">
+    <Key>
+      <PropertyRef Name="APIUserOID" />
+    </Key>
+    <Property Name="APIUserOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="WebMode" Type="int" />
+  </EntityType>
+  <EntityType Name="BackOfficeAdmin">
+    <Key>
+      <PropertyRef Name="BackOfficeAdminOID" />
+    </Key>
+    <Property Name="BackOfficeAdminOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="150" />
+    <Property Name="Firstname" Type="nvarchar" MaxLength="150" />
+    <Property Name="Lastname" Type="nvarchar" MaxLength="150" />
+    <Property Name="Email" Type="nvarchar" MaxLength="150" />
+    <Property Name="IsDelete" Type="bit" />
+    <Property Name="LastLogin" Type="datetime" />
+    <Property Name="Address" Type="nvarchar" MaxLength="200" />
+    <Property Name="Role" Type="int" />
+  </EntityType>
+  <EntityType Name="ChillPayBackground">
+    <Key>
+      <PropertyRef Name="ChillPayBackgroundID" />
+    </Key>
+    <Property Name="ChillPayBackgroundID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CreateDateTime" Type="datetime" />
+    <Property Name="TransactionId" Type="nvarchar" MaxLength="200" />
+    <Property Name="Amount" Type="money" />
+    <Property Name="OrderNo" Type="nvarchar" MaxLength="200" />
+    <Property Name="CustomerId" Type="nvarchar" MaxLength="200" />
+    <Property Name="BankCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="PaymentDate" Type="nvarchar" MaxLength="200" />
+    <Property Name="PaymentStatus" Type="nvarchar" MaxLength="200" />
+    <Property Name="BankRefCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="CurrentDate" Type="nvarchar" MaxLength="200" />
+    <Property Name="CurrentTime" Type="nvarchar" MaxLength="200" />
+    <Property Name="PaymentDescription" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreditCardToken" Type="nvarchar" MaxLength="200" />
+    <Property Name="Currency" Type="nvarchar" MaxLength="200" />
+    <Property Name="CheckSum" Type="nvarchar" MaxLength="500" />
+    <Property Name="ResponseType" Type="nvarchar" MaxLength="5" />
+  </EntityType>
+  <EntityType Name="ChillPayInquiry">
+    <Key>
+      <PropertyRef Name="ChillPayInquiryID" />
+    </Key>
+    <Property Name="ChillPayInquiryID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CreateDateTime" Type="datetime" />
+    <Property Name="MerchantCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="TransactionId" Type="nvarchar" MaxLength="200" />
+    <Property Name="ApiKey" Type="nvarchar" MaxLength="200" />
+    <Property Name="CheckSum" Type="nvarchar" MaxLength="200" />
+    <Property Name="Status" Type="bit" />
+    <Property Name="ChillPayBackgroundID" Type="uniqueidentifier" />
+  </EntityType>
+  <EntityType Name="ChillPayResult">
+    <Key>
+      <PropertyRef Name="ChillPayResultID" />
+    </Key>
+    <Property Name="ChillPayResultID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CreateDateTime" Type="datetime" />
+    <Property Name="respCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="status" Type="nvarchar" MaxLength="200" />
+    <Property Name="transNo" Type="nvarchar" MaxLength="200" />
+    <Property Name="orderNo" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="CityCode">
+    <Key>
+      <PropertyRef Name="Code" />
+      <PropertyRef Name="Language" />
+    </Key>
+    <Property Name="Code" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="Language" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="255" />
+    <Property Name="CountryCode" Type="nvarchar" MaxLength="2" />
+  </EntityType>
+  <EntityType Name="CountryCode">
+    <Key>
+      <PropertyRef Name="Code" />
+      <PropertyRef Name="Language" />
+    </Key>
+    <Property Name="Code" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="Language" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="255" />
+    <Property Name="Alpha3" Type="nvarchar" MaxLength="5" />
+  </EntityType>
+  <EntityType Name="CurrencyExchange">
+    <Key>
+      <PropertyRef Name="CurrencyExchangeOID" />
+    </Key>
+    <Property Name="CurrencyExchangeOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ExchangeRate" Type="ntext" />
+    <Property Name="TimeStamp" Type="datetime" />
+  </EntityType>
+  <EntityType Name="DiscountTag">
+    <Key>
+      <PropertyRef Name="DiscountTagOID" />
+    </Key>
+    <Property Name="DiscountTagOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PromotionGroupCodeOID" Type="uniqueidentifier" />
+    <Property Name="AirlineCodes" Type="nvarchar" MaxLength="60" />
+    <Property Name="RBD" Type="nvarchar" MaxLength="60" />
+    <Property Name="FareBasis" Type="nvarchar" MaxLength="60" />
+    <Property Name="PaxTypeADT" Type="bit" />
+    <Property Name="PaxTypeCHD" Type="bit" />
+    <Property Name="PaxTypeINF" Type="bit" />
+    <Property Name="StartBookingDate" Type="datetime" />
+    <Property Name="FinishBookingDate" Type="datetime" />
+    <Property Name="ZoneFrom" Type="nvarchar" MaxLength="60" />
+    <Property Name="ZoneTo" Type="nvarchar" MaxLength="60" />
+    <Property Name="DiscountAmt" Type="money" />
+    <Property Name="DiscountIsPercent" Type="bit" />
+    <Property Name="LastUpdate" Type="datetime" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="DiscountTagDetail">
+    <Key>
+      <PropertyRef Name="DiscountTagOID" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="DiscountTagOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="LanguageCode" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="PromotionTag" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="FlightBooking">
+    <Key>
+      <PropertyRef Name="BookingOID" />
+    </Key>
+    <Property Name="BookingOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="NoOfAdults" Type="int" />
+    <Property Name="NoOfChildren" Type="int" />
+    <Property Name="NoOfInfants" Type="int" />
+    <Property Name="Svc_class" Type="nvarchar" MaxLength="50" />
+    <Property Name="GrandTotal" Type="money" />
+    <Property Name="IsPassportRequired" Type="bit" />
+    <Property Name="PNR" Type="nvarchar" MaxLength="50" />
+    <Property Name="Platform" Type="nvarchar" MaxLength="50" />
+    <Property Name="MedId" Type="int" />
+    <Property Name="PriceChange" Type="bit" />
+    <Property Name="OldPrice" Type="money" />
+    <Property Name="TKTL" Type="datetime" />
+    <Property Name="Remarks" Type="ntext" />
+    <Property Name="TotalFare" Type="money" />
+    <Property Name="CreditCardFee" Type="money" />
+    <Property Name="PaypalFee" Type="money" />
+    <Property Name="CounterServiceFee" Type="money" />
+    <Property Name="IsError" Type="bit" />
+    <Property Name="ErrorMessage" Type="nvarchar" MaxLength="100" />
+    <Property Name="Origin" Type="nvarchar" MaxLength="50" />
+    <Property Name="Destination" Type="nvarchar" MaxLength="50" />
+    <Property Name="bookingDate" Type="datetime" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Firstname" Type="nvarchar" MaxLength="100" />
+    <Property Name="Middlename" Type="nvarchar" MaxLength="100" />
+    <Property Name="Lastname" Type="nvarchar" MaxLength="100" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="TelNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="CountryOfResidence" Type="nvarchar" MaxLength="100" />
+    <Property Name="Note" Type="ntext" />
+    <Property Name="RobinhoodID" Type="nvarchar" MaxLength="13" />
+    <Property Name="StatusPayment" Type="int" />
+    <Property Name="PaymentMethod" Type="int" />
+    <Property Name="StatusBooking" Type="int" />
+    <Property Name="IsBundle" Type="bit" />
+    <Property Name="sourceBy" Type="int" />
+    <Property Name="PaymentFee" Type="money" />
+    <Property Name="PromoCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="DiscountAmount" Type="money" />
+    <Property Name="InstallmentPlan" Type="int" />
+    <Property Name="InstallmentMonthly" Type="money" />
+    <Property Name="FinalPrice" Type="money" />
+    <Property Name="UUID" Type="nvarchar" MaxLength="150" />
+    <Property Name="UserID" Type="nvarchar" MaxLength="50" />
+    <Property Name="MemberOID" Type="uniqueidentifier" />
+    <Property Name="type" Type="nvarchar" MaxLength="50" />
+    <Property Name="paymentDate" Type="datetime" />
+    <Property Name="Wallet_Address" Type="nvarchar" MaxLength="50" />
+    <Property Name="NFTFee" Type="money" />
+    <Property Name="Transaction_Hash" Type="nvarchar" MaxLength="150" />
+    <Property Name="paymentReference" Type="nvarchar" MaxLength="150" />
+    <Property Name="PromotionGroupCode" Type="nvarchar" MaxLength="60" />
+    <Property Name="BookingURN" Type="nvarchar" MaxLength="60" />
+  </EntityType>
+  <EntityType Name="FlightBookingBaggage">
+    <Key>
+      <PropertyRef Name="FlightBookingBaggageOID" />
+    </Key>
+    <Property Name="FlightBookingBaggageOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FlightBookingFareOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Baggages" Type="nvarchar" MaxLength="50" />
+    <Property Name="BaggageNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="BaggageUnit" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="FlightBookingContactInfo">
+    <Key>
+      <PropertyRef Name="FlightBookingContactInfoOID" />
+    </Key>
+    <Property Name="FlightBookingContactInfoOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="BookingOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Firstname" Type="nvarchar" MaxLength="100" />
+    <Property Name="Middlename" Type="nvarchar" MaxLength="100" />
+    <Property Name="Lastname" Type="nvarchar" MaxLength="100" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="TelNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="CountryCode" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="FlightBookingFare">
+    <Key>
+      <PropertyRef Name="FlightBookingFareOID" />
+    </Key>
+    <Property Name="FlightBookingFareOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="BookingOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PessengerType" Type="nvarchar" MaxLength="10" />
+    <Property Name="BaseFare" Type="money" />
+    <Property Name="SellingBaseFare" Type="money" />
+    <Property Name="Tax" Type="money" />
+    <Property Name="Qtax" Type="money" />
+    <Property Name="LessFare" Type="money" />
+    <Property Name="Net" Type="money" />
+  </EntityType>
+  <EntityType Name="FlightBookingFareRule">
+    <Key>
+      <PropertyRef Name="FlightBookingFareRuleOID" />
+    </Key>
+    <Property Name="FlightBookingFareRuleOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="BookingOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Origin" Type="nvarchar" MaxLength="50" />
+    <Property Name="Destination" Type="nvarchar" MaxLength="50" />
+    <Property Name="FareBasis" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="FlightBookingFareRuleDatail">
+    <Key>
+      <PropertyRef Name="FlightBookingFareRuleDatailOID" />
+    </Key>
+    <Property Name="FlightBookingFareRuleDatailOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FlightBookingFareRuleOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Category" Type="nvarchar" MaxLength="50" />
+    <Property Name="FareRuleText" Type="ntext" />
+  </EntityType>
+  <EntityType Name="FlightBookingFlightDetail">
+    <Key>
+      <PropertyRef Name="FlightBookingFlightDetailOID" />
+    </Key>
+    <Property Name="FlightBookingFlightDetailOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="BookingOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
+    <Property Name="DepartureDateTime" Type="datetime" />
+    <Property Name="ArrivalDateTime" Type="datetime" />
+    <Property Name="FlightTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="ConnectingTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="Rbd" Type="nvarchar" MaxLength="50" />
+    <Property Name="FareBasis" Type="nvarchar" MaxLength="50" />
+    <Property Name="AvailableSeat" Type="int" />
+    <Property Name="FareType" Type="nvarchar" MaxLength="50" />
+    <Property Name="Cabin" Type="nvarchar" MaxLength="50" />
+    <Property Name="EquipmentType" Type="nvarchar" MaxLength="50" />
+    <Property Name="DepCity" Type="nvarchar" MaxLength="10" />
+    <Property Name="ArrCity" Type="nvarchar" MaxLength="10" />
+    <Property Name="Airline" Type="nvarchar" MaxLength="10" />
+    <Property Name="OperatedAirline" Type="nvarchar" MaxLength="10" />
+    <Property Name="TripType" Type="nvarchar" MaxLength="10" />
+    <Property Name="Seq" Type="int" />
+    <Property Name="ControlNumber" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="FlightBookingPaxInfo">
+    <Key>
+      <PropertyRef Name="FlightBookingPaxInfoOID" />
+    </Key>
+    <Property Name="FlightBookingPaxInfoOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="BookingOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PaxType" Type="nvarchar" MaxLength="50" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Firstname" Type="nvarchar" MaxLength="100" />
+    <Property Name="Middlename" Type="nvarchar" MaxLength="100" />
+    <Property Name="Lastname" Type="nvarchar" MaxLength="100" />
+    <Property Name="Birthday" Type="datetime" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="TelNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="PassportNumber" Type="nvarchar" MaxLength="50" />
+    <Property Name="PassportIssuingDate" Type="datetime" />
+    <Property Name="PassportExpiryDate" Type="datetime" />
+    <Property Name="PassportIssuingCountry" Type="nvarchar" MaxLength="50" />
+    <Property Name="PassportNationality" Type="nvarchar" MaxLength="50" />
+    <Property Name="PessengerType" Type="nvarchar" MaxLength="50" />
+    <Property Name="NetRefund" Type="money" />
+    <Property Name="AgentRefund" Type="money" />
+    <Property Name="RefundAmount" Type="money" />
+    <Property Name="TickNoRefund" Type="nvarchar" MaxLength="50" />
+    <Property Name="RemarkRefund" Type="ntext" />
+    <Property Name="NetReissue" Type="money" />
+    <Property Name="AgentReissue" Type="money" />
+    <Property Name="ReissueSelling" Type="money" />
+    <Property Name="TickNoReissueOld" Type="nvarchar" MaxLength="50" />
+    <Property Name="TickNoReissueNew" Type="nvarchar" MaxLength="50" />
+    <Property Name="RemarkReissue" Type="ntext" />
+    <Property Name="StatusRefund" Type="bit" />
+    <Property Name="StatusReissue" Type="bit" />
+    <Property Name="KiwiBag" Type="int" />
+    <Property Name="KiwiBagPrice" Type="money" />
+    <Property Name="KiwiBagWeight" Type="int" />
+    <Property Name="FrequencyFlyerAirline" Type="nvarchar" MaxLength="50" />
+    <Property Name="FrequencyFlyerNumber" Type="nvarchar" MaxLength="50" />
+    <Property Name="MealRequest" Type="nvarchar" MaxLength="50" />
+    <Property Name="SeatRequest" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="FlightBookingRefund">
+    <Key>
+      <PropertyRef Name="FlightBookingRefundOID" />
+    </Key>
+    <Property Name="FlightBookingRefundOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="BookingOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Status" Type="int" />
+    <Property Name="NewPNR" Type="nvarchar" MaxLength="50" />
+    <Property Name="RefundNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="RefundCreateDate" Type="datetime" />
+    <Property Name="RefundGMDate" Type="datetime" />
+    <Property Name="Remark" Type="ntext" />
+    <Property Name="DueDateOfRefund" Type="datetime" />
+    <Property Name="OldPNR" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="FlightBookingReissue">
+    <Key>
+      <PropertyRef Name="FlightBookingReissueOID" />
+    </Key>
+    <Property Name="FlightBookingReissueOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="BookingOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Status" Type="int" />
+    <Property Name="NewPNR" Type="nvarchar" MaxLength="50" />
+    <Property Name="ReissueCreateDate" Type="datetime" />
+    <Property Name="TypeChage" Type="int" />
+    <Property Name="DetailChage" Type="int" />
+    <Property Name="Remark" Type="ntext" />
+  </EntityType>
+  <EntityType Name="FlightFareRule">
+    <Key>
+      <PropertyRef Name="FareRuleOID" />
+    </Key>
+    <Property Name="FareRuleOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AirlineCodes" Type="nvarchar" MaxLength="50" />
+    <Property Name="FareFamilyCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="FlightFareRuleConfig">
+    <Key>
+      <PropertyRef Name="FareRuleConfigOID" />
+    </Key>
+    <Property Name="FareRuleConfigOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FareRuleOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ZoneFrom" Type="nvarchar" MaxLength="50" />
+    <Property Name="ZoneTo" Type="nvarchar" MaxLength="50" />
+    <Property Name="RBD" Type="nvarchar" MaxLength="50" />
+    <Property Name="FareBasis" Type="nvarchar" MaxLength="500" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="FlightFareRuleDetail">
+    <Key>
+      <PropertyRef Name="FareRuleOID" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="FareRuleOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="LanguageCode" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="FareFamilyName" Type="nvarchar" MaxLength="50" />
+    <Property Name="FareRule" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="FlightSearchLog">
+    <Key>
+      <PropertyRef Name="FlightSearchLog" />
+    </Key>
+    <Property Name="FlightSearchLog" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="From1" Type="nvarchar" MaxLength="5" />
+    <Property Name="From2" Type="nvarchar" MaxLength="5" />
+    <Property Name="From3" Type="nvarchar" MaxLength="5" />
+    <Property Name="From4" Type="nvarchar" MaxLength="5" />
+    <Property Name="From5" Type="nvarchar" MaxLength="5" />
+    <Property Name="From6" Type="nvarchar" MaxLength="5" />
+    <Property Name="To1" Type="nvarchar" MaxLength="5" />
+    <Property Name="To2" Type="nvarchar" MaxLength="5" />
+    <Property Name="To3" Type="nvarchar" MaxLength="5" />
+    <Property Name="To4" Type="nvarchar" MaxLength="5" />
+    <Property Name="To5" Type="nvarchar" MaxLength="5" />
+    <Property Name="To6" Type="nvarchar" MaxLength="5" />
+    <Property Name="TripType" Type="nvarchar" MaxLength="5" />
+    <Property Name="Date1" Type="date" />
+    <Property Name="Date2" Type="date" />
+    <Property Name="Date3" Type="date" />
+    <Property Name="Date4" Type="date" />
+    <Property Name="Date5" Type="date" />
+    <Property Name="Date6" Type="date" />
+    <Property Name="NoOfAdult" Type="int" />
+    <Property Name="NoOfChild" Type="int" />
+    <Property Name="NoOfInfant" Type="int" />
+    <Property Name="SeatClass" Type="nvarchar" MaxLength="5" />
+    <Property Name="AirlinePreference" Type="nvarchar" MaxLength="10" />
+    <Property Name="IPAddress" Type="nvarchar" MaxLength="50" />
+    <Property Name="TransactionDateTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="FlightSearchMultiTicket">
+    <Key>
+      <PropertyRef Name="FlightSearchOID" />
+    </Key>
+    <Property Name="FlightSearchOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FlightSearchRequest" Type="nvarchar(max)" />
+    <Property Name="FlightSearchResponse" Type="nvarchar(max)" />
+    <Property Name="DateTimeRequest" Type="datetime" />
+  </EntityType>
+  <EntityType Name="FourDigitControl">
+    <Key>
+      <PropertyRef Name="FourDigitOID" />
+    </Key>
+    <Property Name="FourDigitOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AirlineCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="OriginalCountryCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="DestinationCountryCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="Information">
+    <Key>
+      <PropertyRef Name="InformationOID" />
+    </Key>
+    <Property Name="InformationOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar" MaxLength="150" />
+    <Property Name="TelNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="KBankCharge">
+    <Key>
+      <PropertyRef Name="ChargeID" />
+    </Key>
+    <Property Name="ChargeID" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="transaction_state" Type="nvarchar" MaxLength="50" />
+    <Property Name="ref1" Type="nvarchar" MaxLength="50" />
+    <Property Name="ref2" Type="nvarchar" MaxLength="50" />
+    <Property Name="status" Type="nvarchar" MaxLength="50" />
+    <Property Name="message" Type="ntext" />
+    <Property Name="mode" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="MarkupFlight">
+    <Key>
+      <PropertyRef Name="RobinhoodMarkupOID" />
+    </Key>
+    <Property Name="RobinhoodMarkupOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AirlineCodes" Type="nvarchar" MaxLength="60" />
+    <Property Name="MixAirlineCodes" Type="nvarchar" MaxLength="60" />
+    <Property Name="RBD" Type="nvarchar" MaxLength="60" Nullable="false" />
+    <Property Name="FareBasis" Type="nvarchar" MaxLength="60" />
+    <Property Name="FlightNo" Type="nvarchar" MaxLength="60" />
+    <Property Name="PaxTypeADT" Type="bit" />
+    <Property Name="PaxTypeCHD" Type="bit" />
+    <Property Name="PaxTypeINF" Type="bit" />
+    <Property Name="StartBookingDate" Type="datetime" />
+    <Property Name="FinishBookingDate" Type="datetime" />
+    <Property Name="ZoneFrom" Type="nvarchar" MaxLength="60" />
+    <Property Name="ZoneTo" Type="nvarchar" MaxLength="60" />
+    <Property Name="Type" Type="nvarchar" MaxLength="60" />
+    <Property Name="MinPrice" Type="money" />
+    <Property Name="MaxPrice" Type="money" />
+    <Property Name="LV1Type" Type="nvarchar" MaxLength="60" />
+    <Property Name="LV1Value" Type="money" />
+    <Property Name="LV2Type" Type="nvarchar" MaxLength="60" />
+    <Property Name="LV2Value" Type="money" />
+    <Property Name="LastUpdate" Type="datetime" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+    <Property Name="IsPercentLV1" Type="bit" />
+    <Property Name="IsPercentLV2" Type="bit" />
+    <Property Name="StartTravelDate" Type="datetime" />
+    <Property Name="FinishTravelDate" Type="datetime" />
+    <Property Name="DomainName" Type="nvarchar" MaxLength="500" />
+    <Property Name="LV1TypeRT" Type="nvarchar" MaxLength="60" />
+    <Property Name="LV1ValueRT" Type="money" />
+    <Property Name="LV2TypeRT" Type="nvarchar" MaxLength="60" />
+    <Property Name="LV2ValueRT" Type="money" />
+    <Property Name="IsPercentLV1RT" Type="bit" />
+    <Property Name="IsPercentLV2RT" Type="bit" />
+  </EntityType>
+  <EntityType Name="PassportConfig">
+    <Key>
+      <PropertyRef Name="PassportOID" />
+    </Key>
+    <Property Name="PassportOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AirlineCodes" Type="nvarchar" MaxLength="60" />
+    <Property Name="OriginCodes" Type="nvarchar" MaxLength="60" />
+    <Property Name="DestinationCodes" Type="nvarchar" MaxLength="60" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="Payment">
+    <Key>
+      <PropertyRef Name="PaymentOID" />
+    </Key>
+    <Property Name="PaymentOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="BankTranferValue" Type="money" />
+    <Property Name="KbankFullValue" Type="money" />
+    <Property Name="KbankInstallValue" Type="money" />
+    <Property Name="PaySolutionCounterValue" Type="money" />
+    <Property Name="PaySolutionInstallValue" Type="money" />
+    <Property Name="UnionpayValue" Type="money" />
+    <Property Name="IspercentBankTranfer" Type="bit" />
+    <Property Name="IspercentKbankFull" Type="bit" />
+    <Property Name="IspercentKbankInstall" Type="bit" />
+    <Property Name="IspercentPayCouter" Type="bit" />
+    <Property Name="IspercentPayInstall" Type="bit" />
+    <Property Name="IIspercentUnionpay" Type="bit" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="PaymentLog">
+    <Key>
+      <PropertyRef Name="PaymentLogOID" />
+    </Key>
+    <Property Name="PaymentLogOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RobinhoodID" Type="nvarchar" MaxLength="60" />
+    <Property Name="LogDateTime" Type="datetime" />
+    <Property Name="LogRequest" Type="nvarchar(max)" />
+    <Property Name="LogResponse" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="PaymentReference">
+    <Key>
+      <PropertyRef Name="PaymentRefID" />
+    </Key>
+    <Property Name="PaymentRefID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PaymentRefOrderNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="PaymentType" Type="nvarchar" MaxLength="50" />
+    <Property Name="CreateDateTime" Type="datetime" />
+    <Property Name="Product" Type="nvarchar" MaxLength="50" />
+    <Property Name="BookingID" Type="uniqueidentifier" />
+  </EntityType>
+  <EntityType Name="PromotionGroupCode">
+    <Key>
+      <PropertyRef Name="PromotionGroupCodeOID" />
+    </Key>
+    <Property Name="PromotionGroupCodeOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PromotionGroupCode" Type="nvarchar" MaxLength="60" />
+    <Property Name="PromotionGroupDescription" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="RunningNumber">
+    <Key>
+      <PropertyRef Name="RunningKey" />
+    </Key>
+    <Property Name="RunningKey" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="RunningNo" Type="int" />
+  </EntityType>
+  <EntityType Name="SeatMapControl">
+    <Key>
+      <PropertyRef Name="SeatMapOID" />
+    </Key>
+    <Property Name="SeatMapOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AirlineCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="OriginalCountryCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="DestinationCountryCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+    <Property Name="RBD" Type="nvarchar" MaxLength="60" />
+  </EntityType>
+  <EntityType Name="SiteConfig">
+    <Key>
+      <PropertyRef Name="ConfigOID" />
+    </Key>
+    <Property Name="ConfigOID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Seq" Type="int" />
+    <Property Name="ConfigKey" Type="nvarchar" MaxLength="50" />
+    <Property Name="ConfigValue" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'RobinhoodBookingDB.dbo.HBHotelName' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="HBHotelName">
+    <Key>
+      <PropertyRef Name="HotelCode" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="HotelCode" Type="int" Nullable="false" />
+    <Property Name="DestinationCode" Type="nvarchar" MaxLength="15" />
+    <Property Name="CountryCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="HotelName" Type="nvarchar" MaxLength="500" />
+    <Property Name="LanguageCode" Type="nvarchar" MaxLength="5" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="BookingDBModelStoreContainer">
+    <EntitySet Name="AirlineCode" EntityType="Self.AirlineCode" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AirlineConfig" EntityType="Self.AirlineConfig" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AirlineControl" EntityType="Self.AirlineControl" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AirlineControlSub" EntityType="Self.AirlineControlSub" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AirlineQtaxControl" EntityType="Self.AirlineQtaxControl" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AirportCode" EntityType="Self.AirportCode" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AirportLocation" EntityType="Self.AirportLocation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AirportTranfer" EntityType="Self.AirportTranfer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AirportWithCity" EntityType="Self.AirportWithCity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AirPromotion" EntityType="Self.AirPromotion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="APIToken" EntityType="Self.APIToken" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="APIUser" EntityType="Self.APIUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BackOfficeAdmin" EntityType="Self.BackOfficeAdmin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChillPayBackground" EntityType="Self.ChillPayBackground" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChillPayInquiry" EntityType="Self.ChillPayInquiry" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChillPayResult" EntityType="Self.ChillPayResult" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CityCode" EntityType="Self.CityCode" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CountryCode" EntityType="Self.CountryCode" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CurrencyExchange" EntityType="Self.CurrencyExchange" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DiscountTag" EntityType="Self.DiscountTag" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DiscountTagDetail" EntityType="Self.DiscountTagDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightBooking" EntityType="Self.FlightBooking" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightBookingBaggage" EntityType="Self.FlightBookingBaggage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightBookingContactInfo" EntityType="Self.FlightBookingContactInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightBookingFare" EntityType="Self.FlightBookingFare" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightBookingFareRule" EntityType="Self.FlightBookingFareRule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightBookingFareRuleDatail" EntityType="Self.FlightBookingFareRuleDatail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightBookingFlightDetail" EntityType="Self.FlightBookingFlightDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightBookingPaxInfo" EntityType="Self.FlightBookingPaxInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightBookingRefund" EntityType="Self.FlightBookingRefund" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightBookingReissue" EntityType="Self.FlightBookingReissue" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightFareRule" EntityType="Self.FlightFareRule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightFareRuleConfig" EntityType="Self.FlightFareRuleConfig" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightFareRuleDetail" EntityType="Self.FlightFareRuleDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightSearchLog" EntityType="Self.FlightSearchLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FlightSearchMultiTicket" EntityType="Self.FlightSearchMultiTicket" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FourDigitControl" EntityType="Self.FourDigitControl" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Information" EntityType="Self.Information" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="KBankCharge" EntityType="Self.KBankCharge" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MarkupFlight" EntityType="Self.MarkupFlight" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PassportConfig" EntityType="Self.PassportConfig" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PaymentLog" EntityType="Self.PaymentLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PaymentReference" EntityType="Self.PaymentReference" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PromotionGroupCode" EntityType="Self.PromotionGroupCode" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RunningNumber" EntityType="Self.RunningNumber" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SeatMapControl" EntityType="Self.SeatMapControl" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SiteConfig" EntityType="Self.SiteConfig" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HBHotelName" EntityType="Self.HBHotelName" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [HBHotelName].[HotelCode] AS [HotelCode], 
+    [HBHotelName].[DestinationCode] AS [DestinationCode], 
+    [HBHotelName].[CountryCode] AS [CountryCode], 
+    [HBHotelName].[HotelName] AS [HotelName], 
+    [HBHotelName].[LanguageCode] AS [LanguageCode]
+    FROM [dbo].[HBHotelName] AS [HBHotelName]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

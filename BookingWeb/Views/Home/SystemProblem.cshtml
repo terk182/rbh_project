@@ -1,0 +1,38 @@
+﻿@section styles
+{
+    <link href="~/Content/hotels/result.css" rel="stylesheet" />
+}
+
+@section width100head
+{
+
+    <div class="error-page">
+        <div class="container">
+            <div class="text-center">
+                <div class="hotel-box" style="max-width: 600px; margin-left:auto; margin-right:auto;">
+
+                    <br /><br />
+                    <img src="~/Images/icon_gogo/error.png" />
+                    <br />
+                    <br /><br />
+                    <span class="font-24">Something went wrong.</span><br />
+                    There is some technical issue, Please try again.
+                    <br /><br />
+                    <div>
+                        <a href="@WebContent.mainWeb" class="btn btn-lg cust-btn"><i class="fas fa-search"></i> @Localize.Show("SEARCH_AGAIN")</a>
+                    </div>
+                    <br />
+                    <small class="d-none">[Technical Information: @ViewBag.Message]</small>
+                    <br /><br />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    <script>
+        $('#mainScreen').hide();
+    </script>
+}

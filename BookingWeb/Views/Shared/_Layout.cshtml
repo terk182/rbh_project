@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @*<link rel="favicon" type="image/png" href="~/favicon.ico" />
+    <link rel="shortcut icon" type="image/png" href="~/favicon.ico" />*@
+    <link rel="shortcut icon" href="~/Images/favicon.png" type="image/x-icon" />
+    <title>Thai airways</title>
+    <link href="~/Vendors/Bootstrap4/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Vendors/Bootstrap4/css/bootstrap-reboot.min.css" rel="stylesheet" />
+    <link href="~/Vendors/Bootstrap4/css/bootstrap-grid.min.css" rel="stylesheet" />
+    <link href="~/Vendors/fontawesome/css/fontawesome-all.css" rel="stylesheet" />
+    <link href="~/Vendors/EasyAutocomplete-1.3.5/easy-autocomplete.min.css" rel="stylesheet" />
+    <link href="~/Vendors/EasyAutocomplete-1.3.5/easy-autocomplete.themes.min.css" rel="stylesheet" />
+    @*<link href="~/Vendors/pickadate/lib/themes/classic.css" rel="stylesheet" />
+        <link href="~/Vendors/pickadate/lib/themes/classic.date.css" rel="stylesheet" />*@
+    <link href="~/Vendors/air-datepicker/dist/css/datepicker.css?v1" rel="stylesheet" />
+    <link href="~/Vendors/webui-popover/dist/jquery.webui-popover.css" rel="stylesheet" />
+    <link href="~/Content/ibe.css?@(DateTime.Now.ToString("ddMMyyhhmmss"))" rel="stylesheet" />
+    <script src="~/Vendors/jQuery3.3.1/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <link href="~/Content/awesome-bootstrap-checkbox.css" rel="stylesheet" />
+    <!-- Gogoji CSS-->
+    <link rel="stylesheet" type="text/css" href="~/mpgogojii/style.css" />
+    @RenderSection("styles", required: false)
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MRZ25REQFN"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-MRZ25REQFN');
+    </script>
+</head>
+<body>
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=681500716114496&autoLogAppEvents=1';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+    <input type="hidden" id="web_lang" name="web_lang" value="@Localize.GetLang()" />
+    <header id="masthead" class="site-header" role="banner">
+        <nav class="navbar navbar-expand-xl sticky-top navbar-light bg-light menu">
+            <div class="container">
+                <div class="navbar-brand mb-0">
+                    <a href="@WebContent.mainWeb" rel="home">
+                        <img src="~/images/logo.png" class="logo__image" />
+                        <!--Today's promotions-->
+                    </a>
+                </div>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span><i class="fas fa-bars"></i></span>
+                    <div class="logo">
+                        <img src="~/images/logo.png" class="logo__image" />
+                    </div>
+                </button>
+                <div class="collapse navbar-collapse  justify-content-end" id="navbarSupportedContent">
+                    <ul class="navbar-nav nav">
+                        @*<li class="nav-item nav-item-first">
+            <a class="nav-link active" href="@(WebContent.mainWeb)profile/my-favorites/">
+                <span class="d-xl-none nav-item__icon-mobile nav-item__icon-mobile--default"><img src="~/mpgogojii/assets/icon/my-favorite.svg" /></span>
+                <span class="d-xl-none nav-item__icon-mobile nav-item__icon-mobile--hover"><img src="~/mpgogojii/assets/icon/my-favorite-active.svg" /></span>My favorites
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#@(WebContent.mainWeb)profile/my-bookings/">
+                <span class="d-xl-none nav-item__icon-mobile nav-item__icon-mobile--default"><img src="~/mpgogojii/assets/icon/my-booking.svg" /></span>
+                <span class="d-xl-none nav-item__icon-mobile nav-item__icon-mobile--hover"><img src="~/mpgogojii/assets/icon/my-booking-active.svg" /></span> My booking
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <span class="d-xl-none nav-item__icon-mobile nav-item__icon-mobile--default"><img src="~/mpgogojii/assets/icon/inbox.svg" /></span>
+                <span class="d-xl-none nav-item__icon-mobile nav-item__icon-mobile--hover"><img src="~/mpgogojii/assets/icon/inbox-active.svg" /></span> Inbox
+            </a>
+        </li>*@
+
+
+                        <li class="nav-item dropdown" style="border-right: 0px;">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                <img src="~/mpgogojii/assets/icon/@(Localize.GetLang().ToUpper()).svg" class="d-none__eng-flag" />
+                                <span class="d-xl-none nav-item__icon-mobile nav-item__icon-mobile--default"><img src="~/mpgogojii/assets/icon/language.svg" /></span>
+                                <span class="d-xl-none nav-item__icon-mobile nav-item__icon-mobile--hover"><img src="~/mpgogojii/assets/icon/language-active.svg" /></span> @Localize.GetLangName()
+                                <i class="fas fa-chevron-down rotate"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#" onclick="setLang('en')"><img src="~/mpgogojii/assets/icon/EN.svg" />Eng</a>
+                                <a class="dropdown-item" href="#" onclick="setLang('th')"><img src="~/mpgogojii/assets/icon/TH.svg" />ไทย</a>
+                            </div>
+                        </li>
+
+                        @*<li class="nav-item dropdown ml-0">
+            <a class="nav-link dropdown-toggle" data-toggle="modal" href="#" role="button" aria-haspopup="true" aria-expanded="false" data-target="#currencyModal">
+                <span class="d-xl-none nav-item__icon-mobile nav-item__icon-mobile--default"><img src="~/mpgogojii/assets/icon/currency.svg" /></span>
+                <span class="d-xl-none nav-item__icon-mobile nav-item__icon-mobile--hover"><img src="~/mpgogojii/assets/icon/currency-active.svg" /></span> @Currency.GetCurrency()
+                <i class="fas fa-chevron-down rotate"></i>
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">USD</a>
+                <a class="dropdown-item" href="#">EUR</a>
+            </div>
+        </li>*@
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "Home")">@Localize.Show("HOME")</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+    <div class="modal fade" id="currencyModal" tabindex="-1" role="dialog" aria-labelledby="currencyModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <p class="body-text" id="currencyModalLabel">All currencies</p>
+
+                </div>
+                <div class="modal-body">
+                    <a class="dropdown-item currency-selector" data-currency="THB" href="#">THAILAND (THB)</a>
+                    <a class="dropdown-item currency-selector" data-currency="USD" href="#">USA (USD)</a>
+                    <a class="dropdown-item currency-selector" data-currency="GBP" href="#">UNITED KINGDOM (GBP)</a>
+                    <a class="dropdown-item currency-selector" data-currency="EUR" href="#">EURO ZONE (EUR)</a>
+                    <a class="dropdown-item currency-selector" data-currency="JPY" href="#">JAPAN (JPY)</a>
+                    <a class="dropdown-item currency-selector" data-currency="HKD" href="#">HONG KONG (HKD)</a>
+                    <a class="dropdown-item currency-selector" data-currency="MYR" href="#">MALAYSIA (MYR)</a>
+                    <a class="dropdown-item currency-selector" data-currency="SGD" href="#">SINGAPORE (SGD)</a>
+                    <a class="dropdown-item currency-selector" data-currency="BND" href="#">BRUNEI (BND)</a>
+                    <a class="dropdown-item currency-selector" data-currency="PHP" href="#">PHILIPPINES (PHP)</a>
+                    <a class="dropdown-item currency-selector" data-currency="IDR" href="#">INDONESIA (IDR)</a>
+                    <a class="dropdown-item currency-selector" data-currency="INR" href="#">INDIA (INR)</a>
+                    <a class="dropdown-item currency-selector" data-currency="CHF" href="#">SWITZERLAND (CHF)</a>
+                    <a class="dropdown-item currency-selector" data-currency="AUD" href="#">AUSTRALIA (AUD)</a>
+                    <a class="dropdown-item currency-selector" data-currency="NZD" href="#">NEW ZEALAND (NZD)</a>
+                    <a class="dropdown-item currency-selector" data-currency="PKR" href="#">PAKISTAN (PKR)</a>
+                    <a class="dropdown-item currency-selector" data-currency="CAD" href="#">CANADA (CAD)</a>
+                    <a class="dropdown-item currency-selector" data-currency="SEK" href="#">SWEDEN (SEK)</a>
+                    <a class="dropdown-item currency-selector" data-currency="DKK" href="#">DENMARK (DKK)</a>
+                    <a class="dropdown-item currency-selector" data-currency="NOK" href="#">NORWAY (NOK)</a>
+                    <a class="dropdown-item currency-selector" data-currency="CNY" href="#">CHINA (CNY)</a>
+                    <a class="dropdown-item currency-selector" data-currency="MXN" href="#">MEXICO (MXN)</a>
+                    <a class="dropdown-item currency-selector" data-currency="ZAR" href="#">SOUTH AFRICA (ZAR)</a>
+                    <a class="dropdown-item currency-selector" data-currency="MMK" href="#">MYANMAR (MMK)</a>
+                    <a class="dropdown-item currency-selector" data-currency="KRW" href="#">SOUTH KOREA (KRW)</a>
+                    <a class="dropdown-item currency-selector" data-currency="TWD" href="#">TAIWAN (TWD)</a>
+                    <a class="dropdown-item currency-selector" data-currency="KWD" href="#">KUWAIT (KWD)</a>
+                    <a class="dropdown-item currency-selector" data-currency="SAR" href="#">SAUDI ARABIA (SAR)</a>
+                    <a class="dropdown-item currency-selector" data-currency="AED" href="#">UNITED ARAB EMIRATES (AED)</a>
+                    <a class="dropdown-item currency-selector" data-currency="BDT" href="#">BANGLADESH (BDT)</a>
+                    <a class="dropdown-item currency-selector" data-currency="CZK" href="#">CZECH REPUBLIC (CZK)</a>
+                    <a class="dropdown-item currency-selector" data-currency="KHR" href="#">CAMBODIA (KHR)</a>
+                    <a class="dropdown-item currency-selector" data-currency="KES" href="#">KENYA (KES)</a>
+                    <a class="dropdown-item currency-selector" data-currency="LAK" href="#">LAO (LAK)</a>
+                    <a class="dropdown-item currency-selector" data-currency="RUB" href="#">RUSSIAN FEDERATION (RUB)</a>
+                    <a class="dropdown-item currency-selector" data-currency="VND" href="#">VIET NAM (VND)</a>
+                    <a class="dropdown-item currency-selector" data-currency="EGP" href="#">EGYPT (EGP)</a>
+                    <a class="dropdown-item currency-selector" data-currency="PLN" href="#">POLAND (PLN)</a>
+                    <a class="dropdown-item currency-selector" data-currency="LKR" href="#">SRI LANKA (LKR)</a>
+                    <a class="dropdown-item currency-selector" data-currency="IQD" href="#">IRAQ (IQD)</a>
+                    <a class="dropdown-item currency-selector" data-currency="BHD" href="#">BAHRAIN (BHD)</a>
+                    <a class="dropdown-item currency-selector" data-currency="OMR" href="#">OMAN (OMR)</a>
+                    <a class="dropdown-item currency-selector" data-currency="JOD" href="#">JORDAN (JOD)</a>
+                    <a class="dropdown-item currency-selector" data-currency="QAR" href="#">QATAR (QAR)</a>
+                    <a class="dropdown-item currency-selector" data-currency="MVR" href="#">MALDIVES (MVR)</a>
+                    <a class="dropdown-item currency-selector" data-currency="NPR" href="#">NEPAL (NPR)</a>
+                    <a class="dropdown-item currency-selector" data-currency="PGK" href="#">PAPUA NEW GUINEA (PGK)</a>
+                    <a class="dropdown-item currency-selector" data-currency="ILS" href="#">ISRAEL (ILS)</a>
+                    <a class="dropdown-item currency-selector" data-currency="HUF" href="#">HUNGARY (HUF)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @RenderSection("width100head", required: false)
+    <div class="container" id="mainScreen">
+        @RenderBody()
+    </div>
+  
+    <footer id="colophon" class="site-footer" role="contentinfo">
+        <div class="container">
+            
+            <!--  .row -->
+
+            <div class="row">
+                <div class="col-12 text-center footer-text">                  
+                    <p class="body-text">
+                        All material herein © @DateTime.Today.Year 
+                    </p>
+                </div>
+
+            </div>
+        </div>
+        <!--  .container -->
+    </footer>
+
+
+    <script src="~/Vendors/popper/popper.js"></script>
+    <script src="~/Vendors/Bootstrap4/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Vendors/Bootstrap4/js/bootstrap.min.js"></script>
+    <script src="~/Vendors/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.js?v2"></script>
+    @*<script src="~/Vendors/pickadate/lib/picker.js"></script>
+        <script src="~/Vendors/pickadate/lib/picker.date.js"></script>
+        <script src="~/Vendors/pickadate/lib/legacy.js"></script>*@
+    <script src="~/Vendors/air-datepicker/dist/js/datepicker.js?v2"></script>
+    <script src="~/Vendors/air-datepicker/dist/js/i18n/datepicker.@(Localize.GetLang()).js"></script>
+    <script src="~/Vendors/webui-popover/dist/jquery.webui-popover.min.js"></script>
+    <script src="~/mpgogojii/top-nav.js"></script>
+    <script>
+        $(".readonly").keydown(function (e) {
+            e.preventDefault();
+        });
+    </script>
+    <script>
+        var setLang = function (l) {
+            $.post('@Url.Action("ChangeLanguage","Home")?lang=' + l, function () {
+                window.location.href = window.location.href.replace('lang=', 'l=');
+                window.location.reload();
+            });
+        };
+
+        $('.currency-selector').click(function () {
+            var ccy = ($(this).data('currency'));
+            $.post('@Url.Action("ChangeCurrency","Home")?ccy=' + ccy, function () {
+                window.location.reload();
+            });
+        });
+        $(".logout").click(function () {
+            $.ajax({
+                url: "@Url.Action("Logout", "Member")",
+                data: "",
+                cache: true,
+                method: "post",
+                success: function (data) {
+                    console.log(data);
+                    if (data && data == "OK") {
+                        document.location = "@Url.Action("index", "Home")";
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        });
+        function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
+            console.log('statusChangeCallback');
+            console.log(response);                   // The current login status of the person.
+             if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+                testAPI();
+                var loginModel = {
+                    "accessToken": response.authResponse.accessToken
+                };               
+                $.ajax({
+                    url: "@Url.Action("FBLogin", "Member")",
+                    data: loginModel,
+                    cache: true,
+                    method: "post",
+                    success: function (data) {
+                        console.log(data);
+                        if (data && data == "OK") {
+                            if ("@(Session["ssURL_Redirect_Page"]!=null && Session["ssURL_Redirect_Page"].ToString().Length>0)" == "True") {
+                                var redirectTo = "@(Session["ssURL_Redirect_Page"]!=null && Session["ssURL_Redirect_Page"].ToString().Length>0 ? Session["ssURL_Redirect_Page"].ToString():"")";
+                                if (redirectTo.length > 0) {
+                                    document.location = redirectTo;
+                                } else {
+                                    document.location = "@Url.Action("MyBooking", "Member")";
+                                }
+                            } else {
+                                document.location = "@Url.Action("MyBooking", "Member")";
+                            }
+                        } else {
+                           document.location = "@Url.Action("Login", "Member")";
+                        }
+                    },
+                    error: function () {
+
+                    }
+
+
+                });
+                
+            } else {                                 // Not logged into your webpage or we are unable to tell.
+                document.getElementById('status').innerHTML = 'Please log into this webpage.';
+                 console.log('Not logged into your webpage or we are unable to tell.');
+            }
+        }
+
+        $("#btn_facebook").click(function () {
+            checkLoginState();
+        });
+        function checkLoginState() {
+        console.log('checkLoginState');
+        FB.getLoginStatus(function (response) {
+            console.log('check status');
+            if (response.status === 'connected') {
+                statusChangeCallback(response);           
+            }
+            else {
+                FB.login(
+                    function (response) {
+                        console.log('check status');
+                        if (response.status === 'connected') {
+                            statusChangeCallback(response);
+                        }
+                    });
+                console.log('user log out');
+            }
+           
+        });
+        }
+        function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+            console.log('Welcome!  Fetching your information.... ');
+            FB.api('/me', function (response) {
+                console.log('Successful login for: ' + response.name);
+                document.getElementById('status').innerHTML =
+                    'Thanks for logging in, ' + response.name + '!';
+                
+            });
+        }
+    </script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
+<!-- @ViewBag.WebMode -->

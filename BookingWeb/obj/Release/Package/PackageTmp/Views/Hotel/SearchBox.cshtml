@@ -1,0 +1,255 @@
+﻿@model GogojiiWeb.Models.HotelSearchModel
+
+@Html.Hidden("city_url", Url.Action("SearchDestination", "Hotel"))
+@using (Html.BeginForm("ResultList", "Hotel", FormMethod.Get, new { @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.Hidden("lang", Localize.GetLang())
+    @Html.HiddenFor(m => m.destinationCode)
+    @Html.HiddenFor(m => m.rooms)
+    <div class="container">
+        <div class="font-24 d-none"><strong>@Localize.Show("FIND_TRIP")</strong></div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-12 padding-lr-2">
+                <div class="white-search-box mb-2">
+                    <div class="row">
+                        <div class="col-12">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 15px; vertical-align: top;">
+                                        <img src="~/Images/icon_gogo/pin.svg" style="width: 10px; margin-top: -8px;" />
+                                    </td>
+                                    <td for="destination">
+                                        <div class="font-14 text-muted">
+                                            @Localize.Show("DEFINE_DESTINATION")
+                                        </div>
+                                        <input name="destination" id="destination" type="text" value="@Model.destination" class="form-search-inside inputText" placeholder="@Localize.Show("DEFINE_DESTINATION")" required />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12 padding-lr-2">
+                <div class="white-search-box mb-2">
+                    <div class="row">
+                        <div class="col-12">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 15px; vertical-align: top;" rowspan="2">
+                                        <img src="~/Images/icon_gogo/calendar.svg" style="width: 10px; margin-top: -8px;" />
+                                    </td>
+                                    <td class="td-check-in">
+                                        <div class="font-14 text-muted">
+                                            @Localize.Show("CHECKIN")
+                                        </div>
+                                        <input name="checkin" id="checkin" type="text" value="@Model.checkinCalendarFormat()" class="form-search-inside" required readonly />
+                                    </td>
+                                    <td rowspan="2" style="width: 20px">
+                                        <img src="~/Images/icon_gogo/arrow_right.svg" style="width: 14px" />
+                                    </td>
+                                    <td class="td-check-out form-border-right">
+                                        <div class="font-14 text-muted">
+                                            @Localize.Show("CHECKOUT")
+                                        </div>
+                                        <input name="checkout" id="checkout" type="text" value="@Model.checkoutCalendarFormat()" class="form-search-inside" placeholder="" readonly />
+                                    </td>
+                                    <td class="padding-lr-2 text-center " style="width: 45px; color: #000;">
+                                        <div id="nights" class="font-18"></div>
+                                        <div class="font-12 ">
+                                            @Localize.Show("NIGHTS")
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12 padding-lr-2">
+                <div class="white-search-box mb-2 dropdown">
+                    <div name="roomValue" id="roomValue" value="@Model.getRoomText()" role="button" data-toggle="collapse" data-target="#navbarDropdown" aria-controls="navbarDropdown" aria-expanded="false" aria-haspopup="true" readonly class="room-select">
+                        <div class="row">
+                            <div class="col-6 form-border-right">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td style="width: 25px; vertical-align: top;">
+                                            <img src="~/Images/icon_gogo/hotel.svg" style="width: 12px; margin-top: -8px;" />
+                                        </td>
+                                        <td>
+                                            <div class="font-14 text-muted">
+                                                @Localize.Show("ROOMS")
+                                            </div>
+                                            <div class="font-16" id="roomNo"></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td style="width: 25px; vertical-align: top;">
+                                            <img src="~/Images/icon_gogo/pax.svg" style="width: 12px; margin-top: -8px;" />
+                                        </td>
+                                        <td>
+                                            <div class="font-14 text-muted">
+                                                @Localize.Show("GUESTS")
+                                            </div>
+                                            <div class="font-16" id="guestNo"></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="navbarDropdown" class="dropdown-menu room-dropdown" aria-labelledby="roomValue">
+                        @{
+                            var roomsModel = Model.getRoomModel();
+                        }
+                        <table id="paxTable" class="pax-table">
+                            <tr>
+                                <td style="width: 90px">
+                                    <strong>@Localize.Show("NO_OF_ROOMS")</strong>
+                                </td>
+                                <td colspan="2">
+                                    <div class="room-number input-group">
+                                        <span class="minus">-</span>
+                                        <input type="text" id="roomCount" name="roomCount" class="form-control form-control-sm" value="@roomsModel.Count" />
+                                        <span class="plus">+</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <small>
+                                        <strong>
+                                            @Localize.Show("ADULTS")
+                                        </strong>
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        <strong>
+                                            @Localize.Show("CHILDREN")
+                                        </strong>
+                                    </small>
+                                </td>
+                            </tr>
+                            @for (int i = 0; i < roomsModel.Count; i++)
+                            {
+                                <tr class="room-pax-@((i+1).ToString())">
+                                    <td>
+                                        <strong>@Localize.Show("ROOM") @((i + 1).ToString()):</strong>
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-control-sm form-control-room" id="adtRoom@((i+1).ToString())" name="adtRoom@((i+1).ToString())" onchange="updateRoom()">
+                                            @for (int adt = 1; adt <= 9; adt++)
+                                            {
+                                                <option value="@adt.ToString()" @(adt == roomsModel[i].adult ? "selected" : "")>@adt.ToString()</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-control-sm form-control-room" id="chdRoom@((i+1).ToString())" name="chdRoom@((i+1).ToString())" onchange="childChange('@((i+1).ToString())')">
+                                            @for (int chd = 0; chd <= 3; chd++)
+                                            {
+                                                <option value="@chd.ToString()" @(chd == roomsModel[i].child ? "selected" : "")>@chd.ToString()</option>
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr class="room-pax-@((i+1).ToString())" style="display: @(roomsModel[i].childAges.Count > 0 ? "" : "none")" id="row-age-@((i+1).ToString())">
+                                    <td>@Localize.Show("CHILD_AGE")</td>
+                                    <td colspan="2" style="padding: 0px;">
+                                        <table>
+                                            <tr>
+                                                @for (int age = 0; age < roomsModel[i].childAges.Count; age++)
+                                                {
+                                                    <td>
+                                                        <select class="form-control form-control-sm form-control-chd-age" id="chdAge@((i + 1).ToString())@((age+1).ToString())" name="chdAge@((i + 1).ToString())@((age+1).ToString())" onchange="updateRoom()">
+                                                            @for (int chd = 0; chd <= 18; chd++)
+                                                            {
+                                                                <option value="@chd.ToString()" @(chd == roomsModel[i].childAges[age] ? "selected" : "")>@chd.ToString()</option>
+                                                            }
+                                                        </select>
+                                                    </td>
+                                                }
+                                                @for (int age = roomsModel[i].childAges.Count; age < 3; age++)
+                                                {
+                                                    <td>
+                                                        <select class="form-control form-control-sm form-control-chd-age" id="chdAge@((i + 1).ToString())@((age+1).ToString())" name="chdAge@((i + 1).ToString())@((age+1).ToString())" style="display: none;" onchange="updateRoom()">
+                                                            @for (int chd = 0; chd <= 18; chd++)
+                                                            {
+                                                                <option value="@chd.ToString()" @(chd == 5 ? "selected" : "")>@chd.ToString()</option>
+                                                            }
+                                                        </select>
+                                                    </td>
+                                                }
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            }
+                            @for (int i = roomsModel.Count; i < 5; i++)
+                            {
+                                <tr class="room-pax-@((i+1).ToString())" style="display: none;">
+                                    <td>
+                                        <strong>@Localize.Show("ROOM") @((i + 1).ToString()):</strong>
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-control-sm form-control-room" id="adtRoom@((i+1).ToString())" name="adtRoom@((i+1).ToString())" onchange="updateRoom()">
+                                            @for (int adt = 1; adt <= 9; adt++)
+                                            {
+                                                <option value="@adt.ToString()" @(adt == 2 ? "selected" : "")>@adt.ToString()</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-control-sm form-control-room" id="chdRoom@((i+1).ToString())" name="chdRoom@((i+1).ToString())" onchange="childChange('@((i+1).ToString())')">
+                                            @for (int chd = 0; chd <= 3; chd++)
+                                            {
+                                                <option value="@chd.ToString()" @(chd == 0 ? "selected" : "")>@chd.ToString()</option>
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr class="room-pax-@((i+1).ToString())" id="row-age-@((i+1).ToString())" style="display: none;">
+                                    <td>@Localize.Show("CHILD_AGE")</td>
+                                    <td colspan="2" style="padding: 0px;">
+                                        <table>
+                                            <tr>
+                                                @for (int age = 0; age < 3; age++)
+                                                {
+                                                    <td>
+                                                        <select class="form-control form-control-sm form-control-chd-age" id="chdAge@((i + 1).ToString())@((age+1).ToString())" name="chdAge@((i + 1).ToString())@((age+1).ToString())" style="display: none;" onchange="updateRoom()">
+                                                            @for (int chd = 0; chd <= 18; chd++)
+                                                            {
+                                                                <option value="@chd.ToString()" @(chd == 5 ? "selected" : "")>@chd.ToString()</option>
+                                                            }
+                                                        </select>
+                                                    </td>
+                                                }
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-12 padding-l-2">
+                <button class="btn cust-btn search-btn" type="button" id="searchBtn"  style="height: 60px" ><i class="fas fa-search"></i> @Localize.Show("SEARCH_FLIGHT")</button>
+                <button class="d-none" id="submit" type="submit"></button>
+            </div>
+        </div>
+
+    </div>
+}
+<script>
+    var roomTxt = '@Localize.Show("ROOMS")';
+    var adtTxt = '@Localize.Show("ADULTS")';
+    var chdTxt = '@Localize.Show("CHILDREN")';
+</script>
+<script src="~/Scripts/hotel_searchbox.js?v3"></script>

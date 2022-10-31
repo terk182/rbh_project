@@ -1,0 +1,89 @@
+﻿@model BL.Entities.MoreThanJustHotel.Hotel_EXT
+
+@Html.Hidden("city_ext_url", Url.Action("SearchDestination_EXT", "MoreThanJustHotel"))
+@using (Html.BeginForm("MoreThanJustHotelThaiSaveOrUpdate", "MoreThanJustHotel", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.hotel_EXT.MoreThanJustHotelOID)
+    @Html.HiddenFor(x => x.hotel_EXT.IsDelete)
+    @Html.HiddenFor(x => x.hotel_EXT.HotelOID)
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">More than just hotel - Thai Details</h6>
+            </div>
+        </div>
+        <br /><div class="text-danger" style="font-size:24px;color:red;font-weight:bold; text-align:center; padding-bottom:20px;" id="messe">@TempData["ErrorMessage"]</div>
+        <div class="card-body">
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Active <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    Disable  @Html.EditorFor(m => m.hotel_EXT.IsActive, new { required = "required" })  Enable
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">Seq<span class="asterisk">*</span></div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(m => m.hotel_EXT.Seq, new { @class = "form-control form-control-sm col-lg-2", required = "required", @type = "number", @min = "0", minlength = "1" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">Hotel Name<span class="asterisk">*</span></div>
+                <div class="col-lg-2 col-md-6 col-sm-12"> <input name="destinationEXT" id="destinationEXT" type="text" value="@(Model.hotelDetail!=null ? Model.hotelDetail.Find(x=>x.LanguageCode=="en").HotelName:"")" class="form-control form-control-sm" placeholder="Hotel Name or Destination" required /></div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">Start Price <span class="asterisk">*</span></div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.HiddenFor(x => x.hotel_EXT.StartPrice)
+                    <input name="txtStartPrice" id="txtStartPrice" type="text" value="@(Model.hotel_EXT.StartPrice!=null ? Model.hotel_EXT.StartPrice.Value.ToString("N0"):"")" class="form-control form-control-sm col-lg-2"  required />
+                            </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">Rating <span class="asterisk">*</span></div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(m => m.hotel_EXT.Rating, new { @class = "form-control form-control-sm col-lg-2" })
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+        <div class="card-footer">
+            <div class="text-right">
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="btn_Save">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+
+                <button type="submit" id="btn_submit" style="display: none;"></button>
+                <a href="@Url.Action("MoreThanJustHotelThaiList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Cancel
+                </a>
+                @*<div onclick="checkData();">checkData</div>*@
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+
+    <script src="~/Scripts/hotel_searchbox.js?v3"></script>
+
+    <script src="~/Vendors/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.js?v2"></script>
+    <script>
+        function checkData() {
+            alert($("#hotel_EXT_HotelOID").val());
+        }
+        $("#btn_Save").on('click', function () {
+            var dStartPrice = parseFloat($("#txtStartPrice").val().replace(",", ""));
+            $("#hotel_EXT_StartPrice").val(dStartPrice);
+        });
+        
+    </script>
+
+}

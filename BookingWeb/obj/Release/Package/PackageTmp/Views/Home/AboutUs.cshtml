@@ -1,0 +1,93 @@
+﻿@section styles
+{
+    <link rel='stylesheet' id='gogojistyle-css' href='~/mpgogojii/style.min.css' type='text/css' media='all' />
+}
+<div id="primary" class="content-area">
+    <main id="main" class="site-main page-static-content" role="main">
+
+        <section class="static-faqs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-3 d-none d-xl-block">
+                        @Html.Partial("~/Views/Home/LeftMenuContent.cshtml")
+                    </div>
+
+                    <div class="col-xl-9 col-lg-12">
+                        @if (Localize.GetLang() == "th")
+                        {
+                            <div class="header-title">
+                                <h3>เกี่ยวกับเรา</h3>
+                                <p>
+                                    gogojii was born in thailand, where travelers around the world come to enjoy its famous warm welcome and charming hospitality. the founder of gogojii saw the opportunity to create a locally-inspired ota (online travel agency), offering both thai and international travelers an out of the ordinary booking and traveling experience.
+
+                                    gogojii is about discovery, fun and inspiring people to get out of their daily routine and out into the unknown, because that’s where we find out who we truly are.
+
+                                    gogojii’s smart booking system can fulfill all your travel needs. our platform is truly a portal to a world of amazing possibilities with flights, hotels, car rentals and attractions all backed up with a customer care program you can trust.
+
+                                    gogojii is with you every step of the way, giving you the peace of mind, you need to make the most of your holiday.��
+
+                                    be inspired and get going with gogojii today - extraordinary travel experiences await!
+                                </p>
+                            </div>
+
+
+                            <div class="static-content-card static-container mt-30 mb-10">
+
+                                <p class='title title--primary  mb-10'>Gogojii About Us</p><p class='body-text mb-25 pre-line '>Gogojii was born in Thailand, where travelers around the world come to enjoy its famous warm welcome and charming hospitality. The founder of Gogojii saw the opportunity to create a locally-inspired OTA (Online Travel Agency), offering both Thai and international travelers an out of the ordinary booking and traveling experience.</p><p class='title title--primary  mb-10'>What we do</p><p class='body-text mb-25 pre-line '>
+                                    Gogojii is about discovery, fun and inspiring people to get out of their daily routine and out into the unknown, because that’s where we find out who we truly are.
+
+                                    Gogojii’s smart booking system can fulfill all your travel needs. Our platform is truly a portal to a world of amazing possibilities with flights, hotels, car rentals and attractions all backed up with a customer care program you can trust.
+
+                                    Gogojii is with you every step of the way, giving you the peace of mind, you need to make the most of your holiday.
+                                </p><p class='title title--primary  mb-10'>Be inspired and get going with Gogojii today - extraordinary travel experiences await!</p><p class='body-text mb-25 pre-line '></p>
+                            </div><!-- .static-content-card -->
+                        }
+                        else
+                        {
+                            <div class="header-title">
+                                <h3>Gogojii About Us</h3>
+                                <p>
+                                    gogojii was born in thailand, where travelers around the world come to enjoy its famous warm welcome and charming hospitality. the founder of gogojii saw the opportunity to create a locally-inspired ota (online travel agency), offering both thai and international travelers an out of the ordinary booking and traveling experience.
+
+                                    gogojii is about discovery, fun and inspiring people to get out of their daily routine and out into the unknown, because that’s where we find out who we truly are.
+
+                                    gogojii’s smart booking system can fulfill all your travel needs. our platform is truly a portal to a world of amazing possibilities with flights, hotels, car rentals and attractions all backed up with a customer care program you can trust.
+
+                                    gogojii is with you every step of the way, giving you the peace of mind, you need to make the most of your holiday.��
+
+                                    be inspired and get going with gogojii today - extraordinary travel experiences await!
+                                </p>
+                            </div>
+
+
+                            <div class="static-content-card static-container mt-30 mb-10">
+
+                                <p class='title title--primary  mb-10'>Gogojii About Us</p><p class='body-text mb-25 pre-line '>Gogojii was born in Thailand, where travelers around the world come to enjoy its famous warm welcome and charming hospitality. The founder of Gogojii saw the opportunity to create a locally-inspired OTA (Online Travel Agency), offering both Thai and international travelers an out of the ordinary booking and traveling experience.</p><p class='title title--primary  mb-10'>What we do</p><p class='body-text mb-25 pre-line '>
+                                    Gogojii is about discovery, fun and inspiring people to get out of their daily routine and out into the unknown, because that’s where we find out who we truly are.
+
+                                    Gogojii’s smart booking system can fulfill all your travel needs. Our platform is truly a portal to a world of amazing possibilities with flights, hotels, car rentals and attractions all backed up with a customer care program you can trust.
+
+                                    Gogojii is with you every step of the way, giving you the peace of mind, you need to make the most of your holiday.
+                                </p><p class='title title--primary  mb-10'>Be inspired and get going with Gogojii today - extraordinary travel experiences await!</p><p class='body-text mb-25 pre-line '></p>
+                            </div><!-- .static-content-card -->
+                        }
+                    </div> <!-- .col-lg-9-->
+                </div>
+            </div>
+        </section>
+
+
+
+    </main>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#mainScreen").removeClass("container");
+            $("#mainScreen").addClass("site-content");
+        });
+    </script>
+}
+

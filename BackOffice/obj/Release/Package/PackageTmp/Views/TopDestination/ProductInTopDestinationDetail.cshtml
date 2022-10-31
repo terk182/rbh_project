@@ -1,0 +1,125 @@
+﻿@model BL.Entities.TopDestination.HotelInTopDestination
+
+@Html.Hidden("city_url", Url.Action("SearchHotelByDestination", "TopDestination"))
+@using (Html.BeginForm("ProductInTopDestinationSaveOrUpdate", "TopDestination", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.product.ProductInTopDesOID)
+    @Html.HiddenFor(x => x.product.TopDestinationOID)
+    @Html.HiddenFor(x => x.product.IsDelete)
+    @Html.HiddenFor(x => x.product.Product)
+    @Html.HiddenFor(x => x.product.HotelCode)
+    @Html.HiddenFor(x => x.product.HotelSource)
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Product in @ViewBag.DestinationName</h6>
+            </div>
+        </div>
+        <br /><div class="text-danger" style="font-size:24px;color:red;font-weight:bold; text-align:center; padding-bottom:20px;" id="messe">@TempData["ErrorMessage"]</div>
+        <div class="card-body">
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Active <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    Disable  @Html.EditorFor(m => m.product.IsActive, new { required = "required" })  Enable
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">Seq<span class="asterisk">*</span></div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(m => m.product.Seq, new { @class = "form-control form-control-sm col-lg-2", required = "required", @type = "number", @min = "0", minlength = "1" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">Hotel Name<span class="asterisk">*</span></div>
+                <div class="col-lg-2 col-md-6 col-sm-12"> <input name="destination" id="destination" type="text" value="@(Model.hotelDetail !=null ? Model.hotelDetail.Find(x => x.LanguageCode == "en").HotelName: "")" class="form-control form-control-sm" placeholder="Hotel Name in @(ViewBag.DestinationName)" required /></div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">Start Price <span class="asterisk">*</span></div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.HiddenFor(x => x.product.StartPrice)
+                    <input name="txtStartPrice" id="txtStartPrice" type="text" value="@(Model.product.StartPrice!=null ? Model.product.StartPrice.Value.ToString("N0"):"")" class="form-control form-control-sm col-lg-2" required />
+
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">Rating <span class="asterisk">*</span></div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(m => m.product.Rating, new { @class = "form-control form-control-sm col-lg-2" })
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+        <div class="card-footer">
+            <div class="text-right">
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="btn_Save">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+
+                <button type="submit" id="btn_submit" style="display: none;"></button>
+                <a href="@Url.Action("ProductInTopDestination",new {TopDestinationOID=Model.product.TopDestinationOID })" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Cancel
+                </a>
+                @*<div onclick="checkData();">checkData</div>*@
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+
+
+    <script src="~/Vendors/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.js?v2"></script>
+    <script>
+        $(document).ready(function () {
+            //City
+            var easyACTopDesOptions = {
+
+                url: function (phrase) {
+                    return $('#city_url').val() + '?keyword=' + phrase + '&destination=@(ViewBag.DestinationCode)&language=en';
+                },
+
+                getValue: "Value",
+                list: {
+                    maxNumberOfElements: 20,
+                    showAnimation: {
+                        type: "fade",
+                        time: 400
+                    },
+
+                    hideAnimation: {
+                        type: "fade",
+                        time: 400
+                    },
+                    onSelectItemEvent: function () {
+                        var value = $("#destination").getSelectedItemData().Key;
+                        $("#product_HotelCode").val(value.replace("HID_", "")).trigger("change");
+                        $("#product_HotelSource").val(value.replace("HID_", "").length > 30 ? "EXT" : "BOL").trigger("change");
+                    }
+                },
+                template: {
+                    type: "custom",
+                    method: function (value, item) {
+                        return '<img src="../../Images/hotel.svg" style="width: 10px;"> ' + value;
+                    }
+                },
+                requestDelay: 0,
+                adjustWidth: false
+            };
+
+            $("#destination").easyAutocomplete(easyACTopDesOptions);
+        });
+        $("#btn_Save").on('click', function () {
+            var dStartPrice = parseFloat($("#txtStartPrice").val().replace(",", ""));
+            $("#product_StartPrice").val(dStartPrice);
+        });
+    </script>
+}

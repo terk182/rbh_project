@@ -1,0 +1,107 @@
+﻿@model BL.Entities.WhyTravelWith.AllWhyTravelWith
+
+@{
+    string URL = System.Configuration.ConfigurationManager.AppSettings["webpages_URL"].ToString();
+}
+
+@using (Html.BeginForm("WhyTravelWithSaveOrUpdate", "WhyTravelWith", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.WhyTravelWith.WhyTravelWithOID)
+    @Html.HiddenFor(x => x.WhyTravelWith.IsDelete)
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Why Travel With? Details</h6>
+            </div>
+        </div>
+        <br /><div class="text-danger" style="font-size:24px;color:red;font-weight:bold; text-align:center; padding-bottom:20px;" id="messe">@TempData["ErrorMessage"]</div>
+              <div class="card-body">
+                  <div class="row mb-1">
+                      <div class="col-lg-2 col-md-6 col-sm-12">
+                          Active <span class="asterisk">*</span>
+                      </div>
+                      <div class="col-lg-8 col-md-6 col-sm-12">
+                          Disable  @Html.EditorFor(m => m.WhyTravelWith.IsActive, new { required = "required" })  Enable
+                      </div>
+                  </div>
+                  <div class="row mb-1">
+                      <div class="col-lg-2 col-md-6 col-sm-12">Seq<span class="asterisk">*</span></div>
+                      <div class="col-lg-8 col-md-6 col-sm-12">
+                          @Html.TextBoxFor(m => m.WhyTravelWith.Seq, new { @class = "form-control form-control-sm col-lg-2", required = "required", @type = "number", @min = "0", minlength = "1" })
+                      </div>
+                  </div>
+
+                  @if (Model.WhyTravelWith.ImageName != null && Model.WhyTravelWith.ImageName.Length > 0)
+                  {
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Image</div>
+                          <div class="col-lg-2">
+                              @Html.HiddenFor(m => m.WhyTravelWith.ImageName, new { @class = "row-fluid span4" })
+                              <img src="@(String.Format("{0}images/why_travel_with/{1}?id={2}", URL, Model.WhyTravelWith.ImageName, Guid.NewGuid()))" align="absMiddle" style="max-width:140px;max-height:140px;" border="0" onerror="this.src='@(String.Format("{0}images/space.gif",URL))';" />
+                              <div class="form-group">
+                                  <div class="custom-control custom-checkbox small">
+                                      <input type="checkbox" class="custom-control-input" id="CheckDelFileName" name="CheckDelFileName" value="true">
+                                      <label class="custom-control-label" for="CheckDelFileName">Delete</label>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  }
+                  <div class="row mb-1">
+                      <div class="col-lg-2 col-md-6 col-sm-12">
+                          New Image<br />
+                          Recommendation: 140x140
+                      </div>
+                      <div class="col-lg-8 col-md-6 col-sm-12">
+                          <input type="file" class="spa1n6 fileinput" id="imageFileName" name="imageFileName">
+                      </div>
+                  </div>
+
+                  @for (int i = 0; i < Model.WhyTravelWithDetails.Count; i++)
+                  {
+                      @Html.HiddenFor(m => m.WhyTravelWithDetails[i].LangCode, new { @class = "row-fluid span4" })
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Image ALT text & Title @Model.WhyTravelWithDetails[i].LangCode <span class="asterisk">*</span></div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.WhyTravelWithDetails[i].ImageALT, new { @class = "form-control form-control-sm col-lg-4", required = "required", minlength = "3" })
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Title @Model.WhyTravelWithDetails[i].LangCode <span class="asterisk">*</span></div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.WhyTravelWithDetails[i].Title, new { @class = "form-control form-control-sm col-lg-4", required = "required", minlength = "3" })
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Short Descriptions @Model.WhyTravelWithDetails[i].LangCode <span class="asterisk">*</span></div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextAreaFor(m => m.WhyTravelWithDetails[i].ShortDescriptions, new { @class = "form-control", required = "required", minlength = "3" })
+                          </div>
+                      </div>
+                  }
+
+              </div>
+        <div class="card-footer">
+            <div class="text-right">
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="btn_Save">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+                @if (Model.WhyTravelWith != null && Model.WhyTravelWithDetails[0].Title!=null && Model.WhyTravelWithDetails[0].Title!="")
+                {
+                    <button type="submit" class="d-sm-inline-block btn btn-sm btn-primaryblue shadow-sm" name="btn_Save" value="2">
+                        <i class="fas fa-save fa-sm text-white-50"></i>
+                        &nbsp;&nbsp;Save As&nbsp;&nbsp;
+                    </button>
+                }
+                <button type="submit" id="btn_submit" style="display: none;"></button>
+                <a href="@Url.Action("WhyTravelWithList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+}
+
+

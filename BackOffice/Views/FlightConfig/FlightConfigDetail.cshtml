@@ -1,0 +1,91 @@
+﻿@model List<DataModel.SiteConfig>
+@using (Html.BeginForm("Details", "FlightConfig", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Flight Config</h6>
+            </div>
+        </div>
+        <div class="card-body">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                string sConfigKey = Model[i].ConfigKey;
+                switch (Model[i].ConfigKey){
+                    case "OfficeID": sConfigKey = "OfficeID for search"; break;
+                    case "TicketTimeLimitHour": sConfigKey = "TicketTimeLimit(minuites)"; break;
+                    case "OutboundWeight":sConfigKey = "Outbound Weight(%)";break;
+                    case "InboundWeight":sConfigKey = "Inbound Weight(%)";break;
+                    case "RoundtripWeight":sConfigKey = "Roundtrip Weight(%)";break;
+                    case "OfficeID_Save": sConfigKey = "OfficeID for save"; break;
+                    case "TICKET.QUEUE_OFFICEID":sConfigKey = "Queue OfficeID"; break;
+                    case "TICKET.QUEUE_NUMBER":sConfigKey = "Queue Number"; break;
+                    case "TICKET.QUEUE_CAT":sConfigKey = "Queue Category"; break;
+                }
+                            @Html.HiddenFor(x => x[i].ConfigOID);
+                            @Html.HiddenFor(x => x[i].ConfigKey);
+                            @Html.HiddenFor(x => x[i].Seq);
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                       
+                         @sConfigKey <span class="asterisk">*</span>
+                    </div>
+                    <div class="col-lg-8 col-md-6 col-sm-12">
+                        @Html.TextBoxFor(x => x[i].ConfigValue, new { required = "required", @class = "form-control form-control-sm col-lg-4", @onkeypress = "return ValidateKey1()" })
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="card-footer">
+            <div class="text-right">
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="btn_Save">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+                <button type="submit" id="btn_submit" style="display: none;"></button>
+                <a href="@Url.Action("FlightConfigDetail")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts
+            {
+    <script>
+        var isSave = '@Request["save"]';
+        $(document).ready(function () {
+              if (isSave == 't') {
+                new PNotify({
+                    title: 'Success',
+                    text: 'Data have been updated',
+                    type: 'success',
+                    styling: 'bootstrap3',
+                    delay: 2000,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    buttons: {
+                        show_on_nonblock: true
+                    }
+                });
+            }
+        });
+        function ValidateKey1() {
+                    var key1 = window.event.keyCode;
+                    var allowed1 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890,*';
+
+                    return allowed1.indexOf(String.fromCharCode(key1)) != -1;
+                }
+
+                function ValidateKey3() {
+                    var key3 = window.event.keyCode;
+                    var allowed3 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,*';
+
+                    return allowed3.indexOf(String.fromCharCode(key3)) != -1;
+                }
+
+    </script>
+}

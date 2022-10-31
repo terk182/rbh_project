@@ -1,0 +1,404 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@{
+    DataModel.BackOfficeAdmin admin = null;
+    string sAbsolutePath = HttpContext.Current.Request.Url.AbsolutePath;
+    admin = (DataModel.BackOfficeAdmin)Session["admin"];
+}
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Robinhood Flight Booking :: BackOffice</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <!-- Custom fonts for this template-->
+    <link href="~/Vendors/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="~/Vendors/sb-admin/sb-admin-2.css?v2" rel="stylesheet" />
+    <link href="~/Vendors/datatables.net/datatables.css" rel="stylesheet" />
+
+    <!-- Switchery -->
+    <link href="~/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <link href="~/Vendors/pnotify/dist/pnotify.css" rel="stylesheet" />
+    <link href="~/Vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet" />
+    <link href="~/Vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Trumbowyg-master/dist/ui/trumbowyg.css" />
+    @*<link href="~/Vendors/trumbowyg/dist/ui/trumbowyg.min.css" rel="stylesheet" />*@
+
+    <!--Datepicker-->
+    <link href="~/Vendors/air-datepicker/dist/css/datepicker.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link href="~/Vendors/EasyAutocomplete-1.3.5/easy-autocomplete.min.css" rel="stylesheet" />
+    <link href="~/Vendors/EasyAutocomplete-1.3.5/easy-autocomplete.themes.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/Images/user-avatar.png" type="image/x-icon" />
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav menu-gradient sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.Action("Index", "Home")">
+                @*<img src="~/Images/icon.png" class="d-md-none d-block" />*@
+                <img src="~/Images/logo-menu.png" class="d-md-block d-none" />
+            </a>
+            <!-- Divider -->
+            @*<hr class="sidebar-divider">*@
+            <li style="display:none" class="nav-item @(sAbsolutePath.IndexOf("Dashboard/Dashboard") != -1 ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("Dashboard", "Dashboard")">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider" />
+
+            @if (admin != null && (admin.Role == 1 || admin.Role == 2))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Flight</span>
+                    </a>
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a style="display:none" class="collapse-item @(sAbsolutePath.IndexOf("Information") != -1 ? "active" : "")" href="@Url.Action("InformationDetail", "Information")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Information Config</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("Passport") != -1 ? "active" : "")" href="@Url.Action("ListConfig", "Passport")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Passport Config</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("MarkupFlight") != -1 ? "active" : "")" href="@Url.Action("MarkupFlightList", "MarkupFlight")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Markup</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("AirlineConfig") != -1 ? "active" : "")" href="@Url.Action("AirlineConfigList", "AirlineConfig")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Airline Config</span></a>
+                            <a class="collapse-item @((((sAbsolutePath.IndexOf("AirlineList") != -1 || sAbsolutePath.IndexOf("AirlineDetail") != -1)|| sAbsolutePath.IndexOf("AirlineSubList") != -1)|| sAbsolutePath.IndexOf("AirlineSubDetail") != -1)? "active" : "")" href="@Url.Action("AirlineList", "Airline")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Airline Control</span></a>
+                            <a style="display:none" class="collapse-item @((sAbsolutePath.IndexOf("AirlineQtaxList") != -1 || sAbsolutePath.IndexOf("AirlineQtaxDetail") != -1)? "active" : "")" href="@Url.Action("AirlineQtaxList", "AirlineQtax")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Airline QTax Control</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("FlightFareRule") != -1 ? "active" : "")" href="@Url.Action("FlightFareRuleList", "FlightFareRuleConfig")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Fare Rule Config</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("FlightDiscountTag") != -1 ? "active" : "")" href="@Url.Action("DiscountTagList", "FlightDiscountTag")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Discount Tag</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("ReportFlight") != -1 ? "active" : "")" href="@Url.Action("FlightReportList", "ReportFlight")"><i class="fas fa-file-contract"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Report</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("FlightRefund") != -1 ? "active" : "")" href="@Url.Action("FlightRefundtList", "FlightRefund")"><i class="fas fa-file-contract"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Refund</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("FlightReissue") != -1 ? "active" : "")" href="@Url.Action("FlightReissuetList", "FlightReissue")"><i class="fas fa-file-contract"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Reissue/Revalidate</span></a>
+                            <a style="display:none" class="collapse-item @(sAbsolutePath.IndexOf("Dashboard/FlightDashboard") != -1 ? "active" : "")" href="@Url.Action("FlightDashboard", "Dashboard")"><i class="fas fa-fw fa-tachometer-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Dash Board</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("FlightConfig") != -1 ? "active" : "")" href="@Url.Action("FlightConfigDetail", "FlightConfig")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Flight Config</span></a>
+
+                        </div>
+                    </div>
+                </li>
+            }
+
+            @if (admin.Role < 0)// (admin.Role == 1 || admin.Role == 3)
+            {
+                <!-- Divider -->
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Hotel</span>
+                    </a>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("MarkupHotel") != -1 ?"active" :"")" href="@Url.Action("MarkupHotelList", "MarkupHotel")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Markup</span></a>
+                            <a class="collapse-item" href="@Url.Action("ReportHotetList", "ReportHotel")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>BOL Report</span></a>
+                            <a class="collapse-item" href="@Url.Action("ReportExtraHotetList", "ReportHotel")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Extra Report</span></a>
+
+                            <a class="collapse-item @((sAbsolutePath.IndexOf("PromotionCodeHotelList") != -1 || sAbsolutePath.IndexOf("PromotionCodeHotelDetail") != -1)? "active" : "")" href="@Url.Action("PromotionCodeHotelList", "Promotion")"><i class="fas fa-barcode"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Promotion Code</span></a>
+                            <a class="collapse-item @((sAbsolutePath.IndexOf("PromotionLastMinuteList") != -1 || sAbsolutePath.IndexOf("PromotionLastMinuteDetail") != -1)? "active" : "")" href="@Url.Action("PromotionLastMinuteList", "Promotion")" style="display:none;"><i class="fas fa-barcode"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Promotion Last Minute </span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("Dashboard/HotelDashboard") != -1 ? "active" : "")" href="@Url.Action("HotelDashboard", "Dashboard")"><i class="fas fa-fw fa-tachometer-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Dash Board</span></a>
+
+                        </div>
+                    </div>
+                </li>
+            }
+
+            @if (admin.Role < 0)// (admin.Role == 1 || admin.Role == 2 || admin.Role == 3)
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Bundle ( Flight + Hotel )</span>
+                    </a>
+                    <div id="collapseThree" class="collapse" aria-labelledby="collapseThree" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="@Url.Action("MarkupBundleList", "MarkupBundle")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Discount</span></a>
+                            <a class="collapse-item" href="@Url.Action("ReportBundleList", "ReportBundle")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>BOL Report</span></a>
+                            <a class="collapse-item" href="@Url.Action("ReportExtraBundleList", "ReportBundle")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Extra Report</span></a>
+                            <a class="collapse-item" href="@Url.Action("PromotionCodeBundleList", "Promotion")"><i class="fas fa-barcode"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Promotion Code</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("Dashboard/BundleDashboard") != -1 ? "active" : "")" href="@Url.Action("BundleDashboard", "Dashboard")"><i class="fas fa-fw fa-tachometer-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Dash Board</span></a>
+                        </div>
+                    </div>
+                </li>
+            }
+
+            @if (admin.Role < 0)// (admin.Role == 1 || admin.Role == 2 || admin.Role == 3)
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Airport Tranfer</span>
+                    </a>
+                    <div id="collapseFour" class="collapse" aria-labelledby="collapseFour" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("MarkupTransfer") != -1 ? "active" : "")" href="@Url.Action("MarkupTransferList", "MarkupTransfer")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Markup</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("ReportTransfer") != -1 ? "active" : "")" href="@Url.Action("ReportTransferList", "ReportTransfer")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;<span>Report</span></a>
+                            <a class="collapse-item @((sAbsolutePath.IndexOf("PromotionCodeTransferList") != -1 || sAbsolutePath.IndexOf("PromotionCodeTransferDetail") != -1)? "active" : "")" href="@Url.Action("PromotionCodeTransferList", "Promotion")"><i class="fas fa-barcode"></i>&nbsp;&nbsp;&nbsp;<span>Promotion Code</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("Dashboard/TransferDashboard") != -1 ? "active" : "")" href="@Url.Action("TransferDashboard", "Dashboard")"><i class="fas fa-fw fa-tachometer-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Dash Board</span></a>
+                        </div>
+                    </div>
+                </li>
+
+            }
+
+            @if (admin.Role < 0)// (admin.Role == 1)
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Payment</span>
+                    </a>
+                    <div id="collapseSix" class="collapse" aria-labelledby="collapseSix" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("Payment") != -1 ? "active" : "")" href="@Url.Action("PaymentDetail", "Payment")"><i class="fab fa-cc-amazon-pay"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Payment</span></a>
+                            <a class="collapse-item" href="@Url.Action("", "")"><i class="fab fa-cc-amazon-pay"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Booking Fee Refund</span></a>
+                            @*<a class="collapse-item" href="@Url.Action("PaymentDetail", "Payment" ,new { id = "be919be2-2321-4c76-a8a6-3b5bc18c040d" })"><i class="far fa-clipboard"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Payment</span></a>*@
+                        </div>
+                    </div>
+                </li>
+            }
+
+            @if (admin.Role < 0)// (admin.Role == 1)
+            {
+
+
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("PromotionCodeByProductList", "Promotion")">
+                        <i class="fas fa-barcode"></i>
+                        <span>Promotion Code By Product</span>
+                    </a>
+                </li>
+
+                @*<li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Promotion Code By Product</span>
+                </a>
+                <div id="collapseSeven" class="collapse" aria-labelledby="collapseSeven" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item @((sAbsolutePath.IndexOf("PromotionCodeByProductList") != -1 || sAbsolutePath.IndexOf("PromotionCodeByProductDetail") != -1)? "active" : "")" href="@Url.Action("PromotionCodeByProductList", "Promotion")"><i class="fas fa-barcode"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Promotion Code</span></a>
+                    </div>
+                </div>
+            </li>*@
+            }
+            @if (admin.Role < 0)
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEight" aria-expanded="true" aria-controls="collapseEight">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Home Page</span>
+                    </a>
+                    <div id="collapseEight" class="collapse" aria-labelledby="collapseEight" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("HotPromotion") != -1 ? "active" : "")" href="@Url.Action("HotPromotionList", "HotPromotion")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Hot Promotion</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("TopDestination") != -1 ? "active" : "")" href="@Url.Action("TopDestinationList", "TopDestination")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Top Destination</span></a>
+                            <a class="collapse-item" href="#"><i class="fas fa-cogs"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>More than just hotels</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("MoreThanJustHotel/MoreThanJustHotelThai") != -1 ? "active" : "")" href="@Url.Action("MoreThanJustHotelThaiList", "MoreThanJustHotel")">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>-Thai</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("MoreThanJustHotel/MoreThanJustHotelInter") != -1 ? "active" : "")" href="@Url.Action("MoreThanJustHotelInterList", "MoreThanJustHotel")">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>-International</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("WhyTravelWith") != -1 ? "active" : "")" href="@Url.Action("WhyTravelWithList", "WhyTravelWith")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Why Travel With ?</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("NewsAndActivity") != -1 ? "active" : "")" href="@Url.Action("NewsAndActivityList", "NewsAndActivity")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>News & Activities</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("CustomerReview") != -1 ? "active" : "")" href="@Url.Action("CustomerReviewList", "CustomerReview")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Customer Review</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("SubscribeDeals") != -1 ? "active" : "")" href="@Url.Action("SubscribeDealsList", "SubscribeDeals")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Subscribe Deals</span></a>
+                        </div>
+                    </div>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNine" aria-expanded="true" aria-controls="collapseNine">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Member</span>
+                    </a>
+                    <div id="collapseNine" class="collapse" aria-labelledby="collapseNine" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item @((sAbsolutePath.IndexOf("Member/MemberList") != -1 || sAbsolutePath.IndexOf("Member/MemberDetail") != -1) ? "active" : "")" href="@Url.Action("MemberList", "Member")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Member List</span></a>
+                            <a class="collapse-item @(sAbsolutePath.IndexOf("Member/MemberLog") != -1 ? "active" : "")" href="@Url.Action("MemberLogList", "Member")"><i class="fas fa-cogs"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>Member Log List</span></a>
+
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item @(sAbsolutePath.IndexOf("UploadImage") != -1 ? "active" : "")">
+                    <a class="nav-link" href="@Url.Action("UploadImageList", "UploadImage")">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Upload image</span>
+                    </a>
+                </li>
+            }
+            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Divider -->
+            @if (admin.Role == 1)
+            {
+
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Admin Control
+                </div>
+
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("List", "Admin")">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Admin</span>
+                    </a>
+                </li>
+                
+            }
+        </ul>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-m rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <h4>@ViewBag.Topic</h4>
+                    </div>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <div class="topbar-divider  d-sm-block"></div>
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2  d-lg-inline text-gray-600 small">@BackOffice.Utilities.AdminUtil.adminName()</span>
+                                <img src="~/Images/user-avatar.png" class="img-profile rounded-circle" />
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <!--
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                    -->
+                                <a class="dropdown-item" href="@Url.Action("Logout", "Account")">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    @RenderBody()
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; - @DateTime.Today.Year </span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/Vendors/jquery/jquery.min.js"></script>
+    <script src="~/Vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="~/Vendors/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="~/Vendors/sb-admin/sb-admin-2.js"></script>
+
+    <script src="~/Vendors/datatables.net/datatables.min.js"></script>
+
+    <script src="~/Vendors/pnotify/dist/pnotify.js"></script>
+    <script src="~/Vendors/pnotify/dist/pnotify.buttons.js"></script>
+    <script src="~/Vendors/pnotify/dist/pnotify.nonblock.js"></script>
+    <!-- Switchery -->
+    <script src="~/vendors/switchery/dist/switchery.min.js"></script>
+    @*<script src="~/Vendors/trumbowyg/dist/trumbowyg.min.js"></script>*@
+    <script src="~/Vendors/moment/moment.js"></script>
+    <!--Datepicker-->
+    <script src="~/Vendors/air-datepicker/dist/js/datepicker.js"></script>
+    <script src="~/Vendors/air-datepicker/dist/js/i18n/datepicker.en.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <!-- Import Trumbowyg -->
+    <script src="~/Trumbowyg-master/dist/trumbowyg.js"></script>
+    <script src="~/Trumbowyg-master/dist/plugins/table/trumbowyg.table.js"></script>
+    <script src="~/Trumbowyg-master/dist/plugins/colors/trumbowyg.colors.min.js"></script>
+    <script src="~/Trumbowyg-master/dist/plugins/fontsize/trumbowyg.fontsize.min.js"></script>
+    <!-- Page level plugins -->
+    <script src="~/Vendors/chart.js/Chart.min.js"></script>
+    <!-- Page level custom scripts -->   
+    <script src="~/Scripts/demo/chart-pie-demo.js"></script>
+   
+
+    @RenderSection("scripts", required: false)
+
+    <script>
+
+        // Switchery
+        $(document).ready(function () {
+            if ($(".js-switch")[0]) {
+                var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+                elems.forEach(function (html) {
+                    var switchery = new Switchery(html, {
+                        color: '#0D14FF',
+                        size: 'small'
+                    });
+                });
+            }
+        });
+        // /Switchery
+
+        $('[id^=collapse]').each(function () {
+            var collapseactive = $(this).find('.active');
+            var collapseid = $(this).attr('id');
+            if (collapseactive.length > 0) {
+                $('#' + collapseid).collapse('show');
+            }
+
+        });
+    </script>
+</body>
+
+</html>

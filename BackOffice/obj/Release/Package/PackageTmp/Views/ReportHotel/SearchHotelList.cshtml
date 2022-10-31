@@ -1,0 +1,318 @@
+﻿@*@model List<DataModel.FlightBooking>*@
+@*@model List<DataModel.FlightBookingFlightDetail>*@
+@model List<BL.Entities.HotelCheckRate.Response>
+
+<head>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+</head>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Hotel Report List</h6>
+            @*<a href="@Url.Action("MarkupDetail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-file-export text-white-50"></i>
+                    Export
+                </a>*@
+        </div>
+    </div>
+    <div class="card-body">
+
+        @using (Html.BeginForm("SearchHotelList", "ReportHotel", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal row-fluid cmxform", id = "formCreate", name = "formCreate" }))
+        {
+            List<SelectListItem> selectListPayment = new List<SelectListItem>
+{
+        new SelectListItem{ Text="--", Value = "00" },
+        new SelectListItem{ Text="Bank Tranfer", Value = "01" },
+        new SelectListItem{ Text="K-Bank", Value = "02" },
+        new SelectListItem{ Text="Pay Solutions", Value = "03" },
+    };
+
+            List<SelectListItem> selectListBookigStatus = new List<SelectListItem>
+{
+        new SelectListItem{ Text="--", Value = "00" },
+        new SelectListItem{ Text="Waiting for payment", Value = "0" },
+        new SelectListItem{ Text="Paid", Value = "1" },
+        new SelectListItem{ Text="Cancel", Value = "2" },
+    };
+            List<SelectListItem> selectListSourceBy = new List<SelectListItem>
+{
+        new SelectListItem{ Text="--", Value = "00" },
+        new SelectListItem{ Text="Web", Value = "01" },
+        new SelectListItem{ Text="App", Value = "02" },
+    };
+
+
+<div class="row">
+    <table class="table table-bordered">
+        <thead class="table-gradient">
+            <tr>
+                <th style="color:#FBAA09;">Payment Method</th>
+                <th style="color:#FBAA09;">Booking Date</th>
+                <th style="color:#FBAA09;">Check In</th>
+                <th style="color:#FBAA09;">Check Out</th>
+                <th style="color:#FBAA09;">Source By</th>
+                <th style="color:#FBAA09;">Booking Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>@Html.DropDownList("Payment", selectListPayment, new { @class = "form-control form-control-sm", @width = "100%" })</th>
+                <th><input type="text" style="background-color:#fff" name="bookingdate" id="bookingdate" value="" class="form-control form-control-sm" readonly /><i class="fa fa-calendar-alt" style="margin-top: -24px;float: right;padding-right: 8px;color:#FBAC02;"></i></th>
+                <th><input type="text" style="background-color:#fff" name="checkin" id="checkin" value="" class="form-control form-control-sm" readonly /><i class="fa fa-calendar-alt" style="margin-top: -24px;float: right;padding-right: 8px;color:#FBAC02;"></i></th>
+                <th><input type="text" style="background-color:#fff" name="checkout" id="checkout" value="" class="form-control form-control-sm" readonly /><i class="fa fa-calendar-alt" style="margin-top: -24px;float: right;padding-right: 8px;color:#FBAC02;"></i></th>
+                <th>@Html.DropDownList("SourceBy", selectListSourceBy, new { @class = "form-control form-control-sm", @width = "100%" })</th>
+                <th>@Html.DropDownList("BookingStatus", selectListBookigStatus, new { @class = "form-control form-control-sm", @width = "100%" })</th>
+                <th style="text-align:center;"><button type="submit" class="btn btn-primary" style=""><i class="fas fa-search"></i>&nbsp;Search</button></th>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+}
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Gogojii ID</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Booking Code</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Booking Date</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Status</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Check-In</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Check-Out</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Room</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Guest</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Total Price</th>
+
+                        <th style="background-color:#FBAC02;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var reportHotel in Model)
+                    {
+                        <tr>
+                            <td align="center">
+                                @reportHotel.gogojiiID
+                            </td>
+                            <td align="center">
+                                @if (reportHotel.booking.hotelBookingNo != null)
+                                {
+                                    @reportHotel.booking.hotelBookingNo
+                                }
+                            </td>
+                            <td align="center">
+                                @reportHotel.bookingDate.ToString("dd/MM/yyyy HH:mm:ss tt")
+                            </td>
+                            <td align="">
+                                <span>Payment</span>&nbsp;<i class="fas fa-circle"></i>&nbsp;&nbsp;
+                                @switch (reportHotel.statusPayment)
+                                {
+                                    case 0:<label>Waiting For Payment</label>; break;
+                                    case 1: <label>Paid</label>; break;
+                                    case 2: <label>cancel</label>; break;
+                                }<br />
+                                <span>Booking</span>&nbsp;<i class="fas fa-circle"></i>&nbsp;&nbsp;
+                                @switch (reportHotel.statusBooking)
+                                {
+                                    case 0:<label>New</label>; break;
+                                    case 1: <label>Paid</label>; break;
+                                    case 2: <label>cancel</label>; break;
+                                }
+                            </td>
+                            <td align="center">
+                                @if (reportHotel.searchRequest.checkIn.ToString("dd/MM/yyyy") != "01/01/0001")
+                                {
+                                    @reportHotel.searchRequest.checkIn.ToString("dd/MM/yyyy")
+                                }
+                                @if (reportHotel.searchDetail.hotelCheckIn.ToString("dd/MM/yyyy") != "01/01/0001")
+                                {
+                                    @reportHotel.searchDetail.hotelCheckIn.ToString("dd/MM/yyyy")
+                                }
+                            </td>
+                            <td align="center">
+                                @if (reportHotel.searchRequest.checkOut.ToString("dd/MM/yyyy") != "01/01/0001")
+                                {
+                                    @reportHotel.searchRequest.checkOut.ToString("dd/MM/yyyy")
+                                }
+
+                                @if (reportHotel.searchDetail.hotelCheckOut.ToString("dd/MM/yyyy") != "01/01/0001")
+                                {
+                                    @reportHotel.searchDetail.hotelCheckOut.ToString("dd/MM/yyyy")
+                                }
+                            </td>
+                            <td align="">
+
+                                @for (int i = 0; i < reportHotel.hotel.rooms.Count; i++)
+                                {
+                                    if (reportHotel.hotel.rooms[i].rates[i].netPrice.ToString("N2") != "0")
+                                    {
+                                        @reportHotel.hotel.rooms[i].roomName <span>x Y room</span><br />
+                                        <span>Net : </span> @reportHotel.hotel.rooms[i].rates[i].netPrice.ToString("N2") <br />
+                                        <span>Total : </span>@reportHotel.hotel.totalSelling.ToString("N2")
+                                    }
+                                }
+                            </td>
+                            <td align="">
+                                <i class="fas fa-file-signature"></i>&nbsp;&nbsp;@reportHotel.bookingHolder.firstName @reportHotel.bookingHolder.lastName <br />
+
+                                <i class="fas fa-envelope-square"></i>&nbsp;&nbsp;@reportHotel.bookingHolder.email<br />
+                                <i class="fas fa-phone-volume"></i>&nbsp;&nbsp;@reportHotel.bookingHolder.telNo
+                            </td>
+
+
+
+                            <td align="center">
+                                @reportHotel.hotel.totalSelling.ToString("N2")
+                            </td>
+
+                            <td>
+
+                                <a href="@Url.Action("ReportHotelDetail", new { id = reportHotel.hotelbookingOID })">
+                                    <span><i class="fas fa-eye"></i> View</span>
+                                </a><br />
+                            </td>
+
+                            @*<td align="center">
+                                    @report.Svc_class
+                                </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        @*var isSave = '@Request["save"]';
+        $(document).ready(function () {
+            $('#grid').DataTable({
+                columnDefs: [{
+                    "orderable": false,
+                    "targets": [4]
+                }, {
+                    "render": function (data, type) {
+                        if (type == 'sort') {
+                            return data + '';
+                        } else {
+                            var html = '';
+                            if (data == 1) {
+                                html = '<i class="fas fa-check" style= "color: #00ff21" ></i>'
+                            } else {
+                                html = '<i class="fas fa-times" style= "color: #ff0000" ></i>'
+                            }
+                            return html;
+                        }
+                    },
+                    "targets": [0]
+                }]
+            });*@
+
+        var isSave = '@Request["save"]';
+        $(document).ready(function () {
+            $('#grid').DataTable({
+                columnDefs: [ { type: 'date', 'targets': [2] } ],
+                order: [2],
+                pageLength: 50,
+                dom: 'lfrtBip',
+                buttons: [
+                    'csv', 'excel','pdf', 'print'
+                ],
+                searching: true,
+                lengthMenu: [[50, 100, -1], [50, 100, "All"]]
+            });
+
+
+            if (isSave == 't') {
+                new PNotify({
+                    title: 'Success',
+                    text: 'Data have been updated',
+                    type: 'success',
+                    styling: 'bootstrap3',
+                    delay: 2000,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    buttons: {
+                        show_on_nonblock: true
+                    }
+                });
+            }
+        });
+
+
+
+    var deleteRow = function (id, name) {
+    if (confirm("Do you want to delete " + name + "?")) {
+    window.location.href = '@Url.Action("MarkupDelete")' + '/' + id;
+    }
+            }
+
+    $("#txtPickupDate").datepicker({
+                startDate: $("#StartPickupDate").val(),
+                format: 'dd/mm/yyyy',
+        autoclose: true,
+                language: 'en'
+    });
+
+     $('input[name="bookingdate"]').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        });
+
+        $('input[name="bookingdate"]').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+        });
+
+        $('input[name="bookingdate"]').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+
+
+
+        $('input[name="checkin"]').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        });
+
+        $('input[name="checkin"]').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+        });
+
+        $('input[name="checkin"]').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+
+
+
+        $('input[name="checkout"]').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        });
+
+        $('input[name="checkout"]').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+        });
+
+        $('input[name="checkout"]').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+
+    </script>
+}
+
+
+
+

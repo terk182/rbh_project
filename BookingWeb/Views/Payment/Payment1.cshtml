@@ -1,0 +1,12 @@
+﻿<br />
+<form method="POST" action="@ViewBag.SubmitURL">
+    <script type="text/javascript"
+            src="@ViewBag.KBankButtonLink"
+            data-apikey="@ViewBag.KBankAPIKEY"
+            data-amount="@ViewBag.Price"
+            data-currency="THB"
+            data-payment-methods="card"
+            data-name="GOGOJII"
+            data-mid="@ViewBag.KBankMerchantID">
+    </script>
+</form>

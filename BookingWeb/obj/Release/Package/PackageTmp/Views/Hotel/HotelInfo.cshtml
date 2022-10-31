@@ -1,0 +1,541 @@
+﻿@model BL.Entities.HotelDetail.Response
+@section styles
+{
+    <link href="~/Content/hotels/result.css?@(DateTime.Now.ToString("ddMMyyhhmmss"))" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.structure.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jRange/jquery.range.css" rel="stylesheet" />
+}
+@{
+
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang().ToLower() == "th" ? "th-TH" : "en-US");
+    GogojiiWeb.Models.HotelSearchModel searchModel = (GogojiiWeb.Models.HotelSearchModel)ViewBag.SearchModel;
+}
+
+@section width100head
+{
+
+    <div class="d-none d-md-block" id="searchBox">
+        @Html.Partial("~/Views/Hotel/SearchBox.cshtml", searchModel)
+        <br />
+    </div>
+    <div class="container">
+        <div class="hotel-title m-4">
+            <span class="font-30">
+                <strong>@Model.hotel.hotelName</strong>
+            </span>
+            <span class="ml-1">
+                @if (Model.hotel.category != null && Model.hotel.category.code != null)
+                {
+                    char star = Model.hotel.category.code[0];
+                    if (Char.IsDigit(star))
+                    {
+                        int iStar = int.Parse(star.ToString());
+                        for (int i = 1; i <= iStar; i++)
+                        {
+                            <i class="fas fa-star yellow-star"></i>
+                        }
+                        for (int i = iStar + 1; i <= 5; i++)
+                        {
+                            <i class="fas fa-star grey-star"></i>
+                        }
+                    }
+                }
+            </span>
+        </div>
+    </div>
+    <!--Carousel Wrapper-->
+    <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
+        <!--Slides-->
+        <div class="carousel-inner" role="listbox">
+            @for (int i = 0; i < Model.hotel.images.Count; i++)
+            {
+                if (Model.hotel.hotelSource == "EXT")
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <div class="gallery-img-div">
+                            <img src="@ViewBag.hotelExtURL/@Model.hotel.images[i].url" class="img-fluid gallery-img" />
+                        </div>
+                        <div class="d-block gallery w-100 text-center" id="galler=@i.ToString()" style="background-image: url('@ViewBag.hotelExtURL/@Model.hotel.images[i].url')" alt="@Model.hotel.images[i].description">
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <div class="gallery-img-div">
+                            <img src="https://photos.hotelbeds.com/giata/original/@Model.hotel.images[i].url" class="img-fluid gallery-img" />
+                        </div>
+                        <div class="d-block gallery w-100 text-center" id="galler=@i.ToString()" style="background-image: url('https://photos.hotelbeds.com/giata/original/@Model.hotel.images[i].url')" alt="@Model.hotel.images[i].description">
+                        </div>
+                    </div>
+                }
+            }
+
+            @if (Model.hotel.images.Count == 0)
+            {
+                <div class="carousel-item active">
+                    <div class="gallery-img-div">
+                        <img src="~/Images/hotel_blank.jpg" class="img-fluid gallery-img" />
+                    </div>
+                    <div class="d-block gallery w-100 text-center" id="galler=0" style="background-image: url('../Images/hotel_blank.jpg')">
+                    </div>
+                </div>
+            }
+        </div>
+        <!--/.Slides-->
+        <!--Controls-->
+        <a class="carousel-control-prev" href="#carousel-thumb" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carousel-thumb" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+        <!--/.Controls-->
+        <div class="thumbnail-bar-div">
+            <div class="thumbnail-bar">
+                <ol class="carousel-indicators">
+                    @for (int i = 0; i < Model.hotel.images.Count; i++)
+                    {
+                        if (Model.hotel.hotelSource == "EXT")
+                        {
+                            <li data-target="#carousel-thumb" data-slide-to="@i.ToString()" class="@(i == 0 ? "active" : "")"> <img class="d-block w-100 img-fluid" src="@ViewBag.hotelExtURL/@Model.hotel.images[i].url" /></li>
+                        }
+                        else
+                        {
+                            <li data-target="#carousel-thumb" data-slide-to="@i.ToString()" class="@(i == 0 ? "active" : "")"> <img class="d-block w-100 img-fluid" src="https://photos.hotelbeds.com/giata/small/@Model.hotel.images[i].url" /></li>
+                        }
+                    }
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!--/.Carousel Wrapper-->
+    <div class="container mt-1 mb-1" style="padding: 40px;">
+        <div class="row">
+            <div class="col-12 col-md-8 col-lg-9">
+                @{
+                    List<BL.Entities.HotelDetail.Facility> topFacs = (List<BL.Entities.HotelDetail.Facility>
+                    )ViewBag.TopFacilities;
+                    if (topFacs.Count > 0)
+                    {
+                        int tdwidth = 100 / topFacs.Count;
+                        <table style="display:none;">
+                            <tr>
+                                @for (int i = 0; i < topFacs.Count; i++)
+                                {
+                                    <td valign="top" style="width: @(tdwidth)%" class="text-center topfac @( i == 0 ? "" : "topfac-border")">
+                                        <img src="~/Images/hotel_fac_icons/fac@(topFacs[i].code).svg" style="height: 30px" />
+                                        <div class="mt-2 font-14">@topFacs[i].name</div>
+                                    </td>
+                                }
+                            </tr>
+                        </table>
+                    }
+
+                    if (topFacs.Count > 0)
+                    {
+                        <div class="row">
+                            @for (int i = 0; i < topFacs.Count; i++)
+                            {
+                                <div class="co-lg-2 co-md-2 co-sm-4 co-xs-4 text-center topfac @( i == 0 ? "" : "topfac-border") @( i == 3 ? "topfac-border-hide" : "")  ">
+                                    <img src="~/Images/hotel_fac_icons/fac@(topFacs[i].code).svg" style="height: 30px" />
+                                    <div class="mt-2 font-14">@topFacs[i].name</div>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+                <div class="font-24 mt-5">
+                    <strong>@Localize.Show("DESCRIPTION")</strong>
+                </div>
+                <div class="font-14">
+                    @Html.Raw(Model.hotel.description)
+                </div>
+            </div>
+            <div class="col-12 col-md-4 col-lg-3">
+                <div id="map-detail">
+                    <div class="map">
+                        <a href="http://maps.google.com/?q=@Model.hotel.latitude,@Model.hotel.longitude" target="_blank">
+                            <div class="pic" style="background-image: url('https://maps.googleapis.com/maps/api/staticmap?center=@Model.hotel.latitude,@Model.hotel.longitude&amp;zoom=15&amp;scale=1&amp;size=300x200&amp;maptype=roadmap&amp;key=AIzaSyCX_pvel9_UQO7HSpapWF8vSLOhQ6uw2Qg&amp;format=png&amp;visual_refresh=true&amp;markers=size:mid%7Ccolor:0xff0000%7C@(Model.hotel.latitude),@Model.hotel.longitude')">
+
+                            </div>
+                        </a>
+                        <div class="details">
+                            <i class="fas fa-map-marker-alt map-pin"></i> @Model.hotel.address, @Model.hotel.postalCode
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm("GetRate", "Hotel", FormMethod.Post, new { data_parsley_validate = "", role = "form", enctype = "multipart/form-data" }))
+    {
+        @Html.Hidden("hotelSource", Model.hotel.hotelSource)
+        @Html.Hidden("hotelCode", Model.hotel.hotelCode)
+        <div class="price-sticky">
+            <div class="container">
+                <div class="text-right font-18">
+                    @Localize.Show("TOTAL") <span class="font-14">@Currency.GetCurrency()</span>
+                    <span id="totalPrice"></span>
+                    <button class="btn btn-warning" type="submit" id="booknow" style="display: none;">@Localize.Show("BOOK_NOW")</button>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white ">
+            <div class="container">
+                <div id="roomList">
+
+                </div>
+                @if (Model.hotel.rooms != null && Model.hotel.rooms.Count > 0)
+                {
+                    var roomList = searchModel.getRoomModel();
+
+                    <input type="hidden" name="roomCount" id="roomCount" value="@(roomList.Count)" />
+                    <div id="accordionRoom">
+                        @for (int iRoom = 0; iRoom < roomList.Count; iRoom++)
+                        {
+                            List<BL.Entities.HotelDetail.RoomDetail>
+                matchRoom = new List<BL.Entities.HotelDetail.RoomDetail>();
+
+                            foreach (var room in Model.hotel.rooms)
+                            {
+                                var checkRoom = room.rates.FirstOrDefault(x => x.forRoom.adults == roomList[iRoom].adult && x.forRoom.children == roomList[iRoom].child);
+                                if (checkRoom != null)
+                                {
+                                    matchRoom.Add(room);
+                                }
+                            }
+                            <input type="hidden" name="room_@(iRoom)" id="room_@(iRoom)" value="" />
+                            <div id="showRoom_@(iRoom)" style="display: @(iRoom == 0 ? "" : "none")">
+                                <div class=" mt-1 mb-1" style="padding-top: 40px;" id="heading_@(iRoom)">
+                                    <div style="width: 100%;">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-12">
+                                                <span class="font-24">
+                                                    <strong>
+                                                        @Localize.Show("SELECT_YOUR_ROOM")
+                                                        @if (roomList.Count > 1)
+                                                        {
+                                                            <span>@(iRoom + 1): </span>
+                                                            <span class="font-16 ml-3">
+                                                                @roomList[iRoom].adult @Localize.Show("ADULTS")
+                                                                @if (roomList[iRoom].child > 0)
+                                                                {
+                                                                    <span>, @roomList[iRoom].child  @Localize.Show("CHILDREN")</span>
+                                                                }
+                                                            </span>
+                                                        }
+                                                    </strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12"></div>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+
+                                    <div class="room-info">
+                                        <span class="font-20">
+                                            <strong>@matchRoom.Count @Localize.Show("ROOM_TYPES_AVAIL")</strong>
+                                        </span>
+                                    </div>
+
+                                    @foreach (var room in matchRoom)
+                                    {
+                                        List<BL.Entities.HotelDetail.Rate>
+                            matchRate = new List<BL.Entities.HotelDetail.Rate>();
+                                        foreach (var r in room.rates)
+                                        {
+
+                                            if (r.forRoom.adults == roomList[iRoom].adult && r.forRoom.children == roomList[iRoom].child)
+                                            {
+                                                matchRate.Add(r);
+                                            }
+                                        }
+                                        <div class="mt-2">
+                                            <span class="font-18">
+                                                <strong>@room.roomName</strong>
+                                            </span>
+                                        </div>
+                                        <div class="row mb-5">
+                                            <div class="col-12 col-md-4 col-lg-3">
+                                                @{
+                                                    var roomImg = "../../Images/noimgroom.jpg";
+                                                }
+                                                @if (room.images != null && room.images.Count > 0)
+                                                {
+                                                    if (Model.hotel.hotelSource == "EXT")
+                                                    {
+                                                        roomImg = ViewBag.hotelExtURL + "/" + room.images[0].url;
+                                                    }
+                                                    else
+                                                    {
+                                                        roomImg = "//photos.hotelbeds.com/giata/" + room.images[0].url;
+                                                    }
+                                                }
+                                                <div class="hotel-image" style="background-image: url('@roomImg')"></div>
+                                                <div>
+                                                    <span class="font-12">
+                                                        <strong>@Html.Raw(room.roomDescription)</strong>
+                                                    </span>
+                                                </div>
+                                                <div class="mt-1">
+                                                    @foreach (var facility in room.facilities)
+                                                    {
+                                                        <span class="hotel-cancel-msg">
+                                                            @facility.name
+                                                            @if (!String.IsNullOrEmpty(facility.value))
+                                                            {
+                                                                <span>: @facility.value</span>
+                                                            }
+                                                            @if (facility.extraFee)
+                                                            {
+                                                                <span> (Extra fee)</span>
+                                                            }
+                                                        </span>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-8 col-lg-9">
+                                                <div class="rate-box">
+                                                    @for (int i = 0; i < matchRate.Count; i++)
+                                                    {
+                                                        if (i != 0)
+                                                        {
+                                                            <hr />
+                                                        }
+                                                        <div class="row">
+                                                            <div class="col-md-6 col-sm-12">
+                                                                <div class="font-18">
+                                                                    <strong>@matchRate[i].boardName</strong>
+                                                                </div>
+                                                                <div class="font-14">
+                                                                    @matchRate[i].forRoom.adults @Localize.Show("ADULTS")
+                                                                    @if (matchRate[i].forRoom.children > 0)
+                                                                    {
+                                                                        <span>, @matchRate[i].forRoom.children  @Localize.Show("CHILDREN")</span>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 col-sm-12 text-right">
+                                                                @if (matchRate[i].promotions != null && matchRate[i].promotions.Count > 0)
+                                                                {
+                                                                    foreach (var pro in matchRate[i].promotions)
+                                                                    {
+                                                                        if (!String.IsNullOrEmpty(pro.promotionName))
+                                                                        {
+                                                                            <span class="promotion-tag ml-1">
+                                                                                @pro.promotionName
+                                                                            </span>
+                                                                        }
+                                                                    }
+                                                                }
+                                                                @if (matchRate[i].allotment <= 1)
+                                                                {
+                                                                    <div class="font-14 text-red">
+                                                                        @Localize.Show("HURRY_LAST_ROOM")
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 col-sm-12">
+                                                                @if (matchRate[i].cancellationPolicies != null && matchRate[i].cancellationPolicies.Count > 0)
+                                                                {
+                                                                    <span class="hotel-facility">
+                                                                        @Localize.Show("FREE_CANCELLATION_BEFORE") @matchRate[i].cancellationPolicies.Min(x => x.fromDate).ToString("dd MMM yyyy", ci)
+                                                                    </span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="hotel-facility">
+                                                                        @Localize.Show("NON_REFUNDABLE")
+                                                                    </span>
+                                                                }
+                                                            </div>
+                                                            <div class="col-md-6 col-sm-12 text-right">
+                                                                @if (matchRate[i].promotions != null && matchRate[i].promotions.Count > 0)
+                                                                {
+                                                                    <strike class="text-muted font-14 mr-2">
+                                                                        @Currency.GetCurrency() @(Currency.convertFromTHB((matchRate[i].sellingPrice + Math.Abs(matchRate[i].promotions.Sum(x => x.discountPrice)))).ToString("N2"))
+                                                                    </strike>
+                                                                }
+                                                                <strong>
+                                                                    <span class="font-14">@Currency.GetCurrency()</span>
+                                                                    <span class="text-blue font-24">@Currency.convertFromTHB(matchRate[i].sellingPrice).ToString("N2")</span>
+                                                                </strong>
+                                                                <div>
+                                                                    <strong class="font-14">@Localize.Show("PRICE_FOR") @searchModel.night @Localize.Show("NIGHTS")</strong>
+                                                                    <span class="font-14 text-muted">@Localize.Show("TAX_INCLUDED")</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 col-sm-12">
+                                                            </div>
+                                                            <div class="col-md-6 col-sm-12 text-right">
+                                                                <div class="d-none" id="price_@matchRate[i].rateID">@Currency.convertFromTHB(matchRate[i].sellingPrice).ToString()</div>
+                                                                @{
+                                                                    string paxSum = "";
+                                                                    paxSum = roomList[iRoom].adult + " " + Localize.Show("ADULTS");
+                                                                    if (roomList[iRoom].child > 0)
+                                                                    {
+                                                                        paxSum += ", " + roomList[iRoom].child + " " + Localize.Show("CHILDREN");
+                                                                    }
+                                                                }
+                                                                <button class="btn btn-warning mt-1" type="button" onclick="selectRoom(@iRoom, '@matchRate[i].rateKey', '@Currency.convertFromTHB(matchRate[i].sellingPrice).ToString()', '@room.roomName - @matchRate[i].boardName','@Currency.convertFromTHB(matchRate[i].sellingPrice).ToString("N2")', '@roomImg', '@paxSum')">@Localize.Show("SELECT_THIS_ROOM")</button>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <br />
+                }
+                else
+                {
+                    <br />
+                    <br />
+                    <br />
+                    <div class="m-5">
+                        <div class="rate-box">
+                            <div class="text-center">
+                                <h3>
+                                    @Localize.Show("NO_ROOM")
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                }
+                <div class="mt-1"></div>
+            </div>
+        </div>
+    }
+}
+<div class="mt-1 mb-2">
+    <div class="font-24">
+        <strong>@Localize.Show("HIGHLIGHTS")</strong>
+    </div>
+    <div class="row">
+        @if (Model.hotel.pointOfInterest != null)
+        {
+            <div class="col-12 col-md-4 col-lg-3">
+                <div class="poi-box">
+                    <div class="font-16">
+                        @Localize.Show("INTERESTING_POINTS")
+                        <br />
+                    </div>
+                    @foreach (var poi in Model.hotel.pointOfInterest)
+                    {
+                        @poi.placeName <br />
+                        <span>@(Convert.ToDecimal(poi.distance) / 1000) @Localize.Show("KM")</span>
+                        <br />
+                        <br />
+                    }
+                </div>
+            </div>
+        }
+        <div class="col-12 col-md-8 col-lg-9">
+            @{
+                var groupList = Model.hotel.facilities.Select(x => x.groupCode).Distinct().OrderBy(x => x).ToList();
+                foreach (int groupCode in groupList)
+                {
+                    var facList = Model.hotel.facilities.Where(x => x.groupCode == groupCode).ToList();
+
+                    <div class="font-16">
+                        <strong>@facList[0].groupName</strong>
+                    </div>
+                    <div class="row">
+                        @foreach (var fac in facList)
+                        {
+                            if(fac != null && fac.name != null){
+                            <div class="col-lg-3 col-md-4 col-sm-6 font-14">
+                                @(fac.name[0].ToString().ToUpper() + fac.name.Substring(1))
+                                @if (!String.IsNullOrEmpty(fac.value))
+                                {
+                                    <span>: @fac.value</span>
+                                }
+                                @if (fac.extraFee)
+                                {
+                                    <span> (Extra fee)</span>
+                                }
+                            </div>
+                            }
+                        }
+                    </div>
+                    <br />
+                }
+            }
+        </div>
+    </div>
+</div>
+<br />
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('.form_roomno').change(function () {
+                var totalRoom = 0;
+                var totalPrice = 0;
+                $('.form_roomno').each(function () {
+                    totalRoom += parseInt($(this).val());
+                    totalPrice += (parseFloat($(this).val()) * parseFloat($('div[id="price_' + $(this)[0].id + '"]').html()));
+                });
+
+                $('#totalPrice').html(totalPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                $('#totalRoom').html(totalRoom);
+                if (totalRoom > 0) {
+                    $('.price-sticky').fadeIn('slow');
+                } else {
+                    $('.price-sticky').fadeOut('slow');
+                }
+            });
+        });
+        $('.collapse').on('shown.bs.collapse', function (e) {
+            var $card = $(this);
+            $('html,body').animate({
+                scrollTop: $card.offset().top - 90
+            }, 500);
+        });
+
+        var total = 0;
+        var selectRoom = function (roomID, rateKey, price, roomName, priceComma, roomImg, paxSum) {
+            var roomCount = $('#roomCount').val();
+            $('#room_' + roomID).val(rateKey);
+            total += parseFloat(price);
+            $('#totalPrice').html(total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+            if (roomID != roomCount - 1) {
+                if (roomID == 0) {
+
+                    $('.price-sticky').fadeIn('slow');
+                }
+                var roomDetail = '@Localize.Show("ROOM") ' + (roomID + 1) + ": " + roomName;
+                var roomBox = '<br /><div class="hotel-box hotel-main"><div class="row"><div class="col-md-3 col-sm-12"><div class="hotel-image" style="background-image:url(\'' + roomImg + '\');"></div></div><div class="col-md-9 col-sm-12"><div class="font-18"><strong>' + roomDetail + '</strong></div><div class="font-14">' + paxSum + '</div><div class="mt-2 mr-2 hotel-price-section"><div class="text-right"><strong><span class="font-14">@Currency.GetCurrency()</span><span class="text-blue font-24" > ' + priceComma + '</span></strong><div><span class="font-14 text-muted">@Localize.Show("TAX_INCLUDED")</span></div></div></div></div></div></div>';
+                $('#roomList').append(roomBox);
+                $('#showRoom_' + roomID).hide();
+                $('#showRoom_' + (roomID + 1)).show();
+                var $card = $('#roomList'); //$('#showRoom_' + (roomID + 1));
+                $('html,body').animate({
+                    scrollTop: $card.offset().top - 90
+                }, 500);
+            } else {
+                $('#booknow').click();
+            }
+        }
+    </script>
+}

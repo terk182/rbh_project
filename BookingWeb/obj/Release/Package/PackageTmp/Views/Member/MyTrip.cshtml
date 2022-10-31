@@ -1,0 +1,415 @@
+﻿@model BL.Entities.MyTrip.Response
+@{
+    BL.Entities.Member.GogojiiUser user = MemberUI.GetUser();
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang() == "th" ? "th-TH" : "en-US");
+}
+<link href="~/Content/flights/paxinfo.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-3 d-none d-md-block" id="menu-div">
+        <div class="list-group list-group-flush">
+            <a href="@Url.Action("MProfile", "Member")" class="list-group-item list-group-item-action font-14 member-list">
+                <img src="~/Images/member/Profile_black.png" class="icon-member" /> @Localize.Show("PROFILE")
+            </a>
+            <a href="@Url.Action("MyTrip", "Member")" class="list-group-item list-group-item-action font-14 member-list member-list-active">
+                <img src="~/Images/member/Flag_brown.png" class="icon-member" /> @Localize.Show("MY_TRIP")
+            </a>
+            <a href="@Url.Action("Companion", "Member")" class="list-group-item list-group-item-action font-14 member-list ">
+
+                <img src="~/Images/member/Passsenger_black.png" class="icon-member" /> @Localize.Show("COMPANION")
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-12 d-block d-md-none d-lg-none d-xl-none">
+        <div class="dropdown show">
+            <a class="btn btn-outline-warning dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 100%">
+                <img src="~/Images/member/Flag_black.png" class="icon-member" /> @Localize.Show("MY_TRIP")
+            </a>
+            <div id="memberMenuDropdown" class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 100%">
+                <a href="@Url.Action("MProfile", "Member")" class="dropdown-item">
+                    <img src="~/Images/member/Profile_black.png" class="icon-member" /> @Localize.Show("PROFILE")
+                </a>
+                <a href="@Url.Action("Companion", "Member")" class="dropdown-item">
+                    <img src="~/Images/member/Passsenger_black.png" class="icon-member" /> @Localize.Show("COMPANION")
+                </a>
+            </div>
+        </div>
+        <br />
+    </div>
+    <div class='col-md-9 col-sm-12' id="member-div">
+        <div class="font-18">
+            <strong>@Localize.Show("MY_TRIP")</strong>
+        </div>
+
+        @if (Model != null && Model.BookingTransections != null && Model.BookingTransections.Count > 0)
+        {
+            int i = -1;
+            foreach (var booking in Model.BookingTransections)
+            {
+                if (booking.BookingTransection.PnrStatus == 2)
+                {
+                    continue;
+                }
+                if (booking.BookingTransection.Pnr == "" || booking.BookingTransection.Pnr.Length != 6)
+                {
+                    continue;
+                }
+                long status = 0;
+                if (booking.BookingTransection.PnrStatus == 0)
+                {
+                    status = 2;
+                }
+                else
+                {
+                    status = booking.BookingTransection.PaymentStatus.GetValueOrDefault();
+                }
+                string tripType = booking.BookingFlights.Max(x => x.RouteNo) == 2 ? "R" : "O";
+                string depCode = booking.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).FromCity;
+                long maxSegment = booking.BookingFlights.Where(x => x.RouteNo == 1).Max(y => y.SegmentNo);
+                string arrCode = booking.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == maxSegment).ToCity;
+                i++;
+                string pnr = booking.BookingTransection.Pnr == "" ? booking.BookingTransection.KiwiRef.ToString() : booking.BookingTransection.Pnr;
+                <br />
+                <div class="card @(i % 2 == 1 ? "bg-light" : "")">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-12">
+                                <img src="~/Images/member/pay@(status).png" id="imgStatus_@pnr" />
+                                <strong class="font-10" id="textStatus_@pnr">@Localize.Show("BOOKING_STATUS" + status.ToString())</strong>
+                            </div>
+                            <div class="col-lg-6 col-md-11 col-11">
+                                <div class="font-16">
+                                    @ViewBag.naming.namingService.GetAirportName(depCode, false, Localize.GetLang()) (@depCode)
+                                    @if (tripType == "R")
+                                    {
+                                        <img src="~/Images/roundtrip_plane.png" style="vertical-align:middle; max-height: 100%; width: 20px" class="img-fluid" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Images/black_plane.png" style="vertical-align:middle; max-height: 100%; width: 20px" class="img-fluid" />
+                                    }
+                                    @ViewBag.naming.namingService.GetAirportName(arrCode, false, Localize.GetLang()) (@arrCode)
+                                </div>
+                                <div class="font-14">
+                                    @booking.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).DepartureDateTime.ToString("dd MMM", ci) @booking.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).DepartureDateTime.ToString("yy")
+                                    @if (tripType == "R")
+                                    {
+                                        <span> - </span>
+                                        <span>@booking.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).DepartureDateTime.ToString("dd MMM", ci) @booking.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).DepartureDateTime.ToString("yy")</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12 col-12">
+                                <div class="font-14">
+                                    @Localize.Show("BOOKING_REF")
+                                </div>
+                                <div class="font-16" style="color: #D29094;">
+                                    <strong>@pnr</strong>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-12 col-12">
+                                <div class="font-16">
+                                    &nbsp;
+                                </div>
+                                <div class="font-14">
+                                    <img src="~/Images/member/Details.png" />
+                                    <a href="javascript:openModal('@Url.Action("TripDetail", "Member", new { id = booking.BookingTransection.BookingId })')">
+                                        @Localize.Show("SEE_DETAIL")
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <br />
+            <div class="text-right">
+                @if (Model.PageCount > 1)
+                {
+                    <nav>
+                        <ul class="pagination">
+                            @for (int p = 1; p <= Model.PageCount; p++)
+                            {
+                                if (p == Model.PageIndex)
+                                {
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">@p</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item"><a class="page-link" href="@Url.Action("MyTrip", new { id = p })">@p</a></li>
+                                }
+                            }
+                        </ul>
+                    </nav>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="card">
+                <div class="card-body text-center">
+                    <br />
+                    <img src="~/Images/member/Empty.png" /> @Localize.Show("NO_TRIP")
+                    <br />
+                    <br />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<div id="detailModal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div id="farerule_loading" class="text-center">
+                <br />
+                <img src="~/Images/waiting.gif" style="vertical-align:middle; width: 120px;" class="img-fluid" />
+            </div>
+            <div class="modal-body model-body-detail">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal " id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div>
+                    <div class="text-center">
+                        <img src="~/Images/guint_confuse.png" />
+                        <br />
+                        <strong class="font-18">@Localize.Show("CONFIRM")</strong>
+                        <br />
+                        <span class="font-12">@Localize.Show("DELETE_TRIP_CONFIRM")</span>
+                    </div>
+                    <table style="border-spacing: 10px; border-collapse: separate; width:100%">
+                        <tr>
+                            <td style="width:50%">
+                                <button class="btn cust-btn search-btn" type="button" onclick="deleteBooking()">
+                                    <strong>@Localize.Show("YES")</strong>
+                                </button>
+                            </td>
+                            <td style="width:50%">
+                                <button class="btn cancel-btn search-btn" type="button" onclick="closeDeleteBooking();">
+                                    <strong>@Localize.Show("CANCEL")</strong>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal " id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div>
+                    <div class="text-center">
+                        <img src="~/Images/guint_confuse.png" />
+                        <br />
+                        <strong class="font-18">@Localize.Show("CONFIRM")</strong>
+                        <br />
+                        <span class="font-12">@Localize.Show("CANCEL_TRIP_CONFIRM")</span>
+                    </div>
+                    <table style="border-spacing: 10px; border-collapse: separate; width:100%">
+                        <tr>
+                            <td style="width:50%">
+                                <button class="btn cust-btn search-btn" type="button" onclick="cancelBooking()">
+                                    <strong>@Localize.Show("YES")</strong>
+                                </button>
+                            </td>
+                            <td style="width:50%">
+                                <button class="btn cancel-btn search-btn" type="button" onclick="closeCancelBooking();">
+                                    <strong>@Localize.Show("CANCEL")</strong>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal " id="autoCancelModal" tabindex="-1" role="dialog" aria-labelledby="autoCancelModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div>
+                    <div class="text-center">
+                        <img src="~/Images/notice.png" />
+                        <br />
+                        <strong class="font-16">@Localize.Show("AUTO_CANCEL_TRIP_CONFIRM")</strong>
+                        <br />
+                        <span class="font-14">@Localize.Show("AUTO_CANCEL_TRIP_CONTACT")</span>
+                    </div>
+                    <table style="border-spacing: 10px; border-collapse: separate; width:100%">
+                        <tr>
+                            <td style="width:25%"></td>
+                            <td style="width:50%">
+                                <button class="btn cancel-btn search-btn" type="button" onclick="closeAutoCancelBooking();">
+                                    <strong>@Localize.Show("DISMISS")</strong>
+                                </button>
+                            </td>
+                            <td style="width:25%"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal " id="priceChangeModal" tabindex="-1" role="dialog" aria-labelledby="priceChangeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div>
+                    <div class="text-center">
+                        <img src="~/Images/notice.png" />
+                        <br />
+                        <strong class="font-16" id="txtPC1"></strong>
+                        <br />
+                        <span class="font-14" id="txtPC2"></span> <span class="font-14" id="txtPC3"></span> <span class="font-14" id="txtPC4"></span> <span class="font-14" id="txtPC5"></span>
+                        <br />
+                        <span class="font-14" id="txtPC6"></span>
+                    </div>
+                    <table style="border-spacing: 10px; border-collapse: separate; width:100%">
+                        <tr>
+                            <td style="width:25%"></td>
+                            <td style="width:50%">
+                                <button class="btn cancel-btn search-btn" type="button" onclick="closePriceChange();">
+                                    <strong>@Localize.Show("DISMISS")</strong>
+                                </button>
+                            </td>
+                            <td style="width:25%"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="display:none">
+    <img src="~/Images/member/pay2.png" id="imgStatus_Cancel" />
+    <strong class="font-10" id="textStatus_Cancel">@Localize.Show("BOOKING_STATUS2")</strong>
+</div>
+@section Scripts
+{
+<script>
+
+        var openModal = function (url) {
+            $('#farerule_loading').show();
+            $('.model-body-detail').html('');
+            $('#detailModal').modal({ show: true });
+            $('.model-body-detail').load(url, function () {
+                $(".model-body-detail").css({
+                    'overflow-y': 'auto',
+                    'height': '90%'
+                });
+                $('#farerule_loading').hide();
+                if ($('#autoCancel').val() == 'T') {
+                    autoCancelBookingConfirm();
+                    var tripPNR = $('#tripPNR').html();
+                    $('#imgStatus_' + tripPNR).attr('src', $('#imgStatus_Cancel').attr('src'));
+                    $('#textStatus_' + tripPNR).html($('#textStatus_Cancel').html());
+                }
+                if ($('#priceChange').val() == 'G' || $('#priceChange').val() == 'L') {
+                    var priceChageTag = $('#priceChange').val();
+                    priceChangeConfirm();
+                    if (priceChageTag == 'G') {
+                        $('#txtPC1').html('@Localize.Show("PRICE_CHANGE_MSG_1_G")');
+                        $('#txtPC2').html('@Localize.Show("PRICE_CHANGE_MSG_2_G")');
+                        $('#txtPC3').html($('#oldPrice').val() + ' ' + $('#ccy').val());
+                        $('#txtPC4').html('@Localize.Show("PRICE_CHANGE_MSG_3_G")');
+                        $('#txtPC5').html($('#newPrice').val() + ' ' + $('#ccy').val() + ' @Localize.Show("PRICE_CHANGE_MSG_4_G")');
+                        $('#txtPC6').html('@Localize.Show("PRICE_CHANGE_MSG_5_G")');
+                    } else {
+                        $('#txtPC1').html('@Localize.Show("PRICE_CHANGE_MSG_1_L")');
+                        $('#txtPC2').html('@Localize.Show("PRICE_CHANGE_MSG_2_L")');
+                        $('#txtPC3').html($('#oldPrice').val() + ' ' + $('#ccy').val());
+                        $('#txtPC4').html('@Localize.Show("PRICE_CHANGE_MSG_3_L")');
+                        $('#txtPC5').html($('#newPrice').val() + ' ' + $('#ccy').val() + ' @Localize.Show("PRICE_CHANGE_MSG_4_G")');
+                        $('#txtPC6').html('@Localize.Show("PRICE_CHANGE_MSG_5_L")');
+                    }
+
+                }
+            });
+        };
+
+
+        var showHideFlightDetail = function (tripType) {
+            if ($('#' + tripType + '_Detial').is(":visible")) {
+                $('#showHide' + tripType).html('@Localize.Show("SHOW_FLIGHT_DETIAL")');
+                $('#' + tripType + '_Detial').slideUp();
+            } else {
+                $('#showHide' + tripType).html('@Localize.Show("HIDE_FLIGHT_DETIAL")');
+                $('#' + tripType + '_Detial').slideDown();
+            }
+        }
+        var deleteID = '';
+        var deleteBookingConfirm = function (id) {
+            $('#deleteModal').modal({ show: true });
+            $('#detailModal').css('opacity', '0.8');
+            deleteID = id;
+        };
+
+        var closeDeleteBooking = function () {
+            $('#deleteModal').modal('hide')
+            $('#detailModal').css('opacity', '1');
+        };
+
+        var deleteBooking = function () {
+            window.location.href = '@Url.Action("DeleteTrip")' + '/' + deleteID;
+        };
+
+        var cancelID = '';
+        var cancelPNR = '';
+        var cancelBookingConfirm = function (pnr, id) {
+            $('#cancelModal').modal({ show: true });
+            $('#detailModal').css('opacity', '0.8');
+            cancelID = id;
+            cancelPNR = pnr;
+        };
+
+        var closeCancelBooking = function () {
+            $('#cancelModal').modal('hide')
+            $('#detailModal').css('opacity', '1');
+        };
+
+        var cancelBooking = function () {
+            window.location.href = '@Url.Action("CancelTrip")' + '/' + cancelID + '?pnr=' + cancelPNR;
+        };
+
+        var autoCancelBookingConfirm = function () {
+            $('#autoCancelModal').modal({ show: true });
+            $('#detailModal').css('opacity', '0.8');
+        };
+
+        var closeAutoCancelBooking = function () {
+            $('#autoCancelModal').modal('hide')
+            $('#detailModal').css('opacity', '1');
+        };
+
+        var priceChangeConfirm = function () {
+            $('#priceChangeModal').modal({ show: true });
+            $('#detailModal').css('opacity', '0.8');
+        };
+
+        var closePriceChange = function () {
+            $('#priceChangeModal').modal('hide')
+            $('#detailModal').css('opacity', '1');
+        };
+
+        var clickPay = function (id) {
+            paymentID = id;
+            $('[id^="div_"]').addClass('alert-payment').removeClass('alert-payment-check');
+            $('#div_' + id).addClass('alert-payment-check').removeClass('alert-payment');
+        };
+</script>
+}

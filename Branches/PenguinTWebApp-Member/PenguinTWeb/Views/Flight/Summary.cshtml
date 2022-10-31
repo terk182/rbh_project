@@ -1,0 +1,623 @@
+﻿@model BL.Entities.GogojiiFare.AirFare
+@section styles
+{
+    <link href="~/Content/flights/paxinfo.css" rel="stylesheet" />
+}
+@{
+
+    string clsStr = "";
+    switch (Model.svc_class)
+    {
+        case "F":
+            clsStr = Localize.Show("FIRST");
+            break;
+        case "C":
+            clsStr = Localize.Show("BUSINESS");
+            break;
+        case "P":
+            clsStr = Localize.Show("PREMIUM_ECONOMY");
+            break;
+        case "Y":
+            clsStr = Localize.Show("ECONOMY");
+            break;
+    }
+}
+<script>
+    fbq('track', 'InitiateCheckout', {
+        value:  @Model.grandTotal.ToString(),
+        currency: 'THB',
+    });
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="font-24"><strong>@Localize.Show("BOOKING_COMPLETE")</strong></div>
+                    <span>@Localize.Show("BOOKING_SUMMARY_1")</span>
+                    <span class="connection-blue-text">@Model.adtPaxs[0].email</span>
+                    <span>@Localize.Show("BOOKING_SUMMARY_2")</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <span>@Localize.Show("BOOKING_REF"):</span><br />
+                            <strong>@ViewBag.PNR</strong>
+                        </div>
+                        <div class="col-6">
+                            <span>@Localize.Show("STATUS"):</span><br />
+                            <strong class="text-red">@Localize.Show("WAITING_PAY")</strong>
+                        </div>
+                    </div>
+                    <div class="row row-mt">
+                        <div class="col-12">
+                            <span>@Localize.Show("PAID_BEFORE"):</span><br />
+                            <strong>@Model.TKTL.ToString("HH:mm") @(Localize.GetLang() == "th" ? "น." : "") @Model.TKTL.ToString("dd'/'MM'/'yy")</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="font-24"><strong>@Localize.Show("PAX_DETAIL")</strong></div>
+            <div class="card">
+                <div class="card-body">
+                    @{
+                        int paxNo = 1;
+                    }
+                    @for (int i = 0; i < Model.noOfAdults; i++)
+                    {
+                        <div class="row row-mt">
+                            <div class="col-12">
+                                <div>
+                                    <strong>@(paxNo.ToString()). @Localize.Show("NAME"):</strong>
+                                    @Model.adtPaxs[i].title  @Model.adtPaxs[i].firstname   @Model.adtPaxs[i].middlename   @Model.adtPaxs[i].lastname
+                                </div>
+                                @if (i == 0)
+                                {
+                                    <div>
+                                        <strong>@Localize.Show("EMAIL"):</strong> @Model.adtPaxs[i].email
+                                        <br />
+                                        <strong>@Localize.Show("TELNO"):</strong> @Model.adtPaxs[i].telNo
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        if (i != Model.noOfAdults - 1)
+                        {
+                            <hr />
+                        }
+                        paxNo++;
+                    }
+                    @for (int i = 0; i < Model.noOfChildren; i++)
+                    {
+                        <hr />
+                        <div class="row row-mt">
+                            <div class="col-12">
+                                <div>
+                                    <strong>@(paxNo.ToString()). @Localize.Show("NAME"):</strong>
+                                    @Model.chdPaxs[i].title  @Model.chdPaxs[i].firstname   @Model.chdPaxs[i].middlename   @Model.chdPaxs[i].lastname
+                                </div>
+                                <div>
+                                    <strong>@Localize.Show("BIRTHDAY"):</strong> @Model.chdPaxs[i].birthday.ToString("dd'/'MM'/'yyyy")
+                                </div>
+                            </div>
+                        </div>
+                        paxNo++;
+                    }
+                    @for (int i = 0; i < Model.noOfInfants; i++)
+                    {
+                        <hr />
+                        <div class="row row-mt">
+                            <div class="col-12">
+                                <div>
+                                    <strong>@(paxNo.ToString()). @Localize.Show("NAME"):</strong>
+                                    @Model.infPaxs[i].title  @Model.infPaxs[i].firstname   @Model.infPaxs[i].middlename   @Model.chdPaxs[i].lastname
+                                </div>
+                                <div>
+                                    <strong>@Localize.Show("BIRTHDAY"):</strong> @Model.infPaxs[i].birthday.ToString("dd'/'MM'/'yyyy")
+                                </div>
+                            </div>
+                        </div>
+                        paxNo++;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <br />
+            @Html.Partial("~/Views/Flight/FlightDetailBox.cshtml", Model)
+        </div>
+
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12">
+            <div class="font-24"><strong>@Localize.Show("FARE_DETAIL")</strong></div>
+            <div class="card">
+                <div class="card-body price-box">
+                    @if (Model.noOfAdults > 0)
+                    {
+                        <div class="row font-18">
+                            <div class="col-7">
+                                <strong>
+                                    @Localize.Show("ADULT")
+                                    @if (Model.noOfAdults > 1)
+                                    {
+                                        <span>x @Model.noOfAdults</span>
+                                    }
+                                </strong>
+                            </div>
+                            <div class="col-5 text-right">
+                                <strong>฿@((Model.adtFare.net * Model.noOfAdults).ToString("N0"))</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                @Localize.Show("PRICE")
+                            </div>
+                            <div class="col-5 text-right">
+                                ฿@((Model.adtFare.sellingBaseFare * Model.noOfAdults).ToString("N0"))
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                @Localize.Show("TAX")
+                            </div>
+                            <div class="col-5 text-right">
+                                ฿@((Model.adtFare.tax * Model.noOfAdults).ToString("N0"))
+                            </div>
+                        </div>
+                        <hr />
+                    }
+
+                    @if (Model.noOfChildren > 0)
+                    {
+                        <div class="row font-18">
+                            <div class="col-7">
+                                <strong>
+                                    @Localize.Show("CHILD")
+                                    @if (Model.noOfChildren > 1)
+                                    {
+                                        <span>x @Model.noOfChildren</span>
+                                    }
+                                </strong>
+                            </div>
+                            <div class="col-5 text-right">
+                                <strong>฿@((Model.chdFare.net * Model.noOfChildren).ToString("N0"))</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                @Localize.Show("PRICE")
+                            </div>
+                            <div class="col-5 text-right">
+                                ฿@((Model.chdFare.sellingBaseFare * Model.noOfChildren).ToString("N0"))
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                @Localize.Show("TAX")
+                            </div>
+                            <div class="col-5 text-right">
+                                ฿@((Model.chdFare.tax * Model.noOfChildren).ToString("N0"))
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                    @if (Model.noOfInfants > 0)
+                    {
+                        <div class="row font-18">
+                            <div class="col-7">
+                                <strong>
+                                    @Localize.Show("INFANT")
+                                    @if (Model.noOfInfants > 1)
+                                    {
+                                        <span>x @Model.noOfInfants</span>
+                                    }
+                                </strong>
+                            </div>
+                            <div class="col-5 text-right">
+                                <strong>฿@((Model.infFare.net * Model.noOfInfants).ToString("N0"))</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                @Localize.Show("PRICE")
+                            </div>
+                            <div class="col-5 text-right">
+                                ฿@((Model.infFare.sellingBaseFare * Model.noOfInfants).ToString("N0"))
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                @Localize.Show("TAX")
+                            </div>
+                            <div class="col-5 text-right">
+                                ฿@((Model.infFare.tax * Model.noOfInfants).ToString("N0"))
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                    <div class="row font-24">
+                        <div class="col-7">
+                            <strong>@Localize.Show("GRAND_TOTAL")</strong>
+                        </div>
+                        <div class="col-5 text-right text-red">
+                            <strong>฿@Model.grandTotal.ToString("N0")</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <br />
+
+            <div class="font-24"><strong>@Localize.Show("FARE_CONDITION")</strong></div>
+            <div class="card">
+                <div class="card-header">
+                    <table style="width: 100%">
+                        <tr>
+                            <td width="80px;">
+                                <img src="~/Images/36.png" style="vertical-align:middle;" class="img-fluid" />
+                            </td>
+                            <td>
+                                <span>@Html.Raw(Localize.Show("FARE_CONDITION_DETAIL"))</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card-body">
+                    @foreach (var fareRule in Model.fareRules)
+                    {
+                        if (Model.fareRules.Count > 1)
+                        {
+                            <div>
+                                <strong>@fareRule.origin.name - @fareRule.destination.name</strong>
+                            </div>
+                        }
+                        <div id="@(fareRule.origin.code + fareRule.destination.code)">
+                            @foreach (var rule in fareRule.rules)
+                            {
+                                string id = Guid.NewGuid().ToString();
+                                <div class="card">
+                                    <div class="card-header" id="heading@(id)" style="padding: 0px;">
+                                        <div class="mb-0">
+                                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse@(id)" aria-expanded="false" aria-controls="collapse@(id)" style="font-size: 12px;">
+                                                @if (rule.category == "SR")
+                                                {
+                                                    <strong><i class="far fa-caret-square-down"></i> SALES RESTRICTIONS</strong>
+                                                }
+                                                else if (rule.category == "AP")
+                                                {
+                                                    <strong><i class="far fa-caret-square-down"></i> ADVANCE PURCHASE / RESERVATIONS AND TICKETING</strong>
+                                                }
+                                                else if (rule.category == "PE")
+                                                {
+                                                    <strong><i class="far fa-caret-square-down"></i> PENALTIES</strong>
+                                                }
+                                                else if (rule.category == "MN")
+                                                {
+                                                    <strong><i class="far fa-caret-square-down"></i> MIN STAY</strong>
+                                                }
+                                                else if (rule.category == "MX")
+                                                {
+                                                    <strong><i class="far fa-caret-square-down"></i> MAX STAY</strong>
+                                                }
+
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="collapse@(id)" class="collapse" aria-labelledby="heading@(id)" data-parent="#@(fareRule.origin.code + fareRule.destination.code)">
+                                        <div class="card-body" style="font-size: 12px;">
+                                            @foreach (var item in rule.fareRuleText)
+                                            {
+                                                <p style="margin-bottom: 0px;">@item</p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm("Pay", "Flight", FormMethod.Post, new { data_parsley_validate = "", role = "form", enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="col-12">
+                <br />
+
+                <div class="font-24"><strong>@Localize.Show("PLEASE_SELECT_PAYMENT_METHOD")</strong></div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="font-18"><strong>@Localize.Show("PAY_NOW")</strong></div>
+                        <div class="font-14">@Localize.Show("GUARANTEE_PRICE_MESSAGE")</div>
+                        <div class="alert alert-payment-check payment-box" id="div_CC">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width:15px;">
+                                        <label class="radio">
+                                            <input type="radio" checked name="payment_method" id="payment_method_cc" value="CC" class="payment-check" onclick="clickPay('CC')">
+                                            <span class="checkround"></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <div class="font-18"><strong>@Localize.Show("CREDIT_DEBIT_CARD")</strong></div>
+                                                <div>
+                                                    <img src="~/Images/new-payment-types-cards.png" class="img-fluid" style="width: 60px;" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12 text-right">
+                                                <div class="font-14 text-red">
+                                                    @Localize.Show("FEE")
+                                                    ฿ @Model.creditCardFee.ToString("N2")
+                                                </div>
+                                                <div class="font-14 ">
+                                                    @Localize.Show("PAYMENT_AMOUNT")
+                                                    ฿ @((Model.creditCardFee + Model.totalFare).ToString("N2"))
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="alert alert-payment payment-box" id="div_PP">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width:15px;">
+                                        <label class="radio">
+                                            <input type="radio" name="payment_method" id="payment_method_pp" value="PP" class="payment-check" onclick="clickPay('PP')">
+                                            <span class="checkround"></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <div class="font-18"><strong>@Localize.Show("Paypal")</strong></div>
+                                                <div>
+                                                    <img src="~/Images/paypal_logo.png" class="img-fluid" style="width: 60px;" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12 text-right">
+                                                <div class="font-14 text-red">
+                                                    @Localize.Show("FEE")
+                                                    ฿ @Model.paypalFee.ToString("N2")
+                                                </div>
+                                                <div class="font-14 ">
+                                                    @Localize.Show("PAYMENT_AMOUNT")
+                                                    ฿ @((Model.paypalFee + Model.totalFare).ToString("N2"))
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <hr />
+                        <div class="font-18"><strong>@Localize.Show("PAY_LATER")</strong></div>
+                        <div class="font-14">@Localize.Show("PRICE_MAY_CHANGE_MESSAGE")</div>
+                        @if (Model.counterServiceFee + Model.totalFare <= 30000)
+                        {
+                            <div class="alert alert-payment payment-box" id="div_CS">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td style="width:15px;">
+                                            <label class="radio">
+                                                <input type="radio" name="payment_method" id="payment_method_cs" value="CS" class="payment-check" onclick="clickPay('CS')">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="font-18"><strong>@Localize.Show("COUNTER_SERVICE")</strong></div>
+                                                    <div>
+                                                        <img src="~/Images/icon_web/counterservice.png" class="img-fluid" style="width: 60px;" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12 text-right">
+                                                    <div class="font-14 text-red">
+                                                        @Localize.Show("FEE")
+                                                        ฿ @Model.counterServiceFee.ToString("N2")
+                                                    </div>
+                                                    <div class="font-14 ">
+                                                        @Localize.Show("PAYMENT_AMOUNT")
+                                                        ฿ @((Model.counterServiceFee + Model.totalFare).ToString("N2"))
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        }
+                        <div class="alert alert-payment payment-box" id="div_BT">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width:15px;">
+                                        <label class="radio">
+                                            <input type="radio" name="payment_method" id="payment_method_bt" value="BT" class="payment-check" onclick="clickPay('BT')">
+                                            <span class="checkround"></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <div class="font-18"><strong>@Localize.Show("BANK_TRANSFER")</strong></div>
+                                            </div>
+                                            <div class="col-md-6 col-12 text-right">
+                                                <div class="font-14 ">
+                                                    <span class="font-14 text-red" style="margin-right: 20px;">
+                                                        @Localize.Show("NO_FEE")
+                                                    </span>
+                                                    <span class="font-14 ">
+                                                        @Localize.Show("PAYMENT_AMOUNT")
+                                                    </span>
+                                                    ฿ @((Model.totalFare).ToString("N2"))
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                @Localize.Show("BANK_TRANSFER_MSG_1")
+                                                <span class="color: #6C2FEB">@Model.adtPaxs[0].email</span>
+                                                @Localize.Show("BANK_TRANSFER_MSG_2")
+                                                <br />
+                                                @Localize.Show("PLEASE_PAY_BEFORE")
+                                                <span class="text-red"> @Model.TKTL.ToString("HH:mm") @(Localize.GetLang() == "th" ? "น." : "") @Model.TKTL.ToString("dd'/'MM'/'yyyy")</span>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <table>
+                                                    <tr>
+                                                        <td style="vertical-align: top">
+                                                            <img src="~/Images/icon_web/Kasikorn.png" />
+                                                        </td>
+                                                        <td>
+                                                            <div class="font-18">
+                                                                <strong>@Localize.Show("KBANK_TITLE") </strong>
+                                                            </div>
+                                                            <div class="font-14">
+                                                                @Localize.Show("ACCOUNT_NAME")<br />
+                                                                @Localize.Show("ACCOUNT_NO"): 758-2-15954-4
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <table>
+                                                    <tr>
+                                                        <td style="vertical-align: top">
+                                                            <img src="~/Images/icon_web/ktb.png" />
+                                                        </td>
+                                                        <td>
+                                                            <div class="font-18">
+                                                                <strong>@Localize.Show("KTB_TITLE") </strong>
+                                                            </div>
+                                                            <div class="font-14">
+                                                                @Localize.Show("ACCOUNT_NAME")<br />
+                                                                @Localize.Show("ACCOUNT_NO"): 568-0-15083-2
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="text-center">
+                    <button class="btn btn-lg cust-btn" type="button" id="book" style="width: 200px;">
+                        <strong>@Localize.Show("PAY")</strong>
+                    </button>
+                    <button type="submit" id="book_submit" style="display:none;"></button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<br />
+@section Scripts
+{
+    <script>
+        var paymentID = 'CC';
+        var showHideFlightDetail = function (tripType) {
+            if ($('#' + tripType + '_Detial').is(":visible")) {
+                $('showHide' + tripType).html('@Localize.Show("SHOW_FLIGHT_DETIAL")');
+                $('#' + tripType + '_Detial').slideUp();
+            } else {
+                $('#showHide' + tripType).html('@Localize.Show("HIDE_FLIGHT_DETIAL")');
+                $('#' + tripType + '_Detial').slideDown();
+            }
+        }
+
+        var clickPay = function (id) {
+            paymentID = id;
+            $('[id^="div_"]').addClass('alert-payment').removeClass('alert-payment-check');
+            $('#div_' + id).addClass('alert-payment-check').removeClass('alert-payment');
+        };
+
+        $(document).ready(function () {
+            $('#book').click(function () {
+                fbq('track', 'AddPaymentInfo', {
+                    content_ids: paymentID
+                });
+    var content = [];
+    @if (Model.noOfAdults > 0)
+    {
+        <text>
+    content.push(
+        {
+            item_price: @Model.adtFare.net.ToString(),
+            id: 'ADT',
+            quantity: @Model.noOfAdults
+        });
+    </text>
+    }
+    @if (Model.noOfChildren > 0)
+    {
+        <text>
+    content.push(
+        {
+            item_price: @Model.chdFare.net.ToString(),
+            id: 'CHD',
+            quantity: @Model.noOfChildren
+        });
+    </text>
+    }
+    @if (Model.noOfInfants > 0)
+    {
+        <text>
+    content.push(
+        {
+            item_price: @Model.infFare.net.ToString(),
+            id: 'INF',
+            quantity: @Model.noOfInfants
+        });
+    </text>
+    }
+        fbq('track', 'Purchase', {
+        value: @Model.grandTotal.ToString(),
+        currency: 'THB',
+        content_ids: '@Model.origin.code-@Model.destination.code',
+        content_type: '@Model.depFlight[0].airline.code',
+        contents: content
+    });
+                $('#book_submit').click();
+            });
+        });
+    </script>
+    <script>
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+    </script>
+}

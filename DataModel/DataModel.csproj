@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{12EA02AB-4EB6-4375-9E5D-D3C6589FDD20}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataModel</RootNamespace>
+    <AssemblyName>DataModel</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Z.EntityFramework.Extensions, Version=3.21.4.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.EntityFramework.Extensions.3.21.4\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AirlineCode.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AirlineConfig.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AirlineControl.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AirlineControlSub.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AirlineQtaxControl.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AirportCode.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AirportLocation.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AirportTranfer.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AirportWithCity.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AirPromotion.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="APIToken.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="APIUser.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BackOfficeAdmin.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BookingDBModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookingDBModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BookingDBModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BookingDBModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookingDBModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="ChillPayBackground.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChillPayInquiry.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChillPayResult.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CityCode.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CountryCode.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CurrencyExchange.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DiscountTag.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DiscountTagDetail.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightBooking.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightBookingBaggage.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightBookingContactInfo.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightBookingFare.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightBookingFareRule.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightBookingFareRuleDatail.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightBookingFlightDetail.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightBookingPaxInfo.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightBookingRefund.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightBookingReissue.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightFareRule.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightFareRuleConfig.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightFareRuleDetail.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightSearchLog.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlightSearchMultiTicket.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FourDigitControl.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GenericRepository\GenericRepository.cs" />
+    <Compile Include="HBHotelName.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Information.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="KBankCharge.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MarkupFlight.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PassportConfig.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Payment.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentLog.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentReference.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PromotionGroupCode.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RunningNumber.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SeatMapControl.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SiteConfig.cs">
+      <DependentUpon>BookingDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
+    <Compile Include="UnitOfWork\UnitOfWork.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EntityDeploy Include="BookingDBModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BookingDBModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="BookingDBModel.edmx.diagram">
+      <DependentUpon>BookingDBModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BookingDBModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BookingDBModel.edmx</DependentUpon>
+      <LastGenOutput>BookingDBModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="BookingDBModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BookingDBModel.edmx</DependentUpon>
+      <LastGenOutput>BookingDBModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

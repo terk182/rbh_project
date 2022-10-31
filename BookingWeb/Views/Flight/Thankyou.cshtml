@@ -1,0 +1,38 @@
+﻿<div class="container">
+    <div class="card">
+        <br />
+        <div class="text-center">
+            <img class="img-fluid" style="width: 200px;" src="~/Images/36.png" />
+            <div class="font-24">@Localize.Show("BOOKING_COMPLETE_HEAD")</div>
+            @if (ViewBag.Payment == "")
+            {
+                <div>@Localize.Show("PLEASE_CHECK_MAIL")</div>
+            }
+        </div>
+        @if (ViewBag.Payment == "")
+        {
+            <div class="text-center">
+                1. @Localize.Show("CHECK_MAIL_1") <br />
+                2. @Localize.Show("CHECK_MAIL_2") <br />
+                3. @Localize.Show("CHECK_MAIL_3") <br />
+                4. @Localize.Show("CHECK_MAIL_4") <br />
+            </div>
+        }
+        @if (ViewBag.Payment == "cs")
+        {
+            <div class="text-center">
+                @Localize.Show("CS_MESSAGE")<br />
+                1. @Localize.Show("CS_MESSAGE_1") <br />
+                2. @Localize.Show("CS_MESSAGE_2") <br />
+                3. @Localize.Show("CS_MESSAGE_3") <br />
+            </div>
+        }
+        <br />
+
+        <div class="text-center">
+            <a class="btn btn-lg cust-btn" href="@Url.Action("Index", "Home")" id="book" style="width: 200px;">
+                <strong>@Localize.Show("DISMISS")</strong>
+            </a>
+        </div>
+    </div>
+</div>

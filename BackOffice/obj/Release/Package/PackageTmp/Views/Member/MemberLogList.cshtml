@@ -1,0 +1,67 @@
+﻿@model List<DataModel.MemberLog>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Member Log List</h6>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Log Datetime</th>
+                        <th>Activity</th>
+                        <th>Status</th>
+                        <th>Error Msg</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var log in Model)
+                    {
+                        <tr>
+                            <td>
+                                @log.LogDateTime.Value.ToString("dd/MM/yyyy HH:mm:ss")
+                            </td>
+                            <td>
+                                @log.Activity
+                            </td>
+                            <td>
+                                @log.Status
+                            </td>
+                            <td>
+                                @log.ErrorMsg
+                            </td>
+                            <td>
+                                <a href="@Url.Action("MemberLogDetail", new { id = log.MemberLogOID })">
+                                    <i class="fas fa-edit"></i> Detail
+                                </a><br />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#grid').DataTable({
+                columnDefs: [{
+                    "orderable": false
+                }, {
+                    "render": function (data, type) {
+                        if (type == 'sort') {
+                            return data + '';
+                        }
+                    }
+                }]
+            });
+        });
+    </script>
+}
+

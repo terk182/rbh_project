@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="42px" viewBox="0 0 64 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>Icons/Bubble</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icons/Bubble" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(1.000000, 1.000000)" fill="#06B0F4">
+            <rect id="Rectangle-Copy-6" x="0" y="0" width="53" height="40" rx="4"></rect>
+            <path d="M49,0 L57.7863198,0 C58.8908893,-2.64539678e-15 59.7863198,0.8954305 59.7863198,2 C59.7863198,2.46942443 59.6211997,2.92389139 59.3198682,3.28383392 L50.5335483,13.7791526 C49.8245064,14.6261079 48.5631214,14.7379089 47.7161661,14.028867 C47.2622508,13.6488647 47,13.087299 47,12.4953186 L47,2 C47,0.8954305 47.8954305,2.02906125e-16 49,0 Z" id="Rectangle"></path>
+        </g>
+    </g>
+</svg>

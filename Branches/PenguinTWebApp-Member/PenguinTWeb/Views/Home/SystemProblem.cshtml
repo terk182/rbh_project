@@ -1,0 +1,11 @@
+﻿<div class="container">
+    <div class="text-center">
+        <img src="~/Images/icon_web/Pukard.png" /><br />
+        <span class="font-24">@Html.Raw(Localize.Show("MORE_INFO"))</span><br /><br /><br />
+        <small>[Technical Information: @ViewBag.Message]</small>
+        <div>
+            <a href="@Url.Action("Index","Home")" class="btn btn-lg cust-btn"><i class="fas fa-search"></i> @Localize.Show("SEARCH_AGAIN")</a>
+        </div>
+    </div>
+
+</div>

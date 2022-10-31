@@ -1,0 +1,72 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{F75A39FE-7537-4CFC-AA17-5BB7C2737D93}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{0F37DD68-CCDE-4181-B181-1916FB014053}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resolver", "Resolver\Resolver.csproj", "{20CF0616-011B-4A2E-9817-58F058D81CF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GogojiiWeb", "GogojiiWeb\GogojiiWeb.csproj", "{8395E39A-C13C-4998-AA1D-5FE7A1AA240C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{12EA02AB-4EB6-4375-9E5D-D3C6589FDD20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{9CC1E2A1-E5CA-407B-A71D-C344B9905197}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20CF0616-011B-4A2E-9817-58F058D81CF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20CF0616-011B-4A2E-9817-58F058D81CF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20CF0616-011B-4A2E-9817-58F058D81CF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20CF0616-011B-4A2E-9817-58F058D81CF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8395E39A-C13C-4998-AA1D-5FE7A1AA240C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8395E39A-C13C-4998-AA1D-5FE7A1AA240C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8395E39A-C13C-4998-AA1D-5FE7A1AA240C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8395E39A-C13C-4998-AA1D-5FE7A1AA240C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12EA02AB-4EB6-4375-9E5D-D3C6589FDD20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12EA02AB-4EB6-4375-9E5D-D3C6589FDD20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12EA02AB-4EB6-4375-9E5D-D3C6589FDD20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12EA02AB-4EB6-4375-9E5D-D3C6589FDD20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CC1E2A1-E5CA-407B-A71D-C344B9905197}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CC1E2A1-E5CA-407B-A71D-C344B9905197}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CC1E2A1-E5CA-407B-A71D-C344B9905197}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CC1E2A1-E5CA-407B-A71D-C344B9905197}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{20CF0616-011B-4A2E-9817-58F058D81CF0} = {F75A39FE-7537-4CFC-AA17-5BB7C2737D93}
+		{8395E39A-C13C-4998-AA1D-5FE7A1AA240C} = {0F37DD68-CCDE-4181-B181-1916FB014053}
+		{12EA02AB-4EB6-4375-9E5D-D3C6589FDD20} = {F75A39FE-7537-4CFC-AA17-5BB7C2737D93}
+		{9CC1E2A1-E5CA-407B-A71D-C344B9905197} = {F75A39FE-7537-4CFC-AA17-5BB7C2737D93}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://asia1click.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = BL\\BL.csproj
+		SccProjectTopLevelParentUniqueName1 = GogojiiWebApp.sln
+		SccProjectName1 = BL
+		SccLocalPath1 = BL
+		SccProjectUniqueName2 = DataModel\\DataModel.csproj
+		SccProjectTopLevelParentUniqueName2 = GogojiiWebApp.sln
+		SccProjectName2 = DataModel
+		SccLocalPath2 = DataModel
+		SccProjectUniqueName3 = GogojiiWeb\\GogojiiWeb.csproj
+		SccProjectTopLevelParentUniqueName3 = GogojiiWebApp.sln
+		SccProjectName3 = GogojiiWeb
+		SccLocalPath3 = GogojiiWeb
+		SccProjectUniqueName4 = Resolver\\Resolver.csproj
+		SccProjectTopLevelParentUniqueName4 = GogojiiWebApp.sln
+		SccProjectName4 = Resolver
+		SccLocalPath4 = Resolver
+	EndGlobalSection
+EndGlobal

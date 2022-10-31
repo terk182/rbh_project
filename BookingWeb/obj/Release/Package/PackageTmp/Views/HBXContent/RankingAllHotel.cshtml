@@ -1,0 +1,20 @@
+﻿<h1>@ViewBag.Code</h1>
+
+@section Scripts
+{
+    <script>
+    $.post('@(Url.Action("UpdateHotelRankingContent", "HBXContent"))/@(ViewBag.ID)', function (data) {
+        if (data == 1921 || data == 1001|| data == 2001|| data == 3001|| data == 1981 || data == 1901) {
+            alert('Done!!!!');
+        } else {
+            window.location.href = '/HBXContent/RankingAllHotel/' + data;
+        }
+
+    });
+
+
+        window.setTimeout(function () {
+            window.location.reload();
+        }, 300000);
+    </script>
+}

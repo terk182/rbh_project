@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9CC1E2A1-E5CA-407B-A71D-C344B9905197}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BL</RootNamespace>
+    <AssemblyName>BL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FireSharp, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FireSharp.2.0.4\lib\portable-net45+sl5+wp8+win8\FireSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DependencyResolver.cs" />
+    <Compile Include="Entities\AirlineControl\AirlineControlEntities.cs" />
+    <Compile Include="Entities\AirMultiAvailability\FlightAN.cs" />
+    <Compile Include="Entities\AirMultiAvailability\FlightSearchANResult.cs" />
+    <Compile Include="Entities\AirMultiAvailability\MovedownRequest.cs" />
+    <Compile Include="Entities\AirMultiAvailability\Request.cs" />
+    <Compile Include="Entities\AirMultiAvailability\Response.cs" />
+    <Compile Include="Entities\AirMultiAvailability\SavePNRRequest.cs" />
+    <Compile Include="Entities\AirSell\AirSellEntities.cs" />
+    <Compile Include="Entities\AirSell\Request.cs" />
+    <Compile Include="Entities\AirSell\Response.cs" />
+    <Compile Include="Entities\APILogin\Request.cs" />
+    <Compile Include="Entities\APILogin\Response.cs" />
+    <Compile Include="Entities\BaseEntities\PromotionBreakDown.cs" />
+    <Compile Include="Entities\BaseEntities\RateBreakDown.cs" />
+    <Compile Include="Entities\BookingTransaction\Request.cs" />
+    <Compile Include="Entities\BookingTransaction\Response.cs" />
+    <Compile Include="Entities\CitySearch\CityList.cs" />
+    <Compile Include="Entities\CRM\CRMProfile.cs" />
+    <Compile Include="Entities\CurrencyExchange\BOTResponse.cs" />
+    <Compile Include="Entities\CurrencyExchange\FXRate.cs" />
+    <Compile Include="Entities\DiscountTag\DiscountTagEntities.cs" />
+    <Compile Include="Entities\FareRuleConfig\AllResponse.cs" />
+    <Compile Include="Entities\FareRuleConfig\FareRuleConfig.cs" />
+    <Compile Include="Entities\FareRuleConfig\FareRuleEntities.cs" />
+    <Compile Include="Entities\FareRuleConfig\Request.cs" />
+    <Compile Include="Entities\FareRuleConfig\Response.cs" />
+    <Compile Include="Entities\FareRuleConfig\SegmentForGetFareRule.cs" />
+    <Compile Include="Entities\FareRule\Request.cs" />
+    <Compile Include="Entities\FareRule\Response.cs" />
+    <Compile Include="Entities\LionAir_AirSellService\AirSellRQ.cs" />
+    <Compile Include="Entities\LionAir_CreateSession\CreateSessionReq.cs" />
+    <Compile Include="Entities\LionAir_FlightMatrix\FlightMatrixReq.cs" />
+    <Compile Include="Entities\RobinhoodAirlineControl\AirlineControlResponse.cs" />
+    <Compile Include="Entities\RobinhoodAirlineQtaxControl\AirlineQtaxControlResponse.cs" />
+    <Compile Include="Entities\RobinhoodFare\DiscountTag.cs" />
+    <Compile Include="Entities\RobinhoodFlight\FamilyInformation.cs" />
+    <Compile Include="Entities\RobinhoodFlight\FlightSearchMultiTicketResult.cs" />
+    <Compile Include="Entities\RobinhoodFlight\MultiTicketFlight.cs" />
+    <Compile Include="Entities\RobinhoodMarkup\MarkupFlightResponse.cs" />
+    <Compile Include="Entities\GogojiiPassportEntity.cs" />
+    <Compile Include="Entities\RobinhoodPassport\PassportConfigResponse.cs" />
+    <Compile Include="Entities\MasterCalendar\Request.cs" />
+    <Compile Include="Entities\MasterCalendar\Response.cs" />
+    <Compile Include="Entities\PaymentFee\PaymentFeeResponse.cs" />
+    <Compile Include="Entities\PNRCancel\Response.cs" />
+    <Compile Include="Entities\ResendEmail\Request.cs" />
+    <Compile Include="Entities\ResendEmail\Response.cs" />
+    <Compile Include="Entities\InformativePricing\Request.cs" />
+    <Compile Include="Entities\InformativePricing\Response.cs" />
+    <Compile Include="Entities\RobinhoodFare\AirFare.cs" />
+    <Compile Include="Entities\RobinhoodFare\AirPax.cs" />
+    <Compile Include="Entities\RobinhoodFare\Fare.cs" />
+    <Compile Include="Entities\RobinhoodFare\FareRule.cs" />
+    <Compile Include="Entities\RobinhoodFlight\AirlineSearchBox.cs" />
+    <Compile Include="Entities\RobinhoodFlight\Airport.cs" />
+    <Compile Include="Entities\RobinhoodFlight\City.cs" />
+    <Compile Include="Entities\RobinhoodFlight\Airline.cs" />
+    <Compile Include="Entities\RobinhoodFlight\DisplayDateTime.cs" />
+    <Compile Include="Entities\RobinhoodFlight\FareMarkup.cs" />
+    <Compile Include="Entities\RobinhoodFlight\Flight.cs" />
+    <Compile Include="Entities\RobinhoodFlight\FlightSearchResult.cs" />
+    <Compile Include="Entities\RobinhoodFlight\MasterFlight.cs" />
+    <Compile Include="Entities\MasterPricer\Request.cs" />
+    <Compile Include="Entities\MasterPricer\Response.cs" />
+    <Compile Include="Entities\RobinhoodFlight\Pricing.cs" />
+    <Compile Include="Entities\RobinhoodPax\PaxInfo.cs" />
+    <Compile Include="Entities\RobinhoodPax\SpecialRequest.cs" />
+    <Compile Include="Entities\RobinhoodPNR\MultiTicketPNR.cs" />
+    <Compile Include="Entities\RobinhoodPNR\PNR.cs" />
+    <Compile Include="Entities\PNRCancel\Request.cs" />
+    <Compile Include="Entities\PNR\PnrAndPricing.cs" />
+    <Compile Include="Entities\PNR\Request.cs" />
+    <Compile Include="Entities\PNR\Response.cs" />
+    <Compile Include="Entities\Pricing\Request.cs" />
+    <Compile Include="Entities\Pricing\Response.cs" />
+    <Compile Include="Entities\SeatMap\Request.cs" />
+    <Compile Include="Entities\SeatMap\Response.cs" />
+    <Compile Include="Entities\TST\Request.cs" />
+    <Compile Include="Entities\TST\Response.cs" />
+    <Compile Include="Entities\UpdatePayment\Request.cs" />
+    <Compile Include="Entities\UpdatePayment\Response.cs" />
+    <Compile Include="IServices\IAirlineConfigServices.cs" />
+    <Compile Include="IServices\IAirlineControlServices.cs" />
+    <Compile Include="IServices\IAirlineQtaxControlServices.cs" />
+    <Compile Include="IServices\IDiscountTagServices.cs" />
+    <Compile Include="IServices\IFlightFareRuleConfigServices.cs" />
+    <Compile Include="IServices\IFlightReportRefundServices.cs" />
+    <Compile Include="IServices\IFlightReportReissueServices.cs" />
+    <Compile Include="IServices\IFourDigitControlServices.cs" />
+    <Compile Include="IServices\IAPIConfigServices.cs" />
+    <Compile Include="IServices\IBackofficeAdminServices.cs" />
+    <Compile Include="IServices\ICRMServices.cs" />
+    <Compile Include="IServices\ICurrencyExchange.cs" />
+    <Compile Include="IServices\IFlightBookingServices.cs" />
+    <Compile Include="IServices\IFlightReportServices.cs" />
+    <Compile Include="IServices\IFlightSearchServices.cs" />
+    <Compile Include="IServices\ILionAirServices.cs" />
+    <Compile Include="IServices\IMarkupServices.cs" />
+    <Compile Include="IServices\IPassportServices.cs" />
+    <Compile Include="IServices\IKBankChargeServices.cs" />
+    <Compile Include="IServices\IPaymentServices.cs" />
+    <Compile Include="IServices\IPromotionGroupCodeServices.cs" />
+    <Compile Include="IServices\IRunningNumberServices.cs" />
+    <Compile Include="IServices\ISeatMapControlServices.cs" />
+    <Compile Include="IServices\ISendEmailServices.cs" />
+    <Compile Include="IServices\IAirPromotionServices.cs" />
+    <Compile Include="IServices\INamingServices.cs" />
+    <Compile Include="IServices\ISiteConfigServices.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AirlineConfigServices.cs" />
+    <Compile Include="Services\AirlineControlServices.cs" />
+    <Compile Include="Services\AirlineQtaxControlServices.cs" />
+    <Compile Include="Services\DiscountTagServices.cs" />
+    <Compile Include="Services\FlightFareRuleConfigServices.cs" />
+    <Compile Include="Services\FlightReportRefundServices.cs" />
+    <Compile Include="Services\FlightReportReissueServices.cs" />
+    <Compile Include="Services\FourDigitControlService.cs" />
+    <Compile Include="Services\APIConfigServices.cs" />
+    <Compile Include="Services\BackofficeAdminServices.cs" />
+    <Compile Include="Services\CRMServices.cs" />
+    <Compile Include="Services\CurrencyExchange.cs" />
+    <Compile Include="Services\FlightBookingServices.cs" />
+    <Compile Include="Services\FlightReportServices.cs" />
+    <Compile Include="Services\FlightSearchServices.cs" />
+    <Compile Include="Services\LionAirServices.cs" />
+    <Compile Include="Services\MarkupServices.cs" />
+    <Compile Include="Services\PassportServices.cs" />
+    <Compile Include="Services\KBankChargeServices.cs" />
+    <Compile Include="Services\PaymentServices.cs" />
+    <Compile Include="Services\PromotionGroupCodeServices.cs" />
+    <Compile Include="Services\RunningNumberServices.cs" />
+    <Compile Include="Services\SeatMapControlServices.cs" />
+    <Compile Include="Services\SendEmailServices.cs" />
+    <Compile Include="Services\AirPromotionServices.cs" />
+    <Compile Include="Services\NamingServices.cs" />
+    <Compile Include="Services\SiteConfigServices.cs" />
+    <Compile Include="Utilities\CollectionSort.cs" />
+    <Compile Include="Utilities\EmailUtilities.cs" />
+    <Compile Include="Utilities\Encoder.cs" />
+    <Compile Include="Utilities\CRMConnection.cs" />
+    <Compile Include="Utilities\LionAirAPI.cs" />
+    <Compile Include="Utilities\MergeSort.cs" />
+    <Compile Include="Utilities\PropertyComparer.cs" />
+    <Compile Include="Utilities\Copier.cs" />
+    <Compile Include="Utilities\CurrencyConvert.cs" />
+    <Compile Include="Utilities\Encryptor.cs" />
+    <Compile Include="Utilities\FireBaseUtility.cs" />
+    <Compile Include="Utilities\HttpUtility.cs" />
+    <Compile Include="Utilities\MemoryCacher.cs" />
+    <Compile Include="Utilities\NamingUtility.cs" />
+    <Compile Include="Utilities\StringCompression.cs" />
+    <Compile Include="Utilities\XMLHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataModel\DataModel.csproj">
+      <Project>{12ea02ab-4eb6-4375-9e5d-d3c6589fdd20}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Resolver\Resolver.csproj">
+      <Project>{20cf0616-011b-4a2e-9817-58f058d81cf0}</Project>
+      <Name>Resolver</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+</Project>

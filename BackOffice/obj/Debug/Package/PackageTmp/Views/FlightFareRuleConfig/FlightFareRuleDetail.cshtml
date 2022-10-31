@@ -1,0 +1,77 @@
+﻿@model BL.Entities.FareRuleConfig.FareRuleEntities
+@using (Html.BeginForm("FlightFareRuleDetailSave", "FlightFareRuleConfig", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.fareRule.FareRuleOID)
+    @Html.HiddenFor(x => x.fareRule.IsDelete)
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Fare Rule Details</h6>
+            </div>
+        </div>
+        <br />
+        <div class="text-danger" style="font-size:24px;color:red;font-weight:bold; text-align:center; padding-bottom:20px;" id="messe">@TempData["ErrorMessage"]</div>
+        <div class="card-body">
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Active <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    Disable  @Html.EditorFor(m => m.fareRule.IsActive, new { required = "required" })  Enable
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Airline Codes <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.fareRule.AirlineCodes, new { @class = "form-control form-control-sm col-lg-4", required = "required" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Fare Family Code <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.fareRule.FareFamilyCode, new { @class = "form-control form-control-sm col-lg-4", required = "required" })
+                </div>
+            </div>
+            @if (Model.fareRuleDetails != null && Model.fareRuleDetails.Count > 0)
+            {
+                for (int i = 0; i < Model.fareRuleDetails.Count; i++)
+                {
+                    @Html.HiddenFor(x => x.fareRuleDetails[i].LanguageCode)
+                    <div class="row mb-1">
+                        <div class="col-lg-2 col-md-6 col-sm-12">
+                            Fare Family Name @Model.fareRuleDetails[i].LanguageCode <span class="asterisk">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-6 col-sm-12">
+                            @Html.TextBoxFor(m => m.fareRuleDetails[i].FareFamilyName, new { required = "required", @class = "form-control form-control-sm col-lg-4" })
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-lg-2 col-md-6 col-sm-12">
+                            Fare Rule @Model.fareRuleDetails[i].LanguageCode <span class="asterisk">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-6 col-sm-12">
+                            @Html.TextAreaFor(m => m.fareRuleDetails[i].FareRule, new { required = "required", @rows = "10", @class = "form-control form-control-sm col-lg-8" })
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="card-footer">
+            <div class="text-right">
+                <button type="submit" id="submit_handle" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+                <a class="d-sm-inline-block btn btn-sm btn-warning shadow-sm" href="@Url.Action("FlightFareRuleList")">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+}

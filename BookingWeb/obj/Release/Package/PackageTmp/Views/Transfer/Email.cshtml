@@ -1,0 +1,339 @@
+﻿@model GogojiiWeb.Models.SelectedTransfer
+
+@{
+    string URL = System.Configuration.ConfigurationManager.AppSettings["webpages_URL"].ToString();
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang().ToLower() == "th" ? "th-TH" : "en-US");
+}
+    <div style='background-color:#ecf2ff; color:#212529; font-family:"Quicksand", "Sarabun", sans-serif; font-size:1rem; font-weight:400; line-height:1.5; margin:0; text-align:left' bgcolor="#ecf2ff" align="left">
+        <div class="summary-head-bg text-center" style="background-color:#0393CD; color:#fff; padding:20px; width:100%; text-align:center" bgcolor="#0393CD" width="100%" align="center">
+            <div class="font-24" style="font-size:24px">
+                @Localize.Show("BOOKING_IS_CONFIRMED")
+            </div>
+            <div class="font-30" style="font-size:30px">
+                @ViewBag.GogojiiID
+            </div>
+        </div>
+        <div class="summary-card-bg" style="background-image:url(@(URL)Images/icon_gogo/summary-bg.png), linear-gradient(180deg, rgba(3, 147, 205, 1) 0%, rgba(3, 147, 205, 1) 10%, rgba(236, 242, 255, 1) 10%, rgba(236, 242, 255, 1) 100%); background-position:center; background-repeat:no-repeat; width:100%" width="100%">
+            <div class="card card-summary  mb-5" style="-ms-flex-direction:column; background-clip:border-box; background-color:#fff; border:none; border-radius:0.25rem;  flex-direction:column; min-width:0; position:relative; word-wrap:break-word; margin-left:auto; margin-right:auto; max-width:630px; margin-bottom:3rem" bgcolor="#ffffff">
+                <div class="card-header card-header-summary" style="background-color:#FAA90D; border-bottom:1px solid rgba(0, 0, 0, 0.125); margin-bottom:0; padding:0.75rem 1.25rem; border-radius:calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0; color:#fff" bgcolor="#FAA90D">
+                    <div class="row" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                        <div class="col-6" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 50%; flex:0 0 50%; max-width:50%" width="100%">
+                            <img src="@(URL)Images/icon_gogo/logo-w-b.png" style="border-style:none; vertical-align:middle" valign="middle">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" style="-ms-flex:1 1 auto; flex:1 1 auto; padding:1.25rem">
+
+                    <div class="mt-2" style="margin-top:0.5rem">
+                        <div class="row" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                            <div class="col-12" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 100%; flex:0 0 100%; max-width:100%" width="100%">
+                                <div class="row" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                                    <div class="col-md-4 col-sm-12" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%" width="100%">
+                                        @if (Model.departureTransfers.vehicleImages != null && Model.departureTransfers.vehicleImages.Count > 0)
+                                        {
+                                            <img src="@(Model.departureTransfers.vehicleImages[0].url)" style="border-style:none; vertical-align:middle; width:120px" valign="middle" width="120px" />
+                                        }
+                                    </div>
+                                    <div class="col-md-8 col-sm-12" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%" width="100%">
+                                        <strong class="font-14" style="font-weight:bolder; font-size:14px">
+                                            @Model.departureTransfers.categoryName
+                                            @Model.departureTransfers.vehicleName - @Model.departureTransfers.transferType
+                                        </strong>
+
+                                        <div class="font-12" style="font-size:12px">
+                                            @Model.search.adults  @Localize.Show("ADULTS")
+                                            @if (Model.search.children > 0)
+                                            {
+                                                <span>&bull;</span> @Model.search.children @Localize.Show("CHILDREN")
+                                            }
+                                            @if (Model.search.infants > 0)
+                                            {
+                                                <span>&bull;</span> @Model.search.infants @Localize.Show("INFANTS")
+                                            }
+                                        </div>
+                                        <div class="font-12" style="font-size:12px">
+                                            Ref No.: <strong style="font-weight:bolder">@Model.bookingNo</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="font-14 mt-2 font-weight-bold" style="font-size:14px; margin-top:0.5rem; font-weight:700">
+                                    <div>
+                                        <img src="@(URL)Images/icon_gogo/calendar.png" style="border-style:none; vertical-align:middle; height:12px; margin-right:10px" valign="middle" height="12">  @Model.search.outboundDT.ToString("dd MMM yyyy", ci)
+                                        @if (Model.departureTransfers.pickupInformation.mustCheckPickupTime)
+                                        {
+                                            <div style="font-weight: normal">
+                                                @Localize.Show("PLEASE_CHECK_PICK_UP_TIME") @Model.departureTransfers.pickupInformation.checkPickupURL   -  @Model.departureTransfers.pickupInformation.hourBeforeCheckPickupTime hrs before consulting
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span>(@Model.departureTransfers.pickupInformation.pickupTime)</span>
+                                        }
+                                    </div>
+                                    <div>
+                                        <img src="@(URL)Images/icon_gogo/pin.png" style="border-style:none; vertical-align:middle; height:12px; margin-right:10px" valign="middle" height="12"><strong>
+                                            @Model.departureTransfers.pickupInformation.stopName
+                                        </strong> @Model.departureTransfers.pickupInformation.pickupPlace
+                                        <img src="@(URL)Images/icon_gogo/arrow_gray.png" style="border-style:none; vertical-align:middle" valign="middle">
+                                        @Model.departureTransfers.dropoffPlace
+
+                                    </div>
+
+                                </div>
+                                <br>
+
+                                @if (Model.returnTransfers != null)
+                                {
+                                    <hr style="box-sizing:content-box; height:0; overflow:visible; border:0; border-top:1px solid rgba(0, 0, 0, 0.1); margin-bottom:1rem; margin-top:1rem" height="0">
+                                    <div class="row" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                                        <div class="col-md-4 col-sm-12" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%" width="100%">
+                                            @if (Model.returnTransfers.vehicleImages != null && Model.returnTransfers.vehicleImages.Count > 0)
+                                            {
+                                                <img src="@(Model.returnTransfers.vehicleImages[0].url)" style="border-style:none; vertical-align:middle; width:120px" valign="middle" width="120px" />
+                                            }
+
+                                        </div>
+                                        <div class="col-md-8 col-sm-12" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%" width="100%">
+                                            <strong class="font-14" style="font-weight:bolder; font-size:14px">
+
+                                                @Model.returnTransfers.categoryName
+                                                @Model.returnTransfers.vehicleName - @Model.returnTransfers.transferType
+                                            </strong>
+
+                                        </div>
+                                    </div>
+                                    <div class="font-14 mt-2 font-weight-bold" style="font-size:14px; margin-top:0.5rem; font-weight:700">
+                                        <div>
+                                            <img src="@(URL)Images/icon_gogo/calendar.png" style="border-style:none; vertical-align:middle; height:12px; margin-right:10px" valign="middle" height="12"> @Model.search.inboundDT.ToString("dd MMM yyyy", ci)
+
+                                            @if (Model.returnTransfers.pickupInformation.mustCheckPickupTime)
+                                            {
+                                                <div style="font-weight: normal">
+                                                    @Localize.Show("PLEASE_CHECK_PICK_UP_TIME") @Model.returnTransfers.pickupInformation.checkPickupURL   -  @Model.returnTransfers.pickupInformation.hourBeforeCheckPickupTime hrs before consulting
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <span>(@Model.returnTransfers.pickupInformation.pickupTime)</span>
+                                            }
+                                        </div>
+                                        <div>
+                                            <img src="@(URL)Images/icon_gogo/pin.png" style="border-style:none; vertical-align:middle; height:12px; margin-right:10px" valign="middle" height="12">
+                                            <strong style="font-weight:bolder">
+                                                @Model.returnTransfers.pickupInformation.stopName
+                                            </strong> @Model.returnTransfers.pickupInformation.pickupPlace
+                                            <img src="@(URL)Images/icon_gogo/arrow_gray.png" style="border-style:none; vertical-align:middle" valign="middle">
+                                            @Model.returnTransfers.dropoffPlace
+
+
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                }
+                            </div>
+                        </div>
+                        <div class="font-16" style="font-size:16px"><strong style="font-weight:bolder">@Localize.Show("CONTACT_DETAIL")</strong></div>
+                        <div class="font-14" style="font-size:14px">
+                            <div class="row row-mt" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px; margin-top:4px">
+                                <div class="col-12" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 100%; flex:0 0 100%; max-width:100%" width="100%">
+                                    <div>
+                                        <strong>@Localize.Show("NAME"):</strong>
+                                        @Model.holder.title @Model.holder.firstName  @Model.holder.lastName
+                                    </div>
+                                    <div>
+                                        <strong>@Localize.Show("EMAIL"):</strong> @Model.holder.email
+                                        <br />
+                                        <strong>@Localize.Show("TELNO"):</strong> @Model.holder.phone
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                            <div class="col-12" style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 100%; flex:0 0 100%; max-width:100%" width="100%">
+                                <div class=" mt-4" style="margin-top:1.5rem">
+                                    <strong class="font-16" style="font-weight:bolder; font-size:16px">
+                                        @Localize.Show("PRICE_DETAIL")
+                                    </strong>
+                                    <table style="border-collapse:collapse; font-size:14px; width:90%" class="font-14" width="90%">
+                                        @{
+                                            decimal total = Model.departureTransfers.price;
+                                        }
+                                        <tr>
+                                            <td>
+                                                <strong>@Localize.Show("DEPARTURE_TRIP")</strong>
+                                            </td>
+                                            <td class="text-muted" style="vertical-align: top">
+                                                @Model.departureTransfers.currencyCode
+                                            </td>
+                                            <td class="text-right" style="vertical-align: top">
+                                                <strong>
+                                                    @Model.departureTransfers.price.ToString("N2")
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        @if (Model.returnTransfers != null)
+                                        {
+                                            total += Model.returnTransfers.price;
+                                            <tr>
+                                                <td>
+                                                    <strong>@Localize.Show("RETURN_TRIP")</strong>
+                                                </td>
+                                                <td class="text-muted" style="vertical-align: top">
+                                                    @Model.returnTransfers.currencyCode
+                                                </td>
+                                                <td class="text-right" style="vertical-align: top">
+                                                    <strong>
+                                                        @Model.returnTransfers.price.ToString("N2")
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td class="text-green">
+                                                <strong>@Localize.Show("TOTAL")</strong>
+                                            </td>
+                                            <td class="text-muted" style="vertical-align: top">
+                                                @Model.departureTransfers.currencyCode
+                                            </td>
+                                            <td class="text-right font-18 text-green" style="vertical-align: top">
+                                                <strong>
+                                                    @total.ToString("N2")
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5" style="margin-top:3rem">
+
+                        <div class="info-box mt-4" style="background-color:#ECF2FF; border-radius:5px; padding:10px; margin-top:1.5rem" bgcolor="#ECF2FF">
+                            <strong class="font-16" style="font-weight:bolder; font-size:16px">@Localize.Show("SERVICE_DETAILS")</strong>
+                            <div class="font-12" style="font-size:12px">
+                                <div>
+                                    <strong style="font-weight:bolder">Departure trip</strong>
+                                </div>
+                                <ul>
+                                    @foreach (var detail in Model.departureTransfers.transferDetails)
+                                    {
+                                        <li>
+                                            @detail.name
+                                            @if (!String.IsNullOrEmpty(detail.description))
+                                            {
+                                                <span>: </span>
+                                                @Html.Raw(detail.description.Replace(".", "<br>"))
+                                            }
+                                        </li>
+                                    }
+                                    <li>
+                                        Supplier max waiting time: @Model.departureTransfers.supplierMaxWaitingTime
+                                    </li>
+                                    <li>
+                                        Customer max waiting time: @Model.departureTransfers.customerMaxWaitingTime
+                                    </li>
+                                    <li>
+                                        <strong>@Localize.Show("REMARKS")</strong>
+                                        <ul>
+                                            @foreach (var rm in Model.departureTransfers.remarks)
+                                            {
+                                                <li>
+                                                    @Html.Raw(rm.Replace(".", "<br>"))
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>@Localize.Show("CANCELLATION_POLICY")</strong>
+                                        @foreach (var cp in Model.departureTransfers.cancellationPolicies)
+                                        {
+                                            <div>
+                                                @Html.Raw(cp)
+                                            </div>
+                                        }
+                                    </li>
+                                </ul>
+                                @if (Model.returnTransfers != null)
+                                {
+                                    <hr />
+                                    <div>
+                                        <strong>@Localize.Show("RETURN_TRIP")</strong>
+                                    </div>
+                                    <ul>
+                                        @foreach (var detail in Model.returnTransfers.transferDetails)
+                                        {
+                                            <li>
+                                                @detail.name
+                                                @if (!String.IsNullOrEmpty(detail.description))
+                                                {
+                                                    <span>: </span>
+                                                    @Html.Raw(detail.description.Replace(".", "<br>"))
+                                                }
+                                            </li>
+                                        }
+                                        <li>
+                                            Supplier max waiting time: @Model.departureTransfers.supplierMaxWaitingTime
+                                        </li>
+                                        <li>
+                                            Customer max waiting time: @Model.departureTransfers.customerMaxWaitingTime
+                                        </li>
+                                        @foreach (var rm in Model.returnTransfers.remarks)
+                                        {
+                                            <li>
+                                                @Html.Raw(rm.Replace(".", "<br>"))
+                                            </li>
+                                        }
+                                        <li>
+                                            <strong>@Localize.Show("CANCELLATION_POLICY")</strong>
+                                            @foreach (var cp in Model.returnTransfers.cancellationPolicies)
+                                            {
+                                                <div>
+                                                    @Html.Raw(cp)
+                                                </div>
+                                            }
+                                        </li>
+                                    </ul>
+                                }
+                                <hr style="box-sizing:content-box; height:0; overflow:visible; border:0; border-top:1px solid rgba(0, 0, 0, 0.1); margin-bottom:1rem; margin-top:1rem" height="0">
+                                <strong style="font-weight:bolder">Emergency Number:</strong> @Model.emergencyTelNo
+                            </div>
+                        </div>
+
+                        <div class="font-10" style="font-size:10px">
+                            <i><strong style="font-weight:bolder">Confirmation Date</strong>: 04 Feb 2020 06:21</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary-head-bg text-center" style="width:100%; text-align:center" width="100%" align="center">
+            <a href="@(WebContent.bookingWeb)Transfer/Voucher/@Model.bookingKeyReference" style="background-color: #0393cd; color: #ffffff; padding: 18px; font-size:20px; border-radius: 10px; text-decoration:none;">
+                @Localize.Show("MANAGE_BOOKING")
+            </a>
+            <br />
+            <br />
+            <br />
+            <br />
+            <a href="@WebContent.mainWeb" style="text-decoration:none;">
+                @switch (DateTime.Now.Second % 3)
+                {
+                    case 0:
+                        <img src="@(WebContent.bookingWeb)Images/moreH.jpg" />
+                        break;
+                    case 1:
+                        <img src="@(WebContent.bookingWeb)Images/moreHF.jpg" />
+                        break;
+                    case 2:
+                        <img src="@(WebContent.bookingWeb)Images/moreF.jpg" />
+                        break;
+                }
+            </a>
+        </div>
+        <br />
+        <br />
+    </div>

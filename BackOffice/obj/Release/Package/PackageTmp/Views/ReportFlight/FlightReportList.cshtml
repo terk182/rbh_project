@@ -1,0 +1,492 @@
+﻿@*@model List<DataModel.FlightBooking>*@
+@*@model List<DataModel.FlightBookingFlightDetail>*@
+@model List<BL.Entities.GogojiiFare.AirFare>
+
+<head>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+</head>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Flight Report List</h6>
+            @*<a href="@Url.Action("MarkupDetail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-file-export text-white-50"></i>
+                    Export
+                </a>*@
+        </div>
+    </div>
+    <div class="card-body">
+
+        @using (Html.BeginForm("SearchFlightList", "ReportFlight", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal row-fluid cmxform", id = "formCreate", name = "formCreate" }))
+        {
+            List<SelectListItem> selectListPaymentMethod = new List<SelectListItem>
+{
+        new SelectListItem{ Text="--", Value = "00" },
+        new SelectListItem{ Text="Unknown", Value = "0" },
+        new SelectListItem{ Text="Credit/Debit Card", Value = "1" },
+        new SelectListItem{ Text="Installment By K-Bank", Value = "2" },
+        new SelectListItem{ Text="Promptpay QR Code", Value = "3" },
+        new SelectListItem{ Text="Bank-Transfer", Value = "4" }
+    };
+
+            List<SelectListItem> selectListBookigStatus = new List<SelectListItem>
+{
+        new SelectListItem{ Text="--", Value = "00" },
+        new SelectListItem{ Text="New", Value = "0" },
+        new SelectListItem{ Text="Confirmed", Value = "1" },
+        new SelectListItem{ Text="Fail", Value = "2" },
+        new SelectListItem{ Text="Cancelled", Value = "3" },
+        new SelectListItem{ Text="Ticketed", Value = "4" },
+        new SelectListItem{ Text="Refunded Ticket", Value = "5" },
+        new SelectListItem{ Text="Reissue Ticket", Value = "6" }
+    };
+            List<SelectListItem> selectListPlatform = new List<SelectListItem>
+{
+        new SelectListItem{ Text="--", Value = "00" },
+        new SelectListItem{ Text="Web", Value = "Web" },
+        new SelectListItem{ Text="App", Value = "GOGOJII-APP" },
+        new SelectListItem{ Text="Chat", Value = "Chat" }
+    };
+
+            List<SelectListItem> selectListShowList = new List<SelectListItem>
+{
+        new SelectListItem{ Text="ALL", Value = "0" },
+        new SelectListItem{ Text="50", Value = "50" },
+        new SelectListItem{ Text="100", Value = "100" },
+        new SelectListItem{ Text="500", Value = "500" },
+        new SelectListItem{ Text="1,000", Value = "1000" },
+        new SelectListItem{ Text="5,000", Value = "5000" }
+    };
+
+
+<div class="row">
+    <table class="table table-bordered">
+        <thead class="table-gradient">
+            <tr>
+                <th style="color:#FBAA09;">Payment Method</th>
+                <th style="color:#FBAA09;">Booking Date</th>
+                <th style="color:#FBAA09;">Pay Before</th>
+                @*<th style="color:#FBAA09;">Show List</th>*@
+                <th style="color:#FBAA09;">Source By</th>
+                <th style="color:#FBAA09;">Booking Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>@Html.DropDownList("PaymentMethod", selectListPaymentMethod, new { @class = "form-control form-control-sm", @width = "100%" })</th>
+                <th><input type="text" style="background-color:#fff" name="bookingdate" id="bookingdate" value="" class="form-control form-control-sm" readonly /><i class="fa fa-calendar-alt" style="margin-top: -24px;float: right;padding-right: 8px;color:#FBAC02;"></i></th>
+                <th><input type="text" style="background-color:#fff" name="paybefore" id="paybefore" value="" class="form-control form-control-sm" readonly /><i class="fa fa-calendar-alt" style="margin-top: -24px;float: right;padding-right: 8px;color:#FBAC02;"></i></th>
+                @*<th>@Html.DropDownList("ShowListNo", selectListShowList, new { @class = "form-control form-control-sm", @width = "100%" })</th>*@
+                @*<th><input type="text" style="background-color:#fff" name="ShowListNo" id="ShowListNo" value="" class="form-control form-control-sm"/></th>*@
+                <th>@Html.DropDownList("Platform", selectListPlatform, new { @class = "form-control form-control-sm", @width = "100%" })</th>
+                @*<th>@Html.DropDownList("SourceBy", selectListSourceBy, new { @class = "form-control form-control-sm", @width = "100%" })</th>*@
+                <th>@Html.DropDownList("BookingStatus", selectListBookigStatus, new { @class = "form-control form-control-sm", @width = "100%" })</th>
+                <th style="text-align:center;"><button type="submit" class="btn btn-primary" style=""><i class="fas fa-search"></i>&nbsp;Search</button></th>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+}
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Gogojii ID</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Booking Date</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Pay Before</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Source By</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">PNR</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">From</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">To</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">No. Pax</th>
+                        @*<th style="text-align:center;">No. of Children</th>
+                            <th style="text-align:center;">No. of Infants</th>*@
+                        <th style="text-align:center; background-color:#FBAC02; color:white;width:140px;">Contact</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Total฿</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white; width:200px;">Payment method</th>
+
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Remider</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Refund</th>
+                        <th style="text-align:center; background-color:#FBAC02; color:white;">Reissue/<br />Revalidate</th>
+                        @*<th style="text-align:center; background-color:#FBAC02; color:white;">Staff ID</th>*@
+                        <th style="background-color:#FBAC02;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var report in Model)
+                    {
+                        //if (report.isBundle != true)
+                        //{
+                        <tr>
+                            <td align="center">
+                                @report.GogojiiID
+                                @if (report.isBundle == true)
+                                {
+                                    <i class="fas fa-hotel" style="color:#FBAC02;"></i><span>&nbsp;</span><i class="fas fa-plane" style="color:#FBAC02;"></i>
+                                }
+                                @*else
+                                    {
+                                        <i class="fas fa-plane" style="color:#FBAC02;"></i>
+                                    }*@
+                            </td>
+                            <td align="center">
+                                @(report.bookingDate.ToString("dd/MM/yyyy")) <br />
+                                @(report.bookingDate.ToString("HH:mm:ss tt"))
+                            </td>
+                            <td align="center">
+                                @(report.TKTL.ToString("dd/MM/yyyy")) <br />
+                                @(report.TKTL.ToString("HH:mm:ss tt"))
+                            </td>
+                            <td align="center">
+                                @if (report.Platform != null)
+                                {
+                                    @report.Platform
+                                }
+                                @*@if (report.sourceBy != 0)
+                                    {
+                                        switch (report.sourceBy)
+                                        {
+                                            case 0:<label></label>; break;
+                                            case 1: <span><b>Web</b></span>; break;
+                                            case 2: <span><b>App</b></span>; break;
+                                            case 3: <span><b>Chat</b></span>; break;
+                                        }<br />
+                                    }*@
+                            </td>
+                            <td align="center">
+                                <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;"><b>@report.PNR</b></span><br />
+                                @if (report.statusBooking != 0)
+                                {
+                                    switch (report.statusBooking)
+                                    {
+                                        case 0:<span style="padding:2px 10px;"><b>New</b></span>; break;
+                                        case 1: <span style="padding:2px 10px;"><b>Confirmed</b></span>; break;
+                                        case 2: <span style="padding:2px 10px;"><b>Fail</b></span>; break;
+                                        case 3: <span style="padding:2px 10px;"><b>Cancelled</b></span>; break;
+                                        case 4: <span style="padding:2px 10px;"><b>Ticketed</b></span>; break;
+                                        case 5: <span style="padding:2px 10px;"><b>Refunded Ticket</b></span>; break;
+                                        case 6: <span style="padding:2px 10px;"><b>Reissue Ticket</b></span>; break;
+                                    }
+                                }
+                            </td>
+                            <td align="center">
+                                @report.depFlight[0].depCity.code <br />@report.depFlight[0].departureDateTime.ToString("dd/MM/yyyy")
+                            </td>
+                            <td align="center">
+                                @if (report.depFlight != null && report.depFlight.Count > 0)
+                                {
+                                    @report.depFlight[@report.depFlight.Count - 1].arrCity.code <br />@report.depFlight[@report.depFlight.Count - 1].arrivalDateTime.ToString("dd/MM/yyyy")
+                                }
+                            </td>
+                            <td align="center">
+                                @(report.noOfAdults + report.noOfChildren + report.noOfInfants)
+                            </td>
+                            <td align="left">
+                                @if (report.contactInfo.firstname != null)
+                                {
+                                    @report.contactInfo.firstname if (report.contactInfo.middlename != null)
+                                    { <span>&nbsp;</span> @report.contactInfo.middlename } <span>&nbsp;</span> @report.contactInfo.lastname<br />
+                                    @report.contactInfo.email<br />
+                                    @report.contactInfo.telNo
+                                }
+                                @*else
+                                    {
+                                        for (int i = 0; i < report.adtPaxs.Count; i++)
+                                        {
+
+                                            if (report.adtPaxs[i].firstname != null && report.adtPaxs[i].email != null)
+                                            {
+                                                <label><i class="fas fa-file-signature"></i> &nbsp;&nbsp;</label>@report.adtPaxs[i].firstname @report.adtPaxs[i].middlename<span>&nbsp;</span> @report.adtPaxs[i].lastname<br />
+                                                <label><i class="fas fa-envelope-square"></i>&nbsp; &nbsp;</label> @report.adtPaxs[i].email<br />
+                                                <label><i class="fas fa-phone-volume"></i>&nbsp; &nbsp; </label>@report.adtPaxs[i].telNo
+                                            }
+                                        }
+                                    }*@
+
+                            </td>
+                            <td align="center">
+                                @report.grandTotal.ToString("N0") THB
+                            </td>
+                            <td align="center">
+                                @if (report.paymentMethod != 0)
+                                {
+                                    switch (report.paymentMethod)
+                                    {
+                                        case 0:<span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;"><b>Unknown</b></span>; break;
+                                        case 1: <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;"><b>Credit/Debit Card</b></span>; break;
+                                        case 2: <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;"><b>Installment By K-Bank Credit Card</b></span>; break;
+                                        case 3: <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;"><b>--</b></span>; break;
+                                        case 4: <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;"><b>Bank-Transfer</b></span>; break;
+                                    }<br />
+                                }
+                                @if (report.statusPayment != 0)
+                                {
+                                    switch (report.statusPayment)
+                                    {
+                                        case 0: <span style="padding:2px 10px;"><b>Waiting for payment</b></span>; break;
+                                        case 1: <span style="padding:2px 10px;"><b>Paid</b></span>; break;
+                                        case 2: <span style="padding:2px 10px;"><b>Fail</b></span>; break;
+                                        case 3: <span style="padding:2px 10px;"><b>Refunding</b></span>; break;
+                                        case 4: <span style="padding:2px 10px;"><b>Refunded</b></span>; break;
+                                    }<br />
+                                }
+                            </td>
+
+                            @*<td align="center">
+                                    <a class=" d-sm-inline-block btn btn-sm btn-primaryblue shadow-sm" style="color:white;" onclick="Sendmail('@report.bookingOID')">
+                                        <i class="fas fa-paper-plane"></i>
+                                        Send
+                                    </a>
+                                </td>*@
+                            <td align="center">
+                                @if (report.statusPayment == 0 && report.paymentMethod == 4)
+                                {
+                                    <a @*class=" d-sm-inline-block btn btn-sm btn-primaryblue shadow-sm"*@ class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:white;" onclick="Sendmail('@report.bookingOID')">
+                                        <i class="fas fa-paper-plane"></i>
+                                        Send
+                                    </a>
+                                }
+                            </td>
+                            <td align="center">
+                                @if (report.refund != null)
+                                {
+                                    switch (report.refund.status)
+                                    {
+                                        case 0:<label></label>; break;
+                                        case 1: <span class="dotGreen"></span>; break;
+                                        case 2: <span class="dotGreen"></span>; break;
+                                    }<br />
+                                }
+                            </td>
+                            <td align="center">
+                                @if (report.reissue != null)
+                                {
+                                    switch (report.reissue.status)
+                                    {
+                                        case 0:<label></label>; break;
+                                        case 1: <span class="dotGreen"></span>; break;
+                                        case 2: <span class="dotGreen"></span>; break;
+                                        case 3: <span class="dotGreen"></span>; break;
+                                    }<br />
+                                }
+                            </td>
+                            @*<td align="center"></td>*@
+                            <td>
+                                <a href="@Url.Action("FlightReportDetail", new { id = report.bookingOID })">
+                                    <span><i class="fas fa-eye"></i> View</span>
+                                </a><br />
+                            </td>
+                        </tr>
+                        @*}*@
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        @*var isSave = '@Request["save"]';
+        $(document).ready(function () {
+            $('#grid').DataTable({
+                columnDefs: [{
+                    "orderable": false,
+                    "targets": [4]
+                }, {
+                    "render": function (data, type) {
+                        if (type == 'sort') {
+                            return data + '';
+                        } else {
+                            var html = '';
+                            if (data == 1) {
+                                html = '<i class="fas fa-check" style= "color: #00ff21" ></i>'
+                            } else {
+                                html = '<i class="fas fa-times" style= "color: #ff0000" ></i>'
+                            }
+                            return html;
+                        }
+                    },
+                    "targets": [0]
+                }]
+            });*@
+
+        var isSave = '@Request["save"]';
+        $(document).ready(function () {
+            $('#grid').DataTable({
+                columnDefs: [ { type: 'date', 'targets': [2] } ],
+                order: [2 ,'desc'],
+                pageLength: 50,
+                dom: 'lfrtBip',
+                //buttons: [
+                //    'csv', 'excel','pdf', 'print'
+                //],
+                buttons: [
+                    {
+                        extend: 'csv',
+                        title: function () {
+                            var d = new Date();
+                            var day = d.getDate();
+                            var smonth = ((d.getMonth() + 1));
+                            var hour = d.getHours();
+                            var minute = d.getMinutes();
+                            var seconds = d.getSeconds();
+                            if (smonth   < 10) {smonth   = "0"+smonth;}
+                            if (hour   < 10) {hour   = "0"+hour;}
+                            if (minute < 10) {minute = "0"+minute;}
+                            if (seconds < 10) {seconds = "0"+seconds;}
+                            return 'FlightReport' + d.getFullYear() + smonth + day + '_' + hour + minute + seconds;
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        title: function () {
+                            var d = new Date();
+                            var day = d.getDate();
+                            var smonth = ((d.getMonth() + 1));
+                            var hour = d.getHours();
+                            var minute = d.getMinutes();
+                            var seconds = d.getSeconds();
+                            if (smonth   < 10) {smonth   = "0"+smonth;}
+                            if (hour   < 10) {hour   = "0"+hour;}
+                            if (minute < 10) {minute = "0"+minute;}
+                            if (seconds < 10) {seconds = "0"+seconds;}
+                            return 'FlightReport' + d.getFullYear() + smonth + day + '_' + hour + minute + seconds;
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        title: function () {
+                            var d = new Date();
+                            var day = d.getDate();
+                            var smonth = ((d.getMonth() + 1));
+                            var hour = d.getHours();
+                            var minute = d.getMinutes();
+                            var seconds = d.getSeconds();
+                            if (smonth   < 10) {smonth   = "0"+smonth;}
+                            if (hour   < 10) {hour   = "0"+hour;}
+                            if (minute < 10) {minute = "0"+minute;}
+                            if (seconds < 10) {seconds = "0"+seconds;}
+                            return 'FlightReport' + d.getFullYear() + smonth + day + '_' + hour + minute + seconds;
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL',
+                        title: function () {
+                            var d = new Date();
+                            var day = d.getDate();
+                            var smonth = ((d.getMonth() + 1));
+                            var hour = d.getHours();
+                            var minute = d.getMinutes();
+                            var seconds = d.getSeconds();
+                            if (smonth   < 10) {smonth   = "0"+smonth;}
+                            if (hour   < 10) {hour   = "0"+hour;}
+                            if (minute < 10) {minute = "0"+minute;}
+                            if (seconds < 10) {seconds = "0"+seconds;}
+                             return 'FlightReport' + d.getFullYear() + smonth + day + '_' + hour + minute + seconds;
+                        }
+                    }
+            ],
+                searching: true,
+                lengthMenu: [[50, 100, -1], [50, 100, "All"]]
+            });
+
+
+            if (isSave == 't') {
+                new PNotify({
+                    title: 'Success',
+                    text: 'Data have been updated',
+                    type: 'success',
+                    styling: 'bootstrap3',
+                    delay: 2000,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    buttons: {
+                        show_on_nonblock: true
+                    }
+                });
+            }
+        });
+
+
+
+    var Sendmail = function (id) {
+    if (confirm("Do you want to Send Email " )) {
+    window.location.href = '@Url.Action("FlightReportSendEmail","ReportFlight")' + '/' + id;
+    }
+    }
+
+
+    $("#txtPickupDate").datepicker({
+                startDate: $("#StartPickupDate").val(),
+                format: 'dd/mm/yyyy',
+        autoclose: true,
+                language: 'en'
+    });
+
+     $('input[name="bookingdate"]').daterangepicker({
+         autoUpdateInput: false,
+         //autoApply: true,
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        });
+
+        $('input[name="bookingdate"]').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+        });
+
+        $('input[name="bookingdate"]').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+
+
+
+        $('input[name="paybefore"]').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        });
+
+        $('input[name="paybefore"]').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+        });
+
+        $('input[name="paybefore"]').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+
+
+        });
+    </script>
+}
+
+<style>
+    .dotGreen {
+        height: 15px;
+        width: 15px;
+        background-color: #00FF00;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .dotRed {
+        height: 15px;
+        width: 15px;
+        background-color: #FF0000;
+        border-radius: 50%;
+        display: inline-block;
+    }
+</style>

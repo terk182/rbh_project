@@ -1,0 +1,572 @@
+﻿@model BL.Entities.HotPromotion.AllHotPromotion
+@{
+    string URL = System.Configuration.ConfigurationManager.AppSettings["webpages_URL"].ToString();
+}
+
+@using (Html.BeginForm("HotPromotionSaveOrUpdate", "HotPromotion", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.Promotion.HotPromotionOID)
+    @Html.HiddenFor(x => x.Promotion.IsDelete)
+    @Html.HiddenFor(x => x.Promotion.URLForSearch)
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Hot Promotion Details</h6>
+            </div>
+        </div>
+        <br /><div class="text-danger" style="font-size:24px;color:red;font-weight:bold; text-align:center; padding-bottom:20px;" id="messe">@TempData["ErrorMessage"]</div>
+              <div class="card-body">
+                  <div class="row mb-1">
+                      <div class="col-lg-2 col-md-6 col-sm-12">
+                          Active <span class="asterisk">*</span>
+                      </div>
+                      <div class="col-lg-8 col-md-6 col-sm-12">
+                          Disable  @Html.EditorFor(m => m.Promotion.IsActive, new { required = "required" })  Enable
+                      </div>
+                  </div>
+                  <div class="row mb-1">
+                      <div class="col-lg-2 col-md-6 col-sm-12">Seq<span class="asterisk">*</span></div>
+                      <div class="col-lg-8 col-md-6 col-sm-12">
+                          @Html.TextBoxFor(m => m.Promotion.Seq, new { @class = "form-control form-control-sm col-lg-2", required = "required", @type = "number", @min = "0", minlength = "1" })
+                      </div>
+                  </div>
+                  <div class="row mb-1">
+                      <div class="col-lg-2 col-md-6 col-sm-12">
+                          For Product<span class="asterisk">*</span>
+                      </div>
+                      <div class="col-lg-8 col-md-6 col-sm-12">
+                          @Html.RadioButtonFor(x => x.Promotion.Product, "Flight", new { @Text = "Flight", Checked = "checked", @onclick = "changeProduct('Flight');" }) Flight
+                          @Html.RadioButtonFor(x => x.Promotion.Product, "Hotel", new { @Text = "Hotel", @onclick = "changeProduct('Hotel');" }) Hotel
+                          @Html.RadioButtonFor(x => x.Promotion.Product, "Bundle", new { @Text = "Bundle", @onclick = "changeProduct('Bundle');" }) Bundle
+                          @Html.RadioButtonFor(x => x.Promotion.Product, "Transfer", new { @Text = "Transfer", @onclick = "changeProduct('Transfer');" }) Transfer
+                      </div>
+                  </div>
+                  <div class="row mb-1">
+                      <div class="col-lg-2 col-md-6 col-sm-12">Parameter for Search <span class="asterisk">*</span></div>
+                      <div class="col-lg-8 col-md-6 col-sm-12">
+
+                      </div>
+                  </div>
+                  <div id="FlightSearch" style="display:none">
+                      @Html.HiddenFor(x => x.flightSearch.lang)
+                      @Html.HiddenFor(x => x.flightSearch.originCode)
+                      @Html.HiddenFor(x => x.flightSearch.destinationCode)
+                      @Html.HiddenFor(x => x.flightSearch.origin)
+                      @Html.HiddenFor(x => x.flightSearch.destination)
+                      @Html.Hidden("flight_city_url", Url.Action("SearchCity", "HotPromotion"))
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              TripType <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.RadioButtonFor(x => x.flightSearch.triptype, "R", new { @Text = "Roundtrip", Checked = "checked", @onclick = "changeTripType('R');" }) Roundtrip
+                              @Html.RadioButtonFor(x => x.flightSearch.triptype, "O", new { @Text = "Oneway", @onclick = "changeTripType('O');" }) Oneway
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Origin<span class="asterisk">*</span></div>
+                          <div class="col-lg-2 col-md-6 col-sm-12"> <input name="flight_origin" id="flight_origin" type="text" value="@(Model.flightSearch !=null && Model.flightSearch.origin!=null ? Model.flightSearch.origin: "")" class="form-control form-control-sm" placeholder="Origin" required /></div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Destination<span class="asterisk">*</span></div>
+                          <div class="col-lg-2 col-md-6 col-sm-12"> <input name="flight_destination" id="flight_destination" type="text" value="@(Model.flightSearch !=null && Model.flightSearch.destination!=null ? Model.flightSearch.destination: "")" class="form-control form-control-sm" placeholder="Destination" required /></div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              Depart <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.flightSearch.departdate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-2", @id = "departdate", @readonly = "readonly" })
+                          </div>
+                      </div>
+                      <div class="row mb-1 date-ret">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              Return <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.flightSearch.returndate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-2", @id = "returndate", @readonly = "readonly" })
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              For Product<span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.RadioButtonFor(x => x.flightSearch.svc_class, "Y", new { @Text = "Economy", Checked = "checked" }) Economy
+                              @Html.RadioButtonFor(x => x.flightSearch.svc_class, "P", new { @Text = "Premium Economy" }) Premium Economy
+                              @Html.RadioButtonFor(x => x.flightSearch.svc_class, "C", new { @Text = "Business" }) Business
+                              @Html.RadioButtonFor(x => x.flightSearch.svc_class, "F", new { @Text = "First Class" }) First Class
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              No. of Adult <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.flightSearch.adult, new { required = "required", @class = "form-control form-control-sm col-lg-2", step = "any", max = 9, @type = "number" })
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              No. of Child <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.flightSearch.child, new { required = "required", @class = "form-control form-control-sm col-lg-2", step = "any", @type = "number" })
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              No. of Infant <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.flightSearch.infant, new { required = "required", @class = "form-control form-control-sm col-lg-2", step = "any", @type = "number" })
+                          </div>
+                      </div>
+                  </div>
+                  <div id="HotelSearch" style="display:none">
+                      @Html.HiddenFor(x => x.hotelSearch.LanguageCode)
+                      @Html.HiddenFor(x => x.hotelSearch.CurrencyCode)
+                      @Html.HiddenFor(x => x.hotelSearch.HotelCode)
+                      @Html.HiddenFor(x => x.hotelSearch.HotelSource)
+                      @Html.HiddenFor(x => x.hotelSearch.Destination.DestinationCode)
+                      @Html.HiddenFor(x => x.hotelSearch.Destination.DestinationName)
+                      @Html.Hidden("city_url", Url.Action("SearchDestination", "HotPromotion"))
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Destination<span class="asterisk">*</span></div>
+                          <div class="col-lg-2 col-md-6 col-sm-12"> <input name="destinationHot" id="destinationHot" type="text" value="@(Model.hotelSearch !=null && Model.hotelSearch.Destination!=null ? Model.hotelSearch.Destination.DestinationName: "")" class="form-control form-control-sm" placeholder="Hotel Name or Destination" required /></div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              Check-in <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.hotelSearch.CheckIn, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-2", @id = "HotelCheckIn", @readonly = "readonly" })
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              Check-out <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.hotelSearch.CheckOut, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-2", @id = "HotelCheckOut", @readonly = "readonly" })
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              No. of Guest <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.hotelSearch.Rooms[0].Adults, new { required = "required", @class = "form-control form-control-sm col-lg-2", step = "any", @type = "number" })
+                          </div>
+                      </div>
+                      <div class="row mb-1" style="display:none">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              No. of Child <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.hotelSearch.Rooms[0].Children, new { required = "required", @class = "form-control form-control-sm col-lg-2", step = "any", @type = "number" })
+                          </div>
+                      </div>
+                  </div>
+                  <div id="BundleSearch" style="display:none">
+                      @Html.HiddenFor(x => x.bundleSearch.lang)
+                      @Html.HiddenFor(x => x.bundleSearch.originCode)
+                      @Html.HiddenFor(x => x.bundleSearch.destinationCode)
+                      @Html.HiddenFor(x => x.bundleSearch.origin)
+                      @Html.HiddenFor(x => x.bundleSearch.destination)
+                      @Html.HiddenFor(x => x.bundleSearch.adult)
+                      @Html.HiddenFor(x => x.bundleSearch.child)
+                      @Html.HiddenFor(x => x.bundleSearch.infant)
+                      @Html.Hidden("bundle_city_url", Url.Action("SearchCity", "HotPromotion"))
+                      @Html.Hidden("bundle_hotel_city_url", Url.Action("SearchDestination", "HotPromotion"))
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              TripType <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.RadioButtonFor(x => x.bundleSearch.triptype, "R", new { @Text = "Roundtrip", Checked = "checked", @onclick = "changeBundleTripType('R');" }) Roundtrip
+                              @Html.RadioButtonFor(x => x.bundleSearch.triptype, "O", new { @Text = "Oneway", @onclick = "changeBundleTripType('O');" }) Oneway
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Origin<span class="asterisk">*</span></div>
+                          <div class="col-lg-2 col-md-6 col-sm-12"> <input name="bundle_depart" id="bundle_depart" type="text" value="@(Model.bundleSearch !=null && Model.bundleSearch.origin!=null ? Model.bundleSearch.origin: "")" class="form-control form-control-sm" placeholder="Origin" required /></div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Destination<span class="asterisk">*</span></div>
+                          <div class="col-lg-2 col-md-6 col-sm-12"> <input name="bundle_destination" id="bundle_destination" type="text" value="@(Model.bundleSearch !=null && Model.bundleSearch.destination!=null ? Model.bundleSearch.destination: "")" class="form-control form-control-sm" placeholder="Destination" required /></div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              Depart <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.bundleSearch.departdate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-2", @id = "bundle_departdate", @readonly = "readonly" })
+                          </div>
+                      </div>
+                      <div class="row mb-1 date-retBundle">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              Return <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.bundleSearch.returndate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-2", @id = "bundle_returndate", @readonly = "readonly" })
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              For Product<span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.RadioButtonFor(x => x.bundleSearch.svc_class, "Y", new { @Text = "Economy", Checked = "checked" }) Economy
+                              @Html.RadioButtonFor(x => x.bundleSearch.svc_class, "P", new { @Text = "Premium Economy" }) Premium Economy
+                              @Html.RadioButtonFor(x => x.bundleSearch.svc_class, "C", new { @Text = "Business" }) Business
+                              @Html.RadioButtonFor(x => x.bundleSearch.svc_class, "F", new { @Text = "First Class" }) First Class
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              No. of  No. of Guest <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.bundleSearch.Rooms[0].Adults, new { required = "required", @class = "form-control form-control-sm col-lg-2", step = "any", max = 9, @type = "number" })
+                          </div>
+                      </div>
+                      <div class="row mb-1" style="display:none">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              No. of Child <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.bundleSearch.Rooms[0].Children, new { required = "required", @class = "form-control form-control-sm col-lg-2", step = "any", @type = "number" })
+                          </div>
+                      </div>
+
+                  </div>
+                  <div id="TransferSearch" style="display:none">
+                      @Html.HiddenFor(x => x.transferSearch.lang)
+                      @Html.HiddenFor(x => x.transferSearch.fromCode)
+                      @Html.HiddenFor(x => x.transferSearch.fromType)
+                      @Html.HiddenFor(x => x.transferSearch.fromText)
+                      @Html.Hidden("fromCountry", (Model.transferSearch.fromCode == "BKK" ? "TH" : ""))
+                      @Html.HiddenFor(x => x.transferSearch.toCode)
+                      @Html.HiddenFor(x => x.transferSearch.toType)
+                      @Html.HiddenFor(x => x.transferSearch.toText)
+                      @Html.Hidden("toCountry")
+                      @Html.Hidden("transfer_city_url", Url.Action("TransferSearchDestination", "HotPromotion"))
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              TripType <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.RadioButtonFor(x => x.transferSearch.tripType, "R", new { @Text = "Roundtrip", Checked = "checked", @onclick = "changeTransferTripType('R');" }) Roundtrip
+                              @Html.RadioButtonFor(x => x.transferSearch.tripType, "O", new { @Text = "Oneway", @onclick = "changeTransferTripType('O');" }) Oneway
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Origin<span class="asterisk">*</span></div>
+                          <div class="col-lg-2 col-md-6 col-sm-12"> <input name="fromText" id="fromText" type="text" value="@(Model.transferSearch !=null && Model.transferSearch.fromText!=null ? Model.transferSearch.fromText: "")" class="form-control form-control-sm" placeholder="Origin" required /></div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Destination<span class="asterisk">*</span></div>
+                          <div class="col-lg-2 col-md-6 col-sm-12"> <input name="toText" id="toText" type="text" value="@(Model.transferSearch !=null && Model.transferSearch.toText!=null ? Model.transferSearch.toText: "")" class="form-control form-control-sm" placeholder="Destination" required /></div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              Depart <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.transferSearch.outbound, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-2", @id = "outbound", @readonly = "readonly" })
+                          </div>
+                      </div>
+                      <div class="row mb-1 date-retTransfer">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              Return <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.transferSearch.inbound, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm col-lg-2", @id = "inbound", @readonly = "readonly" })
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              No. of Adult <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.transferSearch.adults, new { required = "required", @class = "form-control form-control-sm col-lg-2", step = "any", max = 9, @type = "number" })
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              No. of Child <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.transferSearch.children, new { required = "required", @class = "form-control form-control-sm col-lg-2", step = "any", @type = "number" })
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">
+                              No. of Infant <span class="asterisk">*</span>
+                          </div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.transferSearch.infants, new { required = "required", @class = "form-control form-control-sm col-lg-2", step = "any", @type = "number" })
+                          </div>
+                      </div>
+                  </div>
+
+                  @if (Model.Promotion.ImageName != null && Model.Promotion.ImageName.Length > 0)
+                  {
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Image</div>
+                          <div class="col-lg-2">
+                              @Html.HiddenFor(m => m.Promotion.ImageName, new { @class = "row-fluid span4" })
+                              <img src="@(String.Format("{0}images/hot_promotions/{1}?id={2}", URL, Model.Promotion.ImageName, Guid.NewGuid()))" align="absMiddle" style="height:350px;width:350px" border="0" onerror="this.src='@(String.Format("{0}images/space.gif",URL))';" />
+                              <div class="form-group">
+                                  <div class="custom-control custom-checkbox small">
+                                      <input type="checkbox" class="custom-control-input" id="CheckDelFileName" name="CheckDelFileName" value="true">
+                                      <label class="custom-control-label" for="CheckDelFileName">Delete</label>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  }
+                  <div class="row mb-1">
+                      <div class="col-lg-2 col-md-6 col-sm-12">
+                          New Image<br />
+                          Recommendation: 350x350
+                      </div>
+                      <div class="col-lg-8 col-md-6 col-sm-12">
+                          <input type="file" class="spa1n6 fileinput" id="imageFileName" name="imageFileName">
+                      </div>
+                  </div>
+
+                  @for (int i = 0; i < Model.PromotionDetails.Count; i++)
+                  {
+                      @Html.HiddenFor(m => m.PromotionDetails[i].LangCode, new { @class = "row-fluid span4" })
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Image ALT text & Title @Model.PromotionDetails[i].LangCode <span class="asterisk">*</span></div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.PromotionDetails[i].ImageALT, new { @class = "form-control form-control-sm col-lg-4", required = "required", minlength = "3" })
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Title @Model.PromotionDetails[i].LangCode <span class="asterisk">*</span></div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextBoxFor(m => m.PromotionDetails[i].PromotionName, new { @class = "form-control form-control-sm col-lg-4", required = "required", minlength = "3" })
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-lg-2 col-md-6 col-sm-12">Short Descriptions @Model.PromotionDetails[i].LangCode <span class="asterisk">*</span></div>
+                          <div class="col-lg-8 col-md-6 col-sm-12">
+                              @Html.TextAreaFor(m => m.PromotionDetails[i].ShortDescriptions, new { @class = "form-control", required = "required", minlength = "3" })
+                          </div>
+                      </div>
+                  }
+
+              </div>
+        <div class="card-footer">
+            <div class="text-right">
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="btn_Save">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+                @if (Model.Promotion.Product != null)
+                {
+                    <button type="submit" class="d-sm-inline-block btn btn-sm btn-primaryblue shadow-sm" name="btn_Save" value="2">
+                        <i class="fas fa-save fa-sm text-white-50"></i>
+                        &nbsp;&nbsp;Save As&nbsp;&nbsp;
+                    </button>
+                }
+                <button type="submit" id="btn_submit" style="display: none;"></button>
+                <a href="@Url.Action("HotPromotionList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts
+{
+    <script src="~/Scripts/hotel_searchbox.js?v4"></script>
+    <script src="~/Scripts/flight_searchbox.js?v4"></script>
+    <script src="~/Scripts/bundle_searchbox.js?v4"></script>
+    <script src="~/Scripts/transfer_searchbox.js?v4"></script>
+    <script src="~/Vendors/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.js?v2"></script>
+    <script>
+        function checkData() {
+            alert($("#hotel_BOL_HotelCode").val());
+        }
+
+        function changeProduct(val) {
+            $("#FlightSearch").hide();
+            $("#HotelSearch").hide();
+            $("#BundleSearch").hide();
+            $("#TransferSearch").hide();
+            switch (val) {
+                case "Flight": $("#FlightSearch").show(); hotel_Remove_required(); flight_Add_required(); bundle_Remove_required(); transfer_Remove_required();break;
+                case "Hotel": $("#HotelSearch").show(); hotel_Add_required(); flight_Remove_required();bundle_Remove_required();transfer_Remove_required(); break;
+                case "Bundle": $("#BundleSearch").show(); hotel_Remove_required(); flight_Remove_required(); bundle_Add_required(); transfer_Remove_required(); break;
+                case "Transfer": $("#TransferSearch").show(); hotel_Remove_required(); flight_Remove_required(); bundle_Remove_required(); transfer_Add_required(); break;
+            }
+        }
+        function hotel_Remove_required() {
+            $('#destinationHot').removeAttr('required');
+            $('#HotelCheckIn').removeAttr('required');
+            $('#HotelCheckOut').removeAttr('required');
+            $('#hotelSearch_Rooms_0__Adults').removeAttr('required');
+            $('#hotelSearch_Rooms_0__Children').removeAttr('required');
+        }
+        function hotel_Add_required() {
+            $('#destinationHot').attr('required', 'required');
+            $('#HotelCheckIn').attr('required', 'required');
+            $('#HotelCheckOut').attr('required', 'required');
+            $('#hotelSearch_Rooms_0__Adults').attr('required', 'required');
+            $('#hotelSearch_Rooms_0__Children').attr('required', 'required');
+        }
+        function flight_Remove_required() {
+            $('#flight_origin').removeAttr('required');
+            $('#flight_destination').removeAttr('required');
+            $('#departdate').removeAttr('required');
+            $('#returndate').removeAttr('required');
+            $('#flightSearch_adult').removeAttr('required');
+            $('#flightSearch_child').removeAttr('required');
+            $('#flightSearch_infant').removeAttr('required');
+        }
+        function flight_Add_required() {
+            $('#flight_origin').attr('required', 'required');
+            $('#flight_destination').attr('required', 'required');
+            $('#departdate').attr('required', 'required');
+            $('#returndate').attr('required', 'required');
+            $('#flightSearch_adult').attr('required', 'required');
+            $('#flightSearch_child').attr('required', 'required');
+            $('#flightSearch_infant').attr('required', 'required');
+        }
+        function bundle_Remove_required() {
+            $('#bundle_depart').removeAttr('required');
+            $('#bundle_destination').removeAttr('required');
+            $('#bundle_departdate').removeAttr('required');
+            $('#bundle_returndate').removeAttr('required');
+            $('#bundleSearch_Rooms_0__Adults').removeAttr('required');
+            $('#bundleSearch_Rooms_0__Children').removeAttr('required');
+        }
+        function bundle_Add_required() {
+            $('#bundle_depart').attr('required', 'required');
+            $('#bundle_destination').attr('required', 'required');
+            $('#bundle_departdate').attr('required', 'required');
+            $('#bundle_returndate').attr('required', 'required');
+            $('#bundleSearch_Rooms_0__Adults').attr('required', 'required');
+            $('#bundleSearch_Rooms_0__Children').attr('required', 'required');
+        }
+        function transfer_Remove_required() {
+            $('#fromText').removeAttr('required');
+            $('#toText').removeAttr('required');
+            $('#outbound').removeAttr('required');
+            $('#inbound').removeAttr('required');
+            $('#transferSearch_adults').removeAttr('required');
+            $('#transferSearch_children').removeAttr('required');
+             $('#transferSearch_infants').removeAttr('required');
+        }
+        function transfer_Add_required() {
+            $('#fromText').attr('required', 'required');
+            $('#toText').attr('required', 'required');
+            $('#outbound').attr('required', 'required');
+            $('#inbound').attr('required', 'required');
+            $('#transferSearch_adults').attr('required', 'required');
+            $('#transferSearch_children').attr('required', 'required');
+            $('#transferSearch_infants').attr('required', 'required');
+        }
+        $("#btn_Save").on('click', function () {
+
+
+            if ($("#flight_origin") && $("#flight_origin").val().length > 0) {
+                var cityStr = $("#flight_origin").val();
+                $("#flightSearch_origin").val(cityStr);
+                if (cityStr.length == 3) {
+                    $("#flightSearch_originCode").val(cityStr);
+                } else {
+                    if (cityStr.indexOf("[") >= 0 && cityStr.indexOf("]") >= 4) {
+                        var start = cityStr.indexOf("[") + 1;
+                         var end = cityStr.indexOf("[") + 4;
+                        $("#flightSearch_originCode").val(cityStr.substring(start, end));
+                    }
+                }
+            }
+
+            if ($("#flight_destination") && $("#flight_destination").val().length > 0) {
+                var cityStr = $("#flight_destination").val();
+                $("#flightSearch_destination").val(cityStr);
+                if (cityStr.length == 3) {
+                    $("#flightSearch_destinationCode").val(cityStr);
+                } else {
+                    if (cityStr.indexOf("[") >= 0 && cityStr.indexOf("]") >= 4) {
+                        var start = cityStr.indexOf("[") + 1;
+                        var end = cityStr.indexOf("[") + 4;
+                        $("#flightSearch_destinationCode").val(cityStr.substring(start, end));
+                    }
+                }
+            }
+
+            if ($("#bundle_depart") && $("#bundle_depart").val().length > 0) {
+                var cityStr = $("#bundle_depart").val();
+                $("#bundleSearch_origin").val(cityStr);
+                if (cityStr.length == 3) {
+                    $("#bundleSearch_originCode").val(cityStr);
+                } else {
+                    if (cityStr.indexOf("[") >= 0 && cityStr.indexOf("]") >= 4) {
+                        var start = cityStr.indexOf("[") + 1;
+                         var end = cityStr.indexOf("[") + 4;
+                        $("#bundleSearch_originCode").val(cityStr.substring(start, end));
+                    }
+                }
+            }
+
+            if ($("#bundle_destination") && $("#bundle_destination").val().length > 0) {
+                var cityStr = $("#bundle_destination").val();
+                $("#bundleSearch_destination").val(cityStr);
+                if (cityStr.length == 3) {
+                    $("#bundleSearch_destinationCode").val(cityStr);
+                } else {
+                    if (cityStr.indexOf("[") >= 0 && cityStr.indexOf("]") >= 4) {
+                        var start = cityStr.indexOf("[") + 1;
+                        var end = cityStr.indexOf("[") + 4;
+                        $("#bundleSearch_destinationCode").val(cityStr.substring(start, end));
+                    }
+                }
+            }
+
+            if ($("#fromText") && $("#fromText").val().length > 0) {
+                var cityStr = $("#fromText").val();
+                 $("#transferSearch_fromText").val(cityStr);
+            }
+            if ($("#toText") && $("#toText").val().length > 0) {
+                var cityStr = $("#toText").val();
+                 $("#transferSearch_toText").val(cityStr);
+            }
+        });
+        function changeTripType(val) {
+            if (val == 'R') {
+                $(".date-ret").show();
+            } else {
+                $(".date-ret").hide();
+            }
+        };
+        function changeBundleTripType(val) {
+            if (val == 'R') {
+                $(".date-retBundle").show();
+            } else {
+                $(".date-retBundle").hide();
+            }
+        };
+        function changeTransferTripType(val) {
+            if (val == 'R') {
+                $(".date-retTransfer").show();
+            } else {
+                $(".date-retTransfer").hide();
+            }
+        };
+        changeProduct("@Model.Promotion.Product");
+        changeTripType("@Model.flightSearch.triptype");
+        changeTransferTripType("@Model.transferSearch.tripType");
+    </script>
+}
+
+
+

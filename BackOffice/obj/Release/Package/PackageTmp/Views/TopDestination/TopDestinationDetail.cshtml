@@ -1,0 +1,399 @@
+﻿@model BL.Entities.TopDestination.AllTopDestination
+@{
+    string URL = System.Configuration.ConfigurationManager.AppSettings["webpages_URL"].ToString();
+}
+@Html.Hidden("city_url", Url.Action("SearchDestination", "TopDestination"))
+@using (Html.BeginForm("TopDestinationSaveOrUpdate", "TopDestination", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.Destination.TopDestinationOID)
+    @Html.HiddenFor(x => x.Destination.DestinationCode)
+    @Html.HiddenFor(x => x.Destination.IsDelete)
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Top Destination Details</h6>
+            </div>
+        </div>
+        <br /><div class="text-danger" style="font-size:24px;color:red;font-weight:bold; text-align:center; padding-bottom:20px;" id="messe">@TempData["ErrorMessage"]</div>
+        <div class="card-body">
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Active <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    Disable  @Html.EditorFor(m => m.Destination.IsActive, new { required = "required" })  Enable
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    International <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    Domestic  @Html.EditorFor(m => m.Destination.IsInternational, new { required = "required" })  International
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">Seq<span class="asterisk">*</span></div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(m => m.Destination.Seq, new { @class = "form-control form-control-sm col-lg-2", required = "required", @type = "number", @min = "0", minlength = "1" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">Destination <span class="asterisk">*</span></div>
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(m => m.Destination.DestinationName, new { @class = "form-control form-control-sm",placeholder="Destination" , required = "required", minlength = "3" })
+                </div>
+            </div>
+
+            @if (Model.Destination.ImageName != null && Model.Destination.ImageName.Length > 0)
+            {
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Image</div>
+                    <div class="col-lg-2">
+                        @Html.HiddenFor(m => m.Destination.ImageName, new { @class = "row-fluid span4" })
+                        <img src="@(String.Format("{0}images/top_destinations/{1}?id={2}", URL, Model.Destination.ImageName, Guid.NewGuid()))" align="absMiddle"  style="max-width:350px;max-height:223px;" border="0" onerror="this.src='@(String.Format("{0}images/space.gif",URL))';" />
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox small">
+                                <input type="checkbox" class="custom-control-input" id="CheckDelFileName" name="CheckDelFileName" value="true">
+                                <label class="custom-control-label" for="CheckDelFileName">Delete</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    New Image<br />
+                    Recommendation: 350x223
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    <input type="file" class="spa1n6 fileinput" id="imageFileName" name="imageFileName">
+                </div>
+            </div>
+             @for (int i = 0; i < Model.DestinationDetails.Count; i++)
+             {
+                @Html.HiddenFor(m => m.DestinationDetails[i].LangCode, new { @class = "row-fluid span4" })
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Image ALT text & Title @Model.DestinationDetails[i].LangCode <span class="asterisk">*</span></div>
+                    <div class="col-lg-8 col-md-6 col-sm-12">
+                        @Html.TextBoxFor(m => m.DestinationDetails[i].ImageALT, new { @class = "form-control form-control-sm col-lg-4", required = "required", minlength = "3" })
+                    </div>
+                </div>
+             }
+            @if (Model.Destination.BannerName != null && Model.Destination.BannerName.Length > 0)
+            {
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Banner Image</div>
+                    <div class="col-lg-2">
+                        @Html.HiddenFor(m => m.Destination.BannerName, new { @class = "row-fluid span4" })
+                        <img src="@(String.Format("{0}images/top_destinations/{1}?id={2}", URL, Model.Destination.BannerName, Guid.NewGuid()))" align="absMiddle" border="0" onerror="this.src='@(String.Format("{0}images/space.gif",URL))';" />
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox small">
+                                <input type="checkbox" class="custom-control-input" id="CheckDelBannerFileName" name="CheckDelBannerFileName" value="true">
+                                <label class="custom-control-label" for="CheckDelBannerFileName">Delete</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    New Banner Image<br />
+                    Recommendation: 1080x256
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    <input type="file" class="spa1n6 fileinput" id="imageBannerFileName" name="imageBannerFileName">
+                </div>
+            </div>
+
+
+            @for (int i = 0; i < Model.DestinationDetails.Count; i++)
+            {
+                @Html.HiddenFor(m => m.DestinationDetails[i].LangCode, new { @class = "row-fluid span4" })
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Title @Model.DestinationDetails[i].LangCode <span class="asterisk">*</span></div>
+                    <div class="col-lg-8 col-md-6 col-sm-12">
+                        @Html.TextBoxFor(m => m.DestinationDetails[i].DestinationName, new { @class = "form-control form-control-sm col-lg-4", required = "required", minlength = "3" })
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Short Descriptions @Model.DestinationDetails[i].LangCode <span class="asterisk">*</span></div>
+                    <div class="col-lg-8 col-md-6 col-sm-12">
+                        @Html.TextAreaFor(m => m.DestinationDetails[i].ShortDescriptions, new { @class = "form-control", required = "required", minlength = "3" })
+                    </div>
+                </div>
+            }
+            <!--Paragraph 1-->
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12 font-weight-bold">Details in paragraph 1</div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            @if (Model.Destination.FileName_Paragraph11 != null && Model.Destination.FileName_Paragraph11.Length > 0)
+            {
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Image 1</div>
+                    <div class="col-lg-2">
+                        @Html.HiddenFor(m => m.Destination.FileName_Paragraph11, new { @class = "row-fluid span4" })
+                        <img src="@(String.Format("{0}images/top_destinations/{1}?id={2}", URL, Model.Destination.FileName_Paragraph11, Guid.NewGuid()))" align="absMiddle" border="0" onerror="this.src='@(String.Format("{0}images/space.gif",URL))';" />
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox small">
+                                <input type="checkbox" class="custom-control-input" id="CheckDelFileName_Paragraph11" name="CheckDelFileName_Paragraph11" value="true">
+                                <label class="custom-control-label" for="CheckDelFileName_Paragraph11">Delete</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    New Image 1<br />
+                    Recommendation: 1080x400
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    <input type="file" class="spa1n6 fileinput" id="imageFileName_Paragraph11" name="FilePicBrowse">
+                </div>
+            </div>
+            @if (Model.Destination.FileName_Paragraph12 != null && Model.Destination.FileName_Paragraph12.Length > 0)
+            {
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Image 2</div>
+                    <div class="col-lg-2">
+                        @Html.HiddenFor(m => m.Destination.FileName_Paragraph12, new { @class = "row-fluid span4" })
+                        <img src="@(String.Format("{0}images/top_destinations/{1}?id={2}", URL, Model.Destination.FileName_Paragraph12, Guid.NewGuid()))" align="absMiddle" border="0" onerror="this.src='@(String.Format("{0}images/space.gif",URL))';" />
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox small">
+                                <input type="checkbox" class="custom-control-input" id="CheckDelFileName_Paragraph12" name="CheckDelFileName_Paragraph12" value="true">
+                                <label class="custom-control-label" for="CheckDelFileName_Paragraph12">Delete</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    New Image 2<br />
+                    Recommendation: 1080x400
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    <input type="file" class="spa1n6 fileinput" id="imageFileName_Paragraph12" name="FilePicBrowse">
+                </div>
+            </div>
+            @for (int i = 0; i < Model.DestinationDetails.Count; i++)
+            {
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Descriptions @Model.DestinationDetails[i].LangCode <span class="asterisk">*</span></div>
+                    <div class="col-lg-8 col-md-6 col-sm-12">
+                        @Html.TextAreaFor(m => m.DestinationDetails[i].Descriptions_Paragraph1, new { @class = "form-control", required = "required", minlength = "3" })
+                    </div>
+                </div>
+            }
+            <!--End Paragraph 1-->
+            <!--Paragraph 2-->
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12 font-weight-bold">Details in paragraph 2</div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            @if (Model.Destination.FileName_Paragraph21 != null && Model.Destination.FileName_Paragraph21.Length > 0)
+            {
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Image 1</div>
+                    <div class="col-lg-2">
+                        @Html.HiddenFor(m => m.Destination.FileName_Paragraph21, new { @class = "row-fluid span4" })
+                        <img src="@(String.Format("{0}images/top_destinations/{1}?id={2}", URL, Model.Destination.FileName_Paragraph21, Guid.NewGuid()))" align="absMiddle" border="0" onerror="this.src='@(String.Format("{0}images/space.gif",URL))';" />
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox small">
+                                <input type="checkbox" class="custom-control-input" id="CheckDelFileName_Paragraph21" name="CheckDelFileName_Paragraph21" value="true">
+                                <label class="custom-control-label" for="CheckDelFileName_Paragraph21">Delete</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    New Image 1<br />
+                    Recommendation: 1080x400
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    <input type="file" class="spa1n6 fileinput" id="imageFileName_Paragraph21" name="FilePicBrowse">
+                </div>
+            </div>
+            @if (Model.Destination.FileName_Paragraph22 != null && Model.Destination.FileName_Paragraph22.Length > 0)
+            {
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Image 2</div>
+                    <div class="col-lg-2">
+                        @Html.HiddenFor(m => m.Destination.FileName_Paragraph22, new { @class = "row-fluid span4" })
+                        <img src="@(String.Format("{0}images/top_destinations/{1}?id={2}", URL, Model.Destination.FileName_Paragraph22, Guid.NewGuid()))" align="absMiddle" border="0" onerror="this.src='@(String.Format("{0}images/space.gif",URL))';" />
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox small">
+                                <input type="checkbox" class="custom-control-input" id="CheckDelFileName_Paragraph22" name="CheckDelFileName_Paragraph22" value="true">
+                                <label class="custom-control-label" for="CheckDelFileName_Paragraph22">Delete</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    New Image 2<br />
+                    Recommendation: 1080x400
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    <input type="file" class="spa1n6 fileinput" id="imageFileName_Paragraph22" name="FilePicBrowse">
+                </div>
+            </div>
+            @for (int i = 0; i < Model.DestinationDetails.Count; i++)
+            {
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Descriptions @Model.DestinationDetails[i].LangCode </div>
+                    <div class="col-lg-8 col-md-6 col-sm-12">
+                        @Html.TextAreaFor(m => m.DestinationDetails[i].Descriptions_Paragraph2, new { @class = "form-control", minlength = "3" })
+                    </div>
+                </div>
+            }
+            <!--End Paragraph 2-->
+            <!--Paragraph 3-->
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12 font-weight-bold">Details in paragraph 3</div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            @if (Model.Destination.FileName_Paragraph31 != null && Model.Destination.FileName_Paragraph31.Length > 0)
+            {
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Image 1</div>
+                    <div class="col-lg-2">
+                        @Html.HiddenFor(m => m.Destination.FileName_Paragraph31, new { @class = "row-fluid span4" })
+                        <img src="@(String.Format("{0}images/top_destinations/{1}?id={2}", URL, Model.Destination.FileName_Paragraph31, Guid.NewGuid()))" align="absMiddle" border="0" onerror="this.src='@(String.Format("{0}images/space.gif",URL))';" />
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox small">
+                                <input type="checkbox" class="custom-control-input" id="CheckDelFileName_Paragraph31" name="CheckDelFileName_Paragraph31" value="true">
+                                <label class="custom-control-label" for="CheckDelFileName_Paragraph31">Delete</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    New Image 1<br />
+                    Recommendation: 1080x400
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    <input type="file" class="spa1n6 fileinput" id="imageFileName_Paragraph31" name="FilePicBrowse">
+                </div>
+            </div>
+            @if (Model.Destination.FileName_Paragraph32 != null && Model.Destination.FileName_Paragraph32.Length > 0)
+            {
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Image 2</div>
+                    <div class="col-lg-2">
+                        @Html.HiddenFor(m => m.Destination.FileName_Paragraph32, new { @class = "row-fluid span4" })
+                        <img src="@(String.Format("{0}images/top_destinations/{1}?id={2}", URL, Model.Destination.FileName_Paragraph32, Guid.NewGuid()))" align="absMiddle" border="0" onerror="this.src='@(String.Format("{0}images/space.gif",URL))';" />
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox small">
+                                <input type="checkbox" class="custom-control-input" id="CheckDelFileName_Paragraph32" name="CheckDelFileName_Paragraph32" value="true">
+                                <label class="custom-control-label" for="CheckDelFileName_Paragraph32">Delete</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    New Image 2<br />
+                    Recommendation: 1080x400
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    <input type="file" class="spa1n6 fileinput" id="imageFileName_Paragraph32" name="FilePicBrowse">
+                </div>
+            </div>
+            @for (int i = 0; i < Model.DestinationDetails.Count; i++)
+            {
+                <div class="row mb-1">
+                    <div class="col-lg-2 col-md-6 col-sm-12">Descriptions @Model.DestinationDetails[i].LangCode </div>
+                    <div class="col-lg-8 col-md-6 col-sm-12">
+                        @Html.TextAreaFor(m => m.DestinationDetails[i].Descriptions_Paragraph3, new { @class = "form-control", minlength = "3" })
+                    </div>
+                </div>
+            }
+            <!--End Paragraph 3-->
+        </div>
+        <div class="card-footer">
+            <div class="text-right">
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="btn_Save">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+                @if (Model.Destination.DestinationCode != null)
+                {
+                    <button type="submit" class="d-sm-inline-block btn btn-sm btn-primaryblue shadow-sm" name="btn_Save" value="2">
+                        <i class="fas fa-save fa-sm text-white-50"></i>
+                        &nbsp;&nbsp;Save As&nbsp;&nbsp;
+                    </button>
+                }
+                <button type="submit" id="btn_submit" style="display: none;"></button>
+                <a href="@Url.Action("TopDestinationList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts
+{
+
+
+    <script src="~/Vendors/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.js?v2"></script>
+    <script>
+        $(document).ready(function () {
+            //City
+            var easyACTopDesOptions = {
+
+                url: function (phrase) {
+                    return $('#city_url').val() + '?keyword=' + phrase + '&language=en';
+                },
+
+                getValue: "Value",
+                list: {
+                    maxNumberOfElements: 20,
+                    showAnimation: {
+                        type: "fade",
+                        time: 400
+                    },
+
+                    hideAnimation: {
+                        type: "fade",
+                        time: 400
+                    },
+                    onSelectItemEvent: function () {
+                        var value = $("#Destination_DestinationName").getSelectedItemData().Key;
+                        $("#Destination_DestinationCode").val(value);
+                    }
+                },
+                template: {
+                    type: "custom",
+                    method: function (value, item) {
+                        return '<img src="../../Images/pin.svg" style="width: 10px;"> ' + value;
+                    }
+                },
+                requestDelay: 0,
+                adjustWidth: false
+            };
+
+            $("#Destination_DestinationName").easyAutocomplete(easyACTopDesOptions);
+        });
+
+      
+    </script>
+}
+
+

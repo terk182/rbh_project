@@ -1,0 +1,116 @@
+﻿@model BL.Entities.RobinhoodFare.AirFare
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FileImage</title>
+</head>
+<body style="padding:0px; margin:0; height:100%;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    @if (Model != null)
+    {
+    <div style="padding:0px">
+        <div style="width:800px;height:500px;">
+            <div style="background-image:url('@(System.Configuration.ConfigurationManager.AppSettings["Main.URL"].ToString())images/NFT-BG/NFT-TICKET@(ViewBag.iImage).png');width: 100%;height: 100%;background-size: cover;">
+                <div style="position:relative;width:100%;height:100%;">
+                    <div style="position: absolute;color: #FFF;top: 0;left: 0;padding-left:80px;padding-top:70px;">
+                        <table>
+                            <tr>
+                                <td style="font-size:40px;line-height: 40px;font-weight:bold;">@Model.depFlight[0].depCity.code - @(Model.depFlight[Model.depFlight.Count - 1].arrCity.code)</td>
+                            </tr>
+                            <tr><td style="line-height:15px;">@Model.depFlight[0].depCity.name - @(Model.depFlight[Model.depFlight.Count - 1].arrCity.name)</td></tr>
+
+                            <tr><td style="height:5px;"></td></tr>
+                            @if (Model.retFlight != null && Model.retFlight.Count > 0)
+                            {
+                                <tr>
+                                    <td>Departure</td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td><strong>Depart</strong></td>
+                                            <td></td>
+                                            <td><strong>Arrive</strong></td>
+                                            <td></td>
+                                            <td><strong>Flight</strong></td>
+                                        </tr>
+                                        @foreach (var depart in Model.depFlight)
+                                        {
+                                            <tr>
+                                                <td style="width:165px"><strong>@depart.depCity.code, @depart.departureDateTime.ToString("dd MMM yy, HH:mm")</strong></td>
+                                                <td style="width:25px"></td>
+                                                <td style="width:165px"><strong>@depart.arrCity.code, @depart.arrivalDateTime.ToString("dd MMM yy, HH:mm")</strong></td>
+                                                <td style="width:25px"></td>
+                                                <td style="width:105px"><strong>@depart.airline.code@depart.flightNumber</strong></td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </td>
+                            </tr>
+
+
+
+                            @if (Model.retFlight != null && Model.retFlight.Count > 0)
+                            {
+                                <tr>
+                                    <td>Return</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><strong>Depart</strong></td>
+                                                <td></td>
+                                                <td><strong>Arrive</strong></td>
+                                                <td></td>
+                                                <td><strong>Flight</strong></td>
+                                            </tr>
+                                            @foreach (var depart in Model.retFlight)
+                                            {
+                                                <tr>
+                                                    <td style="width:165px"><strong>@depart.depCity.code, @depart.departureDateTime.ToString("dd MMM yy, HH:mm")</strong></td>
+                                                    <td style="width:25px"></td>
+                                                    <td style="width:165px"><strong>@depart.arrCity.code, @depart.arrivalDateTime.ToString("dd MMM yy, HH:mm")</strong></td>
+                                                    <td style="width:25px"></td>
+                                                    <td style="width:105px"><strong>@depart.airline.code@depart.flightNumber</strong></td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </td>
+                                </tr>
+
+                            }
+                        </table>
+                    </div>
+                    <div style="top: 0;right: 0;position: absolute;color: #000;padding-right: 63px;padding-top: 80px;"><img src="//ai-r-logo.azurewebsites.net/square/@(Model.depFlight[0].airline.code).png" /></div>
+                    <div style="bottom: 0;right: 0;position: absolute;color: #000;padding-right: 63px;padding-bottom: 180px;font-weight: bold;">
+                        @(Model.RobinhoodID!=null && Model.RobinhoodID.Length>0?Model.PNR:"XXXXXX")
+                    </div>
+                    <div style="bottom: 0;left: 0;padding-left:80px;position: absolute;color: #000;padding-bottom: 68px;font-size:30px;color:#FFF;">
+                        @{
+                            string BookingClass = "";
+                            switch (Model.svc_class)
+                            {
+                                case "Y": BookingClass = "ECONOMY CLASS"; break;
+                                case "P": BookingClass = "PREMIUM ECONOMY CLASS"; break;
+                                case "C": BookingClass = "BUSINESS CLASS"; break;
+                                case "F": BookingClass = "FIRST CLASS"; break;
+                            }
+                            <span>@BookingClass</span>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    }
+</body>
+</html>

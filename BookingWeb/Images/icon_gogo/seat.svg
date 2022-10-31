@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 57.1 (101010) - https://sketch.com -->
+    <title>3287C630-7C65-4C3A-9728-8FB77B1F9039SVG</title>
+    <desc>Created with sketchtool.</desc>
+    <g id="Desktop---Booking-Flight" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop_Flight_01" transform="translate(-906.000000, -293.000000)">
+            <g id="Group-9" transform="translate(116.000000, 282.000000)">
+                <g id="Icon/Info/Seat" transform="translate(787.000000, 8.000000)">
+                    <g id="Icon/People02-Copy">
+                        <g id="icon-profile">
+                            <rect id="Rectangle" x="0" y="0" width="22" height="22"></rect>
+                        </g>
+                        <g id="Group" transform="translate(4.000000, 4.000000)" stroke="#0393CD" stroke-linejoin="round" stroke-width="1.32">
+                            <rect id="Rectangle" x="2.01666667" y="0" width="10.0833333" height="13.1083333" rx="2.2"></rect>
+                            <rect id="Rectangle" x="5.04166667" y="0" width="4.03333333" height="3.025" rx="1.1"></rect>
+                            <rect id="Rectangle-Copy" x="0" y="5.04166667" width="2.01666667" height="9.075" rx="1.00833333"></rect>
+                            <rect id="Rectangle-Copy-2" x="12.1" y="5.04166667" width="2.01666667" height="9.075" rx="1.00833333"></rect>
+                            <path d="M3.52916667,8.57083333 L10.5875,8.57083333" id="Path-13" stroke-linecap="round"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

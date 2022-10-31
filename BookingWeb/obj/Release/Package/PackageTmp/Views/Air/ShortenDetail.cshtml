@@ -1,0 +1,39 @@
+﻿@model DataModel.ShortenURL
+
+<h3>Shorten URL</h3>
+<hr />
+
+<div class="card">
+    <h5 class="card-header"><i class="fa fa-ticket-alt"></i> Shorten URL Detail</h5>
+    <div class="card-body">
+        @using (Html.BeginForm("ShortenDetail", "Air", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-div-left", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Code <span class="required">*</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBoxFor(m => m.Code, new { required = "required", @class = "form-control form-control-sm col-md-4 col-xs-12" })
+                    <span style="color: #ff0000">@ViewBag.Error</span>
+                </div>
+            </div>
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Full URL <span class="required">*</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBoxFor(m => m.FullURL, new { required = "required", @class = "form-control form-control-sm col-12" })
+                </div>
+            </div>
+            <hr />
+            <div class="row row-mt">
+                <div class="col-lg-6 col-md-6 col-12 offset-md-3">
+                    <button type="submit" id="btnSubmit" class="btn btn-primary btn-sm">Save</button>
+                </div>
+            </div>
+
+                        }
+    </div>
+</div>
+

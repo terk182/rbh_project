@@ -1,0 +1,93 @@
+﻿@model List<DataModel.Information>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Information List</h6>
+            @if (Model.Count < 1)
+            {
+            <a href="@Url.Action("InformationDetail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-plus fa-sm text-white-50"></i>
+                Create New
+            </a>
+            }
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th align="center">Name</th>
+                        <th align="center">Address</th>
+                        <th align="center">Tel.</th>
+                        <th align="center">Email</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var info in Model)
+                    {
+                        <tr>
+                            <td align="center">
+                                @info.Name
+                            </td>
+                            <td align="center">
+                                @info.Address
+                            </td>
+                            <td align="center">
+                                @info.TelNo
+                            </td>
+                            <td align="center">
+                               @info.Email
+                            </td>
+                            <td>
+                                <a href="@Url.Action("InformationDetail", new { id = info.InformationOID})">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        var isSave = '@Request["save"]';
+        $(document).ready(function () {
+            $('#grid').DataTable({
+                columnDefs: [{
+                    "orderable": false,
+                    "targets": [4]
+                }]
+            });
+
+            if (isSave == 't') {
+                new PNotify({
+                    title: 'Success',
+                    text: 'Data have been updated',
+                    type: 'success',
+                    styling: 'bootstrap3',
+                    delay: 2000,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    buttons: {
+                        show_on_nonblock: true
+                    }
+                });
+            }
+        });
+
+        var deleteRow = function (id, name) {
+            if (confirm("Do you want to delete " + name + "?")) {
+                window.location.href = '@Url.Action("MarkupDelete")' + '/' + id;
+            }
+        }
+    </script>
+}

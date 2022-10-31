@@ -1,0 +1,805 @@
+﻿@model BL.Entities.RobinhoodFare.AirFare
+    @{ 
+    bool isKiwiBooking = false;
+    BL.Entities.RobinhoodPNR.PNR pnr = null;
+    decimal dKiwiBagADT = 0;
+    decimal dKiwiBagCHD = 0;
+    if (Session["ssPNR"] != null)//from kiwi
+    {
+        pnr = (BL.Entities.RobinhoodPNR.PNR)Session["ssPNR"];
+        isKiwiBooking = pnr.recordLocator.Length > 6 ? true : false;
+
+    }
+    }
+@section styles
+{
+    <style>
+        .form-default .input-group input, .form-default .input-group select {
+            height: 50px;
+            width: 100% !important;
+            border: 1px solid #dcdcdc;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            padding-left: 35px;
+        }
+
+        .form-default .input-group span {
+            position: absolute;
+            margin-left: 10px;
+            height: 50px;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+
+        .input-group {
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -ms-flex-align: stretch;
+            align-items: stretch;
+            width: 100%;
+        }
+
+        input, .form-default .input-group select, button, select, optgroup, textarea {
+            margin: 0;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+        }
+
+        input, .form-default .input-group select {
+            outline: none;
+        }
+
+        button, input, .form-default .input-group select {
+            overflow: visible;
+        }
+
+        .btn--primary {
+            outline: none;
+            background: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .btn-Resend {
+            width: 100% !important;
+            padding-left: 0px !important;
+        }
+    </style>
+}
+@{
+
+    string clsStr = "";
+    switch (Model.svc_class)
+    {
+        case "F":
+            clsStr = Localize.Show("FIRST");
+            break;
+        case "C":
+            clsStr = Localize.Show("BUSINESS");
+            break;
+        case "P":
+            clsStr = Localize.Show("PREMIUM_ECONOMY");
+            break;
+        case "Y":
+            clsStr = Localize.Show("ECONOMY");
+            break;
+    }
+}
+@section width100head
+{
+    <div class="process-bar text-center">
+        <table class="font-weight-bold" style="margin-left: auto; margin-right: auto;">
+            <tr>
+                <td><div class="number-circle-grey">1</div></td>
+                <td>@Localize.Show("DETAIL")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-grey">2</div></td>
+                <td>@Localize.Show("PAYMENT")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-orange">3</div></td>
+                <td>@Localize.Show("TICKET")</td>
+            </tr>
+        </table>
+    </div>
+    <div class="summary-head-bg text-center">
+        @if (Model.paymentMethod != 4 || Model.statusPayment != 0)
+        {
+            <div class="font-24">
+                @Localize.Show("BOOKING_IS_CONFIRMED")
+            </div>
+        }
+        <div class="font-14">
+            @Localize.Show("WE_SEND_EMAIL") <br />
+            @Model.contactInfo.email
+        </div>
+        <div class="font-30 mb-2">
+            @Model.RobinhoodID
+        </div>
+        @if (Model.paymentMethod == 4 && Model.statusPayment == 0)
+        {
+            <span class="font-18 text-red mt-2" style="background-color: #fff; border-radius: 5px; padding: 5px;">
+
+                @Localize.Show("PLEASE_PAY_BEFORE"): @Model.TKTL.ToString("ddd dd MMM yyy, HH:mm")
+            </span>
+        }
+    </div>
+    <div class="summary-card-bg">
+        <div class="card card-summary  mb-5">
+            <div class="card-header card-header-summary">
+                <div class="row">
+                    <div class="col-6">
+                        <img src="~/Images/logo-menu.png" />
+
+                    </div>
+                    @*<div class="col-6 text-right font-14">
+                            <img src="~/Images/icon_gogo/download.svg" /> Save
+                            <span class="ml-3 mr-3">|</span>
+                            <img src="~/Images/icon_gogo/share.svg" /> Share
+                        </div>*@
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="font-18">
+                    <strong>Airline Booking Ref:</strong> @ViewBag.PNR
+                </div>
+                @Html.Partial("~/Views/Flight/FlightDetailBox.cshtml", Model)
+                <br />
+
+                <div class="font-18"><strong>@Localize.Show("CONTACT_DETAIL")</strong></div>
+                <div class="row row-mt">
+                    <div class="col-12">
+                        <div>
+                            <strong>@Localize.Show("NAME"):</strong>
+                            @Model.contactInfo.title  @Model.contactInfo.firstname   @Model.contactInfo.middlename   @Model.contactInfo.lastname
+                        </div>
+                        <div>
+                            <strong>@Localize.Show("EMAIL"):</strong> @Model.contactInfo.email
+                            <br />
+                            <strong>@Localize.Show("TELNO"):</strong> @Model.contactInfo.telNo
+                        </div>
+
+                    </div>
+                </div>
+                <br />
+                <div class="font-18"><strong>@Localize.Show("PAX_DETAIL")</strong></div>
+                <div class="font-14">
+                    @{
+                        int paxNo = 1;
+                    }
+                    @for (int i = 0; i < Model.noOfAdults; i++)
+                    {
+                        if (Model.adtPaxs[i].kiwiBag > 0)
+                        {
+                            dKiwiBagADT += Model.adtPaxs[i].kiwiBagPrice;
+                        }
+                        <div class="row row-mt">
+                            <div class="col-12">
+                                <div>
+                                    <strong>@(paxNo.ToString()). </strong>
+                                    @Model.adtPaxs[i].title  @Model.adtPaxs[i].firstname   @Model.adtPaxs[i].middlename   @Model.adtPaxs[i].lastname
+                                </div>
+                            </div>
+                        </div>
+                        if (Model.adtPaxs[i].passportNumber != null && Model.adtPaxs[i].passportNumber.Length > 0)
+                        {
+                            <div class="row row-mt">
+                                <div class="col-lg-6 col-12">
+                                    <strong>@Localize.Show("BIRTHDAY"):</strong> @Model.adtPaxs[i].birthday.ToString("dd'/'MM'/'yyyy")
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <strong>@Localize.Show((Model.adtPaxs[i].passportIssuingCountry != null && Model.adtPaxs[i].passportIssuingCountry.Length > 0
+                                            && Model.adtPaxs[i].passportNationality != null && Model.adtPaxs[i].passportNationality.Length > 0
+                                            && Model.adtPaxs[i].passportIssuingDate.ToString("dd/MM/yyyy") != "01/01/0001"
+                                            && Model.adtPaxs[i].passportExpiryDate.ToString("dd/MM/yyyy") != "01/01/0001") ? "PASSPORT_NO" : "IDCARD"):</strong> @Model.adtPaxs[i].passportNumber
+                                </div>
+                            </div>
+                            if (Model.adtPaxs[i].passportIssuingCountry != null && Model.adtPaxs[i].passportIssuingCountry.Length > 0
+                                && Model.adtPaxs[i].passportNationality != null && Model.adtPaxs[i].passportNationality.Length > 0
+                                && Model.adtPaxs[i].passportIssuingDate.ToString("dd/MM/yyyy") != "01/01/0001"
+                                && Model.adtPaxs[i].passportExpiryDate.ToString("dd/MM/yyyy") != "01/01/0001")
+                            {
+                                <div class="row row-mt">
+                                    <div class="col-lg-6 col-12">
+                                        <strong>@Localize.Show("PASSPORT_ISSUING_DATE"):</strong> @Model.adtPaxs[i].passportIssuingDate.ToString("dd'/'MM'/'yyyy")
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <strong>@Localize.Show("PASSPORT_EXPIRY_DATE"):</strong> @Model.adtPaxs[i].passportExpiryDate.ToString("dd'/'MM'/'yyyy")
+                                    </div>
+                                </div>
+                                <div class="row row-mt">
+                                    <div class="col-lg-6 col-12">
+                                        <strong>@Localize.Show("PASSPORT_ISSUING"):</strong> @Model.adtPaxs[i].passportIssuingCountry
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <strong>@Localize.Show("PASSPORT_NATIONALITY"):</strong> @Model.adtPaxs[i].passportNationality
+                                    </div>
+                                </div>
+                            }
+                        }
+                        if (Model.adtPaxs[i].frequencyFlyerAirline != null && Model.adtPaxs[i].frequencyFlyerAirline.Length > 0)
+                        {
+                            <div class="row row-mt">
+                                <div class="col-12">
+                                    <table style="font-size:14px; width: 600px">
+                                        <tr>
+                                            <td><strong>@Localize.Show("FFA"):</strong> @Model.adtPaxs[i].frequencyFlyerAirline</td>
+                                            <td><strong>@Localize.Show("FFN"):</strong> @Model.adtPaxs[i].frequencyFlyerNumber</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                        if (Model.adtPaxs[i].mealRequest != null && Model.adtPaxs[i].mealRequest.Length > 0)
+                        {
+                            <div class="row row-mt">
+                                <div class="col-12">
+                                    <strong>@Localize.Show("MEAL_REQUEST"):</strong> @TGBookingWeb.Utilities.Utility.getMeal(Model.adtPaxs[i].mealRequest)
+                                </div>
+                            </div>
+                        }
+                        if (Model.adtPaxs[i].seatRequest != null && Model.adtPaxs[i].seatRequest.Length > 0)
+                        {
+                            <div class="row row-mt">
+                                <div class="col-12">
+                                    <strong>@Localize.Show("SEAT_PREFERENCE"):</strong> @(Model.adtPaxs[i].seatRequest=="W"?Localize.Show("WINDOW_SEAT"):Localize.Show("AISEL_SEAT"))
+                                </div>
+                            </div>
+                        }
+                        if (i != Model.noOfAdults - 1)
+                        {
+                            <hr />
+                        }
+                        paxNo++;
+                    }
+                    @for (int i = 0; i < Model.noOfChildren; i++)
+                    {
+                        if (Model.chdPaxs[i].kiwiBag > 0)
+                        {
+                            dKiwiBagCHD += Model.chdPaxs[i].kiwiBagPrice;
+                        }
+                        <hr />
+                        <div class="row row-mt">
+                            <div class="col-12">
+                                <div>
+                                    <strong>@(paxNo.ToString()). </strong>
+                                    @Model.chdPaxs[i].title  @Model.chdPaxs[i].firstname   @Model.chdPaxs[i].middlename   @Model.chdPaxs[i].lastname
+                                </div>
+                                @if (Model.chdPaxs[i].passportNumber ==null || (Model.chdPaxs[i].passportNumber != null && Model.chdPaxs[i].passportNumber.Length == 0))
+                                {
+                                    <div>
+                                        <strong>@Localize.Show("BIRTHDAY"):</strong> @Model.chdPaxs[i].birthday.ToString("dd'/'MM'/'yyyy")
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        if (Model.chdPaxs[i].passportNumber != null && Model.chdPaxs[i].passportNumber.Length > 0)
+                        {
+                            <div class="row row-mt">
+                                <div class="col-lg-6 col-12">
+                                    <strong>@Localize.Show("BIRTHDAY"):</strong> @Model.chdPaxs[i].birthday.ToString("dd'/'MM'/'yyyy")
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <strong>@Localize.Show((Model.chdPaxs[i].passportIssuingCountry != null && Model.chdPaxs[i].passportIssuingCountry.Length > 0
+                                            && Model.chdPaxs[i].passportNationality != null && Model.chdPaxs[i].passportNationality.Length > 0
+                                            && Model.chdPaxs[i].passportIssuingDate.ToString("dd/MM/yyyy") != "01/01/0001"
+                                            && Model.chdPaxs[i].passportExpiryDate.ToString("dd/MM/yyyy") != "01/01/0001") ? "PASSPORT_NO" : "IDCARD"):</strong> @Model.chdPaxs[i].passportNumber
+                                </div>
+                            </div>
+                            if (Model.chdPaxs[i].passportIssuingCountry != null && Model.chdPaxs[i].passportIssuingCountry.Length > 0
+                                && Model.chdPaxs[i].passportNationality != null && Model.chdPaxs[i].passportNationality.Length > 0
+                                && Model.chdPaxs[i].passportIssuingDate.ToString("dd/MM/yyyy") != "01/01/0001"
+                                && Model.chdPaxs[i].passportExpiryDate.ToString("dd/MM/yyyy") != "01/01/0001")
+                            {
+                                <div class="row row-mt">
+                                    <div class="col-lg-6 col-12">
+                                        <strong>@Localize.Show("PASSPORT_ISSUING_DATE"):</strong> @Model.chdPaxs[i].passportIssuingDate.ToString("dd'/'MM'/'yyyy")
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <strong>@Localize.Show("PASSPORT_EXPIRY_DATE"):</strong> @Model.chdPaxs[i].passportExpiryDate.ToString("dd'/'MM'/'yyyy")
+                                    </div>
+                                </div>
+                                <div class="row row-mt">
+                                    <div class="col-lg-6 col-12">
+                                        <strong>@Localize.Show("PASSPORT_ISSUING"):</strong> @Model.chdPaxs[i].passportIssuingCountry
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <strong>@Localize.Show("PASSPORT_NO"):</strong> @Model.chdPaxs[i].passportNationality
+                                    </div>
+                                </div>
+                            }
+                        }
+                        if (Model.chdPaxs[i].frequencyFlyerAirline != null && Model.chdPaxs[i].frequencyFlyerAirline.Length > 0)
+                        {
+                            <div class="row row-mt">
+                                <div class="col-12">
+                                    <table style="font-size:14px; width: 600px">
+                                        <tr>
+                                            <td><strong>@Localize.Show("FFA"):</strong> @Model.chdPaxs[i].frequencyFlyerAirline</td>
+                                            <td><strong>@Localize.Show("FFN"):</strong> @Model.chdPaxs[i].frequencyFlyerNumber</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                        if (Model.chdPaxs[i].mealRequest != null && Model.chdPaxs[i].mealRequest.Length > 0)
+                        {
+                            <div class="row row-mt">
+                                <div class="col-12">
+                                    <strong>@Localize.Show("MEAL_REQUEST"):</strong> @TGBookingWeb.Utilities.Utility.getMeal(Model.chdPaxs[i].mealRequest)
+                                </div>
+                            </div>
+                        }
+                        if (Model.chdPaxs[i].seatRequest != null && Model.chdPaxs[i].seatRequest.Length > 0)
+                        {
+                            <div class="row row-mt">
+                                <div class="col-12">
+                                    <strong>@Localize.Show("SEAT_PREFERENCE"):</strong> @(Model.chdPaxs[i].seatRequest=="W"?Localize.Show("WINDOW_SEAT"):Localize.Show("AISEL_SEAT"))
+                                </div>
+                            </div>
+                        }
+                        paxNo++;
+                    }
+                    @for (int i = 0; i < Model.noOfInfants; i++)
+                    {
+                        <hr />
+                        <div class="row row-mt">
+                            <div class="col-12">
+                                <div>
+                                    <strong>@(paxNo.ToString()). </strong>
+                                    @Model.infPaxs[i].title  @Model.infPaxs[i].firstname   @Model.infPaxs[i].middlename   @Model.chdPaxs[i].lastname
+                                </div>
+                                @if (Model.infPaxs[i].passportNumber == null || (Model.infPaxs[i].passportNumber != null && Model.infPaxs[i].passportNumber.Length == 0))
+                                {
+                                    <div>
+                                        <strong>@Localize.Show("BIRTHDAY"):</strong> @Model.infPaxs[i].birthday.ToString("dd'/'MM'/'yyyy")
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        if (Model.infPaxs[i].passportNumber != null && Model.infPaxs[i].passportNumber.Length > 0)
+                        {
+                            <div class="row row-mt">
+                                <div class="col-lg-6 col-12">
+                                    <strong>@Localize.Show("BIRTHDAY"):</strong> @Model.infPaxs[i].birthday.ToString("dd'/'MM'/'yyyy")
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <strong>@Localize.Show((Model.infPaxs[i].passportIssuingCountry != null && Model.infPaxs[i].passportIssuingCountry.Length > 0
+                                            && Model.infPaxs[i].passportNationality != null && Model.infPaxs[i].passportNationality.Length > 0
+                                            && Model.infPaxs[i].passportIssuingDate.ToString("dd/MM/yyyy") != "01/01/0001"
+                                            && Model.infPaxs[i].passportExpiryDate.ToString("dd/MM/yyyy") != "01/01/0001") ? "PASSPORT_NO" : "IDCARD"):</strong> @Model.infPaxs[i].passportNumber
+                                </div>
+                            </div>
+                            if (Model.infPaxs[i].passportIssuingCountry != null && Model.infPaxs[i].passportIssuingCountry.Length > 0
+                                && Model.infPaxs[i].passportNationality != null && Model.infPaxs[i].passportNationality.Length > 0
+                                && Model.infPaxs[i].passportIssuingDate.ToString("dd/MM/yyyy") != "01/01/0001"
+                                && Model.infPaxs[i].passportExpiryDate.ToString("dd/MM/yyyy") != "01/01/0001")
+                            {
+                                <div class="row row-mt">
+                                    <div class="col-lg-6 col-12">
+                                        <strong>@Localize.Show("PASSPORT_ISSUING_DATE"):</strong> @Model.infPaxs[i].passportIssuingDate.ToString("dd'/'MM'/'yyyy")
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <strong>@Localize.Show("PASSPORT_EXPIRY_DATE"):</strong> @Model.infPaxs[i].passportExpiryDate.ToString("dd'/'MM'/'yyyy")
+                                    </div>
+                                </div>
+                                <div class="row row-mt">
+                                    <div class="col-lg-6 col-12">
+                                        <strong>@Localize.Show("PASSPORT_ISSUING"):</strong> @Model.infPaxs[i].passportIssuingCountry
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <strong>@Localize.Show("PASSPORT_NO"):</strong> @Model.infPaxs[i].passportNationality
+                                    </div>
+                                </div>
+                            }
+                        }
+                        if (Model.infPaxs[i].frequencyFlyerAirline != null && Model.infPaxs[i].frequencyFlyerAirline.Length > 0)
+                        {
+                            <div class="row row-mt">
+                                <div class="col-12">
+                                    <table style="font-size:14px; width: 600px">
+                                        <tr>
+                                            <td><strong>@Localize.Show("FFA"):</strong> @Model.infPaxs[i].frequencyFlyerAirline</td>
+                                            <td><strong>@Localize.Show("FFN"):</strong> @Model.infPaxs[i].frequencyFlyerNumber</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                        if (Model.infPaxs[i].mealRequest != null && Model.infPaxs[i].mealRequest.Length > 0)
+                        {
+                            <div class="row row-mt">
+                                <div class="col-12">
+                                    <strong>@Localize.Show("MEAL_REQUEST"):</strong> @TGBookingWeb.Utilities.Utility.getMeal(Model.infPaxs[i].mealRequest)
+                                </div>
+                            </div>
+                        }
+                        if (Model.infPaxs[i].seatRequest != null && Model.infPaxs[i].seatRequest.Length > 0)
+                        {
+                            <div class="row row-mt">
+                                <div class="col-12">
+                                    <strong>@Localize.Show("SEAT_PREFERENCE"):</strong> @(Model.infPaxs[i].seatRequest=="W"?Localize.Show("WINDOW_SEAT"):Localize.Show("AISEL_SEAT"))
+                                </div>
+                            </div>
+                        }
+                        paxNo++;
+                    }
+                </div>
+
+                @if (Request["F"] != null && Request["F"].ToLower().Equals("view"))
+                {
+                    <br />
+                    <div class="font-16"><strong>@Localize.Show("RESEND_EMAIL")</strong></div>
+                    <div class="font-14">
+                        <form id="resend-email-form" name="resend-email-form" class="form-default" method="get" role="form">
+                            <div class="input-group">
+                                <div class="col-md-12"><span id="errmsg_Resend" class="text-error"></span></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="col-12">
+                                    <div class="row row-mt">
+                                        <div class="col-md-8 col-sm-12">
+                                            <span class="input__icon"><img src="~/mpgogojii/StrapPress/assets/icon/email.svg"></span>
+                                            <input type="email" value="" name="user_email" id="user_email" required="required" placeholder="@Localize.Show("EMAIL")">
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <input type="submit" class="btn-default btn--primary btn-Resend" autofocus name="btnResend" id="btnResend" value="@Localize.Show("RESEND")" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                }
+                
+            <div class="mt-5">
+                <div class="font-18"><strong>@Localize.Show("FARE_DETAIL")</strong></div>
+                @if (Model.noOfAdults > 0)
+                {
+                    <div class="row font-14">
+                        <div class="col-5">
+                            <strong>
+                                @Localize.Show("ADULT")
+                                @if (Model.noOfAdults > 1)
+                                {
+                                    <span>x @Model.noOfAdults</span>
+                                }
+                            </strong>
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right">
+                            <strong>@(((Model.adtFare.net * Model.noOfAdults) + dKiwiBagADT).ToString("N0"))</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            @Localize.Show("PRICE")
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right">
+                            @(((Model.adtFare.sellingBaseFare + Model.adtFare.qtax) * Model.noOfAdults).ToString("N0"))
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            @Localize.Show("TAX")
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right">
+                            @((Model.adtFare.tax * Model.noOfAdults).ToString("N0"))
+                        </div>
+                    </div>
+                    if (isKiwiBooking)
+                    {
+                        <div class="row">
+                            <div class="col-5">
+                                @Localize.Show("BAGGAGE")
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right">
+                                <span id="baggage_ADT">@(dKiwiBagADT > 0 ? dKiwiBagADT.ToString("N0") : Localize.Show("NOBAGGAGE"))</span>
+                            </div>
+                        </div>
+                    }
+                    <hr />
+                }
+
+                @if (Model.noOfChildren > 0)
+                {
+                    <div class="row font-14">
+                        <div class="col-5">
+                            <strong>
+                                @Localize.Show("CHILD")
+                                @if (Model.noOfChildren > 1)
+                                {
+                                    <span>x @Model.noOfChildren</span>
+                                }
+                            </strong>
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right">
+                            <strong>@(((Model.chdFare.net * Model.noOfChildren) + dKiwiBagCHD).ToString("N0"))</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            @Localize.Show("PRICE")
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right">
+                            @(((Model.chdFare.sellingBaseFare + Model.chdFare.qtax) * Model.noOfChildren).ToString("N0"))
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            @Localize.Show("TAX")
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right">
+                            @((Model.chdFare.tax * Model.noOfChildren).ToString("N0"))
+                        </div>
+                    </div>
+                    if (isKiwiBooking)
+                    {
+                        <div class="row">
+                            <div class="col-5">
+                                @Localize.Show("BAGGAGE")
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right">
+                                <span id="baggage_ADT">@(dKiwiBagCHD > 0 ? dKiwiBagCHD.ToString("N0") : Localize.Show("NOBAGGAGE"))</span>
+                            </div>
+                        </div>
+                    }
+                    <hr />
+                }
+                @if (Model.noOfInfants > 0)
+                {
+                    <div class="row font-14">
+                        <div class="col-5">
+                            <strong>
+                                @Localize.Show("INFANT")
+                                @if (Model.noOfInfants > 1)
+                                {
+                                    <span>x @Model.noOfInfants</span>
+                                }
+                            </strong>
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right">
+                            <strong>@((Model.infFare.net * Model.noOfInfants).ToString("N0"))</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            @Localize.Show("PRICE")
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right">
+                            @(((Model.infFare.sellingBaseFare + Model.infFare.qtax) * Model.noOfInfants).ToString("N0"))
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            @Localize.Show("TAX")
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right">
+                            @((Model.infFare.tax * Model.noOfInfants).ToString("N0"))
+                        </div>
+                    </div>
+                    <hr />
+                }
+                <div class="row font-14">
+                    <div class="col-5 text-blue">
+                        <strong>@Localize.Show("TOTAL")</strong>
+                    </div>
+                    <div class="col-2 font-12 text-muted">
+                        THB
+                    </div>
+                    <div class="col-5 text-right text-blue font-18">
+                        <strong>@((Model.NFTFee > 0?Model.totalFare:Model.grandTotal).ToString("N0"))</strong>
+                    </div>
+                </div>
+                @if (Model.NFTFee > 0)
+                {
+                    <div class="nft-fee-detail row font-14">
+                        <div class="col-5 text-red">
+                            <strong>@Localize.Show("NFT_FEE")</strong>
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right text-red font-18">
+                            <strong><span id="NFTFee">@(Model.NFTFee.ToString("N0"))</span></strong>
+                        </div>
+                    </div>
+                    <div class="nft-fee-detail row font-14">
+                        <div class="col-5 text-blue">
+                            <strong>@Localize.Show("GRANDTOTAL")</strong>
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right text-blue font-18">
+                            <strong><span id="GrandTotalWithNFT">@(Model.grandTotal.ToString("N0"))</span></strong>
+                        </div>
+                    </div>
+                }
+            </div>
+                <div class="mt-5">
+
+
+                    <div class="font-18"><strong>@Localize.Show("FARE_CONDITION")</strong></div>
+                    <div class="card">
+                        <div class="card-header font-14">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td>
+                                        <span>@Html.Raw(Localize.Show("FARE_CONDITION_DETAIL"))</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        @if (isKiwiBooking)
+                        {
+                            
+                            BL.Entities.RobinhoodFare.FareRule kiwi_fareRule = Localize.GetLang() == "th" ? Model.fareRules[1] : Model.fareRules[0];
+                            <div class="info-box font-14" style="padding: 10px 20px;">
+                                @foreach (var item in kiwi_fareRule.rules[0].fareRuleText)
+                                {
+                                    <pre class="fare-condition" style="margin-bottom: 0px;">@item</pre>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="card-body">
+                                @foreach (var fareRule in Model.fareRules)
+                                {
+                                    if (Model.fareRules.Count > 1)
+                                    {
+                                        <div>
+                                            <strong>@fareRule.origin.name - @fareRule.destination.name</strong>
+                                        </div>
+                                    }
+                                    <div id="@(fareRule.origin.code + fareRule.destination.code)">
+                                        @foreach (var rule in fareRule.rules)
+                                        {
+                                            string id = Guid.NewGuid().ToString();
+                                            <div class="card">
+                                                <div class="card-header" id="heading@(id)" style="padding: 0px;">
+                                                    <div class="mb-0">
+                                                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse@(id)" aria-expanded="false" aria-controls="collapse@(id)" style="font-size: 12px;">
+                                                            @if (rule.category == "SR")
+                                                            {
+                                                                <strong><i class="far fa-caret-square-down"></i> SALES RESTRICTIONS</strong>
+                                                            }
+                                                            else if (rule.category == "AP")
+                                                            {
+                                                                <strong><i class="far fa-caret-square-down"></i> ADVANCE PURCHASE / RESERVATIONS AND TICKETING</strong>
+                                                            }
+                                                            else if (rule.category == "PE")
+                                                            {
+                                                                <strong><i class="far fa-caret-square-down"></i> PENALTIES</strong>
+                                                            }
+                                                            else if (rule.category == "MN")
+                                                            {
+                                                                <strong><i class="far fa-caret-square-down"></i> MIN STAY</strong>
+                                                            }
+                                                            else if (rule.category == "MX")
+                                                            {
+                                                                <strong><i class="far fa-caret-square-down"></i> MAX STAY</strong>
+                                                            }
+
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div id="collapse@(id)" class="collapse" aria-labelledby="heading@(id)" data-parent="#@(fareRule.origin.code + fareRule.destination.code)">
+                                                    <div class="card-body" style="font-size: 12px;">
+                                                        @foreach (var item in rule.fareRuleText)
+                                                        {
+                                                            <p style="margin-bottom: 0px;">@item</p>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class=" mt-4 font-14 text-red">
+                                @Localize.Show("IF_YOU_REQUIRE_CANCEL")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<br />
+@section Scripts
+{
+    <script>
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+        $('#errmsg_Resend').hide();
+        $("#btnResend").on('click', function () {
+            var mailformat =/^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            $("#resend-email-form").valid();
+            if ($('#user_email').val() != "" && (mailformat.test($('#user_email').val()) == true)) {
+                $(this).removeClass("btn--primary");
+                $(this).addClass("text--gray");
+                $(this).prop('disabled', true);
+                $.ajax({
+                    url: "@Url.Action("ResendEmail", "Flight")" + "?user_email=" + $('#user_email').val()+"&id="+"@Model.bookingOID"+"&RobinhoodID="+"@Model.RobinhoodID",
+                    data: "",
+                    cache: true,
+                    method: "post",
+                    success: function (data) {
+                        console.log(data);
+                        if (data && data == "OK") {
+                            $('#user_email').val('');
+                            $('#errmsg_Resend').removeClass("text-error");
+                            $('#errmsg_Resend').addClass("text-sucsess");
+                            $('#errmsg_Resend').html("@Localize.Show("RESEND_EMAIL_COMPLETE")");
+                            $('#errmsg_Resend').show();
+                            $("#btnResend").removeClass("text--gray");
+                            $("#btnResend").addClass("btn--primary");
+                            $("#btnResend").prop('disabled', false);
+                        } else {
+                             if ($('#errmsg_Resend').find(".text-sucsess")) {
+                                    $('#errmsg_Resend').removeClass("text-sucsess");
+                                    $('#errmsg_Resend').addClass("text-error");
+                                }
+                            $('#errmsg_Resend').html("@Localize.Show("RESEND_EMAIL_UNCOMPLETE")");
+                            $('#errmsg_Resend').show();
+                            $("#btnResend").removeClass("text--gray");
+                            $("#btnResend").addClass("btn--primary");
+                            $("#btnResend").prop('disabled', false);
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+
+        });
+    </script>
+}

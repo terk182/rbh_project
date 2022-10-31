@@ -1,0 +1,256 @@
+﻿@*@model BackOffice.Models.FlightReportList*@
+@*@model DataModel.FlightBooking*@
+
+@model  BL.Entities.TransferBooking.TransferBooking
+
+@using (Html.BeginForm("Details", "Report", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(m => m.bookingKeyReference)
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-header py-3" style="text-align:right;">
+                @*<div class="d-sm-flex align-items-center justify-content-between">*@
+                <a href="@Url.Action("ReportTransferList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Back
+                </a>
+
+                <a href="@Url.Action("ReportTransferDetailEdit", new { id = Model.bookingKeyReference })" class=" d-sm-inline-block btn btn-sm btn-primaryblue shadow-sm">
+                    <i class="fas fa-edit"></i>
+                    Edit
+                </a>
+                @*</div>*@
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Ticketing Task</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-1">
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Booking Status :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @{
+                                SelectList selectListBookingStatus = (SelectList)ViewData["StatusbookingList"];
+                            }
+                            @*//ใน text บวก value จาก controller มาด้วย*@
+                            @Html.DropDownListFor(m => m.statusBooking, selectListBookingStatus.OrderBy(x => x.Value).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.statusBooking == Convert.ToInt32(s.Value)) }), new
+                                               {
+                                                   @class = "form-control ADT-TT-",
+                                                   required = "required",
+                                    @readonly = "readonly",
+                                    @disabled = "disabled"
+                                               })
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Payment Status :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @{
+                                SelectList selectListStatusPayment = (SelectList)ViewData["StatusPaymentList"];
+                            }
+                            @*//ใน text บวก value จาก controller มาด้วย*@
+                            @Html.DropDownListFor(m => m.statusPayment, selectListStatusPayment.OrderBy(x => x.Value).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.statusPayment == Convert.ToInt32(s.Value)) }), new
+                                               {
+                                                   @class = "form-control ADT-TT-",
+                                                   required = "required",
+                                    @readonly = "readonly",
+                                    @disabled = "disabled"
+                                               })
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Payment Method :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @{
+                                SelectList selectListPaymentMethod = (SelectList)ViewData["PaymentMethodList"];
+                            }
+                            @*//ใน text บวก value จาก controller มาด้วย*@
+                            @Html.DropDownListFor(m => m.paymentMethod, selectListPaymentMethod.OrderBy(x => x.Value).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.paymentMethod == Convert.ToInt32(s.Value)) }), new
+                                               {
+                                                   @class = "form-control ADT-TT-",
+                                                   required = "required",
+                                    @readonly = "readonly",
+                                    @disabled = "disabled"
+                                               })
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Total(฿) :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                           @Model.finalPrice.ToString("N2")
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Booking Detail</h6>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row mb-1">
+
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Booking Date :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.bookingDate.ToString("dd MMMM yyyy HH:mm:ss tt")
+                            @*@Html.TextBoxFor(m => m.bookingDate, "{0:yyyy-MM-dd}", new { required = "required", @class = "form-control form-control-sm", @type = "date", @id = "datetime1", @readonly = "readonly" })*@
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Booking Code :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.transferReferenceNumber
+                        </div>
+
+                        @if (Model.departureTrip != null)
+                        {
+                            <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                                Flight Number Depart :
+                            </div>
+                            <div class="col-lg-3 col-md-5 col-sm-5 text">
+                                @Model.departureTrip.flightNumber <br />
+                            </div>
+                        }
+
+                        @if (Model.returnTrip != null)
+                        {
+                            <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                                Flight Number Return :
+                            </div>
+                            <div class="col-lg-3 col-md-5 col-sm-5 text">
+                                @Model.returnTrip.flightNumber <br />
+                            </div>
+                        }
+
+
+
+
+
+
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Contact Detail</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-1">
+
+                        @if (Model.contactInfo != null)
+                        {
+                            <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                                Title :
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.title" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                                First Name :
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.firstname" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                                Middle Name :
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.middlename" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                                Last Name :
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.lastname" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                                Email :
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.email" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                                Phone number:
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.telNo" readonly>
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@*</div>*@
+
+
+
+@section Scripts
+{
+    <script>
+    </script>
+}
+
+<style>
+    .text {
+        margin-bottom: 10px;
+    }
+</style>

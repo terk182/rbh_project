@@ -1,0 +1,1619 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8395E39A-C13C-4998-AA1D-5FE7A1AA240C}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TGBookingWeb</RootNamespace>
+    <AssemblyName>TGBookingWeb</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>2.1</TypeScriptToolsVersion>
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.5\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MailKit, Version=2.9.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.2.9.0\lib\net45\MailKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.15.0.44797, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.15.0\lib\net452\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.14.0.17971, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.14.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.14.0.17971, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.14.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.14.0.17971, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.14.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.14.0.17971, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.14.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.16.0.18277, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.16.0\lib\net452\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.7\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="MimeKit, Version=2.9.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.2.9.2\lib\net45\MimeKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Rotativa.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\netstandard1.1\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.5.0.0\lib\net45\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\netstandard1.1\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="ThaiBahtText, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ThaiBahtText.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mvc5, Version=1.2.3.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Mvc5.1.2.3\lib\net45\Unity.Mvc5.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.WebApi, Version=5.2.3.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.WebAPI.5.2.3\lib\net45\Unity.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Westwind.Utilities, Version=3.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Utilities.3.0.3\lib\net45\Westwind.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Westwind.Web, Version=2.76.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Web.2.76\lib\net45\Westwind.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Westwind.Web.Mvc, Version=2.76.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Web.Mvc.2.76\lib\net45\Westwind.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Z.EntityFramework.Extensions, Version=3.21.4.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.EntityFramework.Extensions.3.21.4\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Controllers\AboutUsController.cs" />
+    <Compile Include="Controllers\APIConfigController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\FlightController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\TransactionController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AllSearchModel.cs" />
+    <Compile Include="Models\CounterServiceModel.cs" />
+    <Compile Include="Models\FlightBook.cs" />
+    <Compile Include="Models\KBankQRInquiry.cs" />
+    <Compile Include="Models\KBankQROrder.cs" />
+    <Compile Include="Models\KBankChargeModel.cs" />
+    <Compile Include="Models\KBankNotifyResponse.cs" />
+    <Compile Include="Models\MetaDataModel.cs" />
+    <Compile Include="Models\NFTRequest.cs" />
+    <Compile Include="Models\NFTResponse.cs" />
+    <Compile Include="Models\PaypalModel.cs" />
+    <Compile Include="Models\PromotionData.cs" />
+    <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Models\SelectedFlightsModel.cs" />
+    <Compile Include="Models\CCYUtilities.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\JsonNetResult.cs" />
+    <Compile Include="Utilities\Aircraft.cs" />
+    <Compile Include="Utilities\Currency.cs" />
+    <Compile Include="Utilities\Localize.cs" />
+    <Compile Include="Utilities\MemberUI.cs" />
+    <Compile Include="Utilities\Naming.cs" />
+    <Compile Include="Utilities\SimpleHTTP.cs" />
+    <Compile Include="Utilities\Utility.cs" />
+    <Compile Include="Utilities\WebContent.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ClearCookies.aspx" />
+    <Content Include="Content\awesome-bootstrap-checkbox.css" />
+    <Content Include="Content\transfer\paxinfo.css" />
+    <Content Include="Content\transfer\result.css" />
+    <Content Include="Content\hotels\paxinfo.css" />
+    <Content Include="Content\hotels\result.css" />
+    <Content Include="Content\flights\paxinfo.css" />
+    <Content Include="Content\flights\result.css" />
+    <Content Include="Content\fonts\CSChatThai.ttf" />
+    <Content Include="Content\fonts\CSChatThaiUI.ttf" />
+    <Content Include="Content\fonts\SukhumvitSet-Bold.ttf" />
+    <Content Include="Content\fonts\SukhumvitSet-Light.ttf" />
+    <Content Include="Content\fonts\SukhumvitSet.ttf" />
+    <Content Include="Content\ibe.css" />
+    <Content Include="DownloadAppPG.aspx" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\799px-KBank_Logo.png" />
+    <Content Include="Images\ads.jpg" />
+    <Content Include="Images\bag.png" />
+    <Content Include="Images\banner.jpg" />
+    <Content Include="Images\bbl.png" />
+    <Content Include="Images\black_plane - Copy.png" />
+    <Content Include="Images\black_plane.png" />
+    <Content Include="Images\blue_plane - Copy.png" />
+    <Content Include="Images\blue_plane.png" />
+    <Content Include="Images\Bolt.png" />
+    <Content Include="Images\book.png" />
+    <Content Include="Images\brown_plane - Copy.png" />
+    <Content Include="Images\brown_plane.png" />
+    <Content Include="Images\clock_black.png" />
+    <Content Include="Images\clock_blue.png" />
+    <Content Include="Images\correct-symbol.png" />
+    <Content Include="Images\deals_icon\star.png" />
+    <Content Include="Images\dropdown_black.png" />
+    <Content Include="Images\footer\bns_registered.png" />
+    <Content Include="Images\footer\Chat.png" />
+    <Content Include="Images\footer\facebook.png" />
+    <Content Include="Images\footer\Instagram.png" />
+    <Content Include="Images\footer\Line.png" />
+    <Content Include="Images\footer\magnifying-glass.png" />
+    <Content Include="Images\footer\Mail.png" />
+    <Content Include="Images\footer\Mobile.png" />
+    <Content Include="Images\footer\Phone.png" />
+    <Content Include="Images\footer\tat logo.png" />
+    <Content Include="Images\footer\Twitter.png" />
+    <Content Include="Images\Hero_03.png" />
+    <Content Include="Images\Hero_04.png" />
+    <Content Include="Images\Hero_05.png" />
+    <Content Include="Images\hotel_blank.jpg" />
+    <Content Include="Images\hotel_fac_icons\fac110.svg" />
+    <Content Include="Images\hotel_fac_icons\fac260.svg" />
+    <Content Include="Images\hotel_fac_icons\fac270.svg" />
+    <Content Include="Images\hotel_fac_icons\fac280.svg" />
+    <Content Include="Images\hotel_fac_icons\fac285.svg" />
+    <Content Include="Images\hotel_fac_icons\fac295.svg" />
+    <Content Include="Images\hotel_fac_icons\fac30.svg" />
+    <Content Include="Images\hotel_fac_icons\fac320.svg" />
+    <Content Include="Images\hotel_fac_icons\fac390.svg" />
+    <Content Include="Images\hotel_fac_icons\fac470.svg" />
+    <Content Include="Images\hotel_fac_icons\fac485.svg" />
+    <Content Include="Images\hotel_fac_icons\fac495.svg" />
+    <Content Include="Images\hotel_fac_icons\fac50.svg" />
+    <Content Include="Images\hotel_fac_icons\fac500.svg" />
+    <Content Include="Images\hotel_fac_icons\fac505.svg" />
+    <Content Include="Images\hotel_fac_icons\fac520.svg" />
+    <Content Include="Images\hotel_fac_icons\fac535.svg" />
+    <Content Include="Images\hotel_fac_icons\fac540.svg" />
+    <Content Include="Images\hotel_fac_icons\fac550.svg" />
+    <Content Include="Images\hotel_fac_icons\fac559.svg" />
+    <Content Include="Images\hotel_fac_icons\fac562.svg" />
+    <Content Include="Images\hotel_fac_icons\fac564.svg" />
+    <Content Include="Images\hotel_fac_icons\fac566.svg" />
+    <Content Include="Images\hotel_fac_icons\fac567.svg" />
+    <Content Include="Images\hotel_fac_icons\fac569.svg" />
+    <Content Include="Images\hotel_fac_icons\fac571.svg" />
+    <Content Include="Images\hotel_fac_icons\fac573.svg" />
+    <Content Include="Images\hotel_fac_icons\fac574.svg" />
+    <Content Include="Images\hotel_fac_icons\fac576.svg" />
+    <Content Include="Images\hotel_fac_icons\fac578.svg" />
+    <Content Include="Images\hotel_fac_icons\fac70.svg" />
+    <Content Include="Images\hybrid_logo.png" />
+    <Content Include="Images\ibe1.png" />
+    <Content Include="Images\ibeslide\bg02-1.jpg" />
+    <Content Include="Images\ibeslide\img03.jpg" />
+    <Content Include="Images\ibeslide\pic_hy01.jpg" />
+    <Content Include="Images\ibeslide\pic_hy02.jpg" />
+    <Content Include="Images\ibeslide\pic_hy03.jpg" />
+    <Content Include="Images\ibeslide\pic_hy04.jpg" />
+    <Content Include="Images\ibeslide\pic_hy05.jpg" />
+    <Content Include="Images\icon_gogo\air-dot.png" />
+    <Content Include="Images\icon_gogo\airline.png" />
+    <Content Include="Images\icon_gogo\airline.svg" />
+    <Content Include="Images\icon_gogo\arrow_Big.png" />
+    <Content Include="Images\icon_gogo\arrow_Big.svg" />
+    <Content Include="Images\icon_gogo\arrow_gray.png" />
+    <Content Include="Images\icon_gogo\arrow_gray.svg" />
+    <Content Include="Images\icon_gogo\arrow_left.png" />
+    <Content Include="Images\icon_gogo\arrow_left.svg" />
+    <Content Include="Images\icon_gogo\arrow_right.png" />
+    <Content Include="Images\icon_gogo\arrow_right.svg" />
+    <Content Include="Images\icon_gogo\arr_flight_icon.png" />
+    <Content Include="Images\icon_gogo\arr_flight_icon.svg" />
+    <Content Include="Images\icon_gogo\arr_flight_icon_black.png" />
+    <Content Include="Images\icon_gogo\arr_flight_icon_black.svg" />
+    <Content Include="Images\icon_gogo\Baggage.png" />
+    <Content Include="Images\icon_gogo\Baggage.svg" />
+    <Content Include="Images\icon_gogo\bg-orange.svg" />
+    <Content Include="Images\icon_gogo\calendar.png" />
+    <Content Include="Images\icon_gogo\calendar.svg" />
+    <Content Include="Images\icon_gogo\clickmap.png" />
+    <Content Include="Images\icon_gogo\dep_flight_icon.png" />
+    <Content Include="Images\icon_gogo\dep_flight_icon.svg" />
+    <Content Include="Images\icon_gogo\dep_flight_icon_black.png" />
+    <Content Include="Images\icon_gogo\dep_flight_icon_black.svg" />
+    <Content Include="Images\icon_gogo\download.png" />
+    <Content Include="Images\icon_gogo\download.svg" />
+    <Content Include="Images\icon_gogo\DutyFree.svg" />
+    <Content Include="Images\icon_gogo\Email.svg" />
+    <Content Include="Images\icon_gogo\Entertainment.svg" />
+    <Content Include="Images\icon_gogo\error.png" />
+    <Content Include="Images\icon_gogo\hotel.png" />
+    <Content Include="Images\icon_gogo\hotel.svg" />
+    <Content Include="Images\icon_gogo\HotelSearchBG.png" />
+    <Content Include="Images\icon_gogo\logo-w-b.png" />
+    <Content Include="Images\icon_gogo\logo-w-b.svg" />
+    <Content Include="Images\icon_gogo\Map.svg" />
+    <Content Include="Images\icon_gogo\Outline.png" />
+    <Content Include="Images\icon_gogo\Passport.svg" />
+    <Content Include="Images\icon_gogo\pax.png" />
+    <Content Include="Images\icon_gogo\pax.svg" />
+    <Content Include="Images\icon_gogo\People.svg" />
+    <Content Include="Images\icon_gogo\pin.png" />
+    <Content Include="Images\icon_gogo\pin.svg" />
+    <Content Include="Images\icon_gogo\Power.png" />
+    <Content Include="Images\icon_gogo\Power.svg" />
+    <Content Include="Images\icon_gogo\Round.png" />
+    <Content Include="Images\icon_gogo\Round.svg" />
+    <Content Include="Images\icon_gogo\seat.png" />
+    <Content Include="Images\icon_gogo\seat.svg" />
+    <Content Include="Images\icon_gogo\share.png" />
+    <Content Include="Images\icon_gogo\share.svg" />
+    <Content Include="Images\icon_gogo\summary-bg.png" />
+    <Content Include="Images\icon_gogo\vert-blue-line.png" />
+    <Content Include="Images\icon_gogo\vert-blue-line.svg" />
+    <Content Include="Images\icon_gogo\vert-green-line.png" />
+    <Content Include="Images\icon_gogo\vert-green-line.svg" />
+    <Content Include="Images\icon_gogo\Wifi.png" />
+    <Content Include="Images\icon_gogo\Wifi.svg" />
+    <Content Include="Images\icon_web\android.png" />
+    <Content Include="Images\icon_web\arrow_down.png" />
+    <Content Include="Images\icon_web\arrow_up.png" />
+    <Content Include="Images\icon_web\Bag.png" />
+    <Content Include="Images\icon_web\Check.png" />
+    <Content Include="Images\icon_web\Cllock.png" />
+    <Content Include="Images\icon_web\Clock_blue.png" />
+    <Content Include="Images\icon_web\Clock_brown.png" />
+    <Content Include="Images\icon_web\Close.png" />
+    <Content Include="Images\icon_web\counterservice.png" />
+    <Content Include="Images\icon_web\facebook.png" />
+    <Content Include="Images\icon_web\Flash_deal.png" />
+    <Content Include="Images\icon_web\Guint1.png" />
+    <Content Include="Images\icon_web\Guint_hand.png" />
+    <Content Include="Images\icon_web\Head_bg.png" />
+    <Content Include="Images\icon_web\Hero1.png" />
+    <Content Include="Images\icon_web\Hero2.png" />
+    <Content Include="Images\icon_web\Hero3.png" />
+    <Content Include="Images\icon_web\ios.png" />
+    <Content Include="Images\icon_web\Kasikorn.png" />
+    <Content Include="Images\icon_web\krungsri.png" />
+    <Content Include="Images\icon_web\ktb.png" />
+    <Content Include="Images\icon_web\magnifying-glass.png" />
+    <Content Include="Images\icon_web\paypal.png" />
+    <Content Include="Images\icon_web\Plane_black_left.png" />
+    <Content Include="Images\icon_web\Plane_black_right.png" />
+    <Content Include="Images\icon_web\Plane_blue_left.png" />
+    <Content Include="Images\icon_web\Plane_blue_right.png" />
+    <Content Include="Images\icon_web\Plane_brown_left.png" />
+    <Content Include="Images\icon_web\Plane_brown_right.png" />
+    <Content Include="Images\icon_web\Plane_white_right.png" />
+    <Content Include="Images\icon_web\Pukard.png" />
+    <Content Include="Images\icon_web\Red_clock.png" />
+    <Content Include="Images\icon_web\Round_trip.png" />
+    <Content Include="Images\icon_web\Shortest.png" />
+    <Content Include="Images\icon_web\timeline-connection-head.png" />
+    <Content Include="Images\icon_web\timeline-connection-line.png" />
+    <Content Include="Images\icon_web\timeline-connection.png" />
+    <Content Include="Images\icon_web\timeline-end.png" />
+    <Content Include="Images\icon_web\timeline-flight.png" />
+    <Content Include="Images\icon_web\timeline-head.png" />
+    <Content Include="Images\icon_web\timeline-line.png" />
+    <Content Include="Images\icon_web\user.png" />
+    <Content Include="Images\icon_web\Visa_master.png" />
+    <Content Include="Images\icon_web\Yellow_plane.png" />
+    <Content Include="Images\image_profile\0d6f1a6f-0476-4a05-8e10-a0841779a8b1.png" />
+    <Content Include="Images\ktb_01.png" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\magnifying-glass.png" />
+    <Content Include="Images\member\add.png" />
+    <Content Include="Images\member\Bin.png" />
+    <Content Include="Images\member\Birthday.png" />
+    <Content Include="Images\member\Cancel.png" />
+    <Content Include="Images\member\pay2.png" />
+    <Content Include="Images\member\close.png" />
+    <Content Include="Images\member\Delete.png" />
+    <Content Include="Images\member\Details.png" />
+    <Content Include="Images\member\Edit.png" />
+    <Content Include="Images\member\email2.png" />
+    <Content Include="Images\member\Empty.png" />
+    <Content Include="Images\member\facebook.png" />
+    <Content Include="Images\member\Flag_brown.png" />
+    <Content Include="Images\member\Flag_black.png" />
+    <Content Include="Images\member\Forgot.png" />
+    <Content Include="Images\member\Lock.png" />
+    <Content Include="Images\member\Log_out.png" />
+    <Content Include="Images\member\mail.png" />
+    <Content Include="Images\member\no-avatar.png" />
+    <Content Include="Images\member\pay0.png" />
+    <Content Include="Images\member\pay1.png" />
+    <Content Include="Images\member\passenger_brown.png" />
+    <Content Include="Images\member\Passsenger_black.png" />
+    <Content Include="Images\member\pencil.png" />
+    <Content Include="Images\member\phone2.png" />
+    <Content Include="Images\member\Profile_black.png" />
+    <Content Include="Images\member\Profile_brown.png" />
+    <Content Include="Images\moreF.jpg" />
+    <Content Include="Images\moreH.jpg" />
+    <Content Include="Images\moreHF.jpg" />
+    <Content Include="Images\moreT.jpg" />
+    <Content Include="Images\new-payment-types-cards.png" />
+    <Content Include="Images\noimgroom.jpg" />
+    <Content Include="Images\passenger.png" />
+    <Content Include="Images\paypal_logo.png" />
+    <Content Include="Images\penguint_slider-assets\penguint_slider13.png" />
+    <Content Include="Images\penguint_slider-assets\Slide1.png" />
+    <Content Include="Images\penguint_slider-assets\Slide2.png" />
+    <Content Include="Images\penguint_slider-assets\Slide3.png" />
+    <Content Include="Images\penguint_slider-assets\Slide4.png" />
+    <Content Include="Images\plane2.png" />
+    <Content Include="Images\promotions\2a42b3d0-40ee-4668-bb49-e530713eef39.jpg" />
+    <Content Include="Images\roundtrip_plane.png" />
+    <Content Include="Images\scb.png" />
+    <Content Include="Images\search_result_bg.png" />
+    <Content Include="Images\slide_oct18\0001.jpg" />
+    <Content Include="Images\slide_oct18\0002.jpg" />
+    <Content Include="Images\slide_oct18\0003.jpg" />
+    <Content Include="Images\slide_oct18\0004.jpg" />
+    <Content Include="Images\social1.png" />
+    <Content Include="Images\social2.png" />
+    <Content Include="Images\social3.png" />
+    <Content Include="Images\waiting.gif" />
+    <Content Include="Images\yellow_dropdown.png" />
+    <Content Include="mpgogojii\.DS_Store" />
+    <Content Include="mpgogojii\assets\.DS_Store" />
+    <Content Include="mpgogojii\assets\icon\.DS_Store" />
+    <Content Include="mpgogojii\assets\icon\Active.svg" />
+    <Content Include="mpgogojii\assets\icon\airport-transfer.svg" />
+    <Content Include="mpgogojii\assets\icon\Android.svg" />
+    <Content Include="mpgogojii\assets\icon\Appstore.svg" />
+    <Content Include="mpgogojii\assets\icon\BlackSearch.svg" />
+    <Content Include="mpgogojii\assets\icon\Bubble.svg" />
+    <Content Include="mpgogojii\assets\icon\chat.svg" />
+    <Content Include="mpgogojii\assets\icon\chevron-down-black.svg" />
+    <Content Include="mpgogojii\assets\icon\chevron-down.svg" />
+    <Content Include="mpgogojii\assets\icon\contact-white.svg" />
+    <Content Include="mpgogojii\assets\icon\currency-active.svg" />
+    <Content Include="mpgogojii\assets\icon\currency.svg" />
+    <Content Include="mpgogojii\assets\icon\Date.svg" />
+    <Content Include="mpgogojii\assets\icon\EN.svg" />
+    <Content Include="mpgogojii\assets\icon\Flight.svg" />
+    <Content Include="mpgogojii\assets\icon\Hotel.svg" />
+    <Content Include="mpgogojii\assets\icon\HotelFlight.svg" />
+    <Content Include="mpgogojii\assets\icon\HotelFlightCar.svg" />
+    <Content Include="mpgogojii\assets\icon\HotelFlightTrans.svg" />
+    <Content Include="mpgogojii\assets\icon\Inactive.svg" />
+    <Content Include="mpgogojii\assets\icon\inbox-active.svg" />
+    <Content Include="mpgogojii\assets\icon\inbox.svg" />
+    <Content Include="mpgogojii\assets\icon\language-active.svg" />
+    <Content Include="mpgogojii\assets\icon\language.svg" />
+    <Content Include="mpgogojii\assets\icon\line.svg" />
+    <Content Include="mpgogojii\assets\icon\Location.svg" />
+    <Content Include="mpgogojii\assets\icon\logo-white.svg" />
+    <Content Include="mpgogojii\assets\icon\logo.svg" />
+    <Content Include="mpgogojii\assets\icon\logout-active.svg" />
+    <Content Include="mpgogojii\assets\icon\logout.svg" />
+    <Content Include="mpgogojii\assets\icon\my-booking-active.svg" />
+    <Content Include="mpgogojii\assets\icon\my-booking.svg" />
+    <Content Include="mpgogojii\assets\icon\my-favorite-active.svg" />
+    <Content Include="mpgogojii\assets\icon\my-favorite.svg" />
+    <Content Include="mpgogojii\assets\icon\Passenger.svg" />
+    <Content Include="mpgogojii\assets\icon\points-active.svg" />
+    <Content Include="mpgogojii\assets\icon\points-white.svg" />
+    <Content Include="mpgogojii\assets\icon\points.svg" />
+    <Content Include="mpgogojii\assets\icon\profile-active.svg" />
+    <Content Include="mpgogojii\assets\icon\profile.svg" />
+    <Content Include="mpgogojii\assets\icon\promotion-active.svg" />
+    <Content Include="mpgogojii\assets\icon\promotion.svg" />
+    <Content Include="mpgogojii\assets\icon\Seat.svg" />
+    <Content Include="mpgogojii\assets\icon\TH.svg" />
+    <Content Include="mpgogojii\assets\icon\Time.svg" />
+    <Content Include="mpgogojii\assets\icon\WhiteSearch.svg" />
+    <Content Include="mpgogojii\assets\img\background.png" />
+    <Content Include="mpgogojii\assets\img\bg-blue.svg" />
+    <Content Include="mpgogojii\assets\img\bg-orange.svg" />
+    <Content Include="mpgogojii\assets\img\Destination_Card_01.png" />
+    <Content Include="mpgogojii\assets\img\Destination_Card_02.png" />
+    <Content Include="mpgogojii\assets\img\Destination_Card_03.png" />
+    <Content Include="mpgogojii\assets\img\Destination_Card_04.png" />
+    <Content Include="mpgogojii\assets\img\Destination_Card_05.png" />
+    <Content Include="mpgogojii\assets\img\Destination_Card_06.png" />
+    <Content Include="mpgogojii\assets\img\Hero_Banner.png" />
+    <Content Include="mpgogojii\assets\img\hotel.svg" />
+    <Content Include="mpgogojii\assets\img\pin.svg" />
+    <Content Include="mpgogojii\assets\owlcarousel\assets\ajax-loader.gif" />
+    <Content Include="mpgogojii\assets\owlcarousel\assets\owl.carousel.css" />
+    <Content Include="mpgogojii\assets\owlcarousel\assets\owl.carousel.min.css" />
+    <Content Include="mpgogojii\assets\owlcarousel\assets\owl.theme.default.css" />
+    <Content Include="mpgogojii\assets\owlcarousel\assets\owl.theme.default.min.css" />
+    <Content Include="mpgogojii\assets\owlcarousel\assets\owl.theme.green.css" />
+    <Content Include="mpgogojii\assets\owlcarousel\assets\owl.theme.green.min.css" />
+    <Content Include="mpgogojii\assets\owlcarousel\assets\owl.video.play.png" />
+    <Content Include="mpgogojii\assets\owlcarousel\owl.carousel.js" />
+    <Content Include="mpgogojii\assets\owlcarousel\owl.carousel.min.js" />
+    <Content Include="mpgogojii\assets\owlcarousel\README.md" />
+    <Content Include="mpgogojii\bootstrap-4.3.1\css\bootstrap-grid.min.css" />
+    <Content Include="mpgogojii\bootstrap-4.3.1\css\bootstrap-reboot.min.css" />
+    <Content Include="mpgogojii\bootstrap-4.3.1\css\bootstrap.min.css" />
+    <Content Include="mpgogojii\bootstrap-4.3.1\js\bootstrap.min.js" />
+    <Content Include="mpgogojii\js\jquery.js" />
+    <Content Include="mpgogojii\js\plugins\air-datepicker\css\datepicker.min.css" />
+    <Content Include="mpgogojii\js\plugins\air-datepicker\js\datepicker.js" />
+    <Content Include="mpgogojii\js\plugins\air-datepicker\js\i18n\datepicker.en.js" />
+    <Content Include="mpgogojii\js\plugins\air-datepicker\js\i18n\datepicker.th.js" />
+    <Content Include="mpgogojii\js\plugins\easyautocomplete\easy-autocomplete.min.css" />
+    <Content Include="mpgogojii\js\plugins\easyautocomplete\easy-autocomplete.themes.min.css" />
+    <Content Include="mpgogojii\js\plugins\easyautocomplete\wp-jquery.easy-autocomplete.js" />
+    <Content Include="mpgogojii\js\reset-input.js" />
+    <Content Include="mpgogojii\js\site.js" />
+    <Content Include="mpgogojii\js\top-nav.js" />
+    <Content Include="mpgogojii\partials\home\search-bar\airport-transfer\transfer_searchbox.js" />
+    <Content Include="mpgogojii\partials\home\search-bar\bundle\hfsearchbox-azure.js" />
+    <Content Include="mpgogojii\partials\home\search-bar\bundle\hfsearchbox.js" />
+    <Content Include="mpgogojii\partials\home\search-bar\flight\searchbox.js" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\CSChatThai.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\CSChatThaiUI.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Quicksand-Bold.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Quicksand-Light.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Quicksand-Medium.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Quicksand-Regular.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-Bold.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-BoldItalic.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-ExtraBold.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-ExtraBoldItalic.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-ExtraLight.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-ExtraLightItalic.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-Italic.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-Light.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-LightItalic.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-Medium.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-MediumItalic.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-Regular.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-SemiBold.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-SemiBoldItalic.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-Thin.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\Sarabun-ThinItalic.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\SukhumvitSet-Bold.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\SukhumvitSet-Light.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\fonts\SukhumvitSet.ttf" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\hotel_searchbox.js" />
+    <Content Include="mpgogojii\partials\home\search-bar\hotel\ibe.css" />
+    <Content Include="mpgogojii\sass\_footer.scss" />
+    <Content Include="mpgogojii\sass\_header.scss" />
+    <Content Include="mpgogojii\sass\_loyalty.scss" />
+    <Content Include="mpgogojii\sass\_responsive.scss" />
+    <Content Include="mpgogojii\sass\_spacing.scss" />
+    <Content Include="mpgogojii\sass\_typography.scss" />
+    <Content Include="mpgogojii\StrapPress\assets\icon\email.svg" />
+    <Content Include="mpgogojii\StrapPress\assets\icon\logo.svg" />
+    <Content Include="mpgogojii\StrapPress\assets\icon\password.svg" />
+    <Content Include="mpgogojii\StrapPress\assets\img\bg-blue.svg" />
+    <Content Include="mpgogojii\StrapPress\style.min.css" />
+    <Content Include="mpgogojii\style.css" />
+    <Content Include="mpgogojii\style.css.map" />
+    <Content Include="mpgogojii\style.min.css" />
+    <Content Include="mpgogojii\style.scss" />
+    <Content Include="mpgogojii\top-nav.js" />
+    <Content Include="mpgogojii\wp-embed.min.js" />
+    <Content Include="mpgogojii\wp-emoji-release.min.js" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
+    <Content Include="Scripts\deal.js" />
+    <Content Include="Content\fonts\Quicksand-Bold.ttf" />
+    <Content Include="Content\fonts\Quicksand-Light.ttf" />
+    <Content Include="Content\fonts\Quicksand-Medium.ttf" />
+    <Content Include="Content\fonts\Quicksand-Regular.ttf" />
+    <Content Include="Content\fonts\Sarabun-Bold.ttf" />
+    <Content Include="Content\fonts\Sarabun-BoldItalic.ttf" />
+    <Content Include="Content\fonts\Sarabun-ExtraBold.ttf" />
+    <Content Include="Content\fonts\Sarabun-ExtraBoldItalic.ttf" />
+    <Content Include="Content\fonts\Sarabun-ExtraLight.ttf" />
+    <Content Include="Content\fonts\Sarabun-ExtraLightItalic.ttf" />
+    <Content Include="Content\fonts\Sarabun-Italic.ttf" />
+    <Content Include="Content\fonts\Sarabun-Light.ttf" />
+    <Content Include="Content\fonts\Sarabun-LightItalic.ttf" />
+    <Content Include="Content\fonts\Sarabun-Medium.ttf" />
+    <Content Include="Content\fonts\Sarabun-MediumItalic.ttf" />
+    <Content Include="Content\fonts\Sarabun-Regular.ttf" />
+    <Content Include="Content\fonts\Sarabun-SemiBold.ttf" />
+    <Content Include="Content\fonts\Sarabun-SemiBoldItalic.ttf" />
+    <Content Include="Content\fonts\Sarabun-Thin.ttf" />
+    <Content Include="Content\fonts\Sarabun-ThinItalic.ttf" />
+    <Content Include="App_Browsers\qt.browser" />
+    <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\gogojii - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\gogojii - ReadOnly - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\gogojii - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\gogojiibooking - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\gogojiibooking - ReadOnly - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\gogojiibooking - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\gogojiiuat - ReadOnly - FTP.pubxml" />
+    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.1.1.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\member.js" />
+    <Content Include="Scripts\hotel_searchbox.js" />
+    <Content Include="Scripts\hfsearchbox.js" />
+    <Content Include="Scripts\transfer_searchbox.js" />
+    <Content Include="Scripts\searchbox.js" />
+    <Content Include="Scripts\input-add-minus.js" />
+    <Content Include="Scripts\ww.jquery.js" />
+    <Content Include="Scripts\ww.jquery.min.js" />
+    <Content Include="Vendors\air-datepicker\dist\css\datepicker.css" />
+    <Content Include="Vendors\air-datepicker\dist\css\datepicker.min.css" />
+    <Content Include="Vendors\air-datepicker\dist\js\datepicker.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\datepicker.min.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.cs.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.da.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.de.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.th.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.en.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.es.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.fi.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.fr.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.hu.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.nl.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.pl.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.pt-BR.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.pt.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.ro.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.sk.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.zh.js" />
+    <Content Include="Vendors\air-datepicker\docs\css\github-gist.css" />
+    <Content Include="Vendors\air-datepicker\docs\css\style.css" />
+    <Content Include="Vendors\air-datepicker\docs\img\en.png" />
+    <Content Include="Vendors\air-datepicker\docs\img\promo-img-time.png" />
+    <Content Include="Vendors\air-datepicker\docs\img\ru.png" />
+    <Content Include="Vendors\air-datepicker\docs\index-ru.html" />
+    <Content Include="Vendors\air-datepicker\docs\index.html" />
+    <Content Include="Vendors\air-datepicker\docs\js\highlight.pack.js" />
+    <Content Include="Vendors\air-datepicker\docs\js\logger.js" />
+    <Content Include="Vendors\air-datepicker\docs\js\navigation.js" />
+    <Content Include="Vendors\air-datepicker\gulpfile.js" />
+    <Content Include="Vendors\air-datepicker\src\js\air-datepicker.js" />
+    <Content Include="Vendors\air-datepicker\src\js\body.js" />
+    <Content Include="Vendors\air-datepicker\src\js\datepicker.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.cs.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.da.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.de.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.en.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.es.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.fi.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.fr.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.hu.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.nl.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.pl.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.pt-BR.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.pt.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.ro.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.sk.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.zh.js" />
+    <Content Include="Vendors\air-datepicker\src\js\navigation.js" />
+    <Content Include="Vendors\air-datepicker\src\js\timepicker.js" />
+    <Content Include="Vendors\air-datepicker\static-server.js" />
+    <Content Include="Vendors\air-datepicker\tasks\css.js" />
+    <Content Include="Vendors\air-datepicker\tasks\cssPage.js" />
+    <Content Include="Vendors\air-datepicker\tasks\gzip.js" />
+    <Content Include="Vendors\air-datepicker\tasks\i18n.js" />
+    <Content Include="Vendors\air-datepicker\tasks\jade.js" />
+    <Content Include="Vendors\air-datepicker\tasks\js.js" />
+    <Content Include="Vendors\air-datepicker\tests\index.html" />
+    <Content Include="Vendors\air-datepicker\tests\specs\api.js" />
+    <Content Include="Vendors\air-datepicker\tests\specs\events.js" />
+    <Content Include="Vendors\air-datepicker\tests\specs\options.js" />
+    <Content Include="Vendors\air-datepicker\tests\specs\static-methods.js" />
+    <Content Include="Vendors\air-datepicker\visual-tests.html" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-grid.css" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-grid.min.css" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-reboot.css" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-reboot.min.css" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap.css" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap.min.css" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.bundle.js" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.bundle.min.js" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.js" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.min.js" />
+    <Content Include="Vendors\bricklayer\assets\append.png" />
+    <Content Include="Vendors\bricklayer\assets\column-sizer.png" />
+    <Content Include="Vendors\bricklayer\assets\prepend.png" />
+    <Content Include="Vendors\bricklayer\assets\screenshot-wall.gif" />
+    <Content Include="Vendors\bricklayer\assets\screenshot.gif" />
+    <Content Include="Vendors\bricklayer\dist\bricklayer-node.js" />
+    <Content Include="Vendors\bricklayer\dist\bricklayer.css" />
+    <Content Include="Vendors\bricklayer\dist\bricklayer.js" />
+    <Content Include="Vendors\bricklayer\dist\bricklayer.min.css" />
+    <Content Include="Vendors\bricklayer\dist\bricklayer.min.js" />
+    <Content Include="Vendors\bricklayer\dist\plugins\jquery.bricklayer.js" />
+    <Content Include="Vendors\bricklayer\dist\plugins\jquery.bricklayer.min.js" />
+    <Content Include="Vendors\bricklayer\dist\plugins\jquery\bricklayer.jquery.js" />
+    <Content Include="Vendors\bricklayer\dist\plugins\jquery\bricklayer.jquery.min.js" />
+    <Content Include="Vendors\bricklayer\dist\plugins\lazyElement\bricklayer.lazyElement.js" />
+    <Content Include="Vendors\bricklayer\dist\plugins\lazyElement\bricklayer.lazyElement.min.js" />
+    <Content Include="Vendors\bricklayer\examples\basic.html" />
+    <Content Include="Vendors\bricklayer\examples\demo.css" />
+    <Content Include="Vendors\bricklayer\examples\demo.js" />
+    <Content Include="Vendors\bricklayer\gulpfile.js" />
+    <Content Include="Vendors\bricklayer\logo.png" />
+    <Content Include="Vendors\bricklayer\src\plugins\jquery\bricklayer.jquery.js" />
+    <Content Include="Vendors\bricklayer\src\plugins\lazyElement\bricklayer.lazyElement.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.bootstrap.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.bootstrap.min.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.bootstrap4.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.foundation.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.foundation.min.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.jqueryui.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.jqueryui.min.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.semanticui.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.semanticui.min.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\jquery.dataTables.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\jquery.dataTables.min.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\images\sort_asc.png" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\images\sort_asc_disabled.png" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\images\sort_both.png" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\images\sort_desc.png" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\images\sort_desc_disabled.png" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.bootstrap.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.bootstrap.min.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.bootstrap4.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.foundation.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.foundation.min.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.jqueryui.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.jqueryui.min.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.semanticui.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.semanticui.min.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\jquery.dataTables.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\jquery.dataTables.min.js" />
+    <Content Include="Vendors\Datatable\datatables.css" />
+    <Content Include="Vendors\Datatable\datatables.js" />
+    <Content Include="Vendors\Datatable\datatables.min.css" />
+    <Content Include="Vendors\Datatable\datatables.min.js" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\easy-autocomplete.css" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\easy-autocomplete.min.css" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\easy-autocomplete.themes.css" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\easy-autocomplete.themes.min.css" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\jquery.easy-autocomplete.js" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\jquery.easy-autocomplete.min.js" />
+    <Content Include="Vendors\fontawesome\css\fa-brands.css" />
+    <Content Include="Vendors\fontawesome\css\fa-brands.min.css" />
+    <Content Include="Vendors\fontawesome\css\fa-regular.css" />
+    <Content Include="Vendors\fontawesome\css\fa-regular.min.css" />
+    <Content Include="Vendors\fontawesome\css\fa-solid.css" />
+    <Content Include="Vendors\fontawesome\css\fa-solid.min.css" />
+    <Content Include="Vendors\fontawesome\css\fontawesome-all.css" />
+    <Content Include="Vendors\fontawesome\css\fontawesome-all.min.css" />
+    <Content Include="Vendors\fontawesome\css\fontawesome.css" />
+    <Content Include="Vendors\fontawesome\css\fontawesome.min.css" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-brands-400.svg" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-regular-400.svg" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-solid-900.svg" />
+    <Content Include="Vendors\jquery-ui-1.12.1\AUTHORS.txt" />
+    <Content Include="Vendors\jquery-ui-1.12.1\external\jquery\jquery.js" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_diagonals-medium_20_d34d17_40x40.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_gloss-wave_45_817865_500x100.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_gloss-wave_60_fece2f_500x100.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_gloss-wave_70_ffdd57_500x100.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_gloss-wave_90_fff9e5_500x100.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_highlight-soft_100_feeebd_1x100.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_inset-soft_30_ffffff_1x100.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_3d3d3d_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_bd7b00_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_d19405_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_eb990f_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_ed9f26_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_fadc7a_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_ffe180_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\index.html" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.css" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.js" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.min.css" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.min.js" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.structure.css" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.structure.min.css" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.theme.css" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.theme.min.css" />
+    <Content Include="Vendors\jquery-ui-1.12.1\LICENSE.txt" />
+    <Content Include="Vendors\jQuery3.3.1\jquery.min.js" />
+    <Content Include="Vendors\jRange\demo\index.html" />
+    <Content Include="Vendors\jRange\demo\main.css" />
+    <Content Include="Vendors\jRange\demo\normalize.css" />
+    <Content Include="Vendors\jRange\demo\prism\prism.css" />
+    <Content Include="Vendors\jRange\demo\prism\prism.js" />
+    <Content Include="Vendors\jRange\jquery.range-min.js" />
+    <Content Include="Vendors\jRange\jquery.range.css" />
+    <Content Include="Vendors\jRange\jquery.range.js" />
+    <Content Include="Vendors\knockout\knockout-3.4.2.js" />
+    <Content Include="Vendors\knockout\knockout-fast-foreach.min.js" />
+    <Content Include="Vendors\moment\moment-with-locales.js" />
+    <Content Include="Vendors\moment\moment.js" />
+    <Content Include="Vendors\pickadate\Gruntfile.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\legacy.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\picker.date.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\picker.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\picker.time.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\classic.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\classic.date.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\classic.time.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\default.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\default.date.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\default.time.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\rtl.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ar.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\bg_BG.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\bs_BA.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ca_ES.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\cs_CZ.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\da_DK.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\de_DE.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\el_GR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\es_ES.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\et_EE.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\eu_ES.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\fa_IR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\fi_FI.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\fr_FR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ge_GEO.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\gl_ES.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\he_IL.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\hi_IN.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\hr_HR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\hu_HU.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\id_ID.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\is_IS.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\it_IT.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ja_JP.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ko_KR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\lt_LT.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\lv_LV.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\nb_NO.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ne_NP.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\nl_NL.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\no_NO.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\pl_PL.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\pt_BR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\pt_PT.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ro_RO.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ru_RU.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\sk_SK.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\sl_SI.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\sv_SE.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\th_TH.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\tr_TR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\uk_UA.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\vi_VN.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\zh_CN.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\zh_TW.js" />
+    <Content Include="Vendors\pickadate\lib\legacy.js" />
+    <Content Include="Vendors\pickadate\lib\picker.date.js" />
+    <Content Include="Vendors\pickadate\lib\picker.js" />
+    <Content Include="Vendors\pickadate\lib\picker.time.js" />
+    <Content Include="Vendors\pickadate\lib\themes\classic.css" />
+    <Content Include="Vendors\pickadate\lib\themes\classic.date.css" />
+    <Content Include="Vendors\pickadate\lib\themes\classic.time.css" />
+    <Content Include="Vendors\pickadate\lib\themes\default.css" />
+    <Content Include="Vendors\pickadate\lib\themes\default.date.css" />
+    <Content Include="Vendors\pickadate\lib\themes\default.time.css" />
+    <Content Include="Vendors\pickadate\lib\themes\rtl.css" />
+    <Content Include="Vendors\pickadate\lib\translations\ar.js" />
+    <Content Include="Vendors\pickadate\lib\translations\bg_BG.js" />
+    <Content Include="Vendors\pickadate\lib\translations\bs_BA.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ca_ES.js" />
+    <Content Include="Vendors\pickadate\lib\translations\cs_CZ.js" />
+    <Content Include="Vendors\pickadate\lib\translations\da_DK.js" />
+    <Content Include="Vendors\pickadate\lib\translations\de_DE.js" />
+    <Content Include="Vendors\pickadate\lib\translations\el_GR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\es_ES.js" />
+    <Content Include="Vendors\pickadate\lib\translations\et_EE.js" />
+    <Content Include="Vendors\pickadate\lib\translations\eu_ES.js" />
+    <Content Include="Vendors\pickadate\lib\translations\fa_IR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\fi_FI.js" />
+    <Content Include="Vendors\pickadate\lib\translations\fr_FR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ge_GEO.js" />
+    <Content Include="Vendors\pickadate\lib\translations\gl_ES.js" />
+    <Content Include="Vendors\pickadate\lib\translations\he_IL.js" />
+    <Content Include="Vendors\pickadate\lib\translations\hi_IN.js" />
+    <Content Include="Vendors\pickadate\lib\translations\hr_HR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\hu_HU.js" />
+    <Content Include="Vendors\pickadate\lib\translations\id_ID.js" />
+    <Content Include="Vendors\pickadate\lib\translations\is_IS.js" />
+    <Content Include="Vendors\pickadate\lib\translations\it_IT.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ja_JP.js" />
+    <Content Include="Vendors\pickadate\lib\translations\km_KH.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ko_KR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\lt_LT.js" />
+    <Content Include="Vendors\pickadate\lib\translations\lv_LV.js" />
+    <Content Include="Vendors\pickadate\lib\translations\nb_NO.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ne_NP.js" />
+    <Content Include="Vendors\pickadate\lib\translations\nl_NL.js" />
+    <Content Include="Vendors\pickadate\lib\translations\pl_PL.js" />
+    <Content Include="Vendors\pickadate\lib\translations\pt_BR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\pt_PT.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ro_RO.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ru_RU.js" />
+    <Content Include="Vendors\pickadate\lib\translations\sk_SK.js" />
+    <Content Include="Vendors\pickadate\lib\translations\sl_SI.js" />
+    <Content Include="Vendors\pickadate\lib\translations\sr_RS_cy.js" />
+    <Content Include="Vendors\pickadate\lib\translations\sr_RS_lt.js" />
+    <Content Include="Vendors\pickadate\lib\translations\sv_SE.js" />
+    <Content Include="Vendors\pickadate\lib\translations\th_TH.js" />
+    <Content Include="Vendors\pickadate\lib\translations\tr_TR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\uk_UA.js" />
+    <Content Include="Vendors\pickadate\lib\translations\vi_VN.js" />
+    <Content Include="Vendors\pickadate\lib\translations\zh_CN.js" />
+    <Content Include="Vendors\pickadate\lib\translations\zh_TW.js" />
+    <Content Include="Vendors\pickadate\tests\dev\date.htm" />
+    <Content Include="Vendors\pickadate\tests\dev\time.htm" />
+    <Content Include="Vendors\pickadate\tests\units\all.htm" />
+    <Content Include="Vendors\pickadate\tests\units\base.js" />
+    <Content Include="Vendors\pickadate\tests\units\date.js" />
+    <Content Include="Vendors\pickadate\tests\units\time.js" />
+    <Content Include="Vendors\pickadate\version-bump.js" />
+    <Content Include="Vendors\pickadate\version-commit.js" />
+    <Content Include="Vendors\popper\popper.js" />
+    <Content Include="Vendors\SmartApp\smart-app-banner.css" />
+    <Content Include="Vendors\SmartApp\smart-app-banner.js" />
+    <Content Include="Vendors\tel-input\.grenrc.js" />
+    <Content Include="Vendors\tel-input\build\css\demo.css" />
+    <Content Include="Vendors\tel-input\build\css\intlTelInput.css" />
+    <Content Include="Vendors\tel-input\build\css\intlTelInput.min.css" />
+    <Content Include="Vendors\tel-input\build\img\flags%402x.png" />
+    <Content Include="Vendors\tel-input\build\img\flags.png" />
+    <Content Include="Vendors\tel-input\build\js\intlTelInput-jquery.js" />
+    <Content Include="Vendors\tel-input\build\js\intlTelInput-jquery.min.js" />
+    <Content Include="Vendors\tel-input\build\js\intlTelInput.js" />
+    <Content Include="Vendors\tel-input\build\js\intlTelInput.min.js" />
+    <Content Include="Vendors\tel-input\build\js\utils.js" />
+    <Content Include="Vendors\tel-input\demo.html" />
+    <Content Include="Vendors\tel-input\examples\css\countrySync.css" />
+    <Content Include="Vendors\tel-input\examples\css\isValidNumber.css" />
+    <Content Include="Vendors\tel-input\examples\css\prism.css" />
+    <Content Include="Vendors\tel-input\examples\gen\country-sync.html" />
+    <Content Include="Vendors\tel-input\examples\gen\default-country-ip.html" />
+    <Content Include="Vendors\tel-input\examples\gen\display-number.html" />
+    <Content Include="Vendors\tel-input\examples\gen\hidden-input.html" />
+    <Content Include="Vendors\tel-input\examples\gen\init-promise.html" />
+    <Content Include="Vendors\tel-input\examples\gen\is-valid-number.html" />
+    <Content Include="Vendors\tel-input\examples\gen\js\countrySync.js" />
+    <Content Include="Vendors\tel-input\examples\gen\js\defaultCountryIp.js" />
+    <Content Include="Vendors\tel-input\examples\gen\js\displayNumber.js" />
+    <Content Include="Vendors\tel-input\examples\gen\js\hiddenInput.js" />
+    <Content Include="Vendors\tel-input\examples\gen\js\initPromise.js" />
+    <Content Include="Vendors\tel-input\examples\gen\js\isValidNumber.js" />
+    <Content Include="Vendors\tel-input\examples\gen\js\modifyCountryData.js" />
+    <Content Include="Vendors\tel-input\examples\gen\js\multipleInstances.js" />
+    <Content Include="Vendors\tel-input\examples\gen\js\nationalMode.js" />
+    <Content Include="Vendors\tel-input\examples\gen\js\onlyCountriesEurope.js" />
+    <Content Include="Vendors\tel-input\examples\gen\modify-country-data.html" />
+    <Content Include="Vendors\tel-input\examples\gen\multiple-instances.html" />
+    <Content Include="Vendors\tel-input\examples\gen\national-mode.html" />
+    <Content Include="Vendors\tel-input\examples\gen\only-countries-europe.html" />
+    <Content Include="Vendors\tel-input\examples\js\prism.js" />
+    <Content Include="Vendors\tel-input\examples\partials\countrySync.html" />
+    <Content Include="Vendors\tel-input\examples\partials\defaultCountryIp.html" />
+    <Content Include="Vendors\tel-input\examples\partials\displayNumber.html" />
+    <Content Include="Vendors\tel-input\examples\partials\hiddenInput.html" />
+    <Content Include="Vendors\tel-input\examples\partials\initPromise.html" />
+    <Content Include="Vendors\tel-input\examples\partials\isValidNumber.html" />
+    <Content Include="Vendors\tel-input\examples\partials\multipleInstances.html" />
+    <Content Include="Vendors\tel-input\examples\partials\nationalMode.html" />
+    <Content Include="Vendors\tel-input\examples\partials\simpleInput.html" />
+    <Content Include="Vendors\tel-input\Gruntfile.js" />
+    <Content Include="Vendors\tel-input\grunt\babel.js" />
+    <Content Include="Vendors\tel-input\grunt\bump.js" />
+    <Content Include="Vendors\tel-input\grunt\concat.js" />
+    <Content Include="Vendors\tel-input\grunt\cssmin.js" />
+    <Content Include="Vendors\tel-input\grunt\eslint.js" />
+    <Content Include="Vendors\tel-input\grunt\exec.js" />
+    <Content Include="Vendors\tel-input\grunt\imagemin.js" />
+    <Content Include="Vendors\tel-input\grunt\jasmine.js" />
+    <Content Include="Vendors\tel-input\grunt\replace.js" />
+    <Content Include="Vendors\tel-input\grunt\responsive_images.js" />
+    <Content Include="Vendors\tel-input\grunt\retinafy.js" />
+    <Content Include="Vendors\tel-input\grunt\sass.js" />
+    <Content Include="Vendors\tel-input\grunt\shell.js" />
+    <Content Include="Vendors\tel-input\grunt\sprite.js" />
+    <Content Include="Vendors\tel-input\grunt\template.js" />
+    <Content Include="Vendors\tel-input\grunt\uglify.js" />
+    <Content Include="Vendors\tel-input\grunt\watch.js" />
+    <Content Include="Vendors\tel-input\index.js" />
+    <Content Include="Vendors\tel-input\screenshots\separateDialCode.png" />
+    <Content Include="Vendors\tel-input\screenshots\vanilla.png" />
+    <Content Include="Vendors\tel-input\spec.html" />
+    <Content Include="Vendors\tel-input\src\js\data.js" />
+    <Content Include="Vendors\tel-input\src\js\intlTelInput.js" />
+    <Content Include="Vendors\tel-input\src\js\intro-jquery.js" />
+    <Content Include="Vendors\tel-input\src\js\intro.js" />
+    <Content Include="Vendors\tel-input\src\js\outro-jquery.js" />
+    <Content Include="Vendors\tel-input\src\js\outro.js" />
+    <Content Include="Vendors\tel-input\src\js\utils.js" />
+    <Content Include="Vendors\tel-input\src\spec\helpers\helpers.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\core\closecountrydropdownEvent.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\core\countrychangeEvent.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\core\dropdownShortcuts.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\core\initialValues.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\core\multipleInstances.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\core\usingDropdown.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\core\usingInput.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\methods\destroy.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\methods\getExtension.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\methods\getNumber.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\methods\getNumberType.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\methods\getSelectedCountryData.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\methods\getValidationError.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\methods\isValidNumber.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\methods\setCountry.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\methods\setNumber.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\methods\setPlaceholderNumberType.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\allowDropdown.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\autoHideDialCode.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\autoPlaceholder.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\customContainer.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\customPlaceholder.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\dropdownContainer.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\excludeCountries.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\formatOnDisplay.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\geoIpLookup.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\initialCountry.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\nationalMode.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\onlyCountries.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\placeholderNumberType.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\preferredCountries.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\separateDialCode.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\options\utilsScript.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\static\defaults.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\static\getCountryData.js" />
+    <Content Include="Vendors\tel-input\src\spec\tests\static\loadUtils.js" />
+    <Content Include="Vendors\waypoints\gulpfile.js" />
+    <Content Include="Vendors\waypoints\lib\jquery.waypoints.js" />
+    <Content Include="Vendors\waypoints\lib\jquery.waypoints.min.js" />
+    <Content Include="Vendors\waypoints\lib\noframework.waypoints.js" />
+    <Content Include="Vendors\waypoints\lib\noframework.waypoints.min.js" />
+    <Content Include="Vendors\waypoints\lib\shortcuts\infinite.js" />
+    <Content Include="Vendors\waypoints\lib\shortcuts\infinite.min.js" />
+    <Content Include="Vendors\waypoints\lib\shortcuts\inview.js" />
+    <Content Include="Vendors\waypoints\lib\shortcuts\inview.min.js" />
+    <Content Include="Vendors\waypoints\lib\shortcuts\sticky.js" />
+    <Content Include="Vendors\waypoints\lib\shortcuts\sticky.min.js" />
+    <Content Include="Vendors\waypoints\lib\waypoints.debug.js" />
+    <Content Include="Vendors\waypoints\lib\zepto.waypoints.js" />
+    <Content Include="Vendors\waypoints\lib\zepto.waypoints.min.js" />
+    <Content Include="Vendors\waypoints\licenses.txt" />
+    <Content Include="Vendors\waypoints\src\adapters\jquery-zepto-fn-extension.js" />
+    <Content Include="Vendors\waypoints\src\adapters\jquery.js" />
+    <Content Include="Vendors\waypoints\src\adapters\noframework.js" />
+    <Content Include="Vendors\waypoints\src\adapters\zepto.js" />
+    <Content Include="Vendors\waypoints\src\context.js" />
+    <Content Include="Vendors\waypoints\src\debug.js" />
+    <Content Include="Vendors\waypoints\src\group.js" />
+    <Content Include="Vendors\waypoints\src\shortcuts\infinite.js" />
+    <Content Include="Vendors\waypoints\src\shortcuts\inview.js" />
+    <Content Include="Vendors\waypoints\src\shortcuts\sticky.js" />
+    <Content Include="Vendors\waypoints\src\waypoint.js" />
+    <Content Include="Vendors\waypoints\test\adapter-fn-spec.js" />
+    <Content Include="Vendors\waypoints\test\context-spec.js" />
+    <Content Include="Vendors\waypoints\test\debug-spec.js" />
+    <Content Include="Vendors\waypoints\test\fixtures\infinite.html" />
+    <Content Include="Vendors\waypoints\test\fixtures\standard.html" />
+    <Content Include="Vendors\waypoints\test\fixtures\sticky.html" />
+    <Content Include="Vendors\waypoints\test\group-spec.js" />
+    <Content Include="Vendors\waypoints\test\infinite-spec.js" />
+    <Content Include="Vendors\waypoints\test\inview-spec.js" />
+    <Content Include="Vendors\waypoints\test\lib\coffee-script.js" />
+    <Content Include="Vendors\waypoints\test\lib\jasmine-html.js" />
+    <Content Include="Vendors\waypoints\test\lib\jasmine-jquery.js" />
+    <Content Include="Vendors\waypoints\test\lib\jasmine.css" />
+    <Content Include="Vendors\waypoints\test\lib\jasmine.js" />
+    <Content Include="Vendors\waypoints\test\lib\require.js" />
+    <Content Include="Vendors\waypoints\test\lib\testloader.js" />
+    <Content Include="Vendors\waypoints\test\settings.js" />
+    <Content Include="Vendors\waypoints\test\sticky-spec.js" />
+    <Content Include="Vendors\waypoints\test\waypoint-spec.js" />
+    <Content Include="Vendors\webui-popover\demo\async-content-another.html" />
+    <Content Include="Vendors\webui-popover\demo\async-content.html" />
+    <Content Include="Vendors\webui-popover\demo\bootstrap.css" />
+    <Content Include="Vendors\webui-popover\demo\bootstrap.js" />
+    <Content Include="Vendors\webui-popover\demo\demo.css" />
+    <Content Include="Vendors\webui-popover\demo\index-dev.html" />
+    <Content Include="Vendors\webui-popover\demo\index-old.html" />
+    <Content Include="Vendors\webui-popover\demo\index.html" />
+    <Content Include="Vendors\webui-popover\demo\jquery.js" />
+    <Content Include="Vendors\webui-popover\demo\mobile.html" />
+    <Content Include="Vendors\webui-popover\demo\test-auto-bottom.html" />
+    <Content Include="Vendors\webui-popover\demo\test-body-height.html" />
+    <Content Include="Vendors\webui-popover\demo\test-cache.html" />
+    <Content Include="Vendors\webui-popover\demo\test-canvas.html" />
+    <Content Include="Vendors\webui-popover\demo\test-container-scroll-fix.html" />
+    <Content Include="Vendors\webui-popover\demo\test-container-scroll.html" />
+    <Content Include="Vendors\webui-popover\demo\test-container.html" />
+    <Content Include="Vendors\webui-popover\demo\test-global-api.html" />
+    <Content Include="Vendors\webui-popover\demo\test-issue193.html" />
+    <Content Include="Vendors\webui-popover\demo\test-issue195.html" />
+    <Content Include="Vendors\webui-popover\demo\test-issue197.html" />
+    <Content Include="Vendors\webui-popover\demo\test-issue214.html" />
+    <Content Include="Vendors\webui-popover\demo\test-manual-show-bug.html" />
+    <Content Include="Vendors\webui-popover\demo\test-svg.html" />
+    <Content Include="Vendors\webui-popover\demo\test-wenzhixin-bstable.html" />
+    <Content Include="Vendors\webui-popover\demo\test.html" />
+    <Content Include="Vendors\webui-popover\demo\text.txt" />
+    <Content Include="Vendors\webui-popover\dist\jquery.webui-popover.css" />
+    <Content Include="Vendors\webui-popover\dist\jquery.webui-popover.js" />
+    <Content Include="Vendors\webui-popover\dist\jquery.webui-popover.min.css" />
+    <Content Include="Vendors\webui-popover\dist\jquery.webui-popover.min.js" />
+    <Content Include="Vendors\webui-popover\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Vendors\webui-popover\Gruntfile.js" />
+    <Content Include="Vendors\webui-popover\img\loading.gif" />
+    <Content Include="Vendors\webui-popover\LICENSE.txt" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Flight\FlightDetailBox - Copy.cshtml" />
+    <Content Include="Views\Payment\KbankCallBack.cshtml" />
+    <Content Include="Views\Payment\KbankNotify.cshtml" />
+    <Content Include="Views\Payment\PaymentFlight.cshtml" />
+    <Content Include="Views\Payment\Payment1.cshtml" />
+    <Content Include="Views\Payment\Payment2.cshtml" />
+    <Content Include="Views\Payment\Payment3.cshtml" />
+    <Content Include="Views\Payment\Payment4.cshtml" />
+    <Content Include="Views\Payment\PaySolutionPostBack.cshtml" />
+    <Content Include="Views\Payment\PaySolutionReturn.cshtml" />
+    <Content Include="Vendors\tel-input\.eslintignore" />
+    <Content Include="Vendors\tel-input\.eslintrc" />
+    <Content Include="Vendors\tel-input\.github\CONTRIBUTING.md" />
+    <Content Include="Vendors\tel-input\.github\FUNDING.yml" />
+    <Content Include="Vendors\tel-input\.github\ISSUE_TEMPLATE.md" />
+    <Content Include="Vendors\tel-input\.gitignore" />
+    <Content Include="Vendors\tel-input\.travis.yml" />
+    <Content Include="Vendors\tel-input\bower.json" />
+    <Content Include="Vendors\tel-input\CHANGELOG.md" />
+    <Content Include="Vendors\tel-input\composer.json" />
+    <Content Include="Vendors\tel-input\examples\js\countrySync.js.ejs" />
+    <Content Include="Vendors\tel-input\examples\js\defaultCountryIp.js.ejs" />
+    <Content Include="Vendors\tel-input\examples\js\displayNumber.js.ejs" />
+    <Content Include="Vendors\tel-input\examples\js\hiddenInput.js.ejs" />
+    <Content Include="Vendors\tel-input\examples\js\initPromise.js.ejs" />
+    <Content Include="Vendors\tel-input\examples\js\isValidNumber.js.ejs" />
+    <Content Include="Vendors\tel-input\examples\js\modifyCountryData.js.ejs" />
+    <Content Include="Vendors\tel-input\examples\js\multipleInstances.js.ejs" />
+    <Content Include="Vendors\tel-input\examples\js\nationalMode.js.ejs" />
+    <Content Include="Vendors\tel-input\examples\js\onlyCountriesEurope.js.ejs" />
+    <Content Include="Vendors\tel-input\examples\template.html.ejs" />
+    <Content Include="Vendors\tel-input\grunt\tmpl\sprite.scss.mustache" />
+    <Content Include="Vendors\tel-input\LICENSE" />
+    <Content Include="Vendors\tel-input\package-lock.json" />
+    <Content Include="Vendors\tel-input\package.json" />
+    <Content Include="Vendors\tel-input\README.md" />
+    <Content Include="Vendors\tel-input\src\css\demo.scss" />
+    <Content Include="Vendors\tel-input\src\css\intlTelInput.scss" />
+    <Content Include="Vendors\tel-input\src\css\sprite.scss" />
+    <Content Include="Views\Payment\Index.cshtml" />
+    <Content Include="Views\Payment\PaymentHotel.cshtml" />
+    <Content Include="Transfer_Certify_2.zip" />
+    <Content Include="Views\Payment\PaymentHF.cshtml" />
+    <Content Include="Views\Payment\PaymentTransfer.cshtml" />
+    <Content Include="Views\Shared\LayoutNoHF.cshtml" />
+    <Content Include="Views\Payment\Test.cshtml" />
+    <Content Include="Views\Payment\Success.cshtml" />
+    <Content Include="Views\Payment\Fail.cshtml" />
+    <Content Include="Views\Flight\Email.cshtml" />
+    <Content Include="Views\Payment\KbankQRCallBack.cshtml" />
+    <Content Include="Views\Payment\KbankQRNotify.cshtml" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Flight\Index.cshtml" />
+    <Content Include="Views\Payment\PaymentHFEx.cshtml" />
+    <Content Include="Views\Home\PrivacyPolicy.cshtml" />
+    <Content Include="Views\Home\FAQs.cshtml" />
+    <Content Include="Views\Home\TermOfUse.cshtml" />
+    <Content Include="Views\Home\CookiePolicy.cshtml" />
+    <Content Include="Views\Home\ContactUs.cshtml" />
+    <Content Include="Views\Home\LeftMenuContent.cshtml" />
+    <Content Include="Views\Home\AboutUs.cshtml" />
+    <Content Include="Views\Payment\ChillpayBG.cshtml" />
+    <Content Include="Views\Payment\ChillpayResult.cshtml" />
+    <Content Include="Views\Payment\Payment5.cshtml" />
+    <Content Include="Views\Flight\Receipt.cshtml" />
+    <Content Include="Views\Flight\ReceiptHeader.cshtml" />
+    <Content Include="Views\Transaction\Data.cshtml" />
+    <Content Include="Views\Transaction\FileImage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="certs\" />
+    <Folder Include="logs\" />
+    <Folder Include="TestJSON\" />
+    <Folder Include="Views\Base\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BL\BL.csproj">
+      <Project>{9cc1e2a1-e5ca-407b-a71d-c344b9905197}</Project>
+      <Name>BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataModel\DataModel.csproj">
+      <Project>{12ea02ab-4eb6-4375-9e5d-d3c6589fdd20}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Resolver\Resolver.csproj">
+      <Project>{20cf0616-011b-4a2e-9817-58f058d81cf0}</Project>
+      <Name>Resolver</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-grid.css.map" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-grid.min.css.map" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-reboot.css.map" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-reboot.min.css.map" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap.css.map" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap.min.css.map" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.bundle.js.map" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.js.map" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.min.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\localization.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vendors\fontawesome\less\fa-brands.less" />
+    <Content Include="Vendors\fontawesome\less\fa-regular.less" />
+    <Content Include="Vendors\fontawesome\less\fa-solid.less" />
+    <Content Include="Vendors\fontawesome\less\fontawesome.less" />
+    <Content Include="Vendors\fontawesome\less\_animated.less" />
+    <Content Include="Vendors\fontawesome\less\_bordered-pulled.less" />
+    <Content Include="Vendors\fontawesome\less\_core.less" />
+    <Content Include="Vendors\fontawesome\less\_fixed-width.less" />
+    <Content Include="Vendors\fontawesome\less\_icons.less" />
+    <Content Include="Vendors\fontawesome\less\_larger.less" />
+    <Content Include="Vendors\fontawesome\less\_list.less" />
+    <Content Include="Vendors\fontawesome\less\_mixins.less" />
+    <Content Include="Vendors\fontawesome\less\_rotated-flipped.less" />
+    <Content Include="Vendors\fontawesome\less\_screen-reader.less" />
+    <Content Include="Vendors\fontawesome\less\_stacked.less" />
+    <Content Include="Vendors\fontawesome\less\_variables.less" />
+    <Content Include="Vendors\fontawesome\scss\fa-brands.scss" />
+    <Content Include="Vendors\fontawesome\scss\fa-regular.scss" />
+    <Content Include="Vendors\fontawesome\scss\fa-solid.scss" />
+    <Content Include="Vendors\fontawesome\scss\fontawesome.scss" />
+    <Content Include="Vendors\fontawesome\scss\_animated.scss" />
+    <Content Include="Vendors\fontawesome\scss\_bordered-pulled.scss" />
+    <Content Include="Vendors\fontawesome\scss\_core.scss" />
+    <Content Include="Vendors\fontawesome\scss\_fixed-width.scss" />
+    <Content Include="Vendors\fontawesome\scss\_icons.scss" />
+    <Content Include="Vendors\fontawesome\scss\_larger.scss" />
+    <Content Include="Vendors\fontawesome\scss\_list.scss" />
+    <Content Include="Vendors\fontawesome\scss\_mixins.scss" />
+    <Content Include="Vendors\fontawesome\scss\_rotated-flipped.scss" />
+    <Content Include="Vendors\fontawesome\scss\_screen-reader.scss" />
+    <Content Include="Vendors\fontawesome\scss\_stacked.scss" />
+    <Content Include="Vendors\fontawesome\scss\_variables.scss" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-brands-400.eot" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-brands-400.ttf" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-brands-400.woff" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-brands-400.woff2" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-regular-400.eot" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-regular-400.ttf" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-regular-400.woff" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-regular-400.woff2" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-solid-900.eot" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-solid-900.ttf" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-solid-900.woff" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-solid-900.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\maps\easy-autocomplete.css.map" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\maps\easy-autocomplete.min.css.map" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\maps\easy-autocomplete.themes.css.map" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\maps\easy-autocomplete.themes.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vendors\pickadate\.gitignore" />
+    <Content Include="Vendors\pickadate\.jshintrc" />
+    <Content Include="Vendors\pickadate\.travis.yml" />
+    <Content Include="Vendors\pickadate\bower.json" />
+    <Content Include="Vendors\pickadate\CHANGELOG.md" />
+    <Content Include="Vendors\pickadate\CONTRIBUTING.md" />
+    <Content Include="Vendors\pickadate\lib\themes-source\base.date.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\base.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\base.time.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\classic.date.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\classic.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\classic.time.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\default.date.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\default.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\default.time.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\rtl.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\_variables.less" />
+    <Content Include="Vendors\pickadate\lib\translations\FORMATTING.md" />
+    <Content Include="Vendors\pickadate\lib\translations\NAMING.md" />
+    <Content Include="Vendors\pickadate\LICENSE.md" />
+    <Content Include="Vendors\pickadate\package.json" />
+    <Content Include="Vendors\pickadate\README.md" />
+    <Content Include="Vendors\pickadate\yarn.lock" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vendors\webui-popover\.gitignore" />
+    <Content Include="Vendors\webui-popover\.jshintrc" />
+    <Content Include="Vendors\webui-popover\.npmignore" />
+    <Content Include="Vendors\webui-popover\bower.json" />
+    <Content Include="Vendors\webui-popover\CONTRIBUTING.md" />
+    <Content Include="Vendors\webui-popover\demo\table-data.json" />
+    <Content Include="Vendors\webui-popover\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Vendors\webui-popover\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Vendors\webui-popover\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Vendors\webui-popover\HISTORY.md" />
+    <Content Include="Vendors\webui-popover\package.json" />
+    <Content Include="Vendors\webui-popover\README.md" />
+    <Content Include="Vendors\webui-popover\ROADMAP.md" />
+    <Content Include="Vendors\webui-popover\webui-popover.jquery.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Flight\FlightResult.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Flight\ResultList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vendors\jquery-ui-1.12.1\package.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Flight\PaxInfo.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\SystemProblem.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Flight\Booking.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Flight\Summary.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\aircraft.json" />
+    <Content Include="Views\Flight\SearchBox.cshtml" />
+    <Content Include="Views\Flight\Pay.cshtml" />
+    <Content Include="Views\Flight\Thankyou.cshtml" />
+    <Content Include="Views\Flight\InitialKTC.cshtml" />
+    <Content Include="Views\Flight\InitialCS.cshtml" />
+    <Content Include="Views\Flight\ResultList - Copy.cshtml" />
+    <Content Include="Views\Flight\FareRule.cshtml" />
+    <Content Include="Views\AboutUs\Index.cshtml" />
+    <Content Include="Views\Flight\FlightDetailBox.cshtml" />
+    <Content Include="Vendors\air-datepicker\.gitignore" />
+    <Content Include="Vendors\air-datepicker\.npmignore" />
+    <Content Include="Vendors\air-datepicker\bower.json" />
+    <Content Include="Vendors\air-datepicker\docs\jade\layout.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\mixins\example-code.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\mixins\example-content.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\mixins\example-inline.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\mixins\example.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\mixins\param-header.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\mixins\param.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\pages\index-ru.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\pages\index.jade" />
+    <Content Include="Vendors\air-datepicker\docs\sass\init.scss" />
+    <Content Include="Vendors\air-datepicker\docs\sass\_docs.scss" />
+    <Content Include="Vendors\air-datepicker\docs\sass\_reset.scss" />
+    <Content Include="Vendors\air-datepicker\LICENSE.md" />
+    <Content Include="Vendors\air-datepicker\package.json" />
+    <Content Include="Vendors\air-datepicker\README.md" />
+    <Content Include="Vendors\air-datepicker\src\sass\cell.scss" />
+    <Content Include="Vendors\air-datepicker\src\sass\datepicker.scss" />
+    <Content Include="Vendors\air-datepicker\src\sass\navigation.scss" />
+    <Content Include="Vendors\air-datepicker\src\sass\timepicker.scss" />
+    <Content Include="Vendors\air-datepicker\src\sass\_datepicker-config.scss" />
+    <Content Include="Vendors\jRange\.gitignore" />
+    <Content Include="Vendors\jRange\demo\main.less" />
+    <Content Include="Vendors\jRange\jquery.range.less" />
+    <Content Include="Vendors\jRange\LICENSE" />
+    <Content Include="Vendors\jRange\package.json" />
+    <Content Include="Vendors\jRange\README.md" />
+    <Content Include="Views\Home\Refresh.cshtml" />
+    <Content Include="Views\Home\ExternalFooter.cshtml" />
+    <Content Include="Views\AboutUs\TermOfService.cshtml" />
+    <Content Include="Views\AboutUs\Privacy.cshtml" />
+    <Content Include="Vendors\bricklayer\.gitignore" />
+    <Content Include="Vendors\bricklayer\bower.json" />
+    <Content Include="Vendors\bricklayer\LICENSE" />
+    <Content Include="Vendors\bricklayer\package.json" />
+    <Content Include="Vendors\bricklayer\README.md" />
+    <Content Include="Vendors\bricklayer\src\bricklayer.scss" />
+    <Content Include="Vendors\bricklayer\src\plugins\jquery\README.md" />
+    <Content Include="Vendors\bricklayer\src\plugins\lazyElement\README.md" />
+    <Content Include="Vendors\waypoints\.eslintrc" />
+    <Content Include="Vendors\waypoints\.gitignore" />
+    <Content Include="Vendors\waypoints\.travis.yml" />
+    <Content Include="Vendors\waypoints\bower.json" />
+    <Content Include="Vendors\waypoints\CHANGELOG.md" />
+    <Content Include="Vendors\waypoints\CONTRIBUTING.md" />
+    <Content Include="Vendors\waypoints\package.json" />
+    <Content Include="Vendors\waypoints\README.md" />
+    <Content Include="Vendors\waypoints\testem.json" />
+    <Content Include="Views\Home\GetThumbPrintCertificate.cshtml" />
+    <Content Include="Views\APIConfig\Index.cshtml" />
+    <Content Include="Views\APIConfig\APIUserList.cshtml" />
+    <Content Include="Views\APIConfig\APIUserDetail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Vendors\bricklayer\src\bricklayer.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\Gogojiiuat - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\Gogojiiuat - Web Deploy.pubxml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>41019</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:41019/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <UserProperties vendors_4bootstrap4_4css_4bootstrap-reboot_1css_1map__JsonSchema="" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.11.2\build\Microsoft.ApplicationInsights.DependencyCollector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.11.2\build\Microsoft.ApplicationInsights.DependencyCollector.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.11.2\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.11.2\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.11.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.11.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.2.11.2\build\Microsoft.ApplicationInsights.WindowsServer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.WindowsServer.2.11.2\build\Microsoft.ApplicationInsights.WindowsServer.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.Web.2.11.2\build\Microsoft.ApplicationInsights.Web.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.Web.2.11.2\build\Microsoft.ApplicationInsights.Web.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.14.0\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.14.0\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.14.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.14.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.2.14.0\build\Microsoft.ApplicationInsights.WindowsServer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.WindowsServer.2.14.0\build\Microsoft.ApplicationInsights.WindowsServer.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.Web.2.14.0\build\Microsoft.ApplicationInsights.Web.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.Web.2.14.0\build\Microsoft.ApplicationInsights.Web.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.15.0\build\Microsoft.ApplicationInsights.DependencyCollector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.15.0\build\Microsoft.ApplicationInsights.DependencyCollector.targets'))" />
+  </Target>
+  <Import Project="..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.11.2\build\Microsoft.ApplicationInsights.DependencyCollector.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.11.2\build\Microsoft.ApplicationInsights.DependencyCollector.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.11.2\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.11.2\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.11.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.11.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.WindowsServer.2.11.2\build\Microsoft.ApplicationInsights.WindowsServer.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.2.11.2\build\Microsoft.ApplicationInsights.WindowsServer.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.Web.2.11.2\build\Microsoft.ApplicationInsights.Web.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.Web.2.11.2\build\Microsoft.ApplicationInsights.Web.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.14.0\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.14.0\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.14.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.14.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.WindowsServer.2.14.0\build\Microsoft.ApplicationInsights.WindowsServer.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.2.14.0\build\Microsoft.ApplicationInsights.WindowsServer.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.Web.2.14.0\build\Microsoft.ApplicationInsights.Web.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.Web.2.14.0\build\Microsoft.ApplicationInsights.Web.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.15.0\build\Microsoft.ApplicationInsights.DependencyCollector.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.15.0\build\Microsoft.ApplicationInsights.DependencyCollector.targets')" />
+  <!--
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  -->
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

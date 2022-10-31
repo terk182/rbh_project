@@ -1,0 +1,83 @@
+﻿@model BL.Entities.NewsAndActivity.AllNewAndActivity
+@{
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang().ToLower() == "th" ? "th-TH" : "en-US");
+    string URL = System.Configuration.ConfigurationManager.AppSettings["admin_URL"].ToString();
+}
+
+@section width100head
+{
+    <div class="hotel-search-box-bg d-none d-md-block">
+        <div class="container">
+            <div class="font-60">@Model.NewsAndActivityDetails.Find(x => x.LangCode == Localize.GetLang()).Title </div>
+            <div class="font-20 mb-3">
+                @Model.NewsAndActivityDetails.Find(x => x.LangCode == Localize.GetLang()).ShortDescriptions
+            </div>
+            <div class="mb-3">@Localize.Show("PostByGogojiiAdmin") - @(Model.NewsAndActivity.UpdateDateTime.Value.ToString("MMMM dd, yyyy HH:mm ", ci))</div>
+            @if (Model.NewsAndActivity.BannerName != null && Model.NewsAndActivity.BannerName.Length > 0)
+            {
+                <img src="@(URL)images/news_activities/@(Model.NewsAndActivity.BannerName)?id=@Guid.NewGuid()" />
+            }
+            </div>
+    </div>
+}
+
+<section class="Paragraph">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                @if (Model.NewsAndActivity.FileName_Paragraph11 != null && Model.NewsAndActivity.FileName_Paragraph11.Length > 0)
+                {
+                    <div class="mb-10">
+                        <img src="@(URL)images/news_activities/@(Model.NewsAndActivity.FileName_Paragraph11)?id=@Guid.NewGuid()" />
+                    </div>
+                }
+                @if (Model.NewsAndActivity.FileName_Paragraph12 != null && Model.NewsAndActivity.FileName_Paragraph12.Length > 0)
+                {
+                    <div class="mb-10">
+                        <img src="@(URL)images/news_activities/@(Model.NewsAndActivity.FileName_Paragraph12)?id=@Guid.NewGuid()" />
+                    </div>
+                }
+                <div class="mb-10">
+                    @Html.Raw(Model.NewsAndActivityDetails.Find(x => x.LangCode == Localize.GetLang()).Descriptions_Paragraph1)
+                </div>
+                @if (Model.NewsAndActivity.FileName_Paragraph21 != null && Model.NewsAndActivity.FileName_Paragraph21.Length > 0)
+                {
+                    <div class="mb-10">
+                        <img src="@(URL)images/news_activities/@(Model.NewsAndActivity.FileName_Paragraph21)?id=@Guid.NewGuid()" />
+                    </div>
+                }
+                @if (Model.NewsAndActivity.FileName_Paragraph22 != null && Model.NewsAndActivity.FileName_Paragraph22.Length > 0)
+                {
+                    <div class="mb-10">
+                        <img src="@(URL)images/news_activities/@(Model.NewsAndActivity.FileName_Paragraph22)?id=@Guid.NewGuid()" />
+                    </div>
+                }
+                @if (Model.NewsAndActivityDetails.Find(x => x.LangCode == Localize.GetLang()).Descriptions_Paragraph2 != null)
+                {
+                    <div class="mb-10">
+                        @Html.Raw(Model.NewsAndActivityDetails.Find(x => x.LangCode == Localize.GetLang()).Descriptions_Paragraph2)
+                    </div>
+                }
+                @if (Model.NewsAndActivity.FileName_Paragraph31 != null && Model.NewsAndActivity.FileName_Paragraph31.Length > 0)
+                {
+                    <div class="mb-10">
+                        <img src="@(URL)images/news_activities/@(Model.NewsAndActivity.FileName_Paragraph31)?id=@Guid.NewGuid()" />
+                    </div>
+                }
+                @if (Model.NewsAndActivity.FileName_Paragraph32 != null && Model.NewsAndActivity.FileName_Paragraph32.Length > 0)
+                {
+                    <div class="mb-10">
+                        <img src="@(URL)images/news_activities/@(Model.NewsAndActivity.FileName_Paragraph32)?id=@Guid.NewGuid()" />
+                    </div>
+                }
+                @if (Model.NewsAndActivityDetails.Find(x => x.LangCode == Localize.GetLang()).Descriptions_Paragraph3 != null)
+                {
+                    <div class="mb-10">
+                        @Html.Raw(Model.NewsAndActivityDetails.Find(x => x.LangCode == Localize.GetLang()).Descriptions_Paragraph3)
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</section>

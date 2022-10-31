@@ -1,0 +1,145 @@
+﻿@model DataModel.BackOfficeAdmin
+
+@using (Html.BeginForm("Detail", "Admin", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.BackOfficeAdminOID)
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Admin Detail</h6>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Username <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.Username, new { required = "required", @class = "form-control form-control-sm col-lg-4" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Admin Role <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-1 col-md-6 col-sm-12">
+                    @Html.RadioButtonFor(x => x.Role, "1", new { @class = "", Checked = "checked" }) Super Admin
+                </div>
+                <div class="col-lg-1 col-md-6 col-sm-12">
+                    @Html.RadioButtonFor(x => x.Role, "2", new { @class = "" }) Admin Flight
+                </div>
+                <div class="col-lg-1 col-md-6 col-sm-12">
+                    @Html.RadioButtonFor(x => x.Role, "3", new { @class = "" }) Admin Hotel
+                </div>
+                <div class="col-lg-1 col-md-6 col-sm-12">
+                    @Html.RadioButtonFor(x => x.Role, "4", new { @class = "" }) Admin Staff
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Password <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.PasswordFor(x => x.Password, new { required = "required", @class = "form-control form-control-sm col-lg-4" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Re-Password <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.Password("Repassword", "", new { required = "required", @class = "form-control form-control-sm col-lg-4", data_match = "#Password" })
+                </div>
+            </div>
+            <hr />
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Firstname <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.Firstname, new { required = "required", @class = "form-control form-control-sm col-lg-4" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Lastname <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.Lastname, new { required = "required", @class = "form-control form-control-sm col-lg-4" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Email <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.Email, new { required = "required", @class = "form-control form-control-sm col-lg-4", @type = "email" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Address
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.Address, new { @class = "form-control form-control-sm col-lg-4" })
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer">
+            <div class="text-right">
+                <button type="button" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="btn_Save">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+                <button type="submit" id="btn_submit" style="display: none;"></button>
+                <a href="@Url.Action("List")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    <script>
+        var currentUsername = '@Model.Username';
+        $(document).ready(function () {
+            $('#Password').val('@ViewBag.Password');
+            $('#Repassword').val('@ViewBag.Password');
+
+            var checkOther = function () {
+                if ($('#Password').val() != $('#Repassword').val()) {
+                    $('#Repassword').get(0).setCustomValidity("Passwords Don't Match");
+                    $('#Repassword').val('');
+                } else {
+                    $('#Repassword').get(0).setCustomValidity('');
+                }
+                $('#btn_submit').click();
+            };
+
+            $('#btn_Save').click(function () {
+                if (currentUsername != $('#Username').val()) {
+
+                    $.post('@Url.Action("CheckUsername", "Admin")?username=' + $('#Username').val(), function (data) {
+                        if (data == false) {
+                            alert('This username has already use');
+                            $('#Username').focus();
+                        } else {
+                            checkOther();
+                        }
+
+                    });
+                } else {
+                    checkOther();
+                }
+
+            });
+        });
+    </script>
+}

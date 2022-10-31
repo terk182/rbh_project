@@ -1,0 +1,36 @@
+﻿@model BL.Entities.GogojiiFare.AirFare
+
+<div class="container">
+    <div class="card">
+        <br />
+        <div class="text-center">
+            <img class="img-fluid" style="width: 200px;" src="~/Images/36.png" />
+            <div class="font-24">กรุณารอสักครู่ กำลังนำท่านสู่การชำระเงิน</div>
+        </div>
+        <br />
+    </div>
+</div>
+<form name='PostForm' method='POST' action='http://www.fareok.com/API_invoiceDEV/paymentpost.aspx'>
+    <input name='sandboxorproduction' type='hidden' value='@ViewBag.WebMode'>
+    <input name='amount' type='hidden' value='@((Model.creditCardFee + Model.totalFare).ToString("N2").Replace(",", ""))'>
+    <input name='orderRef' type='hidden' value='@ViewBag.PNR'>
+    <input name='phone' type='hidden' value='@Model.adtPaxs[0].telNo'>
+    <input name='lang' type='hidden' value='E'>
+    <input name='customer_TitleName' type='hidden' value='@Model.adtPaxs[0].title'>
+    <input name='customer_FirstName' type='hidden' value='@Model.adtPaxs[0].firstname'>
+    <input name='customer_MiddleName' type='hidden' value='@Model.adtPaxs[0].middlename'>
+    <input name='customer_LastName' type='hidden' value='@Model.adtPaxs[0].lastname'>
+    <input name='Email' type='hidden' value='@Model.adtPaxs[0].email'>
+    <input name='serviceid' type='hidden' value='@(ViewBag.PNR)*'>
+    <input name='cardNo' type='hidden' value=''>
+    <input name='BookingKeyReference' type='hidden' value='@ViewBag.BookingKeyReference'>
+    <input name='respURL' type='hidden' value='@ViewBag.RespURL'>
+</form>
+
+
+@section Scripts
+{
+    <script>
+        document.PostForm.submit();
+    </script>
+}

@@ -1,0 +1,355 @@
+﻿
+@model BL.Entities.HFBooking.HFBundleBooking
+@*@model  BL.Entities.HFCheckRate.Response*@
+
+@using (Html.BeginForm("ReportBundleDetailsave", "ReportBundle", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(m => m.bookingKeyReference)
+    @Html.HiddenFor(m => m.uuid)
+    @Html.HiddenFor(m => m.userID)
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-header py-3" style="text-align:right;">
+                <a href="@Url.Action("ReportBundleList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Back
+                </a>
+
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primaryblue shadow-sm" id="btn_Save">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        @*<div class="col-lg-12">*@
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Ticketing Task</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-1">
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Booking Status :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @{
+                                SelectList selectListBookingStatus = (SelectList)ViewData["StatusbookingList"];
+                            }
+                            @*//ใน text บวก value จาก controller มาด้วย*@
+                            @Html.DropDownListFor(m => m.statusBooking, selectListBookingStatus.OrderBy(x => x.Value).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.statusBooking == Convert.ToInt32(s.Value)) }), new
+                                               {
+                                                   @class = "form-control ADT-TT-",
+                                                   required = "required"
+                                               })
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Payment Status :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @{
+                                SelectList selectListStatusPayment = (SelectList)ViewData["StatusPaymentList"];
+                            }
+                            @*//ใน text บวก value จาก controller มาด้วย*@
+                            @Html.DropDownListFor(m => m.statusPayment, selectListStatusPayment.OrderBy(x => x.Value).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.statusPayment == Convert.ToInt32(s.Value)) }), new
+                                               {
+                                                   @class = "form-control ADT-TT-",
+                                                   required = "required"
+                                               })
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Payment Method :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @{
+                                SelectList selectListPaymentMethod = (SelectList)ViewData["PaymentMethodList"];
+                            }
+                            @*//ใน text บวก value จาก controller มาด้วย*@
+                            @Html.DropDownListFor(m => m.paymentMethod, selectListPaymentMethod.OrderBy(x => x.Value).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.paymentMethod == Convert.ToInt32(s.Value)) }), new
+                                               {
+                                                   @class = "form-control ADT-TT-",
+                                                   required = "required",
+                                                   @disabled = "disabled"
+                                               })
+                        </div>
+
+                        @Html.HiddenFor(m => m.paymentMethod)
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Total PackagePrice (฿) :
+                        </div>
+                        <div class="col-lg-3 text">
+                            @Model.totalPackagePrice.ToString("N2")
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Booking Detail</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-1">
+
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Booking Date :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.bookingDate.ToString("dd MMMM yyyy HH:mm:ss tt")
+                            @*@Html.TextBoxFor(m => m.bookingDate, "{0:yyyy-MM-dd}", new { required = "required", @class = "form-control form-control-sm", @type = "date", @id = "datetime1", @readonly = "readonly" })*@
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Hotel Name :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.hotelBooking.hotel.hotelName
+                        </div>
+
+
+                        @*<div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                                Room Code :
+                            </div>
+                            <div class="col-lg-3 col-md-5 col-sm-5 text">
+                                @Model.hotelInformation.roomInformation.roomCode
+                            </div>*@
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Room Name :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @for (int i = 0; i < Model.hotelBooking.hotel.rooms.Count; i++)
+                            {
+                                if (Model.hotelBooking.hotel.rooms != null)
+                                {
+                                    @Model.hotelBooking.hotel.rooms[i].roomName
+                                }
+                            }
+                        </div>
+
+                        @*<div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                                Net Price :
+                            </div>
+                            <div class="col-lg-3 col-md-5 col-sm-5 text">
+                                @Model.hotelInformation.roomInformation.rate.netPrice.ToString("N2")
+                            </div>*@
+
+                        @*<div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                                Board Code :
+                            </div>
+                            <div class="col-lg-3 col-md-5 col-sm-5 text">
+                                @Model.hotelInformation.roomInformation.rate.boardCode
+                            </div>*@
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Board Name :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @for (int i = 0; i < Model.hotelBooking.hotel.rooms.Count; i++)
+                            {
+                                if (Model.hotelBooking.hotel.rooms != null)
+                                {
+                                    for (int j = 0; j < Model.hotelBooking.hotel.rooms[i].rates.Count; j++)
+                                    {
+                                        if (Model.hotelBooking.hotel.rooms[i].rates != null)
+                                        {
+                                            @Model.hotelBooking.hotel.rooms[i].rates[j].boardName
+                                        }
+                                    }
+                                }
+                            }
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Hotel Booking No. :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @if (Model.hotelBooking.booking.hotelBookingNo != null)
+                            {
+                                @Model.hotelBooking.booking.hotelBookingNo
+                            }
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            PNR :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;"><b>@Model.flightBooking.PNR</b></span>
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Origin Code :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.flightBooking.origin.code
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Destination Code :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.flightBooking.destination.code
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Flight Depart Date :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.flightBooking.depFlight[0].departureDateTime.ToString("dd MMMM yyyy")
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Flight Return Date :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.flightBooking.retFlight[@Model.flightBooking.retFlight.Count - 1].departureDateTime.ToString("dd MMMM yyyy")
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Hotel CheckIn :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.flightBooking.depFlight[0].departureDateTime.ToString("dd MMMM yyyy")
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Hotel CheckOut :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.flightBooking.retFlight[@Model.flightBooking.retFlight.Count - 1].departureDateTime.ToString("dd MMMM yyyy")
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Contact Detail</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-1">
+                        @{
+
+                            SelectList selectListscontact = (SelectList)ViewData["adtTitleList"];
+
+                        }
+
+                        @if (Model.flightBooking.adtPaxs != null)
+                        {
+                            <div class="col-lg-1" style="text-align:right;">
+                                Title :
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                @Html.DropDownListFor(m => m.flightBooking.contactInfo.title, selectListscontact.OrderBy(x => x.Text).Select(s => new SelectListItem { Text = (s.Value + " - " + s.Text), Value = s.Value.ToString(), Selected = (Model.flightBooking.contactInfo.title == s.Value.ToString()) }), new
+                                                           {
+                                                               @class = "form-control ADT-TT-",
+                                                               required = "required"
+                                                           })
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                                First Name :
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                @Html.TextBoxFor(m => m.flightBooking.contactInfo.firstname, new { required = "required", @class = "form-control form-control-sm" })
+                            </div>
+
+
+                            <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                                Middle Name :
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                @Html.TextBoxFor(m => m.flightBooking.contactInfo.middlename, new { @class = "form-control form-control-sm" })
+                            </div>
+
+
+                            <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                                Last Name :
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                @Html.TextBoxFor(m => m.flightBooking.contactInfo.lastname, new { required = "required", @class = "form-control form-control-sm" })
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                                Email :
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                @Html.TextBoxFor(m => m.flightBooking.contactInfo.email, new { required = "required", @class = "form-control form-control-sm" })
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                                Phone number:
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                @Html.TextBoxFor(m => m.flightBooking.contactInfo.telNo, new { required = "required", @class = "form-control form-control-sm" })
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+
+                        @*<a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                                <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                                Back
+                            </a>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@*</div>*@
+
+
+
+@section Scripts
+{
+    <script>
+    </script>
+}
+
+<style>
+    .text {
+        margin-bottom: 10px;
+    }
+</style>

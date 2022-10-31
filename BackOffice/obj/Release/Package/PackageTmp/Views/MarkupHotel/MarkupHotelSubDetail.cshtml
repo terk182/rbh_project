@@ -1,0 +1,72 @@
+﻿@model DataModel.MarkupSubHotel
+
+@using (Html.BeginForm("MarkupHotelSubDetails", "MarkupHotel", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.MarkupSubHotelOID)
+    @Html.HiddenFor(x => x.MarkupHotelOID)
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Markup Hotel Detail Config</h6>
+            </div>
+        </div>
+        <br /><div class="text-danger" style="font-size:24px;color:red;font-weight:bold; text-align:center; padding-bottom:20px;" id="messe">@TempData["ErrorMessage"]</div>
+        <div class="card-body">
+            <div class="row mb-1">
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    Active <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    Disable  @Html.EditorFor(m => m.IsActive, new { required = "required" })  Enable
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    Min Price <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.MinPrice, new { required = "required", @class = "form-control form-control-sm col-lg-4" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    Max Price <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.MaxPrice, new { required = "required", @class = "form-control form-control-sm col-lg-4" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    Markup Values <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.MarkupValue, "{0 :N2}", new { required = "required", @class = "form-control form-control-sm", style = "width: 200px;", step = "any", @type = "number" })
+                    (฿@Html.EditorFor(m => m.IsPercentMarkupValue)%)
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer">
+            <div class="text-right">
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="btn_Save">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+                @if (Model.MinPrice != null)
+                {
+                    <button type="submit" class="d-sm-inline-block btn btn-sm btn-primaryblue shadow-sm" name="btn_Save" value="2">
+                        <i class="fas fa-save fa-sm text-white-50"></i>
+                        &nbsp;&nbsp;Save As&nbsp;&nbsp;
+                    </button>
+                }
+                <button type="submit" id="btn_submit" style="display: none;"></button>
+                <a href="@Url.Action("MarkupHotelSubList", new { id = Request["MarkupHotelOID"]})" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+}

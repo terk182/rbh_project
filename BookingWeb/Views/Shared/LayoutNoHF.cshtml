@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOGOJII</title>
+    <link href="~/Vendors/Bootstrap4/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Vendors/Bootstrap4/css/bootstrap-reboot.min.css" rel="stylesheet" />
+    <link href="~/Vendors/Bootstrap4/css/bootstrap-grid.min.css" rel="stylesheet" />
+    <link href="~/Vendors/fontawesome/css/fontawesome-all.css" rel="stylesheet" />
+    <link href="~/Vendors/EasyAutocomplete-1.3.5/easy-autocomplete.min.css" rel="stylesheet" />
+    <link href="~/Vendors/EasyAutocomplete-1.3.5/easy-autocomplete.themes.min.css" rel="stylesheet" />
+    @*<link href="~/Vendors/pickadate/lib/themes/classic.css" rel="stylesheet" />
+        <link href="~/Vendors/pickadate/lib/themes/classic.date.css" rel="stylesheet" />*@
+    <link href="~/Vendors/air-datepicker/dist/css/datepicker.css?v1" rel="stylesheet" />
+    <link href="~/Vendors/webui-popover/dist/jquery.webui-popover.css" rel="stylesheet" />
+    <link href="~/Content/ibe.css?@(DateTime.Now.ToString("ddMMyyhhmmss"))" rel="stylesheet" />
+    <script src="~/Vendors/jQuery3.3.1/jquery.min.js"></script>
+    <link href="~/Content/awesome-bootstrap-checkbox.css" rel="stylesheet" />
+    @RenderSection("styles", required: false)
+
+</head>
+<body>
+    <div id="fb-root"></div>
+    <input type="hidden" id="web_lang" name="web_lang" value="@Localize.GetLang()" />
+    @RenderSection("width100head", required: false)
+    <div class="container" id="mainScreen">
+        @RenderBody()
+        <br />
+    </div>
+
+    <script src="~/Vendors/popper/popper.js"></script>
+    <script src="~/Vendors/Bootstrap4/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Vendors/Bootstrap4/js/bootstrap.min.js"></script>
+    <script src="~/Vendors/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.js"></script>
+    @*<script src="~/Vendors/pickadate/lib/picker.js"></script>
+        <script src="~/Vendors/pickadate/lib/picker.date.js"></script>
+        <script src="~/Vendors/pickadate/lib/legacy.js"></script>*@
+    <script src="~/Vendors/air-datepicker/dist/js/datepicker.js?v2"></script>
+    <script src="~/Vendors/air-datepicker/dist/js/i18n/datepicker.@(Localize.GetLang()).js"></script>
+    <script src="~/Vendors/webui-popover/dist/jquery.webui-popover.min.js"></script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
+<!-- @ViewBag.WebMode -->

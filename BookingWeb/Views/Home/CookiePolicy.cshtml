@@ -1,0 +1,89 @@
+﻿@section styles
+{
+    <link rel='stylesheet' id='gogojistyle-css' href='~/mpgogojii/style.min.css' type='text/css' media='all' />
+}
+<div id="primary" class="content-area">
+    <main id="main" class="site-main page-static-content" role="main">
+
+        <section class="static-faqs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-3 d-none d-xl-block">
+                        @Html.Partial("~/Views/Home/LeftMenuContent.cshtml")
+                    </div>
+
+                    <div class="col-xl-9 col-lg-12">
+                        @if (Localize.GetLang() == "th")
+                        {
+                            <div class="header-title">
+                                <h3>นโยบายเข้าถึงคุกกี้</h3>
+                                <p></p>
+                            </div>
+
+                            <div class="static-content-card static-container mt-30 mb-10">
+
+                                <p class='title title--primary  mb-10'>วันที่มีผลบังคับใช้ มกราคม 2563</p>
+                                <p class='body-text pre-line  mb-25'>www.gogojii.com (“เว็บไซต์”) นั้นมีเจ้าของและดำเนินงานโดย บริษัท โคแมนชี่ โกโกจิ จำกัด (“เรา” “พวกเรา” หรือ “ของเรา”) นโยบายความเป็นส่วนตัวอธิบายถึงวิธีการใช้ เปิดเผย รวบรวม และประมวลผล ข้อมูลส่วนบุคคลที่สามารถระบุตัวตนได้ที่เกี่ยวกับข้อมูลส่วนบุคคลของคุณ ในการใช้บริการของ www.gogojii.com นั้น เมื่อคุณเยี่ยมชมเว็บไซต์ของเรา นั่นหมายความว่าคุณยินยอมให้มีการรวบรวมใช้เปิดเผยและประมวลผลข้อมูลส่วนบุคคลของคุณตามที่อธิบายไว้ในนโยบายความเป็นส่วนตัวของเรา ข้อมูลทั้งหมดจะถูกรวบรวมและจัดเก็บไว้ในเครื่องแม่ข่ายที่ตั้งอยู่ในประเทศไทย ซึ่งอาจไม่ได้ให้การปกป้องข้อมูลในระดับที่เทียบเท่ากับกฎหมายในประเทศของคุณ โกโกจิ โคแมนชี่ โกโกจิ จะปรับปรุงนโยบายความเป็นส่วนตัวนี้ เช่น กระบวนการรวบรวมข้อมูลส่วนบุคคลและแนวทางปฏิบัติที่เกี่ยวข้อง คุณสมบัติของเว็บไซต์ของเรา และความก้าวหน้าทางเทคโนโลยีอย่างเหมาะสมตามกฎหมายของประเทศไทย หากมีการปรับเปลี่ยนวิธีที่เรารวบรวมจะระบุไว้ที่นี่ วันที่มีผลบังคับใช้จะปรากฏที่ด้านบนของนโยบายความเป็นส่วนตัว ดังนั้นคุณควรตรวจสอบนโยบายความเป็นส่วนตัวนี้เป็นประจำเพื่อรับการอัปเดตเกี่ยวกับนโยบายและแนวปฏิบัติปัจจุบันของเรา นอกจากนี้ โกโกจิ โคแมนชี่ โกโกจิ ยังจะแจ้งให้คุณทราบเกี่ยวกับการเปลี่ยนแปลงเนื้อหาก่อนนำมาปฏิบัติใช้</p>
+                                <p class='title title--primary  mb-10'>เรารวบรวมข้อมูลอะไรบ้าง:</p>
+                                <p class='body-text pre-line  mb-25'>โกโกจิ โคแมนชี่ โกโกจิ อาจรวบรวมข้อมูลส่วนบุคคลของคุณที่คุณให้ไว้กับเราขณะใช้งานเว็บไซต์ของเรา ข้อมูลส่วนบุคคลอาจรวมถึงชื่อ ที่อยู่ หมายเลขโทรศัพท์ หรือที่อยู่อีเมลของคุณ นอกจากนี้ เรายังเก็บรวบรวมข้อมูลที่ไม่สามารถระบุตัวตนได้ ซึ่งอาจเชื่อมโยงกับข้อมูลส่วนบุคคลของคุณ เช่น การตั้งค่าการค้นหาที่เกี่ยวข้องกับการค้นหาเฉพาะ ชื่อล็อกอิน ที่อยู่ IP และรหัสผ่าน</p>
+                                <p class='title title--primary  mb-10'>เราปกป้องข้อมูลส่วนบุคคลของคุณอย่างไร:</p>
+                                <p class='body-text pre-line  mb-25'>เรามุ่งมั่นที่จะปกป้องข้อมูลที่เรารวบรวมเพื่อป้องกันการเข้าถึงข้อมูลส่วนบุคคลของคุณโดยไม่ได้รับอนุญาต เราได้ดำเนินการตามขั้นตอนการดูแลระบบเทคนิคและความปลอดภัยทางกายภาพที่เหมาะสม เพื่อช่วยในการปกป้องข้อมูลส่วนบุคคลที่คุณให้กับเรา เพื่อป้องกันการทำธุรกรรมบัตรเครดิต ปัจจุบันเราใช้เทคโนโลยี Secure Socket Layer เพื่อเข้ารหัสข้อมูลบัตรเครดิตระหว่างการส่งข้อมูล </p>
+                                <p class='title title--primary  mb-10'>เราใช้ข้อมูลอย่างไร:</p>
+                                <p class='body-text pre-line  mb-25'>เราใช้ข้อมูลส่วนบุคคลของคุณและข้อมูลอื่น ๆ ที่รวบรวมผ่านเว็บไซต์ของเรา เพื่อจัดหาผลิตภัณฑ์และบริการที่คุณร้องขอ เพื่อสร้างคุณสมบัติที่จะทำให้บริการสามารถใช้งานได้ง่ายขึ้นบนเว็บไซต์ของเราและเพื่อติดต่อคุณเกี่ยวกับบริการ การใช้งานดังกล่าวจะช่วยให้เรารับคำขอซื้อได้เร็วขึ้น การสนับสนุนลูกค้าที่ดีขึ้น และแจ้งให้ทราบเกี่ยวกับบริการใหม่และข้อเสนอพิเศษในเวลาที่เหมาะสม โกโกจิ โคแมนชี่ โกโกจิ อาจติดต่อคุณเป็นครั้งคราวเพื่อขอความคิดเห็นเกี่ยวกับประสบการณ์ของคุณจากการใช้เว็บไซต์ของเรา เพื่อปรับปรุงเว็บไซต์ของเรา หรือเสนอส่วนลดหรือโปรโมชันพิเศษให้กับคุณ หากคุณไม่ต้องการรับข่าวสารใด ๆ เกี่ยวกับส่วนลดและโปรโมชันพิเศษจากเรา สามารถทำได้โดยการปฏิเสธผ่านไฮเปอร์ลิงก์ที่มีอยู่ในข้อเสนอ</p>
+                                <p class='title title--primary  mb-10'>เราแบ่งปันข้อมูลของคุณกับใคร:</p>
+                                <p class='body-text pre-line  mb-25'>
+                                    โกโกจิ โคแมนชี่ โกโกจิ อาจแบ่งปันข้อมูลส่วนบุคคลของคุณกับบุคคลที่สาม ซึ่งเราได้ว่าจ้างให้ให้บริการในนามของเรา เพื่อทำการตลาดผลิตภัณฑ์และบริการของเรา จัดการธุรกรรมบัตรเครดิต และบริการอื่น ๆ บุคคลที่สามจะให้บริการโดยใช้ความปลอดภัยและการรักษาความลับของการรวบรวมและการใช้ข้อมูลส่วนบุคคลที่กำหนดไว้ในนโยบายความเป็นส่วนตัวอย่างเคร่งครัด และจะใช้และรวบรวมข้อมูลส่วนบุคคลตามคำสั่งของเราเท่านั้น คุณอาจได้รับการร้องขอให้ติดต่อบุคคลภายนอกโดยตรงเพื่อขอรับบริการหรือเราอาจต้องให้ข้อมูลส่วนบุคคลของคุณแก่โรงแรมหรือบุคคลภายนอกที่เกี่ยวข้องเมื่อคุณใช้เว็บไซต์ของเราเพื่อจองที่พัก เที่ยวบิน รถเช่า ตั๋ว และบริการอื่น ๆ ที่เกี่ยวข้องกับการเดินทาง โกโกจิ โคแมนชี่ โกโกจิ อาจเปิดเผยข้อมูลส่วนบุคคลเพื่อป้องกันตัวเราจากความรับผิด ตอบสนองต่อหมายศาล คำสั่งศาล หรือกระบวนการทางกฎหมายอื่น ๆ เพื่อป้องกันการเรียกร้องทางกฎหมายหรือตามที่กฎหมายกำหนด โกโกจิ โคแมนชี่ โกโกจิ อาจเปิดเผยข้อมูลส่วนบุคคลเพื่อบังคับใช้หรือใช้ข้อกำหนดและเงื่อนไขที่เกี่ยวข้องกับผลิตภัณฑ์และบริการของเรา หรือเพื่อปกป้องสิทธิ์ ทรัพย์สิน หรือความปลอดภัยของ
+                                    โกโกจิ โคแมนชี่ โกโกจิ และ / หรือผู้ใช้ของเรา ภายใต้สถานการณ์ข้างต้น ผู้รับข้อมูลส่วนบุคคลจาก โกโกจิ โคแมนชี่ โกโกจิ อาจอยู่ในประเทศที่อาจไม่ได้ให้การปกป้องข้อมูลในระดับที่เทียบเท่ากับกฎหมายในประเทศของคุณ
+                                </p>
+                                <p class='title title--primary  mb-10'>คุกกี้และเทคโนโลยีอื่น ๆ:</p>
+                                <p class='body-text pre-line  mb-25'>เพื่อให้บริการคุณได้เร็วขึ้นและมีคุณภาพที่ดีขึ้น โกโกจิ โคแมนชี่ โกโกจิ อาจใช้ “เทคโนโลยีคุกกี้” บนเว็บไซต์ของเรา คุกกี้คือไฟล์ที่มีข้อมูลจำนวนเล็กน้อยซึ่งสามารถจัดเก็บไว้ในฮาร์ดไดรฟ์ของคอมพิวเตอร์ของคุณ และเปิดใช้งานเว็บไซต์เพื่อปรับแต่งเองสำหรับผู้ใช้แต่ละคน โดยจดจำข้อมูลเกี่ยวกับการเยี่ยมชมเว็บไซต์ของผู้ใช้ มันสามารถจัดเก็บข้อมูลที่หลากหลาย เช่น ค่ากำหนดของผู้ใช้ ข้อมูลการนำทาง ที่อยู่ IP เวลาในการถ่ายโอนข้อมูล หรือที่อยู่อีเมลและรหัสผ่าน ส่วนวิธีใช้ของแถบเครื่องมือบนเบราว์เซอร์ส่วนใหญ่จะบอกวิธีป้องกันไม่ให้เบราว์เซอร์ของคุณยอมรับคุกกี้ใหม่หรือวิธีปิดการใช้งานคุกกี้ทั้งหมด หากคุณปฏิเสธที่จะยอมรับคุกกี้ คุณอาจไม่สามารถเข้าถึงฟังก์ชันหรือคุณสมบัติที่สำคัญมากมายที่มีให้บนเว็บไซต์ของเรา และอาจถูกจำกัดการใช้งานเว็บไซต์ คุกกี้ที่เราใช้เชื่อมโยงกับข้อมูลส่วนบุคคลของผู้ใช้เว็บไซต์ โกโกจิ โคแมนชี่ โกโกจิ หากคุณต้องการอัปเดตข้อมูลส่วนบุคคลของคุณหรือใช้สิทธิ์ในการเข้าถึง แก้ไข ลบ หรือคัดค้านการประมวลผลข้อมูลส่วนบุคคลภายใต้กฎหมาย โปรดติดต่อเราทางอีเมลที่: __________________ เราจะยืนยันตัวตนของคุณก่อนที่จะอนุญาตให้เข้าถึงหรือเปลี่ยนแปลงข้อมูลส่วนบุคคลของคุณ เพื่อป้องกันความปลอดภัยและความเป็นส่วนตัวของคุณ เจ้าหน้าที่ของเราจะตอบคำขอใด ๆ ภายใน 30 วัน โปรดทราบว่าบุคคลที่มีอายุต่ำกว่า 18 ปีไม่ได้รับอนุญาตให้ใช้บริการใด ๆ บนเว็บไซต์ของเรา</p>
+                            </div><!-- .static-content-card -->
+                        }
+                        else
+                        {
+                            <div class="header-title">
+                                <h3>cookies policy</h3>
+                                <p></p>
+                            </div>
+
+                            <div class="static-content-card static-container mt-30 mb-10">
+
+                                <p class='title title--primary  mb-10'>Effective date: January 2020</p>
+                                <p class='body-text pre-line  mb-25'>
+                                    www.gogojii.com (the “Site”) is owned and operated by Comanche Gogoji Co., Ltd. (“us”, “we”, or “our”) The Privacy Policy describes how to use, disclose, collect and process personally identifiable information about your personal data. In connection with the services of www.gogojii.com, when you are visiting our Site that means you are consenting to the collection, use, disclosure and processing of your Personal Data as described in our Privacy Policy. All data are collected and stored on server machine located in Thailand which may not provide an equivalent level of data protection to the laws in your country of jurisdiction.
+                                    GOGOJII Comanche Gogoji will update this privacy policy, e.g. The process of gathering personal data and applicable practices; the features of our website; and advances in technology, appropriately according to the laws of Thailand. If there are any modifications towards the way we collect, it will be stated here. The effective date will be shown at the top of the Privacy Policy. Therefore, you should check this Privacy Policy regularly to be updated on our current policies and practices. In addition, GOGOJII Comanche Gogoji will also notice you about material changes before using.
+                                </p>
+                                <p class='title title--primary  mb-10'>What information we collect:</p>
+                                <p class='body-text pre-line  mb-25'>GOGOJII Comanche Gogoji shall collect your personal data that you provide to us while using our Site. Personal Data may include your name, address, phone number, or e-mail address. Moreover, we also collect information that non-personally identifiable, which may be linked to your personal data such as search preferences related to specific searches, log-in name, IP address and password.</p>
+                                <p class='title title--primary  mb-10'>How we protect your personal data:</p>
+                                <p class='body-text pre-line  mb-25'>We are committed to protect the information we collect to prevent unauthorized access to your personal data without permission. We have implemented appropriate administrative, technical, and physical security procedures to help in protecting the personal information you provide to us. To protect credit card transactions, we currently use Secure Socket Layer technology to encrypt credit card information during transmitting.</p>
+                                <p class='title title--primary  mb-10'>How do we use the information:</p>
+                                <p class='body-text pre-line  mb-25'>We use your personal data and other information collected through our Site to provide you the products and services you request, to build features that will make the services available and easier to use on our Site and to contact you about the services. Such use will help us to get faster purchase requests, better customer support and notice on new services and special offers in a timely manner. GOGOJII Comanche Gogoji may contact you from time to time to request feedback about your experience from using our Site, to improve our Site or to offer special savings or promotions to you as you. If you prefer not to receive any news about discounts and special promotions from us, it can be done by rejecting through the hyperlinks contained in the proposal.</p>
+                                <p class='title title--primary  mb-10'>With whom we share your information:</p>
+                                <p class='body-text pre-line  mb-25'>GOGOJII Comanche Gogoji may share your personal data with third parties, which we have hired to provide services on our behalf to market our products and services, handle credit card transactions and other services. Third parties shall provide services by strictly applying the security and confidentiality of personal data collection and use set forth in the privacy policy
+                                    and shall use and collect personal data in accordance with our command only. You may be requested to contact third party directly to obtain services or we may need to provide your personal data to the hotel or third party involved when you use our Site to reserve accommodations, flights, cars rental, tickets and other travel related services. GOGOJII Comanche Gogoji may disclose personal data to protect ourselves against liability, in response to subpoenas, court orders, or other legal process to defend against legal claims or as otherwise required by law. GOGOJII Comanche Gogoji may also disclose personal data to enforce or apply the terms and conditions applicable to our products and services or to protect the rights, property or safety of GOGOJII Comanche Gogoji and/or our users. under the situations above, the recipient of personal data from GOGOJII Comanche Gogoji may be located in a country that may not provide an equivalent level of data protection to the laws in your country of jurisdiction.
+                                </p>
+                                <p class='title title--primary  mb-10'>Cookies and other technologies:</p>
+                                <p class='body-text pre-line  mb-25'>In order to provide faster and better quality of service to you, GOGOJII Comanche Gogoji shall use "Cookies technology" on our Site. Cookies are files with small amount of data. which can be stored on your computer's hard drive, and enable a web site to personalize itself for each user by remembering information about the user's visit to the website. It can store a variety of information such as user preferences, navigational data, IP addresses, data transfer times or e-mail addresses and passwords. The Help portion of the toolbar on browsers will mostly tell you how to prevent your browser from accepting new cookies or how to disable cookies altogether. If you refuse to accept cookies, you may not be able to access many important functions or features offered on our Site and may be limited in using the Site. The cookies we use are linked to personal data of users of GOGOJII Comanche Gogoji’s Site. If you would like to update your personal data or to exercise the rights of access, modify, delete or oppose the personal data processing under the law, please feel free to contact us via e-mail:__________________, we will verify your identity before granting access or making changes to your Personal Data for protection your security and privacy. Our staff will answer any requests within 30 days. Please be noted that person under the age of 18 are not permitted to use any services on our Site.</p>
+                            </div><!-- .static-content-card -->
+                        }
+                    </div> <!-- .col-lg-9-->
+                </div>
+            </div>
+        </section>
+
+
+
+    </main>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#mainScreen").removeClass("container");
+            $("#mainScreen").addClass("site-content");
+        });
+    </script>
+}
+

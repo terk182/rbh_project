@@ -1,0 +1,715 @@
+﻿@*@model BackOffice.Models.FlightReportList*@
+@*@model DataModel.FlightBooking*@
+
+@model  BL.Entities.GogojiiFare.AirFare
+
+@using (Html.BeginForm("FlightReportDetailsave", "ReportFlight", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(m => m.bookingOID)
+    @Html.HiddenFor(m => m.uuid)
+    @Html.HiddenFor(m => m.userID)
+
+    List<SelectListItem> Title = new List<SelectListItem>
+{
+        new SelectListItem{ Text="Unknow", Value = "00" },
+        new SelectListItem{ Text="MR", Value = "MR" },
+        new SelectListItem{ Text="MRS", Value = "MRS" },
+        new SelectListItem{ Text="MISS", Value = "MISS" },
+        new SelectListItem{ Text="MS", Value = "MS" },
+        new SelectListItem{ Text="MSTR", Value = "MSTR" }
+    };
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card-header py-3" style="text-align:right;">
+
+            <a href="@Url.Action("FlightReportDetail", new { id = Model.bookingOID })" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                Back
+            </a>
+
+            <button type="submit" class="d-sm-inline-block btn btn-sm btn-primaryblue shadow-sm" id="btn_Save">
+                <i class="fas fa-save fa-sm text-white-50"></i>
+                &nbsp;&nbsp;Save &nbsp;&nbsp;
+            </button>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    @*<div class="col-lg-12">*@
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <div class="d-sm-flex align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Ticketing Task</h6>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-1">
+                    <div class="col-lg-3" style="text-align:right;">
+                        Pay Before :
+                    </div>
+                    <div class="col-lg-4 col-md-5 col-sm-5 text">
+                        <input type="text" value="@Model.TKTL.ToString("dd/MM/yyyy HH:mm:ss tt")" maxLength="10" class="form-control form-control-sm" readonly />
+
+                        @*@Html.TextBox("TKTL", Model.TKTL., "{0:yyyy-MM-dd}", new { required = "required" ,@class = "form-control form-control-sm", @type = "date", @id = "datetime1" ,@readonly = "readonly"})
+                            @Html.HiddenFor(m => m.TKTL)*@
+                    </div>
+
+                    <div class="col-lg-5 col-md-5 col-sm-5">
+                    </div>
+
+                    <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                        Distcount Code :
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-5 text">
+                        -
+                    </div>
+
+
+
+                    <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                        Discount Price(฿) :
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-5 text">
+                        <input type="text" class="form-control form-control-sm" placeholder="0.00">
+                    </div>
+
+
+                    <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                        Payment Status :
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-5 text">
+                        @{
+                            SelectList selectListStatusPayment = (SelectList)ViewData["StatusPaymentList"];
+                        }
+                        @*//ใน text บวก value จาก controller มาด้วย*@
+                        @Html.DropDownListFor(m => m.statusPayment, selectListStatusPayment.OrderBy(x => x.Value).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.statusPayment == Convert.ToInt32(s.Value)) }), new
+                                           {
+                                               @class = "form-control ADT-TT-",
+                                               required = "required"
+                                           })
+                    </div>
+
+
+
+                    <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                        Payment Method :
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-5 text">
+                        @{
+                            SelectList selectListpaymentMethod = (SelectList)ViewData["PaymentMethodList"];
+                        }
+
+
+                        @*//ใน text บวก value จาก controller มาด้วย                   Orderby(x=>x.Text จะเรียงตามตัวอักษร x.value เรียงตาม id)*@
+                        @Html.DropDownListFor(m => m.paymentMethod, selectListpaymentMethod.OrderBy(x => x.Value).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.paymentMethod == Convert.ToInt32(s.Value)) }), new
+                                           {
+                                               @class = "form-control ADT-TT-",
+
+                                           })
+                    </div>
+
+                    <div class="col-lg-3" style="text-align:right;">
+                        Total(฿) :
+                    </div>
+                    <div class="col-lg-3 text">
+                        @Model.finalPrice.ToString("N0")
+                        @*@Html.TextBox("Total", Model.grandTotal.ToString("N0"), new { required = "required", @class = "form-control form-control-sm" })
+
+                            @Html.HiddenFor(m => m.grandTotal)*@
+                    </div>
+
+                    <div class="col-lg-3" style="text-align:right;">
+                        Status :
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-5 text">
+                        @{
+                            SelectList selectListStatusBooking = (SelectList)ViewData["StatusbookingList"];
+                        }
+
+
+                        @*//ใน text บวก value จาก controller มาด้วย                   Orderby(x=>x.Text จะเรียงตามตัวอักษร x.value เรียงตาม id)*@
+                        @Html.DropDownListFor(m => m.statusBooking, selectListStatusBooking.OrderBy(x => x.Value).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.statusBooking == Convert.ToInt32(s.Value)) }), new
+                                           {
+                                               @class = "form-control ADT-TT-",
+
+                                           })
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card-footer">
+                @*<div class="text-right">
+
+                        <a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                            <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                            Back
+                        </a>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <div class="d-sm-flex align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Booking Detail</h6>
+                </div>
+            </div>
+            @*<div class="row">
+                    <div class="col-lg-12" style="border-bottom:dotted solid dashed">
+                        Booking Deatail
+                    </div>
+                </div>*@
+            <div class="card-body">
+                <div class="row mb-1">
+                    <div class="col-lg-3" style="text-align:right;">
+                        PNR :
+                    </div>
+                    <div class="col-lg-3 text">
+                        <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;"><b>@Model.PNR</b></span>
+                    </div>
+
+
+
+                    <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                        Booking Date :
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-5 text">
+                        @Model.bookingDate.ToString("dd MMMM yyyy HH:mm:ss tt")
+                        @*@Html.TextBoxFor(m => m.bookingDate, "{0:yyyy-MM-dd}", new { required = "required", @class = "form-control form-control-sm", @type = "date", @id = "datetime1", @readonly = "readonly" })*@
+                    </div>
+
+
+
+                    <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                        From City :
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-5 text">
+                        @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                        {
+                            @Model.depFlight[0].depCity.code
+                        }
+                    </div>
+
+
+
+                    <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                        To City :
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-5 text">
+                        @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                        {
+                            @Model.depFlight[Model.depFlight.Count - 1].arrCity.code
+                        }
+                    </div>
+
+                    <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                        Airline :
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-5 text">
+                        @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                        {
+                            @Model.depFlight[0].airline.code
+                        }
+                    </div>
+
+                    <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                        No Of Pax :
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-5 text">
+                        @(Model.noOfAdults + Model.noOfChildren + Model.noOfInfants)
+                        @*<input type="text" class="form-control form-control-sm" value="@(Model.noOfAdults+Model.noOfChildren+Model.noOfInfants)" readonly>*@
+                    </div>
+
+                    @*<div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Segment/PNR :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            -
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            All Segment :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            -
+                        </div>*@
+
+                    <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                        Discount :
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-5 text">
+                        -
+                    </div>
+
+                    <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                        Total(฿) :
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-5 text">
+                        @Model.grandTotal.ToString("N0")
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <div class="text-right">
+
+                    @*<a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                            <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                            Back
+                        </a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <div class="d-sm-flex align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Contact Detail</h6>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-1">
+                    @{
+
+                        SelectList selectListscontact = (SelectList)ViewData["adtTitleList"];
+
+                    }
+                    <div class="col-lg-1" style="text-align:right;">
+                        Title :
+                    </div>
+                    <div class="col-lg-2 col-md-5 col-sm-5 text">
+                        @Html.DropDownListFor(m => m.contactInfo.title, selectListscontact.OrderBy(x => x.Text).Select(s => new SelectListItem { Text = (s.Value + " - " + s.Text), Value = s.Value.ToString(), Selected = (Model.contactInfo.title == s.Value.ToString()) }), new
+                                                   {
+                                                       @class = "form-control ADT-TT-",
+                                                       required = "required"
+                                                   })
+                    </div>
+
+                    <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                        First Name :
+                    </div>
+                    <div class="col-lg-2 col-md-5 col-sm-5 text">
+                        @Html.TextBoxFor(m => m.contactInfo.firstname, new { required = "required", @class = "form-control form-control-sm" })
+                    </div>
+
+                    <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                        Middle Name :
+                    </div>
+                    <div class="col-lg-2 col-md-5 col-sm-5 text">
+                        @Html.TextBoxFor(m => m.contactInfo.middlename, new { @class = "form-control form-control-sm" })
+                    </div>
+
+                    <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                        Last Name :
+                    </div>
+                    <div class="col-lg-2 col-md-5 col-sm-5 text">
+                        @Html.TextBoxFor(m => m.contactInfo.lastname, new { required = "required", @class = "form-control form-control-sm" })
+                    </div>
+
+                    <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                        Email :
+                    </div>
+                    <div class="col-lg-2 col-md-5 col-sm-5 text">
+                        @Html.TextBoxFor(m => m.contactInfo.email, new { required = "required", @class = "form-control form-control-sm" })
+                    </div>
+
+                    <div class="col-lg-1 col-md-5 col-sm-5" style="text-align:right;">
+                        Phone number:
+                    </div>
+                    <div class="col-lg-2 col-md-5 col-sm-5 text">
+                        @Html.TextBoxFor(m => m.contactInfo.telNo, new { required = "required", @class = "form-control form-control-sm" })
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <div class="text-right">
+
+                    @*<a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                            <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                            Back
+                        </a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-plane"></i>&nbsp;Passenger Details</h6>
+            @*<a href="@Url.Action("MarkupDetail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-file-export text-white-50"></i>
+                    Export
+                </a>*@
+        </div>
+    </div>
+    <div class="card-body">
+
+
+        <div class="row">
+            <table class="table table-bordered">
+                <thead class="table">
+                    <tr>
+                        <th>PaxNo</th>
+                        <th>PaxType</th>
+                        <th>Title</th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>Net</th>
+                        <th>Agent</th>
+                        <th>Selling</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int paxNo = 1;
+                        SelectList selectLists = (SelectList)ViewData["adtTitleList"];
+                        SelectList selectListschd = (SelectList)ViewData["chdTitleList"];
+                    }
+                    @for (int i = 0; i < Model.adtPaxs.Count; i++)
+                    {
+
+                        <tr>
+                            <td>@(paxNo.ToString())</td>
+                            <td>@Model.adtPaxs[i].paxType</td>
+                            <td>@Model.adtPaxs[i].title</td>
+
+
+                            @*<th> ใน text ดึงมาจาก database อย่างเดียว
+                                @Html.DropDownListFor(m => m.adtPaxs[i].title, selectLists.OrderBy(x => x.Text).Select(s => new SelectListItem { Text = (s.Value), Value = s.Value.ToString(), Selected = (Model.adtPaxs[i].title == s.Value.ToString()) }), new { @class = "form-control ADT-TT-" + i.ToString(), required = "required" })</th>*@
+
+                            @*<th> ใน text บวก value จาก controller มาด้วย
+                                @Html.DropDownListFor(m => m.adtPaxs[i].title, selectLists.OrderBy(x => x.Text).Select(s => new SelectListItem { Text = (s.Value (ดึงมาจากดาต้าเบส) + " - " + s.Text (ดึงมาจาก Controler)), Value = s.Value.ToString(), Selected = (Model.adtPaxs[i].title == s.Value.ToString()) }), "Select Title", new
+                                                   {
+                                                       @class = "form-control ADT-TT-" + i.ToString(),
+                                                       required = "required"
+                                                   })
+                                </th>*@
+                            <td>@Model.adtPaxs[i].firstname</td>
+                            <td>@Model.adtPaxs[i].middlename</td>
+                            <td>@Model.adtPaxs[i].lastname</td>
+                            <td></td>
+                            <td></td>
+                            <td>@Model.adtFare.net.ToString("N2")</td>
+                            @*<th>@Html.TextBoxFor(m => m.adtFare.net, "{0 :N2}", new { required = "required", @class = "form-control form-control-sm" })</th>*@
+                            @*<td>
+                                    @((Model.adtFare.sellingBaseFare + Model.adtFare.tax).ToString("N2"))
+                                    @Html.TextBox("SellingADT", Model.adtFare.sellingBaseFare.ToString("N0"), new { required = "required", @class = "form-control form-control-sm" })
+
+                                        @Html.HiddenFor(m => m.adtFare.sellingBaseFare)
+                                </td>*@
+                        </tr>
+
+
+                        paxNo++;
+                    }
+
+                    @if (Model.chdPaxs.Count > 0 && Model.chdPaxs != null)
+                    {
+                        for (int j = 0; j < Model.chdPaxs.Count; j++)
+                        {
+                            <tr>
+                                <td>@(paxNo.ToString())</td>
+                                <td>@Model.chdPaxs[j].paxType</td>
+                                <td>@Model.chdPaxs[j].title</td>
+                                @*<th>@Html.DropDownListFor(m => m.chdPaxs[j].title, selectListschd.OrderBy(x => x.Text).Select(s => new SelectListItem { Text = (s.Value), Value = s.Value.ToString(), Selected = (Model.chdPaxs[j].title == s.Value.ToString()) }), new { @class = "form-control ADT-TT-" + j.ToString(), required = "required" })</th>*@
+                                <td>@Model.chdPaxs[j].firstname</td>
+                                <td>@Model.chdPaxs[j].middlename</td>
+                                <td>@Model.chdPaxs[j].lastname</td>
+                                <td></td>
+                                <td></td>
+                                <td>@Model.chdFare.net.ToString("N2")</td>
+                                @*<td>
+                                        @((Model.chdFare.sellingBaseFare + Model.chdFare.tax).ToString("N2"))
+                                        @Html.TextBox("SellingCHD", Model.chdFare.sellingBaseFare.ToString("N0"), new { required = "required", @class = "form-control form-control-sm" })
+
+                                            @Html.HiddenFor(m => m.chdFare.sellingBaseFare)
+                                    </td>*@
+                            </tr>
+                            paxNo++;
+                        }
+
+                    }
+
+                    @if (Model.infPaxs.Count > 0 && Model.infPaxs != null)
+                    {
+                        for (int j = 0; j < Model.infPaxs.Count; j++)
+                        {
+                            <tr>
+                                <td>@(paxNo.ToString())</td>
+                                <td>@Model.infPaxs[j].paxType</td>
+                                <td>@Model.infPaxs[j].title</td>
+                                @*<th>@Html.DropDownListFor(m => m.infPaxs[j].title, selectListschd.OrderBy(x => x.Text).Select(s => new SelectListItem { Text = (s.Value), Value = s.Value.ToString(), Selected = (Model.infPaxs[j].title == s.Value.ToString()) }), new { @class = "form-control ADT-TT-" + j.ToString(), required = "required" })</th>*@
+                                <td>@Model.infPaxs[j].firstname</td>
+                                <td>@Model.infPaxs[j].middlename</td>
+                                <td>@Model.infPaxs[j].lastname</td>
+                                <td></td>
+                                <td></td>
+                                <td>@Model.infFare.net.ToString("N2")</td>
+                                @*<td>
+                                        @((Model.infFare.sellingBaseFare + Model.infFare.tax).ToString("N2"))
+                                        @Html.TextBox("SellingINF", Model.infFare.sellingBaseFare.ToString("N0"), new { required = "required", @class = "form-control form-control-sm" })
+
+                                            @Html.HiddenFor(m => m.infFare.sellingBaseFare)
+                                    </td>*@
+                            </tr>
+                            paxNo++;
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-plane"></i>&nbsp;Booking Pax Fare</h6>
+        </div>
+    </div>
+    <div class="card-body">
+
+
+        <div class="row">
+            <table class="table table-bordered">
+                <thead class="table">
+                    <tr>
+                        <th>No</th>
+                        <th>PaxType</th>
+                        <th>Fare with tax</th>
+                        <th>Fare without tax</th>
+                        <th>tax</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int fareNo = 1;
+                    }
+                    @if (Model.adtFare != null)
+                    {
+
+                        <tr>
+                            <td>@(fareNo.ToString())</td>
+                            <td>@Model.adtPaxs[0].paxType</td>
+                            <td>@Model.adtFare.net.ToString("N2")</td>
+                            <td>@Model.adtFare.sellingBaseFare.ToString("N2")</td>
+                            <td>@Model.adtFare.tax.ToString("N2")</td>
+                        </tr>
+
+
+                        fareNo++;
+                    }
+
+                    @if (Model.chdFare != null)
+                    {
+
+                        <tr>
+                            <td>@(fareNo.ToString())</td>
+                            <td>@Model.chdPaxs[0].paxType</td>
+                            <td>@Model.chdFare.net.ToString("N2")</td>
+                            <td>@Model.chdFare.sellingBaseFare.ToString("N2")</td>
+                            <td>@Model.chdFare.tax.ToString("N2")</td>
+                        </tr>
+
+
+                        fareNo++;
+                    }
+
+                    @if (Model.infFare != null)
+                    {
+
+                        <tr>
+                            <td>@(fareNo.ToString())</td>
+                            <td>@Model.infPaxs[0].paxType</td>
+                            <td>@Model.infFare.net.ToString("N2")</td>
+                            <td>@Model.infFare.sellingBaseFare.ToString("N2")</td>
+                            <td>@Model.infFare.tax.ToString("N2")</td>
+                        </tr>
+
+
+                        fareNo++;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-plane"></i>&nbsp;Flight Details</h6>
+            @*<a href="@Url.Action("MarkupDetail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-file-export text-white-50"></i>
+                    Export
+                </a>*@
+        </div>
+    </div>
+    <div class="card-body">
+
+
+        <div class="row">
+            <table class="table table-bordered">
+                <thead class="table">
+                    <tr>
+                        <th>RouteNo</th>
+                        <th>SegmentNo</th>
+                        <th>FromCity</th>
+                        <th>ToCity</th>
+                        <th>Market Airline</th>
+                        <th>Operate Airline</th>
+                        <th>FareBasis</th>
+                        <th>FareType</th>
+                        <th>DepartureDateTime</th>
+                        <th>ArrivalDateTime</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int flightNo = 1;
+                    }
+                    @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                    {
+                        for (int i = 0; i < Model.depFlight.Count; i++)
+                        {
+
+                            <tr>
+                                <td>@(flightNo.ToString())</td>
+                                <td></td>
+                                <td>@Model.depFlight[i].depCity.code</td>
+                                <td>@Model.depFlight[i].arrCity.code</td>
+                                <td>@Model.depFlight[i].airline.code</td>
+                                <td>@Model.depFlight[i].operatedAirline.code</td>
+                                <td>@Model.depFlight[i].fareBasis</td>
+                                <td>@Model.depFlight[i].fareType</td>
+                                <td>@Model.depFlight[i].departureDateTime.ToString("dd MMMM yyyy HH:mm tt")</td>
+                                <td>@Model.depFlight[i].arrivalDateTime.ToString("dd MMMM yyyy HH:mm tt")</td>
+                            </tr>
+                            flightNo++;
+                        }
+
+
+                    }
+
+                    @if (Model.retFlight != null && Model.retFlight.Count > 0)
+                    {
+                        for (int i = 0; i < Model.retFlight.Count; i++)
+                        {
+
+                            <tr>
+                                <td>@(flightNo.ToString())</td>
+                                <td></td>
+                                <td>@Model.retFlight[i].depCity.code</td>
+                                <td>@Model.retFlight[i].arrCity.code</td>
+                                <td>@Model.retFlight[i].airline.code</td>
+                                <td>@Model.retFlight[i].operatedAirline.code</td>
+                                <td>@Model.retFlight[i].fareBasis</td>
+                                <td>@Model.retFlight[i].fareType</td>
+                                <td>@Model.retFlight[i].departureDateTime.ToString("dd MMMM yyyy HH:mm tt")</td>
+                                <td>@Model.retFlight[i].arrivalDateTime.ToString("dd MMMM yyyy HH:mm tt")</td>
+                            </tr>
+
+                            flightNo++;
+                        }
+
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <div class="d-sm-flex align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-pen-square"></i>&nbsp;Note</h6>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-1">
+                    @Html.TextAreaFor(m => m.note, new { @class = "form-control form-control-sm", @cols = 90, @rows = 6, @style = "font-size:18px;" })
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <div class="text-right">
+
+                    @*<a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                            <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                            Back
+                        </a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*</div>*@
+}
+
+
+
+@section Scripts
+{
+    <script>
+
+        $("#btn_Save").click(function () {
+            $("#grandTotal").val($("#Total").val().replace(',', '')),
+                //alert($("#grandTotal").val()),
+                $("#TKTL").val($("#TKTL").val()),
+                $("#net").val($("#Net").val()),
+                $("#adtFare_sellingBaseFare").val($("#SellingADT").val().replace(',', '')),
+                $("#chdFare_sellingBaseFare").val($("#SellingCHD").val().replace(',', '')),
+                $("#infFare_sellingBaseFare").val($("#SellingINF").val().replace(',', '')),
+                $("#contactInfo_middlename").val($("#MiddleName").val()),
+                $("#contactInfo_firstname").val($("#FirstName").val());
+        });
+
+        $("#txtPickupDate").datepicker({
+            startDate: $("#StartPickupDate").val(),
+            format: 'dd/mm/yyyy',
+            timeFormat: "HH:mm:ss",
+            autoclose: true,
+            language: 'en'
+        });
+    </script>
+}
+
+<style>
+    .text {
+        margin-bottom: 10px;
+    }
+</style>

@@ -1,0 +1,1053 @@
+﻿@model BL.Entities.MyTrip.BookingTransectionElement
+@{
+    Layout = null;
+    long status = 0;
+    if (Model.BookingTransection.PnrStatus == 0)
+    {
+        status = 2;
+
+    }
+    else
+    {
+        status = Model.BookingTransection.PaymentStatus.GetValueOrDefault();
+    }
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-12 font-20">
+            <br />
+            <strong>@Localize.Show("TRIP_DETAIL")</strong>
+        </div>
+        <div class="col-md-9 col-12">
+            <div class="trip-head-box">
+                <ul>
+                    <li>
+                        <div class="font-16 trip-head-box-text">
+                            <strong>@Localize.Show("BOOKING_STATUS" + status.ToString())</strong>
+                        </div>
+                        <div class="font-12">
+                            @Localize.Show("BOOKING_STATUS")
+                        </div>
+                    </li>
+                    <li>
+                        <div class="font-16 trip-head-box-text">
+                            <strong id="tripPNR">@(Model.BookingTransection.Pnr == "" ? Model.BookingTransection.KiwiRef.ToString() : Model.BookingTransection.Pnr)</strong>
+                        </div>
+                        <div class="font-12">
+                            @Localize.Show("BOOKING_REF")
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-3 col-12">
+            <strong>@Localize.Show("YOUR_TRIP")</strong>
+        </div>
+        <div class="col-md-9 col-12 text-right">
+            <div style="display: inline-block" class="text-center font-12">
+                @if ((bool)ViewBag.showCancel)
+                {
+                    <img src="~/Images/member/Cancel.png" style="cursor:pointer" onclick="cancelBookingConfirm('@Model.BookingTransection.Pnr', '@Model.BookingTransection.BookingId');" />
+                    <br />
+                    @Localize.Show("CANCEL_TRIP")
+                }
+                @if ((bool)ViewBag.showDelete)
+                {
+                    <img src="~/Images/member/Delete.png" style="cursor:pointer" onclick="deleteBookingConfirm('@Model.BookingTransection.BookingId');" />
+                    <br />
+                    @Localize.Show("DELETE_TRIP")
+                }
+            </div>
+        </div>
+    </div>
+    @{
+
+        System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang() == "th" ? "th-TH" : "en-US");
+        string clsStr = "";
+        switch (Model.BookingFlights[0].CabinClass)
+        {
+            case "F":
+                clsStr = Localize.Show("FIRST");
+                break;
+            case "C":
+                clsStr = Localize.Show("BUSINESS");
+                break;
+            case "P":
+                clsStr = Localize.Show("PREMIUM_ECONOMY");
+                break;
+            case "Y":
+                clsStr = Localize.Show("ECONOMY");
+                break;
+        }
+        string tripType = Model.BookingFlights.Max(x => x.RouteNo) == 2 ? "R" : "O";
+        string depCode = Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).FromCity;
+        long maxSegment = Model.BookingFlights.Where(x => x.RouteNo == 1).Max(y => y.SegmentNo);
+        string arrCode = Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == maxSegment).ToCity;
+    }
+
+    <div class="card">
+        <div class="card-header">
+            <div class="font-24">
+                <strong>
+                    @ViewBag.naming.namingService.GetAirportName(depCode, false, Localize.GetLang()) (@depCode)
+                    @if (tripType == "R")
+                    {
+                        <img src="~/Images/roundtrip_plane.png" style="vertical-align:middle; max-height: 100%; width: 20px" class="img-fluid" />
+                    }
+                    else
+                    {
+                        <img src="~/Images/black_plane.png" style="vertical-align:middle; max-height: 100%; width: 20px" class="img-fluid" />
+                    }
+                    @ViewBag.naming.namingService.GetAirportName(arrCode, false, Localize.GetLang()) (@arrCode)
+                </strong>
+            </div>
+        </div>
+        <div class="card-body">
+            <div>
+                <strong>@Localize.Show("DEPARTURE_FLIGHT")</strong>
+                <i>
+                    @Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).DepartureDateTime.ToString("dd MMM", ci) @Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).DepartureDateTime.ToString("yy")
+                </i>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-12">
+                    <table class="table-flight-info">
+                        <tr>
+                            <td class="td-flight-info td-flight-info-logo">
+                                <img style="vertical-align:middle;" src="//www.plusibe.com/images/airline/logos/@(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).MarketAirline)logo_2.gif" />
+                            </td>
+                            <td class="td-flight-info td-flight-info-airline">
+                                <strong>@(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).MarketAirline) @(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).FlightNo)</strong>
+                                <div class="font-14">
+                                    @clsStr (@(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).Rbd))
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <table class="table-flight-info">
+                        <tr>
+                            <td class="td-flight-info">
+                                <strong>
+                                    @Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).DepartureDateTime.ToString("HH:mm")
+                                </strong>
+                                <div class="font-14">
+                                    @ViewBag.naming.namingService.GetAirportName(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).FromCity, true, Localize.GetLang()).Split(',')[0] (@Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).FromCity)
+                                </div>
+                            </td>
+                            <td class="td-flight-info td-flight-info-plane text-center">
+                                <img src="~/Images/black_plane.png" style="vertical-align:middle; max-height: 100%; width: 20px" class="img-fluid" />
+                            </td>
+                            <td class="td-flight-info">
+                                @{
+                                    long maxDep = Model.BookingFlights.Where(x => x.RouteNo == 1).Max(y => y.SegmentNo);
+                                    DateTime depDepDate = Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).DepartureDateTime.Date;
+                                    DateTime depArrDate = Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == maxDep).ArrivalDateTime.Date;
+                                    TimeSpan tsDep = depArrDate - depDepDate;
+                                }
+                                <strong>
+                                    @Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == maxDep).ArrivalDateTime.ToString("HH:mm")
+                                    @if (tsDep.Days > 0)
+                                    {
+                                        <sup>+@tsDep.Days</sup>
+                                    }
+                                </strong>
+                                <div class="font-14">
+                                    @ViewBag.naming.namingService.GetAirportName(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == maxDep).ToCity, true, Localize.GetLang()).Split(',')[0] (@Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == maxDep).ToCity)
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-lg-2 col-12">
+                    <table class="table-flight-info">
+                        <tr>
+                            <td class="td-flight-info text-right">
+                                @if (maxDep == 1)
+                                {
+                                    <strong class="connection-blue-text">
+                                        @Localize.Show("DIRECT_FLIGHT")
+                                    </strong>
+                                }
+                                else
+                                {
+                                    <strong>
+                                        @(maxDep - 1) @Localize.Show("STOPS")
+                                    </strong>
+                                    <div class="font-14 connection-blue-text">
+                                        @ViewBag.naming.namingService.GetAirportName(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).ToCity, true, Localize.GetLang()).Split(',')[0] (@Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).ToCity)
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-12"></div>
+                <div class="col-lg-8 col-12">
+                    <div>
+                        <strong>@Localize.Show("TOTAL_TRAVEL_TIME")</strong>
+                        @Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).Duration.Split(':')[0] @Localize.Show("HRS") @Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 1 && x.SegmentNo == 1).Duration.Split(':')[1] @Localize.Show("MINS")
+                    </div>
+                    @if (!String.IsNullOrEmpty(Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "ADT").WeightUnits))
+                    {
+                        <div>
+                            <img src="~/Images/icon_web/Bag.png" class="img-fluid" />
+                            @Localize.Show("ADULT") @Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "ADT").Weight @Localize.Show("BAGGAAGE_UNIT_" + Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "ADT").WeightUnits)
+
+                            @if (Model.BookingTransection.TotalChd > 0 && !String.IsNullOrEmpty(Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "CHD").WeightUnits))
+                            {
+                                <span>
+                                    |
+                                    @Localize.Show("CHILD") @Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "CHD").Weight @Localize.Show("BAGGAAGE_UNIT_" + Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "CHD").WeightUnits)
+                                </span>
+                            }
+                            @if (Model.BookingTransection.TotalInf > 0 && !String.IsNullOrEmpty(Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "INF").WeightUnits))
+                            {
+                                <span>
+                                    |
+                                    @Localize.Show("INFANT") @Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "INF").Weight @Localize.Show("BAGGAAGE_UNIT_" + Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "INF").WeightUnits)
+                                </span>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-12"></div>
+                <div class="col-lg-4 col-12 text-right connection-blue-text">
+                    <a href="javascript:showHideFlightDetail('D')" id="showHideD">@Localize.Show("SHOW_FLIGHT_DETIAL")</a>
+                </div>
+            </div>
+
+            <div style="display: none;" id="D_Detial">
+                <table class="table-flight-info">
+                    @{
+                        var depList = Model.BookingFlights.Where(x => x.RouteNo == 1).OrderBy(y => y.SegmentNo).ToList();
+                    }
+                    @for (int i = 0; i < depList.Count; i++)
+                    {
+                        <tr>
+                            @if (i == 0)
+                            {
+                                <td class="timeline-head">
+                                    <img src="~/Images/icon_web/timeline-head.png" />
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="timeline-connection-head">
+                                    <img src="~/Images/icon_web/timeline-connection-head.png" />
+                                </td>
+                            }
+                            <td class="font-18 timeline-date">
+                                <strong>@depList[i].DepartureDateTime.ToString("ddd dd MMM HH:mm", ci) </strong>
+                            </td>
+                            <td class="font-18">
+                                <strong>
+                                    @ViewBag.naming.namingService.GetAirportName(depList[i].FromCity, true, Localize.GetLang())
+                                </strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="timeline-flight">
+                                <img src="~/Images/icon_web/timeline-flight.png" />
+                            </td>
+                            <td class="font-18 timeline-airline">
+                                <strong>
+                                    @depList[i].MarketAirline @depList[i].FlightNo
+                                </strong>
+                            </td>
+                            <td class="font-14">
+                                <div>
+                                    @Aircraft.Show(depList[i].AircraftType)
+
+                                    @if (depList[i].MarketAirline != depList[i].OperateAirline)
+                                    {
+                                        <i><small>@Localize.Show("OPERATED_BY") <img style="vertical-align:middle;" src="//www.plusibe.com/images/airline/logos/@(depList[i].OperateAirline)logo_2.gif" /></small></i>
+                                    }
+                                </div>
+                                @if (!String.IsNullOrEmpty(Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "ADT").WeightUnits))
+                                {
+                                    <div>
+                                        <img src="~/Images/icon_web/Bag.png" class="img-fluid" />
+                                        @Localize.Show("ADULT") @Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "ADT").Weight @Localize.Show("BAGGAAGE_UNIT_" + Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "ADT").WeightUnits)
+
+                                        @if (Model.BookingTransection.TotalChd > 0 && !String.IsNullOrEmpty(Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "CHD").WeightUnits))
+                                        {
+                                            <span>
+                                                |
+                                                @Localize.Show("CHILD") @Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "CHD").Weight @Localize.Show("BAGGAAGE_UNIT_" + Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "CHD").WeightUnits)
+                                            </span>
+                                        }
+                                        @if (Model.BookingTransection.TotalInf > 0 && !String.IsNullOrEmpty(Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "INF").WeightUnits))
+                                        {
+                                            <span>
+                                                |
+                                                @Localize.Show("INFANT") @Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "INF").Weight @Localize.Show("BAGGAAGE_UNIT_" + Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "INF").WeightUnits)
+                                            </span>
+                                        }
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            @if (i == depList.Count - 1)
+                            {
+                                <td class="timeline-end">
+                                    <img src="~/Images/icon_web/timeline-end.png" />
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="timeline-connection-head">
+                                    <img src="~/Images/icon_web/timeline-connection.png" />
+                                </td>
+                            }
+                            <td class="font-18 timeline-date">
+                                <strong>@depList[i].ArrivalDateTime.ToString("ddd dd MMM HH:mm", ci) </strong>
+                            </td>
+                            <td class="font-18">
+                                <strong>
+                                    @ViewBag.naming.namingService.GetAirportName(depList[i].ToCity, true, Localize.GetLang())
+                                </strong>
+                            </td>
+                        </tr>
+                        if (i < depList.Count - 1)
+                        {
+                            TimeSpan tsConnection = depList[i + 1].DepartureDateTime - depList[i].ArrivalDateTime;
+                            <tr>
+                                <td class="timeline-connection-head"></td>
+                                <td class="timeline-connection-time" colspan="2">
+                                    <table>
+                                        <tr>
+                                            <td style="width: 60px;">
+                                                <img src="~/Images/icon_web/Red_clock.png" />
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    @Localize.Show("STOPON") @(((tsConnection.Days * 24) + tsConnection.Hours).ToString()) @Localize.Show("HRS") @(tsConnection.Minutes.ToString()) @Localize.Show("MINS")
+
+                                                </div>
+                                                <strong>
+                                                    @ViewBag.naming.namingService.GetAirportName(depList[i].ToCity, true, Localize.GetLang())
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+            @if (tripType == "R")
+            {
+                <hr />
+                <div>
+                    <strong>@Localize.Show("RETURN_FLIGHT")</strong>
+                    <i>
+                        @Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).DepartureDateTime.ToString("dd MMM", ci) @Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).DepartureDateTime.ToString("yy")
+                    </i>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-12">
+                        <table class="table-flight-info">
+                            <tr>
+                                <td class="td-flight-info td-flight-info-logo">
+                                    <img style="vertical-align:middle;" src="//www.plusibe.com/images/airline/logos/@(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).MarketAirline)logo_2.gif" />
+                                </td>
+                                <td class="td-flight-info td-flight-info-airline">
+                                    <strong>@(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).MarketAirline) @(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).FlightNo)</strong>
+                                    <div class="font-14">
+                                        @clsStr (@(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).Rbd))
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <table class="table-flight-info">
+                            <tr>
+                                <td class="td-flight-info">
+                                    <strong>
+                                        @Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).DepartureDateTime.ToString("HH:mm")
+                                    </strong>
+                                    <div class="font-14">
+                                        @ViewBag.naming.namingService.GetAirportName(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).FromCity, true, Localize.GetLang()).Split(',')[0] (@Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).FromCity)
+                                    </div>
+                                </td>
+                                <td class="td-flight-info td-flight-info-plane text-center">
+                                    <img src="~/Images/black_plane.png" style="vertical-align:middle; max-height: 100%; width: 20px" class="img-fluid" />
+                                </td>
+                                <td class="td-flight-info">
+                                    @{
+                                        long maxArr = Model.BookingFlights.Where(x => x.RouteNo == 2).Max(y => y.SegmentNo);
+                                        DateTime arrDepDate = Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).DepartureDateTime.Date;
+                                        DateTime arrArrDate = Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == maxArr).ArrivalDateTime.Date;
+                                        TimeSpan tsArr = arrArrDate - arrDepDate;
+                                    }
+                                    <strong>
+                                        @Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == maxDep).ArrivalDateTime.ToString("HH:mm")
+                                        @if (tsDep.Days > 0)
+                                        {
+                                            <sup>+@tsArr.Days</sup>
+                                        }
+                                    </strong>
+                                    <div class="font-14">
+                                        @ViewBag.naming.namingService.GetAirportName(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == maxDep).ToCity, true, Localize.GetLang()).Split(',')[0] (@Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == maxDep).ToCity)
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-lg-2 col-12">
+                        <table class="table-flight-info">
+                            <tr>
+                                <td class="td-flight-info text-right">
+                                    @if (maxArr == 1)
+                                    {
+                                        <strong class="connection-blue-text">
+                                            @Localize.Show("DIRECT_FLIGHT")
+                                        </strong>
+                                    }
+                                    else
+                                    {
+                                        <strong>
+                                            @(maxArr - 1) @Localize.Show("STOPS")
+                                        </strong>
+                                        <div class="font-14 connection-blue-text">
+                                            @ViewBag.naming.namingService.GetAirportName(Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).ToCity, true, Localize.GetLang()).Split(',')[0] (@Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).ToCity)
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-12"></div>
+                    <div class="col-lg-8 col-12">
+                        <div>
+                            <strong>@Localize.Show("TOTAL_TRAVEL_TIME")</strong>
+                            @Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).Duration.Split(':')[0] @Localize.Show("HRS") @Model.BookingFlights.FirstOrDefault(x => x.RouteNo == 2 && x.SegmentNo == 1).Duration.Split(':')[1] @Localize.Show("MINS")
+                        </div>
+                        @if (!String.IsNullOrEmpty(Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "ADT").WeightUnits))
+                        {
+                            <div>
+                                <img src="~/Images/icon_web/Bag.png" class="img-fluid" />
+                                @Localize.Show("ADULT") @Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "ADT").Weight @Localize.Show("BAGGAAGE_UNIT_" + Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "ADT").WeightUnits)
+
+                                @if (Model.BookingTransection.TotalChd > 0 && !String.IsNullOrEmpty(Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "CHD").WeightUnits))
+                                {
+                                    <span>
+                                        |
+                                        @Localize.Show("CHILD") @Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "CHD").Weight @Localize.Show("BAGGAAGE_UNIT_" + Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "CHD").WeightUnits)
+                                    </span>
+                                }
+                                @if (Model.BookingTransection.TotalInf > 0 && !String.IsNullOrEmpty(Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "INF").WeightUnits))
+                                {
+                                    <span>
+                                        |
+                                        @Localize.Show("INFANT") @Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "INF").Weight @Localize.Show("BAGGAAGE_UNIT_" + Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "INF").WeightUnits)
+                                    </span>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-12"></div>
+                    <div class="col-lg-4 col-12 text-right connection-blue-text">
+                        <a href="javascript:showHideFlightDetail('R')" id="showHideD">@Localize.Show("SHOW_FLIGHT_DETIAL")</a>
+                    </div>
+                </div>
+
+                <div style="display: none;" id="R_Detial">
+                    <table class="table-flight-info">
+                        @{
+                            var arrList = Model.BookingFlights.Where(x => x.RouteNo == 2).OrderBy(y => y.SegmentNo).ToList();
+                        }
+                        @for (int i = 0; i < arrList.Count; i++)
+                        {
+                            <tr>
+                                @if (i == 0)
+                                {
+                                    <td class="timeline-head">
+                                        <img src="~/Images/icon_web/timeline-head.png" />
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="timeline-connection-head">
+                                        <img src="~/Images/icon_web/timeline-connection-head.png" />
+                                    </td>
+                                }
+                                <td class="font-18 timeline-date">
+                                    <strong>@arrList[i].DepartureDateTime.ToString("ddd dd MMM HH:mm", ci) </strong>
+                                </td>
+                                <td class="font-18">
+                                    <strong>
+                                        @ViewBag.naming.namingService.GetAirportName(arrList[i].FromCity, true, Localize.GetLang())
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="timeline-flight">
+                                    <img src="~/Images/icon_web/timeline-flight.png" />
+                                </td>
+                                <td class="font-18 timeline-airline">
+                                    <strong>
+                                        @arrList[i].MarketAirline @arrList[i].FlightNo
+                                    </strong>
+                                </td>
+                                <td class="font-14">
+                                    <div>
+                                        @Aircraft.Show(arrList[i].AircraftType)
+
+                                        @if (arrList[i].MarketAirline != arrList[i].OperateAirline)
+                                        {
+                                            <i><small>@Localize.Show("OPERATED_BY") <img style="vertical-align:middle;" src="//www.plusibe.com/images/airline/logos/@(arrList[i].OperateAirline)logo_2.gif" /></small></i>
+                                        }
+                                    </div>
+                                    @if (!String.IsNullOrEmpty(Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "ADT").WeightUnits))
+                                    {
+                                        <div>
+                                            <img src="~/Images/icon_web/Bag.png" class="img-fluid" />
+                                            @Localize.Show("ADULT") @Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "ADT").Weight @Localize.Show("BAGGAAGE_UNIT_" + Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "ADT").WeightUnits)
+
+                                            @if (Model.BookingTransection.TotalChd > 0 && !String.IsNullOrEmpty(Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "CHD").WeightUnits))
+                                            {
+                                                <span>
+                                                    |
+                                                    @Localize.Show("CHILD") @Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "CHD").Weight @Localize.Show("BAGGAAGE_UNIT_" + Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "CHD").WeightUnits)
+                                                </span>
+                                            }
+                                            @if (Model.BookingTransection.TotalInf > 0 && !String.IsNullOrEmpty(Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "INF").WeightUnits))
+                                            {
+                                                <span>
+                                                    |
+                                                    @Localize.Show("INFANT") @Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "INF").Weight @Localize.Show("BAGGAAGE_UNIT_" + Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "INF").WeightUnits)
+                                                </span>
+                                            }
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                @if (i == arrList.Count - 1)
+                                {
+                                    <td class="timeline-end">
+                                        <img src="~/Images/icon_web/timeline-end.png" />
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="timeline-connection-head">
+                                        <img src="~/Images/icon_web/timeline-connection.png" />
+                                    </td>
+                                }
+                                <td class="font-18 timeline-date">
+                                    <strong>@arrList[i].ArrivalDateTime.ToString("ddd dd MMM HH:mm", ci) </strong>
+                                </td>
+                                <td class="font-18">
+                                    <strong>
+                                        @ViewBag.naming.namingService.GetAirportName(arrList[i].ToCity, true, Localize.GetLang())
+                                    </strong>
+                                </td>
+                            </tr>
+                            if (i < arrList.Count - 1)
+                            {
+                                TimeSpan tsConnection = arrList[i + 1].DepartureDateTime - arrList[i].ArrivalDateTime;
+                                <tr>
+                                    <td class="timeline-connection-head"></td>
+                                    <td class="timeline-connection-time" colspan="2">
+                                        <table>
+                                            <tr>
+                                                <td style="width: 60px;">
+                                                    <img src="~/Images/icon_web/Red_clock.png" />
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        @Localize.Show("STOPON") @(((tsConnection.Days * 24) + tsConnection.Hours).ToString()) @Localize.Show("HRS") @(tsConnection.Minutes.ToString()) @Localize.Show("MINS")
+
+                                                    </div>
+                                                    <strong>
+                                                        @ViewBag.naming.namingService.GetAirportName(arrList[i].ToCity, true, Localize.GetLang())
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-12">
+            <div class="font-24"><strong>@Localize.Show("PAX_DETAIL")</strong></div>
+            <div class="card">
+                <div class="card-body">
+                    @{
+                        int iPax = 1;
+                        var adtPaxs = Model.BookingPassengers.Where(x => x.PaxType == "ADT").ToList();
+                    }
+                    @foreach (var pax in adtPaxs)
+                    {
+                        <div class="row row-mt">
+                            <div class="col-12">
+                                <div>
+                                    <strong>@(iPax.ToString()). @Localize.Show("NAME"):</strong>
+                                    @pax.TitleName @pax.FirstName   @pax.MiddleName   @pax.LastName
+                                </div>
+                                @if (iPax == 1)
+                                {
+                                    <div>
+                                        <strong>@Localize.Show("EMAIL"):</strong> @Model.BookingTransection.ContactEmail
+                                        <br />
+                                        <strong>@Localize.Show("TELNO"):</strong> @Model.BookingTransection.ContactPhone
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        if (iPax != Model.BookingTransection.TotalAdt)
+                        {
+                            <hr />
+                        }
+                        iPax++;
+                    }
+                    @{
+                        var chdPaxs = Model.BookingPassengers.Where(x => x.PaxType == "CHD").ToList();
+                    }
+                    @foreach (var pax in chdPaxs)
+                    {
+                        <hr />
+                        <div class="row row-mt">
+                            <div class="col-12">
+                                <div>
+                                    <strong>@(iPax.ToString()). @Localize.Show("NAME"):</strong>
+                                    @pax.TitleName @pax.FirstName   @pax.MiddleName   @pax.LastName
+                                </div>
+                                <div>
+                                    <strong>@Localize.Show("BIRTHDAY"):</strong> @pax.Dob.GetValueOrDefault().ToString("dd'/'MM'/'yyyy")
+                                </div>
+                            </div>
+                        </div>
+                        iPax++;
+                    }
+                    @{
+                        var infPaxs = Model.BookingPassengers.Where(x => x.PaxType == "INF").ToList();
+                    }
+                    @foreach (var pax in infPaxs)
+                    {
+                        <hr />
+                        <div class="row row-mt">
+                            <div class="col-12">
+                                <div>
+                                    <strong>@(iPax.ToString()). @Localize.Show("NAME"):</strong>
+                                    @pax.TitleName @pax.FirstName   @pax.MiddleName   @pax.LastName
+                                </div>
+                                <div>
+                                    <strong>@Localize.Show("BIRTHDAY"):</strong> @pax.Dob.GetValueOrDefault().ToString("dd'/'MM'/'yyyy")
+                                </div>
+                            </div>
+                        </div>
+                        iPax++;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12">
+            <div class="font-24"><strong>@Localize.Show("FARE_DETAIL")</strong></div>
+            <div class="card">
+                <div class="card-body price-box">
+                    @{
+                        var paxFare = Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "ADT");
+                    }
+                    @if (paxFare != null)
+                    {
+                        var paxNo = Model.BookingPassengers.Where(x => x.PaxType == "ADT").ToList().Count;
+                        <div class="row font-18">
+                            <div class="col-7">
+                                <strong>
+                                    @Localize.Show("ADULT")
+                                    @if (paxNo > 1)
+                                    {
+                                        <span>x @paxNo</span>
+                                    }
+                                </strong>
+                            </div>
+                            <div class="col-5 text-right">
+                                <strong>@GogojiiWeb.Models.CCYUtilities.CurrencySymbol(paxFare.Currency)@((paxFare.FareWithTax * paxNo).ToString("N0")) </strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                @Localize.Show("PRICE")
+                            </div>
+                            <div class="col-5 text-right">
+                                @GogojiiWeb.Models.CCYUtilities.CurrencySymbol(paxFare.Currency)@((paxFare.FareWithoutTax * paxNo).ToString("N0"))
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                @Localize.Show("TAX")
+                            </div>
+                            <div class="col-5 text-right">
+                                @GogojiiWeb.Models.CCYUtilities.CurrencySymbol(paxFare.Currency)@((paxFare.Tax * paxNo).ToString("N0"))
+                            </div>
+                        </div>
+                        <hr />
+                    }
+
+                    @{
+                        paxFare = Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "CHD");
+                    }
+                    @if (paxFare != null)
+                    {
+                        var paxNo = Model.BookingPassengers.Where(x => x.PaxType == "CHD").ToList().Count;
+                        <div class="row font-18">
+                            <div class="col-7">
+                                <strong>
+                                    @Localize.Show("CHILD")
+                                    @if (paxNo > 1)
+                                    {
+                                        <span>x @paxNo</span>
+                                    }
+                                </strong>
+                            </div>
+                            <div class="col-5 text-right">
+                                <strong>@GogojiiWeb.Models.CCYUtilities.CurrencySymbol(paxFare.Currency)@((paxFare.FareWithTax * paxNo).ToString("N0"))</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                @Localize.Show("PRICE")
+                            </div>
+                            <div class="col-5 text-right">
+                                @GogojiiWeb.Models.CCYUtilities.CurrencySymbol(paxFare.Currency)@((paxFare.FareWithoutTax * paxNo).ToString("N0"))
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                @Localize.Show("TAX")
+                            </div>
+                            <div class="col-5 text-right">
+                                @GogojiiWeb.Models.CCYUtilities.CurrencySymbol(paxFare.Currency)@((paxFare.Tax * paxNo).ToString("N0"))
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                    @{
+                        paxFare = Model.BookingPaxFares.FirstOrDefault(x => x.PaxType == "INF");
+                    }
+                    @if (paxFare != null)
+                    {
+                        var paxNo = Model.BookingPassengers.Where(x => x.PaxType == "INF").ToList().Count;
+                        <div class="row font-18">
+                            <div class="col-7">
+                                <strong>
+                                    @Localize.Show("INFANT")
+                                    @if (paxNo > 1)
+                                    {
+                                        <span>x @paxNo</span>
+                                    }
+                                </strong>
+                            </div>
+                            <div class="col-5 text-right">
+                                <strong>@GogojiiWeb.Models.CCYUtilities.CurrencySymbol(paxFare.Currency)@((paxFare.FareWithTax * paxNo).ToString("N0"))</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                @Localize.Show("PRICE")
+                            </div>
+                            <div class="col-5 text-right">
+                                @GogojiiWeb.Models.CCYUtilities.CurrencySymbol(paxFare.Currency)@((paxFare.FareWithoutTax * paxNo).ToString("N0"))
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                @Localize.Show("TAX")
+                            </div>
+                            <div class="col-5 text-right">
+                                @GogojiiWeb.Models.CCYUtilities.CurrencySymbol(paxFare.Currency)@((paxFare.Tax * paxNo).ToString("N0"))
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                    <div class="row font-24">
+                        <div class="col-7">
+                            <strong>@Localize.Show("GRAND_TOTAL")</strong>
+                        </div>
+                        <div class="col-5 text-right text-red">
+                            <strong>@GogojiiWeb.Models.CCYUtilities.CurrencySymbol(Model.BookingTransection.Currency) @Model.BookingTransection.TotalAmount.ToString("N0")</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <br />
+
+    @if ((bool)ViewBag.showCancel)
+    {
+        BL.Entities.GogojiiFare.AirFare pricing = (BL.Entities.GogojiiFare.AirFare)ViewBag.Pricing;
+
+        using (Html.BeginForm("Pay", "Member", FormMethod.Post, new { data_parsley_validate = "", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.Hidden("BookingID", Model.BookingTransection.BookingId)
+            <div class="row">
+                <div class="col-12">
+                    <br />
+
+                    <div class="font-24"><strong>@Localize.Show("PLEASE_SELECT_PAYMENT_METHOD")</strong></div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="font-18"><strong>@Localize.Show("PAY_NOW")</strong></div>
+                            <div class="font-14">@Localize.Show("GUARANTEE_PRICE_MESSAGE")</div>
+                            <div class="alert alert-payment-check payment-box" id="div_CC">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td style="width:15px;">
+                                            <label class="radio">
+                                                <input type="radio" checked name="payment_method" id="payment_method_cc" value="CC" class="payment-check" onclick="clickPay('CC')">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="font-18"><strong>@Localize.Show("CREDIT_DEBIT_CARD")</strong></div>
+                                                    <div>
+                                                        <img src="~/Images/new-payment-types-cards.png" class="img-fluid" style="width: 60px;" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12 text-right">
+                                                    <div class="font-14 text-red">
+                                                        @Localize.Show("FEE")
+                                                        ฿ @pricing.creditCardFee.ToString("N2")
+                                                    </div>
+                                                    <div class="font-14 ">
+                                                        @Localize.Show("PAYMENT_AMOUNT")
+                                                        ฿ @((pricing.creditCardFee + pricing.totalFare).ToString("N2"))
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="alert alert-payment payment-box" id="div_PP">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td style="width:15px;">
+                                            <label class="radio">
+                                                <input type="radio" name="payment_method" id="payment_method_pp" value="PP" class="payment-check" onclick="clickPay('PP')">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="font-18"><strong>@Localize.Show("Paypal")</strong></div>
+                                                    <div>
+                                                        <img src="~/Images/paypal_logo.png" class="img-fluid" style="width: 60px;" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12 text-right">
+                                                    <div class="font-14 text-red">
+                                                        @Localize.Show("FEE")
+                                                        ฿ @pricing.paypalFee.ToString("N2")
+                                                    </div>
+                                                    <div class="font-14 ">
+                                                        @Localize.Show("PAYMENT_AMOUNT")
+                                                        ฿ @((pricing.paypalFee + pricing.totalFare).ToString("N2"))
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <hr />
+                            <div class="font-18"><strong>@Localize.Show("PAY_LATER")</strong></div>
+                            <div class="font-14">@Localize.Show("PRICE_MAY_CHANGE_MESSAGE")</div>
+                            @if (pricing.counterServiceFee + pricing.totalFare <= 30000)
+                            {
+                                <div class="alert alert-payment payment-box" id="div_CS">
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <td style="width:15px;">
+                                                <label class="radio">
+                                                    <input type="radio" name="payment_method" id="payment_method_cs" value="CS" class="payment-check" onclick="clickPay('CS')">
+                                                    <span class="checkround"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-12">
+                                                        <div class="font-18"><strong>@Localize.Show("COUNTER_SERVICE")</strong></div>
+                                                        <div>
+                                                            <img src="~/Images/icon_web/counterservice.png" class="img-fluid" style="width: 60px;" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-12 text-right">
+                                                        <div class="font-14 text-red">
+                                                            @Localize.Show("FEE")
+                                                            ฿ @pricing.counterServiceFee.ToString("N2")
+                                                        </div>
+                                                        <div class="font-14 ">
+                                                            @Localize.Show("PAYMENT_AMOUNT")
+                                                            ฿ @((pricing.counterServiceFee + pricing.totalFare).ToString("N2"))
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            }
+                            <div class="alert alert-payment payment-box" id="div_BT">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td style="width:15px;">
+                                            <label class="radio">
+                                                <input type="radio" name="payment_method" id="payment_method_bt" value="BT" class="payment-check" onclick="clickPay('BT')">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="font-18"><strong>@Localize.Show("BANK_TRANSFER")</strong></div>
+                                                </div>
+                                                <div class="col-md-6 col-12 text-right">
+                                                    <div class="font-14 ">
+                                                        <span class="font-14 text-red" style="margin-right: 20px;">
+                                                            @Localize.Show("NO_FEE")
+                                                        </span>
+                                                        <span class="font-14 ">
+                                                            @Localize.Show("PAYMENT_AMOUNT")
+                                                        </span>
+                                                        ฿ @((pricing.totalFare).ToString("N2"))
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    @Localize.Show("PLEASE_PAY_BEFORE")
+                                                    <span class="text-red"> @pricing.TKTL.ToString("HH:mm") @(Localize.GetLang() == "th" ? "น." : "") @pricing.TKTL.ToString("dd'/'MM'/'yyyy")</span>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <table>
+                                                        <tr>
+                                                            <td style="vertical-align: top">
+                                                                <img src="~/Images/icon_web/Kasikorn.png" />
+                                                            </td>
+                                                            <td>
+                                                                <div class="font-18">
+                                                                    <strong>@Localize.Show("KBANK_TITLE") </strong>
+                                                                </div>
+                                                                <div class="font-14">
+                                                                    @Localize.Show("ACCOUNT_NAME")<br />
+                                                                    @Localize.Show("ACCOUNT_NO"): 758-2-15954-4
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <table>
+                                                        <tr>
+                                                            <td style="vertical-align: top">
+                                                                <img src="~/Images/icon_web/ktb.png" />
+                                                            </td>
+                                                            <td>
+                                                                <div class="font-18">
+                                                                    <strong>@Localize.Show("KTB_TITLE") </strong>
+                                                                </div>
+                                                                <div class="font-14">
+                                                                    @Localize.Show("ACCOUNT_NAME")<br />
+                                                                    @Localize.Show("ACCOUNT_NO"): 568-0-15083-2
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <table>
+                                                        <tr>
+                                                            <td style="vertical-align: top">
+                                                                <img src="~/Images/icon_web/krungsri.png" />
+                                                            </td>
+                                                            <td>
+                                                                <div class="font-18">
+                                                                    <strong>@Localize.Show("KRUNGSRI_TITLE") </strong>
+                                                                </div>
+                                                                <div class="font-14">
+                                                                    @Localize.Show("ACCOUNT_NAME")<br />
+                                                                    @Localize.Show("ACCOUNT_NO"): 329-1-36549-9
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn cust-btn" type="submit" id="book" style="width: 200px;">
+                                <strong>@Localize.Show("PAY")</strong>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    <br />
+    <div class="text-center">
+        <button type="button" class="btn cust-btn" data-dismiss="modal" aria-label="Close">
+            @Localize.Show("DISMISS")
+        </button>
+
+    </div>
+</div>
+<br />
+@if (ViewBag.AutoCancel == "T")
+{
+    <input type="hidden" name="autoCancel" id="autoCancel" value="T" />
+}
+@if (ViewBag.PriceChange != null && ViewBag.PriceChange != "")
+{
+    <input type="hidden" name="priceChange" id="priceChange" value="@ViewBag.PriceChange" />
+    <input type="hidden" name="oldPrice" id="oldPrice" value="@ViewBag.OldPrice" />
+    <input type="hidden" name="newPrice" id="newPrice" value="@ViewBag.NewPrice" />
+    <input type="hidden" name="ccy" id="ccy" value="@Localize.Show(Model.BookingTransection.Currency)" />
+}

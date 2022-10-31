@@ -1,0 +1,358 @@
+﻿@model BL.Entities.TopDestination.AllTopDestination
+@{
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang().ToLower() == "th" ? "th-TH" : "en-US");
+    string hotelBOLURL = System.Configuration.ConfigurationManager.AppSettings["HOTELBOL.URL"].ToString();
+    string hotelEXTURL = System.Configuration.ConfigurationManager.AppSettings["HOTELEXT.URL"].ToString();
+    string URL = System.Configuration.ConfigurationManager.AppSettings["admin_URL"].ToString();
+}
+@section styles
+{
+    <link rel='stylesheet' id='gogojistyle-css' href='~/mpgogojii/style.min.css' type='text/css' media='all' />
+    <!-- Owl javascript -->
+    <script src="~/mpgogojii/assets/owlcarousel/owl.carousel.js"></script>
+    <!-- Owl Stylesheets -->
+    <link rel="stylesheet" href="~/mpgogojii/assets/owlcarousel/assets/owl.carousel.min.css">
+    <style type="text/css">
+        .bannerTopDes {
+            padding-top: 100px;
+            padding-bottom: 20px;
+        }
+
+        .banner-top-destinations {
+            border-radius: 10px;
+            max-width: 100%
+        }
+
+        .img-top-destinations {
+            max-width: 100%
+        }
+
+        .hotel-card__text-container {
+            padding: 15px;
+            background-color: #F4F4F4;
+            border-radius: 0px 0px 10px 10px;
+        }
+
+        .hotel-card__badge-container .hotel-card__badge {
+            display: inline-block;
+            position: relative;
+            height: auto;
+            background-color: var(--primary-color);
+            border-radius: 6px;
+            height: 34px;
+            min-width: 42px;
+            padding: 5px;
+            text-align: center;
+        }
+
+            .hotel-card__badge-container .hotel-card__badge span {
+                color: #ffffff;
+                font-size: 16px;
+                font-weight: bold;
+                line-height: 5px;
+            }
+
+            .hotel-card__badge-container .hotel-card__badge::before {
+                content: " ";
+                position: absolute;
+                width: 0;
+                height: 0;
+                left: auto;
+                right: -40px;
+                top: -8px;
+                bottom: auto;
+            }
+
+            .hotel-card__badge-container .hotel-card__badge::after {
+                content: " ";
+                position: absolute;
+                width: 0;
+                height: 0;
+                left: auto;
+                right: -10px;
+                top: 0px;
+                bottom: auto;
+                border: 10px solid;
+                border-color: var(--primary-color) transparent transparent transparent;
+            }
+
+        .hotel-card__badge-container span {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 5px;
+        }
+
+        .hotel-card__address-and-star {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+
+        .star--voted {
+            max-width: 14px;
+            color: var(--secondary-color) !important;
+        }
+
+        .fa-star {
+            max-width: 14px;
+            color: var(--text-color-light);
+        }
+
+        .body-text, .body-text--primary {
+            font-size: 14px;
+            line-height: 22px;
+            font-weight: 500;
+            color: #888888;
+        }
+
+        .main-content {
+position: relative;
+}
+
+.main-content .owl-theme .custom-nav {
+position: absolute;
+top: 20%;
+left: 0;
+right: 0;
+}
+.main-content .owl-prev, .owl-next {
+position: absolute;
+height: 100px;
+color: inherit;
+background: none;
+border: none;
+z-index: 100;
+}
+.main-content .owl-prev, .owl-next i {
+	font-size: 2.5rem;
+	color: #fff;
+}
+
+
+.main-content .owl-prev {
+left: 0;
+}
+
+.main-content .owl-next {
+right: 0;
+}
+
+        @@media(max-width: 767px) {
+            .bannerTopDes {
+                padding-top: 80px;
+                padding-bottom: 5px;
+            }
+        }
+    </style>
+
+}
+<div class="container">
+    <div class="row">
+        <div class="col-12 bannerTopDes">
+            
+        </div>
+    </div>
+</div>
+
+
+<div class="Paragraph">
+
+    @if (Model.Destination.BannerName != null && Model.Destination.BannerName.Length > 0)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <img src="@(URL)images/top_destinations/@(Model.Destination.BannerName)?id=@Guid.NewGuid()" class="banner-top-destinations" />
+                </div>
+            </div>
+
+        </div>
+    }
+    <div class="container">
+        <div class="font-60">@Model.DestinationDetails.Find(x => x.LangCode == Localize.GetLang()).DestinationName </div>
+        <div class="font-20 mb-3">
+            @Model.DestinationDetails.Find(x => x.LangCode == Localize.GetLang()).ShortDescriptions
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                @if (Model.Destination.FileName_Paragraph11 != null && Model.Destination.FileName_Paragraph11.Length > 0)
+                {
+                    <div class="mb-10">
+                        <img src="@(URL)images/top_destinations/@(Model.Destination.FileName_Paragraph11)?id=@Guid.NewGuid()" class="img-top-destinations" />
+                    </div>
+                }
+                @if (Model.Destination.FileName_Paragraph12 != null && Model.Destination.FileName_Paragraph12.Length > 0)
+                {
+                    <div class="mb-10">
+                        <img src="@(URL)images/top_destinations/@(Model.Destination.FileName_Paragraph12)?id=@Guid.NewGuid()" class="img-top-destinations" />
+                    </div>
+                }
+                <div class="mb-10">
+                    @Html.Raw(Model.DestinationDetails.Find(x => x.LangCode == Localize.GetLang()).Descriptions_Paragraph1)
+                </div>
+                @if (Model.Destination.FileName_Paragraph21 != null && Model.Destination.FileName_Paragraph21.Length > 0)
+                {
+                    <div class="mb-10">
+                        <img src="@(URL)images/top_destinations/@(Model.Destination.FileName_Paragraph21)?id=@Guid.NewGuid()" class="img-top-destinations" />
+                    </div>
+                }
+                @if (Model.Destination.FileName_Paragraph22 != null && Model.Destination.FileName_Paragraph22.Length > 0)
+                {
+                    <div class="mb-10">
+                        <img src="@(URL)images/top_destinations/@(Model.Destination.FileName_Paragraph22)?id=@Guid.NewGuid()" class="img-top-destinations" />
+                    </div>
+                }
+                @if (Model.DestinationDetails.Find(x => x.LangCode == Localize.GetLang()).Descriptions_Paragraph2 != null)
+                {
+                    <div class="mb-10">
+                        @Html.Raw(Model.DestinationDetails.Find(x => x.LangCode == Localize.GetLang()).Descriptions_Paragraph2)
+                    </div>
+                }
+                @if (Model.Destination.FileName_Paragraph31 != null && Model.Destination.FileName_Paragraph31.Length > 0)
+                {
+                    <div class="mb-10">
+                        <img src="@(URL)images/top_destinations/@(Model.Destination.FileName_Paragraph31)?id=@Guid.NewGuid()" class="img-top-destinations" />
+                    </div>
+                }
+                @if (Model.Destination.FileName_Paragraph32 != null && Model.Destination.FileName_Paragraph32.Length > 0)
+                {
+                    <div class="mb-10">
+                        <img src="@(URL)images/top_destinations/@(Model.Destination.FileName_Paragraph32)?id=@Guid.NewGuid()" class="img-top-destinations" />
+                    </div>
+                }
+                @if (Model.DestinationDetails.Find(x => x.LangCode == Localize.GetLang()).Descriptions_Paragraph3 != null)
+                {
+                    <div class="mb-10">
+                        @Html.Raw(Model.DestinationDetails.Find(x => x.LangCode == Localize.GetLang()).Descriptions_Paragraph3)
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+@if (Model.hotelInTopDestinations != null && Model.hotelInTopDestinations.Count > 0)
+{
+    int iStar = 0;
+    <section class="customer-review">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title mb-40">
+                        <h2 class="mb-10">@Localize.Show("HOTEL_IN_DESTINATION")</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="owl-carousel owl-theme">
+                    @for (int iH = 0; iH < Model.hotelInTopDestinations.Count; iH++)
+                    {
+                        iStar = Model.hotelInTopDestinations[iH].hotelMain.Rating;
+                        <div class="item">
+                            <a href="@Url.Action("HotelInfo", "Hotel", new { hotelSource = Model.hotelInTopDestinations[iH].product.HotelSource, hotelCode = Model.hotelInTopDestinations[iH].product.HotelCode, rooms = "2,0", checkin = DateTime.Today.AddDays(3).ToString("dd/MM/yyyy"), checkout = DateTime.Today.AddDays(5).ToString("dd/MM/yyyy"), destination = Model.hotelInTopDestinations[iH].hotelDetail.Find(x => x.LanguageCode == Localize.GetLang()).DestinationName, destinationCode = Model.hotelInTopDestinations[iH].hotelMain.DestinationCode })">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="hotel-card">
+
+                                            <div class="hotel-card__image">
+                                                @if (Model.hotelInTopDestinations[iH].hotelImage == "")
+                                                {
+                                                    <img src="~/images/hotel_blank.jpg" />
+                                                }
+                                                else
+                                                {
+                                                    if (Model.hotelInTopDestinations[iH].product.HotelSource == "BOL")
+                                                    {
+                                                        <img src="@(hotelBOLURL)@(Model.hotelInTopDestinations[iH].hotelImage)?ver=@Guid.NewGuid()" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="@(hotelEXTURL)/images/hotel/main/@(Model.hotelInTopDestinations[iH].hotelImage)?ver=@Guid.NewGuid()" />
+                                                    }
+
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="hotel-card__text-container">
+                                            <div class="hotel-card__badge-container">
+                                                @if (Model.hotelInTopDestinations[iH].product.Rating != null && Model.hotelInTopDestinations[iH].product.Rating.Value.ToString().Length > 0)
+                                                {
+                                                    <div class="hotel-card__badge">
+                                                        <span class="hotel-card__rating">@(Model.hotelInTopDestinations[iH].product.Rating)</span>
+                                                    </div>
+                                                }
+                                                <div class="hotel-card__location">
+                                                    <h4>@(Model.hotelInTopDestinations[iH].hotelDetail.Find(x => x.LanguageCode == Localize.GetLang()).HotelName)</h4>
+
+                                                </div>
+                                            </div>
+                                            <div class="hotel-card__address-and-star mt-8">
+                                                <small class="body-text">@(Model.hotelInTopDestinations[iH].hotelDetail.Find(x => x.LanguageCode == Localize.GetLang()).DestinationName)</small>
+                                                <div class="hotel-card__star ml-10">
+                                                    @for (int s = 0; s < iStar; s++)
+                                                    {
+                                                        <i class="fas fa-star  star--voted "></i>
+                                                    }
+                                                    @for (int s = 0; s < 5 - iStar; s++)
+                                                    {
+                                                        <i class="fas fa-star "></i>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <p class="sub-title mt-15">Starting from <span style="color: var(--primary-color);">THB @(Model.hotelInTopDestinations[iH].product.StartPrice.Value.ToString("N0"))</span> per night</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+                <div class="owl-theme">
+                    <div class="owl-controls">
+                        <div class="custom-nav owl-nav"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <br />
+}
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+
+           $('.main-content .owl-carousel').owlCarousel({
+               stagePadding: 50,
+                dots: false,
+            loop: true,
+            margin: 10,
+            nav: true,
+            navText: [
+                '<i class="fa fa-angle-left" aria-hidden="true"></i>',
+                '<i class="fa fa-angle-right" aria-hidden="true"></i>'
+            ],
+            navContainer: '.main-content .custom-nav',
+            responsive:{
+                0:{
+                    items: 1
+                },
+                600:{
+                    items: 2
+                },
+                1000:{
+                    items: 3
+                }
+            }
+        });
+
+        });
+    </script>
+}

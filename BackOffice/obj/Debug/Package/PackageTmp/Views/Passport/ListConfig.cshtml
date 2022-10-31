@@ -1,0 +1,108 @@
+﻿@model List<DataModel.PassportConfig>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Passport List</h6>
+            <a href="@Url.Action("Detail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-plus fa-sm text-white-50"></i>
+                Create New
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="width: 20px;">Active</th>
+                        <th>Airline Codes</th>
+                        <th>Origin Code</th>
+                        <th>Destination Code</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var passport in Model)
+                    {
+                    <tr>
+                        <td>
+                            @(passport.IsActive.GetValueOrDefault() ? "1" : "2")
+                        </td>
+                        <td>
+                            @passport.AirlineCodes
+                        </td>
+                        <td>
+                            @passport.OriginCodes
+                        </td>
+                        <td>
+                            @passport.DestinationCodes
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Detail", new { id = passport.PassportOID })">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" onclick="deleteRow('@passport.PassportOID', '@passport.AirlineCodes')"><i class="fas fa-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        var isSave = '@Request["save"]';
+        $(document).ready(function () {
+            $('#grid').DataTable({
+                columnDefs: [{
+                    "orderable": false
+                    //"targets": [4]
+                }, {
+                    "render": function (data, type) {
+                        if (type == 'sort') {
+                            return data + '';
+                        } else {
+                            var html = '';
+                            if (data == 1) {
+                                html = '<i class="fas fa-check" style= "color: #00ff21" ></i>'
+                            } else {
+                                html = '<i class="fas fa-times" style= "color: #ff0000" ></i>'
+                            }
+                            return html;
+                        }
+                    },
+                    "targets": [0]
+                }]
+            });
+
+            if (isSave == 't') {
+                new PNotify({
+                    title: 'Success',
+                    text: 'Data have been updated',
+                    type: 'success',
+                    styling: 'bootstrap3',
+                    delay: 2000,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    buttons: {
+                        show_on_nonblock: true
+                    }
+                });
+            }
+        });
+
+        var deleteRow = function (id, name) {
+            if (confirm("Do you want to delete " + name + "?")) {
+                window.location.href = '@Url.Action("PassportDelete")' + '/' + id;
+            }
+        }
+    </script>
+}

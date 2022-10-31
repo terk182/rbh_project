@@ -1,0 +1,1196 @@
+﻿@model BL.Entities.RobinhoodFare.AirFare
+    @{ 
+        string transaction = DateTime.Now.ToString("yyMMddmm");
+        int iImage = Convert.ToInt32(transaction) % 5;
+    }
+@section styles
+{
+    <link href="~/Content/flights/paxinfo.css?v1" rel="stylesheet" />
+    <style>
+
+        /*.abc-checkbox label::before {
+            border: 1px solid #fff !important;
+        }*/
+    </style>
+    <link href="~/Vendors/tel-input/build/css/intlTelInput.css" rel="stylesheet" />
+    <style>
+        iti__flag {
+            background-image: url("../../Vendors/tel-input/build/img/flags.png");
+        }
+
+        @@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .iti__flag {
+                background-image: url("../../Vendors/tel-input/build/img/flags@2x.png");
+            }
+        }
+    </style>
+}
+
+@section width100head
+{
+    <div class="process-bar text-center" style="margin-bottom: 15px;">
+        <table class="font-weight-bold" style="margin-left: auto; margin-right: auto;">
+            <tr>
+                <td><div class="number-circle-orange">1</div></td>
+                <td>@Localize.Show("DETAIL")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-grey">2</div></td>
+                <td>@Localize.Show("PAYMENT")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-grey">3</div></td>
+                <td>@Localize.Show("TICKET")</td>
+            </tr>
+        </table>
+    </div>
+}
+
+@using (Html.BeginForm("Booking", "Flight", FormMethod.Post, new { data_parsley_validate = "", role = "form", enctype = "multipart/form-data" }))
+{
+    string clsStr = "";
+    switch (Model.svc_class)
+    {
+        case "F":
+            clsStr = Localize.Show("FIRST");
+            break;
+        case "C":
+            clsStr = Localize.Show("BUSINESS");
+            break;
+        case "P":
+            clsStr = Localize.Show("PREMIUM_ECONOMY");
+            break;
+        case "Y":
+            clsStr = Localize.Show("ECONOMY");
+            break;
+    }
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-12" style="padding-right: 30px;">
+                @Html.Partial("~/Views/Flight/FlightDetailBox.cshtml", Model)
+                <div class="info-box mt-3" style="padding: 10px;">
+                    <div class="price-box">
+                        <div class="font-14"><strong>@Localize.Show("FARE_DETAIL")</strong></div>
+                        @if (Model.noOfAdults > 0)
+                        {
+                            <div class="row font-14">
+                                <div class="col-5">
+                                    <strong>
+                                        @Localize.Show("ADULT")
+                                        @if (Model.noOfAdults > 1)
+                                        {
+                                            <span>x @Model.noOfAdults</span>
+                                        }
+                                    </strong>
+                                </div>
+                                <div class="col-2 font-12 text-muted">
+                                    THB
+                                </div>
+                                <div class="col-5 text-right">
+                                    <input type="hidden" id="adtTotalFare" value="@((Model.adtFare.net * Model.noOfAdults))" />
+                                    <strong><span id="ADT_Total">@((Model.adtFare.net * Model.noOfAdults).ToString("N0"))</span></strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    @Localize.Show("PRICE")
+                                </div>
+                                <div class="col-2 font-12 text-muted">
+                                    THB
+                                </div>
+                                <div class="col-5 text-right">
+                                    @(((Model.adtFare.sellingBaseFare + Model.adtFare.qtax) * Model.noOfAdults).ToString("N0"))
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    @Localize.Show("TAX")
+                                </div>
+                                <div class="col-2 font-12 text-muted">
+                                    THB
+                                </div>
+                                <div class="col-5 text-right">
+                                    @((Model.adtFare.tax * Model.noOfAdults).ToString("N0"))
+                                </div>
+                            </div>
+                            
+                            <hr />
+                        }
+
+                        @if (Model.noOfChildren > 0)
+                        {
+                            <div class="row font-14">
+                                <div class="col-5">
+                                    <strong>
+                                        @Localize.Show("CHILD")
+                                        @if (Model.noOfChildren > 1)
+                                        {
+                                            <span>x @Model.noOfChildren</span>
+                                        }
+                                    </strong>
+                                </div>
+                                <div class="col-2 font-12 text-muted">
+                                    THB
+                                </div>
+                                <div class="col-5 text-right">
+                                    <input type="hidden" id="chdTotalFare" value="@((Model.chdFare.net * Model.noOfChildren))" />
+                                    <strong><span id="CHD_Total">@((Model.chdFare.net * Model.noOfChildren).ToString("N0"))</span></strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    @Localize.Show("PRICE")
+                                </div>
+                                <div class="col-2 font-12 text-muted">
+                                    THB
+                                </div>
+                                <div class="col-5 text-right">
+                                    @(((Model.chdFare.sellingBaseFare + Model.chdFare.qtax) * Model.noOfChildren).ToString("N0"))
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    @Localize.Show("TAX")
+                                </div>
+                                <div class="col-2 font-12 text-muted">
+                                    THB
+                                </div>
+                                <div class="col-5 text-right">
+                                    @((Model.chdFare.tax * Model.noOfChildren).ToString("N0"))
+                                </div>
+                            </div>
+                            
+                            <hr />
+                        }
+                        @if (Model.noOfInfants > 0)
+                        {
+                            <div class="row font-14">
+                                <div class="col-5">
+                                    <strong>
+                                        @Localize.Show("INFANT")
+                                        @if (Model.noOfInfants > 1)
+                                        {
+                                            <span>x @Model.noOfInfants</span>
+                                        }
+                                    </strong>
+                                </div>
+                                <div class="col-2 font-12 text-muted">
+                                    THB
+                                </div>
+                                <div class="col-5 text-right">
+                                    <input type="hidden" id="infTotalFare" value="@((Model.infFare.net * Model.noOfInfants))" />
+                                    <strong>@((Model.infFare.net * Model.noOfInfants).ToString("N0"))</strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    @Localize.Show("PRICE")
+                                </div>
+                                <div class="col-2 font-12 text-muted">
+                                    THB
+                                </div>
+                                <div class="col-5 text-right">
+                                    @(((Model.infFare.sellingBaseFare + Model.infFare.qtax) * Model.noOfInfants).ToString("N0"))
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    @Localize.Show("TAX")
+                                </div>
+                                <div class="col-2 font-12 text-muted">
+                                    THB
+                                </div>
+                                <div class="col-5 text-right">
+                                    @((Model.infFare.tax * Model.noOfInfants).ToString("N0"))
+                                </div>
+                            </div>
+                            <hr />
+                        }
+                        <div class="row font-14">
+                            <div class="col-5 text-blue">
+                                <strong>@Localize.Show("TOTAL")</strong>
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right text-blue font-18">
+                                <strong><span id="GrandTotal">@Model.grandTotal.ToString("N0")</span></strong>
+                            </div>
+                        </div>
+                        <div class="nft-fee-detail row font-14" style="display:none">
+                            <div class="col-5 text-red">
+                                <strong>@Localize.Show("NFT_FEE")</strong>
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right text-red">
+                                <strong><span id="NFTFee">@(Math.Ceiling((Model.grandTotal*3)/100).ToString("N0"))</span></strong>
+                            </div>
+                        </div>
+                        <div class="nft-fee-detail row font-14" style="display:none">
+                            <div class="col-5 text-blue">
+                                <strong>@Localize.Show("GRANDTOTAL")</strong>
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right text-blue font-18">
+                                <strong><span id="GrandTotalWithNFT">@((Model.grandTotal+Math.Ceiling((Model.grandTotal*3)/100)).ToString("N0"))</span></strong>
+                            </div>
+                        </div>
+                        @if (Currency.GetCurrency() != "THB")
+                        {
+                            <hr />
+                            <div class="row font-14">
+                                <div class="col-12 text-blue">
+                                    <strong>@Localize.Show("YOUR_CURRENCY")</strong>
+                                </div>
+                            </div>
+                            <div class="row font-14">
+                                <div class="col-5 text-green">
+                                    <strong>@Localize.Show("TOTAL")</strong>
+                                </div>
+                                <div class="col-2 font-12 text-muted">
+                                    @Currency.GetCurrency()
+                                </div>
+                                <div class="col-5 text-right text-green font-18">
+                                    <strong>@(Currency.convertFromTHB(Model.grandTotal).ToString("N2"))</strong>
+                                </div>
+                            </div>
+                            <div class="row font-10">
+                                <div class="col-12">
+                                    *@String.Format(Localize.Show("CURRENCY_CONDITION"), Currency.GetCurrency())
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="font-24 font-weight-bold">@Localize.Show("PAX_TOPIC")</div>
+                <div class="font-14 text-muted font-weight-bold">@Localize.Show("PERSONAL_INFO")</div>
+                <br />
+
+                <div class="info-box" style="padding: 20px;">
+                    <div class="font-18 font-weight-bold">@Localize.Show("CONTACT_DETAIL")</div>
+                    <div class="row row-mt">
+                        <div class="col-md-2 col-12">
+                            <small class="font-weight-bold">@Localize.Show("TITLE")*</small>
+                            @Html.DropDownListFor(m => m.contactInfo.title, ViewData["adtTitleList"] as SelectList, new
+                   {
+                       @class = "form-control form-control-pax",
+                       required = "required"
+                   })
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <small class="font-weight-bold">@Localize.Show("FIRSTNAME")*</small>
+                            @Html.TextBoxFor(m => m.contactInfo.firstname, new { required = "required", @class = "form-control form-control-pax only-text" })
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <small class="font-weight-bold">@Localize.Show("MIDDLENAME") </small>
+                            @Html.TextBoxFor(m => m.contactInfo.middlename, new { @class = "form-control form-control-pax only-text" })
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <small class="font-weight-bold">@Localize.Show("LASTNAME")*</small>
+                            @Html.TextBoxFor(m => m.contactInfo.lastname, new { required = "required", @class = "form-control form-control-pax only-text" })
+                        </div>
+                    </div>
+                    <div class="row row-mt">
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <small class="font-weight-bold">@Localize.Show("EMAIL")*</small>
+                            <div class="input-group input-icon">
+                                <img src="~/Images/icon_gogo/Email.svg" class="ml-2" />
+                                @Html.TextBoxFor(m => m.contactInfo.email, new { required = "required", @class = "form-control form-control-pax email-text ADT-E-0", @type = "email" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <small class="font-weight-bold">@Localize.Show("TELNO")*</small>
+                            @Html.TextBoxFor(m => m.contactInfo.telNo, new { required = "required", @class = "form-control form-control-pax tel-number-text ADT-T-0" })
+                            @Html.Hidden("phoneCode", "66")
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <small class="font-weight-bold">@Localize.Show("COUNTRY_OF_RESIDENCE")</small>
+                            @Html.DropDownListFor(m => m.contactInfo.countryCode, ViewData["countryList"] as SelectList, new
+                   {
+                       @class = "form-control form-control-pax",
+                       required = "required"
+                   })
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+
+                            <div class="abc-checkbox abc-checkbox-info abc-checkbox-circle">
+                                <input class="styled" type="checkbox" value="" name="as_other" id="as_other" />
+                                <label class="font-12" for="as_other">
+                                    @Localize.Show("BOOK_TO_OTHER")
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div>
+                        <div class="font-18"><strong>@Localize.Show("PAX_DETAIL")</strong></div>
+                        <table style="width: 100%">
+                            <tr>
+                                <td>
+                                    <span>@Html.Raw(Localize.Show("PAX_NAME_WARNING"))</span>
+                                </td>
+                            </tr>
+                        </table>
+                        @{
+                            int paxNo = 1;
+                        }
+                        @for (int i = 0; i < Model.noOfAdults; i++)
+                        {
+                            @Html.HiddenFor(m => m.adtPaxs[i].paxType)
+                            @Html.HiddenFor(m => m.adtPaxs[i].id)
+                            <div class="row row-mt mt-3">
+                                <div class="col-6 font-14">
+                                    <img src="~/Images/icon_gogo/People.svg" />
+                                    <strong>@Localize.Show("ADULT"): @Localize.Show("PAX_NO") @paxNo.ToString()</strong>
+                                </div>
+                                <div class="col-6 text-right">
+
+                                    @if (i == 0)
+                                    {
+
+                                        <div class="abc-checkbox abc-checkbox-info abc-checkbox-circle">
+                                            <input class="styled" type="checkbox" value="" name="sameas" id="sameas" />
+                                            <label class="font-12" for="sameas">
+                                                @Localize.Show("SAME_AS_CONTACT")
+                                            </label>
+
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="row row-mt">
+                                <div class="col-md-2 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("TITLE")*</small>
+                                    @Html.DropDownListFor(m => m.adtPaxs[i].title, ViewData["adtTitleList"] as SelectList, new
+                                       {
+                                           @class = "form-control form-control-pax ADT-TT-" + i.ToString(),
+                                           required = "required"
+                                       })
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("FIRSTNAME")*</small>
+                                    @Html.TextBoxFor(m => m.adtPaxs[i].firstname, new { required = "required", @class = "form-control form-control-pax only-text ADT-F-" + i.ToString() })
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("MIDDLENAME") </small>
+                                    @Html.TextBoxFor(m => m.adtPaxs[i].middlename, new { @class = "form-control form-control-pax only-text ADT-M-" + i.ToString() })
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("LASTNAME")*</small>
+                                    @Html.TextBoxFor(m => m.adtPaxs[i].lastname, new { required = "required", @class = "form-control form-control-pax only-text ADT-L-" + i.ToString() })
+                                </div>
+                            </div>
+
+
+                            if (Model.isPassportRequired)
+                            {
+                                <div class="row row-mt">
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("BIRTHDAY")</small>
+                                        <input name="ADT_BD_@(i.ToString())" id="ADT_BD_@(i.ToString())" type="text" value="" class="form-control form-control-pax form-control form-control-pax-bg-white birthday-adt readonly" />
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_NO")</small>
+                                        <div class="input-group input-icon">
+                                            <img src="~/Images/icon_gogo/Passport.svg" class="ml-2" />
+                                            @Html.TextBoxFor(m => m.adtPaxs[i].passportNumber, new { @class = "form-control form-control-pax" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row row-mt">
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_ISSUING_DATE")</small>
+                                        <input name="ADT_PI_@(i.ToString())" id="ADT_PI_@(i.ToString())" type="text" value="" class="form-control form-control-pax form-control form-control-pax-bg-white passport-issue-cal readonly" />
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_EXPIRY_DATE")</small>
+                                        <input name="ADT_PE_@(i.ToString())" id="ADT_PE_@(i.ToString())" type="text" value="" class="form-control form-control-pax form-control form-control-pax-bg-white passport-expire-cal readonly" />
+                                    </div>
+                                </div>
+                                <div class="row row-mt">
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_ISSUING")</small>
+                                        @Html.DropDownListFor(m => m.adtPaxs[i].passportIssuingCountry, ViewData["countryList"] as SelectList, new
+                                   {
+                                       @class = "form-control form-control-pax"
+                                   })
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_NATIONALITY")</small>
+                                        @Html.DropDownListFor(m => m.adtPaxs[i].passportNationality, ViewData["countryList"] as SelectList, new
+                                   {
+                                       @class = "form-control form-control-pax"
+                                   })
+                                    </div>
+                                </div>
+                            }
+                            <div>
+
+                                <a class="font-10" data-toggle="collapse" href="#collapseADT@(i)" role="button" aria-expanded="false" aria-controls="collapseADT@(i)">
+                                    @Localize.Show("MORE_DETAIL") <i class="fas fa-caret-down"></i>
+                                </a>
+                            </div>
+                            <div class="collapse" id="collapseADT@(i)">
+                                <div class="row row-mt">
+                                    <div class="col-md-6 col-12">
+                                        <small class="font-weight-bold">Frequency Flyer Airline</small>
+                                        @Html.DropDownListFor(m => m.adtPaxs[i].frequencyFlyerAirline, ViewData["airlineList"] as SelectList, new
+                                   {
+                                       @class = "form-control form-control-pax"
+                                   })
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <small class="font-weight-bold">Frequency Flyer No.</small>
+                                        @Html.TextBoxFor(m => m.adtPaxs[i].frequencyFlyerNumber, new { @class = "form-control form-control-pax" })
+                                    </div>
+                                </div>
+                                <div class="row row-mt">
+                                    <div class="col-md-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("MEAL_REQUEST")</small>
+                                        @Html.DropDownListFor(m => m.adtPaxs[i].mealRequest, ViewData["adtMealList"] as SelectList, new
+                                   {
+                                       @class = "form-control form-control-pax"
+                                   })
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("SEAT_PREFERENCE")</small>
+                                        @Html.DropDownListFor(m => m.adtPaxs[i].seatRequest, ViewData["seatList"] as SelectList, new
+                                   {
+                                       @class = "form-control form-control-pax"
+                                   })
+                                    </div>
+                                </div>
+                            </div>
+                            paxNo++;
+                        }
+                        @for (int i = 0; i < Model.noOfChildren; i++)
+                        {
+                            @Html.HiddenFor(m => m.chdPaxs[i].paxType)
+                            @Html.HiddenFor(m => m.chdPaxs[i].id)
+                            <div class="row row-mt mt-3">
+                                <div class="col-6 font-14">
+                                    <img src="~/Images/icon_gogo/People.svg" />
+                                    <strong> @Localize.Show("CHILD"): @Localize.Show("PAX_NO") @paxNo.ToString()</strong>
+                                </div>
+                                <div class="col-6 text-right">
+
+                                </div>
+                            </div>
+                            <div class="row row-mt">
+                                <div class="col-md-2 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("TITLE")*</small>
+                                    @Html.DropDownListFor(m => m.chdPaxs[i].title, ViewData["chdTitleList"] as SelectList, new
+                           {
+                               @class = "form-control form-control-pax CHD-TT-" + i.ToString(),
+                               required = "required"
+                           })
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("FIRSTNAME")*</small>
+                                    @Html.TextBoxFor(m => m.chdPaxs[i].firstname, new { required = "required", @class = "form-control form-control-pax only-text CHD-F-" + i.ToString() })
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("MIDDLENAME") </small>
+                                    @Html.TextBoxFor(m => m.chdPaxs[i].middlename, new { @class = "form-control form-control-pax only-text CHD-M-" + i.ToString() })
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("LASTNAME")*</small>
+                                    @Html.TextBoxFor(m => m.chdPaxs[i].lastname, new { required = "required", @class = "form-control form-control-pax only-text CHD-L-" + i.ToString() })
+                                </div>
+                            </div>
+
+                            <div class="row row-mt">
+                                <div class="col-lg-6 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("BIRTHDAY")*</small>
+                                    <input name="CHD_BD_@(i.ToString())" id="CHD_BD_@(i.ToString())" type="text" value="" class="form-control form-control-pax form-control form-control-pax-bg-white birthday-chd readonly CHD-B-@i.ToString()" required />
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    @if (Model.isPassportRequired)
+                                    {
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_NO")</small>
+                                        <div class="input-group input-icon">
+                                            <img src="~/Images/icon_gogo/Passport.svg" class="ml-2" />
+                                            @Html.TextBoxFor(m => m.chdPaxs[i].passportNumber, new
+                                            {
+                                            @class = "form-control form-control-pax"
+                                            })
+                                        </div>
+
+                                    }
+                                </div>
+                            </div>
+                            if (Model.isPassportRequired)
+                            {
+                                <div class="row row-mt">
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_ISSUING_DATE")</small>
+                                        <input name="CHD_PI_@(i.ToString())" id="CHD_PI_@(i.ToString())" type="text" value="" class="form-control form-control-pax form-control form-control-pax-bg-white passport-issue-cal readonly" />
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_EXPIRY_DATE")</small>
+                                        <input name="CHD_PE_@(i.ToString())" id="CHD_PE_@(i.ToString())" type="text" value="" class="form-control form-control-pax form-control form-control-pax-bg-white passport-expire-cal readonly" />
+                                    </div>
+                                </div>
+                                <div class="row row-mt">
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_ISSUING")</small>
+                                        @Html.DropDownListFor(m => m.chdPaxs[i].passportIssuingCountry, ViewData["countryList"] as SelectList, new
+                               {
+                                   @class = "form-control form-control-pax"
+                               })
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_NATIONALITY")</small>
+                                        @Html.DropDownListFor(m => m.chdPaxs[i].passportNationality, ViewData["countryList"] as SelectList, new
+                               {
+                                   @class = "form-control form-control-pax"
+                               })
+                                    </div>
+                                </div>
+
+                            }
+                            <div>
+
+                                <a class="font-10" data-toggle="collapse" href="#collapseCHD@(i)" role="button" aria-expanded="false" aria-controls="collapseCHD@(i)">
+                                    @Localize.Show("MORE_DETAIL") <i class="fas fa-caret-down"></i>
+                                </a>
+                            </div>
+                            <div class="collapse" id="collapseCHD@(i)">
+                                <div class="row row-mt">
+                                    <div class="col-md-6 col-12">
+                                        <small class="font-weight-bold">Frequency Flyer Airline</small>
+                                        @Html.DropDownListFor(m => m.chdPaxs[i].frequencyFlyerAirline, ViewData["airlineList"] as SelectList, new
+                                   {
+                                       @class = "form-control form-control-pax"
+                                   })
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <small class="font-weight-bold">Frequency Flyer No.</small>
+                                        @Html.TextBoxFor(m => m.chdPaxs[i].frequencyFlyerNumber, new { @class = "form-control form-control-pax" })
+                                    </div>
+                                </div>
+                                <div class="row row-mt">
+                                    <div class="col-md-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("MEAL_REQUEST")</small>
+                                        @Html.DropDownListFor(m => m.chdPaxs[i].mealRequest, ViewData["chdMealList"] as SelectList, new
+                                   {
+                                       @class = "form-control form-control-pax"
+                                   })
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("SEAT_PREFERENCE")</small>
+                                        @Html.DropDownListFor(m => m.chdPaxs[i].seatRequest, ViewData["seatList"] as SelectList, new
+                                   {
+                                       @class = "form-control form-control-pax"
+                                   })
+                                    </div>
+                                </div>
+                            </div>
+                            paxNo++;
+                        }
+                        @for (int i = 0; i < Model.noOfInfants; i++)
+                        {
+                            @Html.HiddenFor(m => m.infPaxs[i].paxType)
+                            @Html.HiddenFor(m => m.infPaxs[i].id)
+                            <div class="row row-mt mt-3">
+                                <div class="col-6 font-14">
+                                    <img src="~/Images/icon_gogo/People.svg" />
+                                    <strong>@Localize.Show("INFANT"): @Localize.Show("PAX_NO") @paxNo.ToString()</strong>
+                                </div>
+                                <div class="col-6 text-right">
+
+                                </div>
+                            </div>
+                            <div class="row row-mt">
+                                <div class="col-md-4 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("TRAVELLING_WITH")*</small>
+                                    <select class="form-control form-control-pax" id="chdPaxs_@(i)__travelWithAdultID" name="chdPaxs[@(i)].travelWithAdultID" required="required">
+                                        @for (int a = 0; a < Model.noOfAdults; a++)
+                                        {
+                                            <option value="@(a + 1)" @(i == a ? "selected" : "")>@Localize.Show("ADULT") @(a + 1)</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row row-mt">
+                                <div class="col-md-2 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("TITLE")*</small>
+                                    @Html.DropDownListFor(m => m.infPaxs[i].title, ViewData["chdTitleList"] as SelectList, new
+                           {
+                               @class = "form-control form-control-pax INF-TT-" + i.ToString(),
+                               required = "required"
+                           })
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("FIRSTNAME")*</small>
+                                    @Html.TextBoxFor(m => m.infPaxs[i].firstname, new { required = "required", @class = "form-control form-control-pax only-text INF-F-" + i.ToString() })
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("MIDDLENAME") </small>
+                                    @Html.TextBoxFor(m => m.infPaxs[i].middlename, new { @class = "form-control form-control-pax only-text INF-M-" + i.ToString() })
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("LASTNAME")*</small>
+                                    @Html.TextBoxFor(m => m.infPaxs[i].lastname, new { required = "required", @class = "form-control form-control-pax only-text INF-L-" + i.ToString() })
+                                </div>
+                            </div>
+                            <div class="row row-mt">
+                                <div class="col-lg-6 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("BIRTHDAY")*</small>
+                                    <input name="INF_BD_@(i.ToString())" id="INF_BD_@(i.ToString())" type="text" value="" class="form-control form-control-pax form-control form-control-pax-bg-white birthday-inf INF-B-@i.ToString() readonly" required />
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    @if (Model.isPassportRequired)
+                                    {
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_NO")</small>
+                                        <div class="input-group input-icon">
+                                            <img src="~/Images/icon_gogo/Passport.svg" class="ml-2" />
+                                            @Html.TextBoxFor(m => m.infPaxs[i].passportNumber, new { @class = "form-control form-control-pax" })
+                                        </div>
+
+                                    }
+                                </div>
+                            </div>
+                            if (Model.isPassportRequired)
+                            {
+                                <div class="row row-mt">
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_ISSUING_DATE")</small>
+                                        <input name="INF_PI_@(i.ToString())" id="INF_PI_@(i.ToString())" type="text" value="" class="form-control form-control-pax form-control form-control-pax-bg-white passport-issue-cal readonly" />
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_EXPIRY_DATE")</small>
+                                        <input name="INF_PE_@(i.ToString())" id="INF_PE_@(i.ToString())" type="text" value="" class="form-control form-control-pax form-control form-control-pax-bg-white passport-expire-cal readonly" />
+                                    </div>
+                                </div>
+                                <div class="row row-mt">
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_ISSUING")</small>
+                                        @Html.DropDownListFor(m => m.infPaxs[i].passportIssuingCountry, ViewData["countryList"] as SelectList, new
+                               {
+                                   @class = "form-control form-control-pax"
+                               })
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("PASSPORT_NATIONALITY")</small>
+                                        @Html.DropDownListFor(m => m.infPaxs[i].passportNationality, ViewData["countryList"] as SelectList, new
+                               {
+                                   @class = "form-control form-control-pax"
+                               })
+                                    </div>
+                                </div>
+
+                            }
+                            <div>
+
+                                <a class="font-10" data-toggle="collapse" href="#collapseINF@(i)" role="button" aria-expanded="false" aria-controls="collapseINF@(i)">
+                                    @Localize.Show("MORE_DETAIL") <i class="fas fa-caret-down"></i>
+                                </a>
+                            </div>
+                            <div class="collapse" id="collapseINF@(i)">
+                                <div class="row row-mt">
+                                    <div class="col-md-6 col-12">
+                                        <small class="font-weight-bold">Frequency Flyer Airline</small>
+                                        @Html.DropDownListFor(m => m.infPaxs[i].frequencyFlyerAirline, ViewData["airlineList"] as SelectList, new
+                                   {
+                                       @class = "form-control form-control-pax"
+                                   })
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <small class="font-weight-bold">Frequency Flyer No.</small>
+                                        @Html.TextBoxFor(m => m.infPaxs[i].frequencyFlyerNumber, new { @class = "form-control form-control-pax" })
+                                    </div>
+                                </div>
+                                <div class="row row-mt">
+                                    <div class="col-md-6 col-12">
+                                        <small class="font-weight-bold">@Localize.Show("MEAL_REQUEST")</small>
+                                        @Html.DropDownListFor(m => m.infPaxs[i].mealRequest, ViewData["chdMealList"] as SelectList, new
+                                   {
+                                       @class = "form-control form-control-pax"
+                                   })
+                                    </div>
+                                </div>
+                            </div>
+                            paxNo++;
+                        }
+                    </div>
+                    
+                </div>
+                <br />
+                <div style="background-color:#FEDBE1;padding: 20px;border-radius: 5px;">
+                    <div>
+                        <div class="abc-checkbox abc-checkbox-info abc-checkbox-circle">
+                            <input class="styled" type="checkbox" value="false" name="needNFT" id="needNFT" />
+                            <label class="font-12" for="needNFT">
+                                @Localize.Show("NEED_NFT")
+                            </label>
+                        </div>
+                        <div id="NFTDetail" style="display:none">
+                            <div class="row row-mt">
+                                <div class="col-md-12 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("Wallet_Address")</small>
+                                    <input name="Wallet_Address" id="Wallet_Address" type="text" value="" class="form-control form-control-pax form-control form-control-pax-bg-white" />
+                                </div>
+                                <div class="col-md-12 col-12 mt-15">
+                                    <div style="padding:0px">
+                                        <div style="width:670px;height:419px;">
+                                            <div style="background-image:url('https://www5.plusibe.com/ThaiSmileAPI/images/NFT-TICKET@(iImage).png');width: 670px;height: 419px;background-size: cover;background-position: center;">
+                                                <div style="position:relative;width:100%;height:100%;">
+                                                    <div style="position: absolute;color: #FFF;top: 0;left: 0;padding-left:80px;padding-top:70px;font-size:13px;">
+                                                        <table>
+                                                            <tr>
+                                                                <td style="font-size:36px;line-height: 40px;font-weight:bold;">@Model.depFlight[0].depCity.code - @(Model.depFlight[Model.depFlight.Count - 1].arrCity.code)</td>
+                                                            </tr>
+                                                            <tr><td style="line-height:15px;">@Model.depFlight[0].depCity.name - @(Model.depFlight[Model.depFlight.Count - 1].arrCity.name)</td></tr>
+
+                                                            <tr><td style="height:5px;"></td></tr>
+                                                            @if (Model.retFlight != null && Model.retFlight.Count > 0)
+                                                            {
+                                                                <tr>
+                                                                    <td>Departure</td>
+                                                                </tr>
+                                                            }
+                                                            <tr>
+                                                                <td>
+                                                                    <table style="width:100%">
+                                                                        <tr>
+                                                                            <td><strong>Depart</strong></td>
+                                                                            <td></td>
+                                                                            <td><strong>Arrive</strong></td>
+                                                                            <td></td>
+                                                                            <td><strong>Flight</strong></td>
+                                                                        </tr>
+                                                                        @foreach (var depart in Model.depFlight)
+                                                                        {
+                                                                            <tr>
+                                                                                <td><strong>@depart.depCity.code, @depart.departureDateTime.ToString("dd MMM yy, HH:mm")</strong></td>
+                                                                                <td style="width:15px"></td>
+                                                                                <td><strong>@depart.arrCity.code, @depart.arrivalDateTime.ToString("dd MMM yy, HH:mm")</strong></td>
+                                                                                <td style="width:15px"></td>
+                                                                                <td><strong>@depart.airline.code@depart.flightNumber</strong></td>
+                                                                            </tr>
+                                                                        }
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+
+
+
+                                                            @if (Model.retFlight != null && Model.retFlight.Count > 0)
+                                                            {
+                                                                <tr>
+                                                                    <td>Return</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <table style="width:100%">
+                                                                            <tr>
+                                                                                <td><strong>Depart</strong></td>
+                                                                                <td></td>
+                                                                                <td><strong>Arrive</strong></td>
+                                                                                <td></td>
+                                                                                <td><strong>Flight</strong></td>
+                                                                            </tr>
+                                                                            @foreach (var depart in Model.retFlight)
+                                                                            {
+                                                                                <tr>
+                                                                                    <td><strong>@depart.depCity.code, @depart.departureDateTime.ToString("dd MMM yy, HH:mm")</strong></td>
+                                                                                    <td style="width:15px"></td>
+                                                                                    <td><strong>@depart.arrCity.code, @depart.arrivalDateTime.ToString("dd MMM yy, HH:mm")</strong></td>
+                                                                                    <td style="width:15px"></td>
+                                                                                    <td><strong>@depart.airline.code@depart.flightNumber</strong></td>
+                                                                                </tr>
+                                                                            }
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+
+                                                            }
+                                                        </table>
+                                                    </div>
+                                                    <div style="top: 0;right: 0;position: absolute;color: #000;padding-right: 63px;padding-top: 80px;"><img src="//ai-r-logo.azurewebsites.net/square/@(Model.depFlight[0].airline.code).png" /></div>
+                                                    <div style="bottom: 0;right: 0;position: absolute;color: #000;padding-right: 63px;padding-bottom: 145px;font-weight: bold;">
+                                                        @(Model.RobinhoodID != null && Model.RobinhoodID.Length > 0 ? Model.PNR : "XXXXXX")
+                                                    </div>
+                                                    <div style="bottom: 0;left: 0;padding-left:80px;position: absolute;color: #000;padding-bottom: 60px;font-size:24px;color:#FFF;">
+                                                        @{
+                                                            string BookingClass = "";
+                                                            switch (Model.svc_class)
+                                                            {
+                                                                case "Y": BookingClass = "ECONOMY CLASS"; break;
+                                                                case "P": BookingClass = "PREMIUM ECONOMY CLASS"; break;
+                                                                case "C": BookingClass = "BUSINESS CLASS"; break;
+                                                                case "F": BookingClass = "FIRST CLASS"; break;
+                                                            }
+                                                            <span>@BookingClass</span>
+                                                        }
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <br />
+                <div class="info-box" style="padding: 20px;">
+                    <div>
+                        <div class="font-18"><strong>@Localize.Show("FARE_CONDITION")</strong></div>
+                        <table style="width: 100%">
+                            <tr>
+                                <td>
+                                    <span>@Html.Raw(Localize.Show("FARE_CONDITION_DETAIL"))</span>
+                                </td>
+                            </tr>
+                        </table>
+                        @foreach (var fareRule in Model.fareRules)
+                        {
+                        if (Model.fareRules.Count > 1)
+                        {
+                        <div>
+                            <strong>@fareRule.origin.name - @fareRule.destination.name</strong>
+                        </div>
+                        }
+                        <div id="@(fareRule.origin.code + fareRule.destination.code)">
+                            @foreach (var rule in fareRule.rules)
+                            {
+                                string id = Guid.NewGuid().ToString();
+                                <div class="card">
+                                    <div class="card-header" id="heading@(id)" style="padding: 0px;">
+                                        <div class="mb-0">
+                                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse@(id)" aria-expanded="false" aria-controls="collapse@(id)" style="font-size: 12px;" type="button">
+                                                @if (rule.category == "SR")
+                                                {
+                                                    <strong><i class="far fa-caret-square-down"></i> SALES RESTRICTIONS</strong>
+                                                }
+                                                else if (rule.category == "AP")
+                                                {
+                                                    <strong><i class="far fa-caret-square-down"></i> ADVANCE PURCHASE / RESERVATIONS AND TICKETING</strong>
+                                                }
+                                                else if (rule.category == "PE")
+                                                {
+                                                    <strong><i class="far fa-caret-square-down"></i> PENALTIES</strong>
+                                                }
+                                                else if (rule.category == "MN")
+                                                {
+                                                    <strong><i class="far fa-caret-square-down"></i> MIN STAY</strong>
+                                                }
+                                                else if (rule.category == "MX")
+                                                {
+                                                    <strong><i class="far fa-caret-square-down"></i> MAX STAY</strong>
+                                                }
+
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="collapse@(id)" class="collapse" aria-labelledby="heading@(id)" data-parent="#@(fareRule.origin.code + fareRule.destination.code)">
+                                        <div class="card-body" style="font-size: 12px;">
+                                            @foreach (var item in rule.fareRuleText)
+                                            {
+                                                <p style="margin-bottom: 0px;">@item</p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        }
+                    </div>
+                    <div class="row mt-4 font-14">
+                        <div class="col-12 col-md-9">
+
+                            <div class="abc-checkbox abc-checkbox-info abc-checkbox-circle abc-checkbox-big">
+                                <input class="styled" type="checkbox" value="" name="agree" id="agree" required />
+                                <label for="agree">
+                                    <strong>
+                                        @Localize.Show("PROCESS_BOOKING1")
+                                        <a href="@(WebContent.mainWeb)Home/TermOfUse/" target="_blank">
+                                            @Localize.Show("PROCESS_BOOKING2")
+                                        </a>
+                                        <br />
+                                        @Localize.Show("PROCESS_BOOKING3")
+                                        <a href="@(WebContent.mainWeb)Home/PrivacyPolicy/" target="_blank">
+                                            @Localize.Show("PROCESS_BOOKING4")
+                                        </a>
+                                    </strong>
+                                </label>
+
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 text-right">
+                            <button class="btn cust-book-btn" type="button" id="book" style="width: 150px;">
+                                <strong>@Localize.Show("BOOK_NOW_PAY_LATER")</strong>
+                            </button>
+                            <button id="submit" type="submit" style="display: none;"></button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+<!-- pricechange Modal -->
+<div class="modal fade" id="pricechangeModal" tabindex="-1" role="dialog" aria-labelledby="pricechangeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="text-center text-red">
+                    <strong>@Localize.Show("WAITAMINUTE") !!</strong>
+                </div>
+                <div id="content">
+                    @Localize.Show("PRICECHANGE1") <span class="text-red">@Model.oldPrice.ToString("N0")</span>
+                    @Localize.Show("PRICECHANGE2") <span class="text-red">@Model.totalFare.ToString("N0")</span>
+                    @Localize.Show("PRICECHANGE3") <br />
+                    @Localize.Show("PRICECHANGE4")
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-lg cust-btn" data-dismiss="modal" aria-label="Close">
+                        @Localize.Show("DISMISS")
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- receiptAccept Modal -->
+<div class="modal fade" id="receiptAcceptModal" tabindex="-1" role="dialog" aria-labelledby="receiptAcceptModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="content">
+                    @Html.Raw(Localize.Show("RECEIPT_CONDITIONS"))
+                </div>
+                <div class="text-center" style="padding-top:15px;">
+                    <button type="button" class="btn" data-dismiss="modal" id="request_receipt_Cancel" style="border-radius: 10px;" aria-label="Close">
+                        @Localize.Show("RECEIPT_CANCEL")
+                    </button>
+                    <button type="button" class="btn cust-btn" id="request_receipt_Accept" style="margin-bottom: 0px;border-width: 0px;" data-dismiss="modal" aria-label="Close">
+                        @Localize.Show("RECEIPT_ACCEPT")
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loading-ani" class="d-none">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+</div>
+
+@section Scripts
+{
+    @{
+        DateTime minCHD = Model.depFlight[0].departureDateTime.AddYears(-12);
+        DateTime maxCHD = Model.depFlight[0].departureDateTime.AddYears(-2).AddDays(1);
+        DateTime minInf = Model.depFlight[0].departureDateTime.AddYears(-2);
+        DateTime minPassport = (Model.retFlight!=null?Model.retFlight[Model.retFlight.Count-1].arrivalDateTime:Model.depFlight[0].departureDateTime).AddMonths(3);
+        DateTime maxPassport = DateTime.Now.AddYears(10);
+    }
+
+    <script>
+        var minCHD = new Date(@(minCHD.Year), @(minCHD.Month - 1), @(minCHD.Day));
+        var maxCHD = new Date(@(maxCHD.Year), @(maxCHD.Month - 1), @(maxCHD.Day));
+        var minInf = new Date(@(minInf.Year), @(minInf.Month - 1), @(minInf.Day));
+        var minPassport = new Date(@(minPassport.Year), @(minPassport.Month - 1), @(minPassport.Day));
+        var maxPassport = new Date(@(maxPassport.Year), @(maxPassport.Month - 1), @(maxPassport.Day));
+        $(document).ready(function () {
+
+            $('#sameas').click(function () {
+                if (this.checked) {
+                    $('#adtPaxs_0__title').val($('#contactInfo_title').val());
+                    $('#adtPaxs_0__firstname').val($('#contactInfo_firstname').val());
+                    $('#adtPaxs_0__middlename').val($('#contactInfo_middlename').val());
+                    $('#adtPaxs_0__lastname').val($('#contactInfo_lastname').val());
+                }
+            });
+
+            $('#needNFT').click(function () {
+                if (this.checked) {
+                    $('#needNFT').val('true');
+                    $('#NFTDetail').show();
+                    $('.nft-fee-detail').show();
+                    $('#Wallet_Address').attr('required', 'required');
+                } else {
+                    $('#needNFT').val('false');
+                    $('#NFTDetail').hide();
+                    $('.nft-fee-detail').hide();
+                    $('#Wallet_Address').removeAttr('required');
+                }
+            });
+
+            @if(Model.priceChange)
+            {
+                <text>
+            $('#pricechangeModal').modal('show');
+
+            </text>
+            }
+
+            //Date Picker
+            var normalDatePicker = $('.normal-cal').datepicker({
+                language: $('#web_lang').val(),
+                maxDate: new Date(),
+                autoClose: true,
+                toggleSelected: false
+            });
+            var passportIssueDatePicker = $('.passport-issue-cal').datepicker({
+                language: $('#web_lang').val(),
+                maxDate: new Date(),
+                autoClose: true,
+                toggleSelected: false
+            });
+             var passportExpireDatePicker = $('.passport-expire-cal').datepicker({
+                language: $('#web_lang').val(),
+                minDate: minPassport,
+                maxDate: maxPassport,
+                autoClose: true,
+                toggleSelected: false
+            });
+            var birthdayadt = $('.birthday-adt').datepicker({
+                language: $('#web_lang').val(),
+                maxDate: new Date(),
+                autoClose: true,
+                toggleSelected: false,
+                view: 'years'
+            });
+            var birthdaychd = $('.birthday-chd').datepicker({
+                language: $('#web_lang').val(),
+                minDate: minCHD,
+                maxDate: maxCHD,
+                autoClose: true,
+                toggleSelected: false,
+                view: 'years'
+            });
+            var birthdayinf = $('.birthday-inf').datepicker({
+                language: $('#web_lang').val(),
+                minDate: minInf,
+                maxDate: new Date(),
+                autoClose: true,
+                toggleSelected: false,
+                view: 'years'
+            });
+            /*
+            $('.birthday-chd').pickadate({
+    format: 'dd/mm/yyyy',
+                formatSubmit: 'dd/mm/yyyy',
+                hiddenName: true,
+                selectMonths: true,
+                selectYears: true,
+                min: minCHD,
+                max: maxCHD,
+                clear: '',
+                editable: true
+            });
+            $('.birthday-inf').pickadate({
+                format: 'dd/mm/yyyy',
+                formatSubmit: 'dd/mm/yyyy',
+                hiddenName: true,
+                selectMonths: true,
+                selectYears: true,
+                min: minInf,
+                max: 0,
+                clear: '',
+                editable: true
+            });
+            */
+            
+            $('#book').click(function () {
+               
+                $("#submit").click();
+                if ($('form')[0].checkValidity()) {
+                    $('#book').prop('disabled', true);
+                    $('#book').html($('#loading-ani').html());
+                }
+            });
+
+            $(".only-text").keypress(function (event) {
+                var ew = event.which;
+                //if (ew == 32) //space
+                //    return true;
+                if (65 <= ew && ew <= 90)
+                    return true;
+                if (97 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+            $(".tel-number-text").keypress(function (event) {
+                var ew = event.which;
+                if (ew == 35)
+                    return true;
+                if (ew == 42)
+                    return true;
+                if (ew == 43)
+                    return true;
+                if (48 <= ew && ew <= 57)
+                    return true;
+                return false;
+            });
+            $(".email-text").keypress(function (event) {
+                var ew = event.which;
+                if (ew == 45) //-
+                    return true;
+                if (ew == 46) //.
+                    return true;
+                if (ew == 95) //_
+                    return true;
+                if (ew == 64) //at
+                    return true;
+                if (48 <= ew && ew <= 57)
+                    return true;
+                if (65 <= ew && ew <= 90)
+                    return true;
+                if (97 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+            
+        });
+
+
+
+
+        var showHideFlightDetail = function (tripType) {
+            if ($('#' + tripType + '_Detial').is(":visible")) {
+                $('#showHide' + tripType).html('@Localize.Show("SHOW_FLIGHT_DETIAL")');
+                $('#' + tripType + '_Detial').slideUp();
+            } else {
+                $('#showHide' + tripType).html('@Localize.Show("HIDE_FLIGHT_DETIAL")');
+                $('#' + tripType + '_Detial').slideDown();
+            }
+        }
+        
+    </script>
+    <script src="~/Vendors/tel-input/build/js/intlTelInput.js"></script>
+    <script>
+        var input = document.querySelector("#contactInfo_telNo");
+        var iti = window.intlTelInput(input, {
+            initialCountry: 'th',
+            preferredCountries: ['th'],
+            separateDialCode: true,
+            nationalMode: false
+        });
+        input.addEventListener("countrychange", function () {
+            var pc = iti.getSelectedCountryData();
+            console.log(pc);
+            $('#phoneCode').val(pc.dialCode);
+        });
+    </script>
+}

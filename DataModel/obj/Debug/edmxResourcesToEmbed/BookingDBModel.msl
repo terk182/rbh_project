@@ -1,0 +1,761 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BookingDBModelStoreContainer" CdmEntityContainer="BookingDBEntities">
+    <EntitySetMapping Name="AirlineCodes">
+      <EntityTypeMapping TypeName="BookingDBModel.AirlineCode">
+        <MappingFragment StoreEntitySet="AirlineCode">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Language" ColumnName="Language" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirlineControls">
+      <EntityTypeMapping TypeName="BookingDBModel.AirlineControl">
+        <MappingFragment StoreEntitySet="AirlineControl">
+          <ScalarProperty Name="AirlineOID" ColumnName="AirlineOID" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="OriginalCountryCode" ColumnName="OriginalCountryCode" />
+          <ScalarProperty Name="DestinationCountryCode" ColumnName="DestinationCountryCode" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirlineControlSubs">
+      <EntityTypeMapping TypeName="BookingDBModel.AirlineControlSub">
+        <MappingFragment StoreEntitySet="AirlineControlSub">
+          <ScalarProperty Name="AirlineSubOID" ColumnName="AirlineSubOID" />
+          <ScalarProperty Name="AirlineOID" ColumnName="AirlineOID" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="AirlineCode" ColumnName="AirlineCode" />
+          <ScalarProperty Name="ClassOfService" ColumnName="ClassOfService" />
+          <ScalarProperty Name="FareBasis" ColumnName="FareBasis" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirlineQtaxControls">
+      <EntityTypeMapping TypeName="BookingDBModel.AirlineQtaxControl">
+        <MappingFragment StoreEntitySet="AirlineQtaxControl">
+          <ScalarProperty Name="AirlineQtaxOID" ColumnName="AirlineQtaxOID" />
+          <ScalarProperty Name="AirlineCode" ColumnName="AirlineCode" />
+          <ScalarProperty Name="OriginalCountryCode" ColumnName="OriginalCountryCode" />
+          <ScalarProperty Name="DestinationCountryCode" ColumnName="DestinationCountryCode" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirportCodes">
+      <EntityTypeMapping TypeName="BookingDBModel.AirportCode">
+        <MappingFragment StoreEntitySet="AirportCode">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Language" ColumnName="Language" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirportLocations">
+      <EntityTypeMapping TypeName="BookingDBModel.AirportLocation">
+        <MappingFragment StoreEntitySet="AirportLocation">
+          <ScalarProperty Name="AirportCode" ColumnName="AirportCode" />
+          <ScalarProperty Name="CityCode" ColumnName="CityCode" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirportTranfers">
+      <EntityTypeMapping TypeName="BookingDBModel.AirportTranfer">
+        <MappingFragment StoreEntitySet="AirportTranfer">
+          <ScalarProperty Name="AirportTranferOID" ColumnName="AirportTranferOID" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="StartBookingDate" ColumnName="StartBookingDate" />
+          <ScalarProperty Name="FinishBookingDate" ColumnName="FinishBookingDate" />
+          <ScalarProperty Name="StartTravelDate" ColumnName="StartTravelDate" />
+          <ScalarProperty Name="FinishTravelDate" ColumnName="FinishTravelDate" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="IsPercentDiscount" ColumnName="IsPercentDiscount" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="AirportCode" ColumnName="AirportCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirportWithCities">
+      <EntityTypeMapping TypeName="BookingDBModel.AirportWithCity">
+        <MappingFragment StoreEntitySet="AirportWithCity">
+          <ScalarProperty Name="AirportCode" ColumnName="AirportCode" />
+          <ScalarProperty Name="FacilityCode" ColumnName="FacilityCode" />
+          <ScalarProperty Name="CityCode" ColumnName="CityCode" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="IsCommercialAirport" ColumnName="IsCommercialAirport" />
+          <ScalarProperty Name="ProvinceCode" ColumnName="ProvinceCode" />
+          <ScalarProperty Name="ProvinceCountryCode" ColumnName="ProvinceCountryCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirPromotions">
+      <EntityTypeMapping TypeName="BookingDBModel.AirPromotion">
+        <MappingFragment StoreEntitySet="AirPromotion">
+          <ScalarProperty Name="AirPromotionOID" ColumnName="AirPromotionOID" />
+          <ScalarProperty Name="Origin" ColumnName="Origin" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="DepartDate" ColumnName="DepartDate" />
+          <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+          <ScalarProperty Name="PeriodStart" ColumnName="PeriodStart" />
+          <ScalarProperty Name="PeriodEnd" ColumnName="PeriodEnd" />
+          <ScalarProperty Name="DeepLinkText" ColumnName="DeepLinkText" />
+          <ScalarProperty Name="AirlineCode" ColumnName="AirlineCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="APITokens">
+      <EntityTypeMapping TypeName="BookingDBModel.APIToken">
+        <MappingFragment StoreEntitySet="APIToken">
+          <ScalarProperty Name="Token" ColumnName="Token" />
+          <ScalarProperty Name="APIUserOID" ColumnName="APIUserOID" />
+          <ScalarProperty Name="Expires" ColumnName="Expires" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="APIUsers">
+      <EntityTypeMapping TypeName="BookingDBModel.APIUser">
+        <MappingFragment StoreEntitySet="APIUser">
+          <ScalarProperty Name="APIUserOID" ColumnName="APIUserOID" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="WebMode" ColumnName="WebMode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BackOfficeAdmins">
+      <EntityTypeMapping TypeName="BookingDBModel.BackOfficeAdmin">
+        <MappingFragment StoreEntitySet="BackOfficeAdmin">
+          <ScalarProperty Name="BackOfficeAdminOID" ColumnName="BackOfficeAdminOID" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChillPayBackgrounds">
+      <EntityTypeMapping TypeName="BookingDBModel.ChillPayBackground">
+        <MappingFragment StoreEntitySet="ChillPayBackground">
+          <ScalarProperty Name="ChillPayBackgroundID" ColumnName="ChillPayBackgroundID" />
+          <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+          <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="BankCode" ColumnName="BankCode" />
+          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+          <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+          <ScalarProperty Name="BankRefCode" ColumnName="BankRefCode" />
+          <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
+          <ScalarProperty Name="CurrentTime" ColumnName="CurrentTime" />
+          <ScalarProperty Name="PaymentDescription" ColumnName="PaymentDescription" />
+          <ScalarProperty Name="CreditCardToken" ColumnName="CreditCardToken" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="CheckSum" ColumnName="CheckSum" />
+          <ScalarProperty Name="ResponseType" ColumnName="ResponseType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChillPayInquiries">
+      <EntityTypeMapping TypeName="BookingDBModel.ChillPayInquiry">
+        <MappingFragment StoreEntitySet="ChillPayInquiry">
+          <ScalarProperty Name="ChillPayInquiryID" ColumnName="ChillPayInquiryID" />
+          <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+          <ScalarProperty Name="MerchantCode" ColumnName="MerchantCode" />
+          <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+          <ScalarProperty Name="ApiKey" ColumnName="ApiKey" />
+          <ScalarProperty Name="CheckSum" ColumnName="CheckSum" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ChillPayBackgroundID" ColumnName="ChillPayBackgroundID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChillPayResults">
+      <EntityTypeMapping TypeName="BookingDBModel.ChillPayResult">
+        <MappingFragment StoreEntitySet="ChillPayResult">
+          <ScalarProperty Name="ChillPayResultID" ColumnName="ChillPayResultID" />
+          <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+          <ScalarProperty Name="respCode" ColumnName="respCode" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="transNo" ColumnName="transNo" />
+          <ScalarProperty Name="orderNo" ColumnName="orderNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CityCodes">
+      <EntityTypeMapping TypeName="BookingDBModel.CityCode">
+        <MappingFragment StoreEntitySet="CityCode">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Language" ColumnName="Language" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CountryCodes">
+      <EntityTypeMapping TypeName="BookingDBModel.CountryCode">
+        <MappingFragment StoreEntitySet="CountryCode">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Language" ColumnName="Language" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Alpha3" ColumnName="Alpha3" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CurrencyExchanges">
+      <EntityTypeMapping TypeName="BookingDBModel.CurrencyExchange">
+        <MappingFragment StoreEntitySet="CurrencyExchange">
+          <ScalarProperty Name="CurrencyExchangeOID" ColumnName="CurrencyExchangeOID" />
+          <ScalarProperty Name="ExchangeRate" ColumnName="ExchangeRate" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingBaggages">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightBookingBaggage">
+        <MappingFragment StoreEntitySet="FlightBookingBaggage">
+          <ScalarProperty Name="FlightBookingBaggageOID" ColumnName="FlightBookingBaggageOID" />
+          <ScalarProperty Name="FlightBookingFareOID" ColumnName="FlightBookingFareOID" />
+          <ScalarProperty Name="Baggages" ColumnName="Baggages" />
+          <ScalarProperty Name="BaggageNo" ColumnName="BaggageNo" />
+          <ScalarProperty Name="BaggageUnit" ColumnName="BaggageUnit" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingContactInfoes">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightBookingContactInfo">
+        <MappingFragment StoreEntitySet="FlightBookingContactInfo">
+          <ScalarProperty Name="FlightBookingContactInfoOID" ColumnName="FlightBookingContactInfoOID" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Middlename" ColumnName="Middlename" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingFares">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightBookingFare">
+        <MappingFragment StoreEntitySet="FlightBookingFare">
+          <ScalarProperty Name="FlightBookingFareOID" ColumnName="FlightBookingFareOID" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="PessengerType" ColumnName="PessengerType" />
+          <ScalarProperty Name="BaseFare" ColumnName="BaseFare" />
+          <ScalarProperty Name="SellingBaseFare" ColumnName="SellingBaseFare" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+          <ScalarProperty Name="Qtax" ColumnName="Qtax" />
+          <ScalarProperty Name="LessFare" ColumnName="LessFare" />
+          <ScalarProperty Name="Net" ColumnName="Net" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingFareRules">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightBookingFareRule">
+        <MappingFragment StoreEntitySet="FlightBookingFareRule">
+          <ScalarProperty Name="FlightBookingFareRuleOID" ColumnName="FlightBookingFareRuleOID" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="Origin" ColumnName="Origin" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="FareBasis" ColumnName="FareBasis" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingFareRuleDatails">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightBookingFareRuleDatail">
+        <MappingFragment StoreEntitySet="FlightBookingFareRuleDatail">
+          <ScalarProperty Name="FlightBookingFareRuleDatailOID" ColumnName="FlightBookingFareRuleDatailOID" />
+          <ScalarProperty Name="FlightBookingFareRuleOID" ColumnName="FlightBookingFareRuleOID" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="FareRuleText" ColumnName="FareRuleText" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingPaxInfoes">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightBookingPaxInfo">
+        <MappingFragment StoreEntitySet="FlightBookingPaxInfo">
+          <ScalarProperty Name="FlightBookingPaxInfoOID" ColumnName="FlightBookingPaxInfoOID" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="PaxType" ColumnName="PaxType" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Middlename" ColumnName="Middlename" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+          <ScalarProperty Name="PassportIssuingDate" ColumnName="PassportIssuingDate" />
+          <ScalarProperty Name="PassportExpiryDate" ColumnName="PassportExpiryDate" />
+          <ScalarProperty Name="PassportIssuingCountry" ColumnName="PassportIssuingCountry" />
+          <ScalarProperty Name="PassportNationality" ColumnName="PassportNationality" />
+          <ScalarProperty Name="PessengerType" ColumnName="PessengerType" />
+          <ScalarProperty Name="NetRefund" ColumnName="NetRefund" />
+          <ScalarProperty Name="AgentRefund" ColumnName="AgentRefund" />
+          <ScalarProperty Name="RefundAmount" ColumnName="RefundAmount" />
+          <ScalarProperty Name="TickNoRefund" ColumnName="TickNoRefund" />
+          <ScalarProperty Name="RemarkRefund" ColumnName="RemarkRefund" />
+          <ScalarProperty Name="NetReissue" ColumnName="NetReissue" />
+          <ScalarProperty Name="AgentReissue" ColumnName="AgentReissue" />
+          <ScalarProperty Name="ReissueSelling" ColumnName="ReissueSelling" />
+          <ScalarProperty Name="TickNoReissueOld" ColumnName="TickNoReissueOld" />
+          <ScalarProperty Name="TickNoReissueNew" ColumnName="TickNoReissueNew" />
+          <ScalarProperty Name="RemarkReissue" ColumnName="RemarkReissue" />
+          <ScalarProperty Name="StatusRefund" ColumnName="StatusRefund" />
+          <ScalarProperty Name="StatusReissue" ColumnName="StatusReissue" />
+          <ScalarProperty Name="KiwiBag" ColumnName="KiwiBag" />
+          <ScalarProperty Name="KiwiBagPrice" ColumnName="KiwiBagPrice" />
+          <ScalarProperty Name="KiwiBagWeight" ColumnName="KiwiBagWeight" />
+          <ScalarProperty Name="FrequencyFlyerAirline" ColumnName="FrequencyFlyerAirline" />
+          <ScalarProperty Name="FrequencyFlyerNumber" ColumnName="FrequencyFlyerNumber" />
+          <ScalarProperty Name="MealRequest" ColumnName="MealRequest" />
+          <ScalarProperty Name="SeatRequest" ColumnName="SeatRequest" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingRefunds">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightBookingRefund">
+        <MappingFragment StoreEntitySet="FlightBookingRefund">
+          <ScalarProperty Name="FlightBookingRefundOID" ColumnName="FlightBookingRefundOID" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="NewPNR" ColumnName="NewPNR" />
+          <ScalarProperty Name="RefundNo" ColumnName="RefundNo" />
+          <ScalarProperty Name="RefundCreateDate" ColumnName="RefundCreateDate" />
+          <ScalarProperty Name="RefundGMDate" ColumnName="RefundGMDate" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="DueDateOfRefund" ColumnName="DueDateOfRefund" />
+          <ScalarProperty Name="OldPNR" ColumnName="OldPNR" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingReissues">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightBookingReissue">
+        <MappingFragment StoreEntitySet="FlightBookingReissue">
+          <ScalarProperty Name="FlightBookingReissueOID" ColumnName="FlightBookingReissueOID" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="NewPNR" ColumnName="NewPNR" />
+          <ScalarProperty Name="ReissueCreateDate" ColumnName="ReissueCreateDate" />
+          <ScalarProperty Name="TypeChage" ColumnName="TypeChage" />
+          <ScalarProperty Name="DetailChage" ColumnName="DetailChage" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightSearchLogs">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightSearchLog">
+        <MappingFragment StoreEntitySet="FlightSearchLog">
+          <ScalarProperty Name="FlightSearchLog1" ColumnName="FlightSearchLog" />
+          <ScalarProperty Name="From1" ColumnName="From1" />
+          <ScalarProperty Name="From2" ColumnName="From2" />
+          <ScalarProperty Name="From3" ColumnName="From3" />
+          <ScalarProperty Name="From4" ColumnName="From4" />
+          <ScalarProperty Name="From5" ColumnName="From5" />
+          <ScalarProperty Name="From6" ColumnName="From6" />
+          <ScalarProperty Name="To1" ColumnName="To1" />
+          <ScalarProperty Name="To2" ColumnName="To2" />
+          <ScalarProperty Name="To3" ColumnName="To3" />
+          <ScalarProperty Name="To4" ColumnName="To4" />
+          <ScalarProperty Name="To5" ColumnName="To5" />
+          <ScalarProperty Name="To6" ColumnName="To6" />
+          <ScalarProperty Name="TripType" ColumnName="TripType" />
+          <ScalarProperty Name="Date1" ColumnName="Date1" />
+          <ScalarProperty Name="Date2" ColumnName="Date2" />
+          <ScalarProperty Name="Date3" ColumnName="Date3" />
+          <ScalarProperty Name="Date4" ColumnName="Date4" />
+          <ScalarProperty Name="Date5" ColumnName="Date5" />
+          <ScalarProperty Name="Date6" ColumnName="Date6" />
+          <ScalarProperty Name="NoOfAdult" ColumnName="NoOfAdult" />
+          <ScalarProperty Name="NoOfChild" ColumnName="NoOfChild" />
+          <ScalarProperty Name="NoOfInfant" ColumnName="NoOfInfant" />
+          <ScalarProperty Name="SeatClass" ColumnName="SeatClass" />
+          <ScalarProperty Name="AirlinePreference" ColumnName="AirlinePreference" />
+          <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+          <ScalarProperty Name="TransactionDateTime" ColumnName="TransactionDateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FourDigitControls">
+      <EntityTypeMapping TypeName="BookingDBModel.FourDigitControl">
+        <MappingFragment StoreEntitySet="FourDigitControl">
+          <ScalarProperty Name="FourDigitOID" ColumnName="FourDigitOID" />
+          <ScalarProperty Name="AirlineCode" ColumnName="AirlineCode" />
+          <ScalarProperty Name="OriginalCountryCode" ColumnName="OriginalCountryCode" />
+          <ScalarProperty Name="DestinationCountryCode" ColumnName="DestinationCountryCode" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Information">
+      <EntityTypeMapping TypeName="BookingDBModel.Information">
+        <MappingFragment StoreEntitySet="Information">
+          <ScalarProperty Name="InformationOID" ColumnName="InformationOID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KBankCharges">
+      <EntityTypeMapping TypeName="BookingDBModel.KBankCharge">
+        <MappingFragment StoreEntitySet="KBankCharge">
+          <ScalarProperty Name="ChargeID" ColumnName="ChargeID" />
+          <ScalarProperty Name="transaction_state" ColumnName="transaction_state" />
+          <ScalarProperty Name="ref1" ColumnName="ref1" />
+          <ScalarProperty Name="ref2" ColumnName="ref2" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="mode" ColumnName="mode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PassportConfigs">
+      <EntityTypeMapping TypeName="BookingDBModel.PassportConfig">
+        <MappingFragment StoreEntitySet="PassportConfig">
+          <ScalarProperty Name="PassportOID" ColumnName="PassportOID" />
+          <ScalarProperty Name="AirlineCodes" ColumnName="AirlineCodes" />
+          <ScalarProperty Name="OriginCodes" ColumnName="OriginCodes" />
+          <ScalarProperty Name="DestinationCodes" ColumnName="DestinationCodes" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Payments">
+      <EntityTypeMapping TypeName="BookingDBModel.Payment">
+        <MappingFragment StoreEntitySet="Payment">
+          <ScalarProperty Name="PaymentOID" ColumnName="PaymentOID" />
+          <ScalarProperty Name="BankTranferValue" ColumnName="BankTranferValue" />
+          <ScalarProperty Name="KbankFullValue" ColumnName="KbankFullValue" />
+          <ScalarProperty Name="KbankInstallValue" ColumnName="KbankInstallValue" />
+          <ScalarProperty Name="PaySolutionCounterValue" ColumnName="PaySolutionCounterValue" />
+          <ScalarProperty Name="PaySolutionInstallValue" ColumnName="PaySolutionInstallValue" />
+          <ScalarProperty Name="UnionpayValue" ColumnName="UnionpayValue" />
+          <ScalarProperty Name="IspercentBankTranfer" ColumnName="IspercentBankTranfer" />
+          <ScalarProperty Name="IspercentKbankFull" ColumnName="IspercentKbankFull" />
+          <ScalarProperty Name="IspercentKbankInstall" ColumnName="IspercentKbankInstall" />
+          <ScalarProperty Name="IspercentPayCouter" ColumnName="IspercentPayCouter" />
+          <ScalarProperty Name="IspercentPayInstall" ColumnName="IspercentPayInstall" />
+          <ScalarProperty Name="IIspercentUnionpay" ColumnName="IIspercentUnionpay" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaymentReferences">
+      <EntityTypeMapping TypeName="BookingDBModel.PaymentReference">
+        <MappingFragment StoreEntitySet="PaymentReference">
+          <ScalarProperty Name="PaymentRefID" ColumnName="PaymentRefID" />
+          <ScalarProperty Name="PaymentRefOrderNo" ColumnName="PaymentRefOrderNo" />
+          <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+          <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+          <ScalarProperty Name="Product" ColumnName="Product" />
+          <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RunningNumbers">
+      <EntityTypeMapping TypeName="BookingDBModel.RunningNumber">
+        <MappingFragment StoreEntitySet="RunningNumber">
+          <ScalarProperty Name="RunningKey" ColumnName="RunningKey" />
+          <ScalarProperty Name="RunningNo" ColumnName="RunningNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SeatMapControls">
+      <EntityTypeMapping TypeName="BookingDBModel.SeatMapControl">
+        <MappingFragment StoreEntitySet="SeatMapControl">
+          <ScalarProperty Name="SeatMapOID" ColumnName="SeatMapOID" />
+          <ScalarProperty Name="AirlineCode" ColumnName="AirlineCode" />
+          <ScalarProperty Name="OriginalCountryCode" ColumnName="OriginalCountryCode" />
+          <ScalarProperty Name="DestinationCountryCode" ColumnName="DestinationCountryCode" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="RBD" ColumnName="RBD" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBHotelNames">
+      <EntityTypeMapping TypeName="BookingDBModel.HBHotelName">
+        <MappingFragment StoreEntitySet="HBHotelName">
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+          <ScalarProperty Name="DestinationCode" ColumnName="DestinationCode" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="HotelName" ColumnName="HotelName" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightFareRuleDetails">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightFareRuleDetail">
+        <MappingFragment StoreEntitySet="FlightFareRuleDetail">
+          <ScalarProperty Name="FareRule" ColumnName="FareRule" />
+          <ScalarProperty Name="FareFamilyName" ColumnName="FareFamilyName" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="FareRuleOID" ColumnName="FareRuleOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightFareRuleConfigs">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightFareRuleConfig">
+        <MappingFragment StoreEntitySet="FlightFareRuleConfig">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="FareBasis" ColumnName="FareBasis" />
+          <ScalarProperty Name="RBD" ColumnName="RBD" />
+          <ScalarProperty Name="ZoneTo" ColumnName="ZoneTo" />
+          <ScalarProperty Name="ZoneFrom" ColumnName="ZoneFrom" />
+          <ScalarProperty Name="FareRuleOID" ColumnName="FareRuleOID" />
+          <ScalarProperty Name="FareRuleConfigOID" ColumnName="FareRuleConfigOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirlineConfigs">
+      <EntityTypeMapping TypeName="BookingDBModel.AirlineConfig">
+        <MappingFragment StoreEntitySet="AirlineConfig">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="AirlineCode" ColumnName="AirlineCode" />
+          <ScalarProperty Name="IsInclude" ColumnName="IsInclude" />
+          <ScalarProperty Name="DestinationCode" ColumnName="DestinationCode" />
+          <ScalarProperty Name="DepartureCode" ColumnName="DepartureCode" />
+          <ScalarProperty Name="AirlineConfigOID" ColumnName="AirlineConfigOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SiteConfigs">
+      <EntityTypeMapping TypeName="BookingDBModel.SiteConfig">
+        <MappingFragment StoreEntitySet="SiteConfig">
+          <ScalarProperty Name="ConfigValue" ColumnName="ConfigValue" />
+          <ScalarProperty Name="ConfigKey" ColumnName="ConfigKey" />
+          <ScalarProperty Name="Seq" ColumnName="Seq" />
+          <ScalarProperty Name="ConfigOID" ColumnName="ConfigOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightSearchMultiTickets">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightSearchMultiTicket">
+        <MappingFragment StoreEntitySet="FlightSearchMultiTicket">
+          <ScalarProperty Name="DateTimeRequest" ColumnName="DateTimeRequest" />
+          <ScalarProperty Name="FlightSearchResponse" ColumnName="FlightSearchResponse" />
+          <ScalarProperty Name="FlightSearchRequest" ColumnName="FlightSearchRequest" />
+          <ScalarProperty Name="FlightSearchOID" ColumnName="FlightSearchOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingFlightDetails">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightBookingFlightDetail">
+        <MappingFragment StoreEntitySet="FlightBookingFlightDetail">
+          <ScalarProperty Name="ControlNumber" ColumnName="ControlNumber" />
+          <ScalarProperty Name="Seq" ColumnName="Seq" />
+          <ScalarProperty Name="TripType" ColumnName="TripType" />
+          <ScalarProperty Name="OperatedAirline" ColumnName="OperatedAirline" />
+          <ScalarProperty Name="Airline" ColumnName="Airline" />
+          <ScalarProperty Name="ArrCity" ColumnName="ArrCity" />
+          <ScalarProperty Name="DepCity" ColumnName="DepCity" />
+          <ScalarProperty Name="EquipmentType" ColumnName="EquipmentType" />
+          <ScalarProperty Name="Cabin" ColumnName="Cabin" />
+          <ScalarProperty Name="FareType" ColumnName="FareType" />
+          <ScalarProperty Name="AvailableSeat" ColumnName="AvailableSeat" />
+          <ScalarProperty Name="FareBasis" ColumnName="FareBasis" />
+          <ScalarProperty Name="Rbd" ColumnName="Rbd" />
+          <ScalarProperty Name="ConnectingTime" ColumnName="ConnectingTime" />
+          <ScalarProperty Name="FlightTime" ColumnName="FlightTime" />
+          <ScalarProperty Name="ArrivalDateTime" ColumnName="ArrivalDateTime" />
+          <ScalarProperty Name="DepartureDateTime" ColumnName="DepartureDateTime" />
+          <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="FlightBookingFlightDetailOID" ColumnName="FlightBookingFlightDetailOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DiscountTagDetails">
+      <EntityTypeMapping TypeName="BookingDBModel.DiscountTagDetail">
+        <MappingFragment StoreEntitySet="DiscountTagDetail">
+          <ScalarProperty Name="PromotionTag" ColumnName="PromotionTag" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="DiscountTagOID" ColumnName="DiscountTagOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookings">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightBooking">
+        <MappingFragment StoreEntitySet="FlightBooking">
+          <ScalarProperty Name="BookingURN" ColumnName="BookingURN" />
+          <ScalarProperty Name="PromotionGroupCode" ColumnName="PromotionGroupCode" />
+          <ScalarProperty Name="paymentReference" ColumnName="paymentReference" />
+          <ScalarProperty Name="Transaction_Hash" ColumnName="Transaction_Hash" />
+          <ScalarProperty Name="NFTFee" ColumnName="NFTFee" />
+          <ScalarProperty Name="Wallet_Address" ColumnName="Wallet_Address" />
+          <ScalarProperty Name="paymentDate" ColumnName="paymentDate" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="MemberOID" ColumnName="MemberOID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UUID" ColumnName="UUID" />
+          <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
+          <ScalarProperty Name="InstallmentMonthly" ColumnName="InstallmentMonthly" />
+          <ScalarProperty Name="InstallmentPlan" ColumnName="InstallmentPlan" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="PromoCode" ColumnName="PromoCode" />
+          <ScalarProperty Name="PaymentFee" ColumnName="PaymentFee" />
+          <ScalarProperty Name="sourceBy" ColumnName="sourceBy" />
+          <ScalarProperty Name="IsBundle" ColumnName="IsBundle" />
+          <ScalarProperty Name="StatusBooking" ColumnName="StatusBooking" />
+          <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+          <ScalarProperty Name="StatusPayment" ColumnName="StatusPayment" />
+          <ScalarProperty Name="RobinhoodID" ColumnName="RobinhoodID" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="CountryOfResidence" ColumnName="CountryOfResidence" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+          <ScalarProperty Name="Middlename" ColumnName="Middlename" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="bookingDate" ColumnName="bookingDate" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Origin" ColumnName="Origin" />
+          <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+          <ScalarProperty Name="IsError" ColumnName="IsError" />
+          <ScalarProperty Name="CounterServiceFee" ColumnName="CounterServiceFee" />
+          <ScalarProperty Name="PaypalFee" ColumnName="PaypalFee" />
+          <ScalarProperty Name="CreditCardFee" ColumnName="CreditCardFee" />
+          <ScalarProperty Name="TotalFare" ColumnName="TotalFare" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="TKTL" ColumnName="TKTL" />
+          <ScalarProperty Name="OldPrice" ColumnName="OldPrice" />
+          <ScalarProperty Name="PriceChange" ColumnName="PriceChange" />
+          <ScalarProperty Name="MedId" ColumnName="MedId" />
+          <ScalarProperty Name="Platform" ColumnName="Platform" />
+          <ScalarProperty Name="PNR" ColumnName="PNR" />
+          <ScalarProperty Name="IsPassportRequired" ColumnName="IsPassportRequired" />
+          <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+          <ScalarProperty Name="Svc_class" ColumnName="Svc_class" />
+          <ScalarProperty Name="NoOfInfants" ColumnName="NoOfInfants" />
+          <ScalarProperty Name="NoOfChildren" ColumnName="NoOfChildren" />
+          <ScalarProperty Name="NoOfAdults" ColumnName="NoOfAdults" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DiscountTags">
+      <EntityTypeMapping TypeName="BookingDBModel.DiscountTag">
+        <MappingFragment StoreEntitySet="DiscountTag">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="DiscountIsPercent" ColumnName="DiscountIsPercent" />
+          <ScalarProperty Name="DiscountAmt" ColumnName="DiscountAmt" />
+          <ScalarProperty Name="ZoneTo" ColumnName="ZoneTo" />
+          <ScalarProperty Name="ZoneFrom" ColumnName="ZoneFrom" />
+          <ScalarProperty Name="FinishBookingDate" ColumnName="FinishBookingDate" />
+          <ScalarProperty Name="StartBookingDate" ColumnName="StartBookingDate" />
+          <ScalarProperty Name="PaxTypeINF" ColumnName="PaxTypeINF" />
+          <ScalarProperty Name="PaxTypeCHD" ColumnName="PaxTypeCHD" />
+          <ScalarProperty Name="PaxTypeADT" ColumnName="PaxTypeADT" />
+          <ScalarProperty Name="FareBasis" ColumnName="FareBasis" />
+          <ScalarProperty Name="RBD" ColumnName="RBD" />
+          <ScalarProperty Name="AirlineCodes" ColumnName="AirlineCodes" />
+          <ScalarProperty Name="PromotionGroupCodeOID" ColumnName="PromotionGroupCodeOID" />
+          <ScalarProperty Name="DiscountTagOID" ColumnName="DiscountTagOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PromotionGroupCodes">
+      <EntityTypeMapping TypeName="BookingDBModel.PromotionGroupCode">
+        <MappingFragment StoreEntitySet="PromotionGroupCode">
+          <ScalarProperty Name="PromotionGroupDescription" ColumnName="PromotionGroupDescription" />
+          <ScalarProperty Name="PromotionGroupCode1" ColumnName="PromotionGroupCode" />
+          <ScalarProperty Name="PromotionGroupCodeOID" ColumnName="PromotionGroupCodeOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaymentLogs">
+      <EntityTypeMapping TypeName="BookingDBModel.PaymentLog">
+        <MappingFragment StoreEntitySet="PaymentLog">
+          <ScalarProperty Name="LogResponse" ColumnName="LogResponse" />
+          <ScalarProperty Name="LogRequest" ColumnName="LogRequest" />
+          <ScalarProperty Name="LogDateTime" ColumnName="LogDateTime" />
+          <ScalarProperty Name="RobinhoodID" ColumnName="RobinhoodID" />
+          <ScalarProperty Name="PaymentLogOID" ColumnName="PaymentLogOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightFareRules">
+      <EntityTypeMapping TypeName="BookingDBModel.FlightFareRule">
+        <MappingFragment StoreEntitySet="FlightFareRule">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="FareFamilyCode" ColumnName="FareFamilyCode" />
+          <ScalarProperty Name="AirlineCodes" ColumnName="AirlineCodes" />
+          <ScalarProperty Name="FareRuleOID" ColumnName="FareRuleOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MarkupFlights">
+      <EntityTypeMapping TypeName="BookingDBModel.MarkupFlight">
+        <MappingFragment StoreEntitySet="MarkupFlight">
+          <ScalarProperty Name="IsPercentLV2RT" ColumnName="IsPercentLV2RT" />
+          <ScalarProperty Name="IsPercentLV1RT" ColumnName="IsPercentLV1RT" />
+          <ScalarProperty Name="LV2ValueRT" ColumnName="LV2ValueRT" />
+          <ScalarProperty Name="LV2TypeRT" ColumnName="LV2TypeRT" />
+          <ScalarProperty Name="LV1ValueRT" ColumnName="LV1ValueRT" />
+          <ScalarProperty Name="LV1TypeRT" ColumnName="LV1TypeRT" />
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+          <ScalarProperty Name="FinishTravelDate" ColumnName="FinishTravelDate" />
+          <ScalarProperty Name="StartTravelDate" ColumnName="StartTravelDate" />
+          <ScalarProperty Name="IsPercentLV2" ColumnName="IsPercentLV2" />
+          <ScalarProperty Name="IsPercentLV1" ColumnName="IsPercentLV1" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="LV2Value" ColumnName="LV2Value" />
+          <ScalarProperty Name="LV2Type" ColumnName="LV2Type" />
+          <ScalarProperty Name="LV1Value" ColumnName="LV1Value" />
+          <ScalarProperty Name="LV1Type" ColumnName="LV1Type" />
+          <ScalarProperty Name="MaxPrice" ColumnName="MaxPrice" />
+          <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="ZoneTo" ColumnName="ZoneTo" />
+          <ScalarProperty Name="ZoneFrom" ColumnName="ZoneFrom" />
+          <ScalarProperty Name="FinishBookingDate" ColumnName="FinishBookingDate" />
+          <ScalarProperty Name="StartBookingDate" ColumnName="StartBookingDate" />
+          <ScalarProperty Name="PaxTypeINF" ColumnName="PaxTypeINF" />
+          <ScalarProperty Name="PaxTypeCHD" ColumnName="PaxTypeCHD" />
+          <ScalarProperty Name="PaxTypeADT" ColumnName="PaxTypeADT" />
+          <ScalarProperty Name="FlightNo" ColumnName="FlightNo" />
+          <ScalarProperty Name="FareBasis" ColumnName="FareBasis" />
+          <ScalarProperty Name="RBD" ColumnName="RBD" />
+          <ScalarProperty Name="MixAirlineCodes" ColumnName="MixAirlineCodes" />
+          <ScalarProperty Name="AirlineCodes" ColumnName="AirlineCodes" />
+          <ScalarProperty Name="RobinhoodMarkupOID" ColumnName="RobinhoodMarkupOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

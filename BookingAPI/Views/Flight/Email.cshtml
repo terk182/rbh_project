@@ -1,0 +1,538 @@
+﻿@model List<BL.Entities.RobinhoodFare.AirFare>
+@{
+    Layout = null;
+    string URL = System.Configuration.ConfigurationManager.AppSettings["image_URL"].ToString();
+     System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("th-TH");
+}
+    <style>
+        font-face {
+            font-family: 'Kanit';
+            font-weight: normal;
+            font-style: normal;
+            src: url('@(URL)fonts/Kanit-Light.ttf') format('woff');
+            src: url('@(URL)fonts/Kanit-Light.ttf') format('truetype');
+        }
+        body {
+    font-family: 'Kanit', sans-serif !important;
+}
+    </style>
+<div style="width:100%;text-align:-webkit-center;padding:0;margin:0;">
+    <div style="width:650px;text-align: left;">
+
+        <div style="padding-top:15px;padding-bottom:15px;">
+            <table width="100%">
+                <tr>
+                    <td><img src="@(URL)images/Frame-71082.png" /></td>
+                    <td rowspan="2" style="vertical-align:top;text-align:right;"><img src="@(URL)images/Group-69065.png" /></td>
+                </tr>
+                <tr>
+                    <td style="vertical-align:top;">
+                        <div>สวัสดีค่ะ @Model[0].contactInfo.title @Model[0].contactInfo.firstname @Model[0].contactInfo.lastname</div>
+                        <div>หมายเลขการจองของคุณคือ <span style="font-size:16.5pt;color:#454754;font-weight:bold;">@Model[0].bookingURN</span></div>
+                        <div>ขอให้เป็นทริปที่ดีนะคะ</div>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+        <hr style="border-top: 1px #E6E6E6;" />
+
+        @if (Model[0].multiFlight != null && Model[0].multiFlight.Count > 0)
+        {
+            <div style="padding-top:15px;padding-bottom:15px;">
+                @if (Model[0].multiFlight[0][0].controlNumber != null && Model[0].multiFlight[0][0].controlNumber.Length > 0)
+                {
+                    <div>
+                        Airline Booking Code <b>@Model[0].multiFlight[0][0].controlNumber</b>
+                    </div>
+                }
+                <div>
+                    PNR <b>@Model[0].PNR</b>
+                </div>
+                @foreach (var flight in Model[0].multiFlight)
+                {
+                    <div>
+                        <table width="100%">
+                            <tr>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                }
+            </div>
+            <hr style="border-top: 1px #E6E6E6;" />
+        }
+        else
+        {
+            if (Model[0].depFlight != null && Model[0].depFlight.Count > 0)
+            {
+                <div style="padding-top:15px;padding-bottom:15px;">
+                    @if (Model[0].depFlight[0].controlNumber != null && Model[0].depFlight[0].controlNumber.Length > 0)
+                    {
+                        <div>
+                            Airline Booking Code <b>@Model[0].depFlight[0].controlNumber</b>
+                        </div>
+                    }
+                    <div>
+                        PNR <b>@Model[0].PNR</b>
+                    </div>
+                    <div style="display:flex;padding-top:15px;padding-bottom:15px;">
+                        <div style="float:left;width:70%;">
+                            <b>Departure:</b> <span style="color:#7F7F7F;font-weight:bold;">@String.Format("{0} ({1}) - {2} ({3})", Model[0].origin.name, Model[0].origin.code, Model[0].destination.name, Model[0].destination.code)</span>
+                        </div>
+                        <div style="float:left;width:30%;text-align: right;color:#7F7F7F;">@Model[0].depFlight[0].flightTime.Substring(0, 2) ชม. @Model[0].depFlight[0].flightTime.Substring(2, 2) นาที</div>
+                    </div>
+                    @foreach (var depart in Model[0].depFlight)
+                    {
+                        <div>
+                            <table width="100%">
+                                <tr style="height:30px;">
+                                    <td colspan="2">
+                                        <img style="vertical-align:middle; height: 25px;" class="mr-2" src="//ai-r-logo.azurewebsites.net/square/@(depart.airline.code).png" />
+                                        @depart.airline.name <span style="font-weight:bold;color:#A33AA3;">@depart.airline.code@depart.flightNumber</span>
+                                        @if (depart.airline.code != depart.operatedAirline.code)
+                                        {
+                                            <div class="font-10">Operate By <img style="vertical-align:middle; height: 15px;" src="//ai-r-logo.azurewebsites.net/square/@(depart.operatedAirline.code).png" /> @depart.operatedAirline.name</div>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr style="height:30px;">
+                                    <td width="50%" style="color:#7F7F7F;">Departure ออกเดินทาง</td>
+                                    <td width="50%" style="color:#7F7F7F;">Arrival ถึงที่หมาย</td>
+                                </tr>
+                                <tr style="height:30px;">
+                                    <td style="color:#A33AA3;">@depart.departureDateTime.ToString("dddd, dd MMMM yyyy HH:mm", ci) น.</td>
+                                    <td style="color:#A33AA3;">@depart.arrivalDateTime.ToString("dddd, dd MMMM yyyy HH:mm", ci) น.</td>
+                                </tr>
+                                <tr style="height:30px;">
+                                    <td style="color:#7F7F7F;">
+                                        @depart.depCity.name
+                                        @if (!String.IsNullOrEmpty(depart.depCity.terminal))
+                                        {
+                                            <span> - Terminal @depart.depCity.terminal</span>
+                                        }
+                                    </td>
+                                    <td style="color:#7F7F7F;">
+                                        @depart.arrCity.name
+                                        @if (!String.IsNullOrEmpty(depart.arrCity.terminal))
+                                        {
+                                            <span> - Terminal @depart.arrCity.terminal</span>
+                                        }
+                                    </td>
+                                </tr>
+                                @if (depart.connectingTime != null && depart.connectingTime != "0")
+                                {
+                                    <tr>
+                                        <td colspan="2">
+                                            @{
+                                                string connectTime = depart.connectingTime.PadLeft(4, '0');
+                                            }
+                                            <strong>
+
+                                                @connectTime.Substring(0, 2) ชม.
+                                                @connectTime.Substring(2, 2) นาที
+
+                                            </strong>
+
+                                            <span>
+                                                @depart.arrCity.name (@depart.arrCity.code)
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    }
+                </div>
+            }
+            if (Model[0].retFlight != null && Model[0].retFlight.Count > 0)
+            {
+                <hr style="border-top: 1px #E6E6E6;" />
+                <div style="padding-top:15px;padding-bottom:15px;">
+                    @if (Model[0].retFlight[0].controlNumber != null && Model[0].retFlight[0].controlNumber.Length > 0)
+                    {
+                        <div>
+                            Airline Booking Code <b>@Model[0].retFlight[0].controlNumber</b>
+                        </div>
+                    }
+                    <div>
+                        PNR <b>@(Model.Count > 1 ? Model[1].PNR : Model[0].PNR)</b>
+                    </div>
+                    <div style="display:flex;padding-top:15px;padding-bottom:15px;">
+                        <div style="float:left;width:70%;">
+                            <b>Return:</b> <span style="color:#7F7F7F;font-weight:bold;">@String.Format("{0} ({1}) - {2} ({3})", Model[0].destination.name, Model[0].destination.code, Model[0].origin.name, Model[0].origin.code)</span>
+                        </div>
+                        <div style="float:left;width:30%;text-align: right;color:#7F7F7F;">@Model[0].retFlight[0].flightTime.Substring(0, 2) ชม. @Model[0].retFlight[0].flightTime.Substring(2, 2) นาที</div>
+                    </div>
+                    @foreach (var depart in Model[0].retFlight)
+                    {
+                        <div>
+                            <table width="100%">
+                                <tr style="height:30px;">
+                                    <td colspan="2">
+                                        <img style="vertical-align:middle; height: 25px;" class="mr-2" src="//ai-r-logo.azurewebsites.net/square/@(depart.airline.code).png" />
+                                        @depart.airline.name <span style="font-weight:bold;color:#A33AA3;">@depart.airline.code@depart.flightNumber</span>
+                                        @if (depart.airline.code != depart.operatedAirline.code)
+                                        {
+                                            <div class="font-10">Operate By <img style="vertical-align:middle; height: 15px;" src="//ai-r-logo.azurewebsites.net/square/@(depart.operatedAirline.code).png" /> @depart.operatedAirline.name</div>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr style="height:30px;">
+                                    <td width="50%" style="color:#7F7F7F;">Departure ออกเดินทาง</td>
+                                    <td width="50%" style="color:#7F7F7F;">Arrival ถึงที่หมาย</td>
+                                </tr>
+                                <tr style="height:30px;">
+                                    <td style="color:#A33AA3;">@depart.departureDateTime.ToString("dddd, dd MMMM yyyy HH:mm", ci) น.</td>
+                                    <td style="color:#A33AA3;">@depart.arrivalDateTime.ToString("dddd, dd MMMM yyyy HH:mm", ci) น.</td>
+                                </tr>
+                                <tr style="height:30px;">
+                                    <td style="color:#7F7F7F;">
+                                        @depart.depCity.name
+                                        @if (!String.IsNullOrEmpty(depart.depCity.terminal))
+                                        {
+                                            <span> - Terminal @depart.depCity.terminal</span>
+                                        }
+                                    </td>
+                                    <td style="color:#7F7F7F;">
+                                        @depart.arrCity.name
+                                        @if (!String.IsNullOrEmpty(depart.arrCity.terminal))
+                                        {
+                                            <span> - Terminal @depart.arrCity.terminal</span>
+                                        }
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    }
+                </div>
+            }
+            <hr style="border-top: 1px #E6E6E6;" />
+        }
+        <div style="font-size:16.5pt;color:#454754;padding-top:15px;">
+            Passenger detail   รายละเอียดผู้โดยสาร
+        </div>
+        <div style="padding-top:15px;padding-bottom:15px;">
+            <table width="100%">
+                @{
+                    int iPax = 0;
+                    string baggageUnit = "";
+                }
+                @if (Model.Count > 1)
+                {
+                    for (int i = 0; i < Model.Count; i++)
+                    {
+                        iPax = 0;
+                        <tr>
+                            <td colspan="2">
+                                @if (i == 0)
+                                {
+                                    <b>Departure:</b> <span style="color:#7F7F7F;font-weight:bold;">@String.Format("{0} ({1}) - {2} ({3})", Model[0].origin.name, Model[0].origin.code, Model[0].destination.name, Model[0].destination.code)</span>
+                                }
+                                else
+                                {
+                                    <b>Return:</b> <span style="color:#7F7F7F;font-weight:bold;">@String.Format("{0} ({1}) - {2} ({3})", Model[0].destination.name, Model[0].destination.code, Model[0].origin.name, Model[0].origin.code)</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr style="height:30px;">
+                            <td style="font-weight:bold;color:#454754;">No.</td>
+                            <td style="font-weight:bold;color:#454754;">Passenger</td>
+                        </tr>
+
+                        foreach (var pax in Model[0].adtPaxs)
+                        {
+                            iPax++;
+                            <tr style="height:30px;">
+                                <td style="color:#454754;">@iPax.</td>
+                                <td style="font-weight:bold;color:#454754;">@pax.title. @pax.firstname @pax.lastname (Adult)</td>
+                            </tr>
+                            if (Model[0].adtFare.baggages != null && Model[0].adtFare.baggages.Count > 0 && Model[0].adtFare.baggages[0].baggageNo != "")
+                            {
+                                switch (Model[0].adtFare.baggages[0].baggageUnit)
+                                {
+                                    case "N": baggageUnit = "pcs"; break;
+                                    case "700": baggageUnit = "Kgs"; break;
+                                    case "701": baggageUnit = "LB"; break;
+                                }
+                                <tr>
+                                    <td></td>
+                                    <td style="color:#7F7F7F;">Baggage @Model[0].adtFare.baggages[0].baggageNo @baggageUnit</td>
+                                </tr>
+                            }
+                        }
+                        if (Model[0].noOfChildren > 0)
+                        {
+                            foreach (var pax in Model[0].chdPaxs)
+                            {
+                                iPax++;
+                                <tr style="height:30px;">
+                                    <td style="color:#454754;">@iPax.</td>
+                                    <td style="font-weight:bold;color:#454754;">@pax.title. @pax.firstname @pax.lastname (Child)</td>
+                                </tr>
+                                if (Model[0].chdFare.baggages != null && Model[0].chdFare.baggages.Count > 0 && Model[0].chdFare.baggages[0].baggageNo != "")
+                                {
+                                    switch (Model[0].chdFare.baggages[0].baggageUnit)
+                                    {
+                                        case "N": baggageUnit = "pcs"; break;
+                                        case "700": baggageUnit = "Kgs"; break;
+                                        case "701": baggageUnit = "LB"; break;
+                                    }
+                                    <tr>
+                                        <td></td>
+                                        <td style="color:#7F7F7F;">Baggage @Model[0].chdFare.baggages[0].baggageNo @baggageUnit</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                        if (Model[0].noOfInfants > 0)
+                        {
+                            foreach (var pax in Model[0].infPaxs)
+                            {
+                                iPax++;
+                                <tr style="height:30px;">
+                                    <td style="color:#454754;">@iPax.</td>
+                                    <td style="font-weight:bold;color:#454754;">@pax.title. @pax.firstname @pax.lastname (Infant)</td>
+                                </tr>
+                                if (Model[0].infFare.baggages != null && Model[0].infFare.baggages.Count > 0 && Model[0].infFare.baggages[0].baggageNo != "")
+                                {
+                                    switch (Model[0].infFare.baggages[0].baggageUnit)
+                                    {
+                                        case "N": baggageUnit = "pcs"; break;
+                                        case "700": baggageUnit = "Kgs"; break;
+                                        case "701": baggageUnit = "LB"; break;
+                                    }
+                                    <tr>
+                                        <td></td>
+                                        <td style="color:#7F7F7F;">Baggage @Model[0].infFare.baggages[0].baggageNo @baggageUnit</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                        if (i < 1)
+                        {
+                            <tr>
+                                <td colspan="2">
+                                    <hr style="border-top: 1px #E6E6E6;" />
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+                else
+                {
+                    <tr style="height:30px;">
+                        <td style="font-weight:bold;color:#454754;">No.</td>
+                        <td style="font-weight:bold;color:#454754;">Passenger</td>
+                    </tr>
+
+                    foreach (var pax in Model[0].adtPaxs)
+                    {
+                        iPax++;
+                        <tr style="height:30px;">
+                            <td style="color:#454754;">@iPax.</td>
+                            <td style="font-weight:bold;color:#454754;">@pax.title. @pax.firstname @pax.lastname (Adult)</td>
+                        </tr>
+                        if (Model[0].adtFare.baggages != null && Model[0].adtFare.baggages.Count > 0 && Model[0].adtFare.baggages[0].baggageNo != "")
+                        {
+                            switch (Model[0].adtFare.baggages[0].baggageUnit)
+                            {
+                                case "N": baggageUnit = "pcs"; break;
+                                case "700": baggageUnit = "Kgs"; break;
+                                case "701": baggageUnit = "LB"; break;
+                            }
+                            <tr>
+                                <td></td>
+                                <td style="color:#7F7F7F;">Baggage @Model[0].adtFare.baggages[0].baggageNo @baggageUnit</td>
+                            </tr>
+                        }
+                    }
+                    if (Model[0].noOfChildren > 0)
+                    {
+                        foreach (var pax in Model[0].chdPaxs)
+                        {
+                            iPax++;
+                            <tr style="height:30px;">
+                                <td style="color:#454754;">@iPax.</td>
+                                <td style="font-weight:bold;color:#454754;">@pax.title. @pax.firstname @pax.lastname (Child)</td>
+                            </tr>
+                            if (Model[0].chdFare.baggages != null && Model[0].chdFare.baggages.Count > 0 && Model[0].chdFare.baggages[0].baggageNo != "")
+                            {
+                                switch (Model[0].chdFare.baggages[0].baggageUnit)
+                                {
+                                    case "N": baggageUnit = "pcs"; break;
+                                    case "700": baggageUnit = "Kgs"; break;
+                                    case "701": baggageUnit = "LB"; break;
+                                }
+                                <tr>
+                                    <td></td>
+                                    <td style="color:#7F7F7F;">Baggage @Model[0].chdFare.baggages[0].baggageNo @baggageUnit</td>
+                                </tr>
+                            }
+                        }
+                    }
+                    if (Model[0].noOfInfants > 0)
+                    {
+                        foreach (var pax in Model[0].infPaxs)
+                        {
+                            iPax++;
+                            <tr style="height:30px;">
+                                <td style="color:#454754;">@iPax.</td>
+                                <td style="font-weight:bold;color:#454754;">@pax.title. @pax.firstname @pax.lastname (Infant)</td>
+                            </tr>
+                            if (Model[0].infFare.baggages != null && Model[0].infFare.baggages.Count > 0 && Model[0].infFare.baggages[0].baggageNo != "")
+                            {
+                                switch (Model[0].infFare.baggages[0].baggageUnit)
+                                {
+                                    case "N": baggageUnit = "pcs"; break;
+                                    case "700": baggageUnit = "Kgs"; break;
+                                    case "701": baggageUnit = "LB"; break;
+                                }
+                                <tr>
+                                    <td></td>
+                                    <td style="color:#7F7F7F;">Baggage @Model[0].infFare.baggages[0].baggageNo @baggageUnit</td>
+                                </tr>
+                            }
+                        }
+                    }
+                }
+            </table>
+        </div>
+        <hr style="border-top: 1px #E6E6E6;" />
+        <div style="font-size:16.5pt;color:#454754;padding-top:15px;">
+            Payment   การชำระเงิน
+        </div>
+        <div style="padding-top:15px;padding-bottom:15px;">
+
+
+            <table width="100%">
+                <tr style="height:30px;">
+                    <td style="color:#454754;">
+                        ราคารวมเที่ยวบิน, ผู้ใหญ่ @Model[0].noOfAdults
+                    </td>
+                    <td style="text-align:right;color:#454754;font-weight:bold;">฿ @((Model[0].adtFare.net * Model[0].noOfAdults).ToString("N2"))</td>
+                </tr>
+                @if (Model[0].noOfChildren > 0)
+                {
+                    <tr style="height:30px;">
+                        <td style="color:#454754;">
+                            ราคารวมเที่ยวบิน, เด็ก @Model[0].noOfChildren
+                        </td>
+                        <td style="text-align:right;color:#454754;font-weight:bold;">฿ @((Model[0].chdFare.net * Model[0].noOfChildren).ToString("N2"))</td>
+                    </tr>
+                }
+                @if (Model[0].noOfInfants > 0)
+                {
+                    <tr style="height:30px;">
+                        <td style="color:#454754;">
+                            ราคารวมเที่ยวบิน, ทารก @Model[0].noOfInfants
+                        </td>
+                        <td style="text-align:right;color:#454754;font-weight:bold;">฿ @((Model[0].infFare.net * Model[0].noOfInfants).ToString("N2"))</td>
+                    </tr>
+                }
+                <tr style="height:30px;">
+                    <td style="color:#454754;font-weight:bold;">รายการทั้งหมด</td>
+                    <td style="text-align:right;color:#454754;font-weight:bold;">฿ @Model[0].grandTotal.ToString("N2")</td>
+                </tr>
+
+                @if (Model[0].paymentType != null && Model[0].paymentType.Length > 0)
+                {
+                    <tr style="height:30px;">
+                        <td style="color:#454754;"><img src="@(URL)images/rbh-credit-card.png" /> @Model[0].paymentType</td>
+                        <td style="text-align:right;color:#454754;">@Model[0].paymentValue</td>
+                    </tr>
+                }
+            </table>
+        </div>
+
+        <hr style="border-top: 1px #E6E6E6;" />
+        <div style="font-size:16.5pt;color:#454754;padding-top:15px;padding-bottom:15px;">
+            Fare Conditions   เงื่อนไขต่าง
+        </div>
+        <div style="font-size:14pt;padding-bottom:15px;">
+            Ticket policies are subject to fare rules,
+            cancelation policies, and fees from Robinhood
+            platform and airline.<br />
+            ข้อกำหนดและเงื่อนไขของบัตรโดยสำร จะเป็นไปตามประเภทบัตรโดยสาร
+            นโยบายการยกเลิกการจอง และค่าธรรมเนียมต่างๆ ภายใต้โรบินฮู้ดแพลตฟอร์ม
+            และสายการบิน
+        </div>
+        @foreach (var fareRule in Model[0].fareRules)
+        {
+            if (Model[0].fareRules.Count > 1)
+            {
+                <div style="padding-top:15px;padding-bottom:15px;">
+                    <strong>@fareRule.origin.name - @fareRule.destination.name</strong>
+                </div>
+                <hr style="border-top: 1px #E6E6E6;" />
+            }
+            <div id="@(fareRule.origin.code + fareRule.destination.code)">
+                @foreach (var rule in fareRule.rules)
+                {
+                    string id = Guid.NewGuid().ToString();
+                    <div class="card">
+                        <div class="card-header" id="heading@(id)" style="padding: 0px;">
+                            <div class="mb-0">
+                                @if (rule.category == "SR")
+                                {
+                                    <strong><i class="far fa-caret-square-down"></i> SALES RESTRICTIONS</strong>
+                                }
+                                else if (rule.category == "AP")
+                                {
+                                    <strong><i class="far fa-caret-square-down"></i> ADVANCE PURCHASE / RESERVATIONS AND TICKETING</strong>
+                                }
+                                else if (rule.category == "PE")
+                                {
+                                    <strong><i class="far fa-caret-square-down"></i> PENALTIES</strong>
+                                }
+                                else if (rule.category == "MN")
+                                {
+                                    <strong><i class="far fa-caret-square-down"></i> MIN STAY</strong>
+                                }
+                                else if (rule.category == "MX")
+                                {
+                                    <strong><i class="far fa-caret-square-down"></i> MAX STAY</strong>
+                                }
+                            </div>
+                        </div>
+                        <div id="collapse@(id)" class="collapse" aria-labelledby="heading@(id)" data-parent="#@(fareRule.origin.code + fareRule.destination.code)">
+                            <div class="card-body" style="font-size: 12px;">
+                                @foreach (var item in rule.fareRuleText)
+                                {
+                                    <p style="margin-bottom: 0px;">@item</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        <hr style="border-top: 1px #E6E6E6;" />
+        <div>
+            <table width="100%">
+                <tr>
+                    <td style="vertical-align:middle;"><img src="@(URL)images/Group-69066.png" /></td>
+                    <td>
+                        <div style="font-size:16.5pt;color:#454754;padding-top:15px;"><strong>Need help?</strong> ต้องการความช่วยเหลือเพิ่มเติม</div>
+                        <div style="padding-top:15px;">แจ้งหมายเลขการจองของคุณ @Model[0].bookingURN</div>
+                        <div style="padding-top:5px;">เมื่อติดต่อศูนย์บริการลูกค้าสัมพันธ์โรบินฮู้ด</div>
+                        <div style="padding-top:15px;">
+                            <div style="float:left;width: 280px;"><a href="mailto:no-reply@robinhood.in.th"><img src="@(URL)images/rbh-needhelp-mail.png" /></a></div>
+                            <div style="float:left"><a href="tel:027777564"><img src="@(URL)images/rbh-needhelp-telno.png" /></a></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <hr style="border-top: 1px #E6E6E6;" />
+        <div>
+            <a href="https://www.robinhood.in.th/"><img src="@(URL)images/rbh-banner-ft.png" /></a>
+        </div>
+        <div style="color:#A33AA3;padding-top:15px;">
+            บริการด้วยใจ จาก Robinhood
+        </div>
+        <div style="color:#454754;">
+            Purple Ventures Co., Ltd.
+        </div>
+    </div>
+        </div>

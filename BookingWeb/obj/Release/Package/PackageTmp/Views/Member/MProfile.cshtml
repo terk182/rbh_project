@@ -1,0 +1,316 @@
+﻿@model BL.Entities.Member.MainProFile
+@{
+    BL.Entities.Member.GogojiiUser user = MemberUI.GetUser();
+    string memberImgPath = System.Configuration.ConfigurationManager.AppSettings["MEMBERIMG.URL"];
+}
+<div class="row">
+    <div class="col-md-3 d-none d-md-block" id="menu-div">
+        <div class="list-group list-group-flush">
+            <a href="@Url.Action("MProfile", "Member")" class="list-group-item list-group-item-action font-14 member-list member-list-active">
+                <img src="~/Images/member/Profile_brown.png" class="icon-member" /> @Localize.Show("PROFILE")
+            </a>
+            <a href="@Url.Action("MyTrip", "Member")" class="list-group-item list-group-item-action font-14 member-list ">
+                <img src="~/Images/member/Flag_black.png" class="icon-member" /> @Localize.Show("MY_TRIP")
+            </a>
+            <a href="@Url.Action("Companion", "Member")" class="list-group-item list-group-item-action font-14 member-list ">
+
+                <img src="~/Images/member/Passsenger_black.png" class="icon-member" /> @Localize.Show("COMPANION")
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-12 d-block d-md-none d-lg-none d-xl-none">
+        <div class="dropdown show">
+            <a class="btn btn-outline-warning dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 100%">
+                <img src="~/Images/member/Profile_brown.png" class="icon-member" /> @Localize.Show("PROFILE")
+            </a>
+            <div id="memberMenuDropdown" class="dropdown-menu" aria-labelledby="dropdownMenuLink"  style="width: 100%">
+                <a href="@Url.Action("MyTrip", "Member")" class="dropdown-item">
+                    <img src="~/Images/member/Flag_black.png" class="icon-member" /> @Localize.Show("MY_TRIP")
+                </a>
+                <a href="@Url.Action("Companion", "Member")" class="dropdown-item">
+                    <img src="~/Images/member/Passsenger_black.png" class="icon-member" /> @Localize.Show("COMPANION")
+                </a>
+            </div>
+        </div>
+        <br />
+    </div>
+    <div class='col-md-9 col-sm-12' id="member-div">
+        <div class="font-18">
+            <strong>@Localize.Show("PROFILE")</strong>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <table style="width: 100%">
+                    <tr>
+                        <td style="width: 60px;">
+                            <img src="@(memberImgPath)/@(user.userInfo.UserId).jpg?@(Guid.NewGuid().ToString())" onerror="this.style.display = 'none'; $('#noProfileMemberImg').show()" class="rounded-circle" style="width: 50px; height: 50px;" />
+                            <img src="~/Images/member/no-avatar.png" class="rounded-circle" style="width: 50px; height: 50px; display: none;" id="noProfileMemberImg" />
+                        </td>
+                        <td>
+                            <div class="font-14">
+                                <strong>@Localize.Show("NAME_SURNAME")</strong>
+                            </div>
+                            <div class="font-14">
+                                @Model.MyProFile[0].TitleName @Model.MyProFile[0].FirstName @Model.MyProFile[0].MiddleName @Model.MyProFile[0].LastName 
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <button type="button" id="btnEdit" class="btn btn-sm btn-outline-secondary">
+                                <img src="~/Images/member/Edit.png" /> @Localize.Show("EDIT")
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+                <br />
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-12">
+                        <div class="font-14">
+                            <strong>@Localize.Show("BIRTHDAY")</strong>
+                        </div>
+                        <div class="font-14">
+                            @(Model.MyProFile[0].DateOfBirth == DateTime.Today ? "" : Model.MyProFile[0].DateOfBirth.ToString("dd'/'MM'/'yyyy"))
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-12">
+                        <div class="font-14">
+                            <strong>@Localize.Show("EMAIL")</strong>
+                        </div>
+                        <div class="font-14">
+                            @Model.MyProFile[0].Email
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-12">
+                        <div class="font-14">
+                            <strong>@Localize.Show("TELNO")</strong>
+                        </div>
+                        <div class="font-14">
+                            @Model.MyProFile[0].Phone
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-12">
+                        <div class="font-14">
+                            <strong>@Localize.Show("FFA")</strong>
+                        </div>
+                        <div class="font-14">
+                            @ViewBag.Naming.getAirlineName(Model.MyProFile_MileMember[0].MileAirline)
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-12">
+                        <div class="font-14">
+                            <strong>@Localize.Show("FFN")</strong>
+                        </div>
+                        <div class="font-14">
+                            @Model.MyProFile_MileMember[0].MileMember
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal " id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                @using (Html.BeginForm("MProfile", "Member", FormMethod.Post, new { data_parsley_validate = "", role = "form", enctype = "multipart/form-data" }))
+                {
+                    @Html.HiddenFor(m => m.MyProFile[0].FoodService)
+                    @Html.HiddenFor(m => m.MyProFile[0].ID)
+                    @Html.HiddenFor(m => m.MyProFile[0].IsOwner)
+                    @Html.HiddenFor(m => m.MyProFile[0].UserId)
+                    @Html.HiddenFor(m => m.MyProFile_MileMember[0].ID)
+                    @Html.HiddenFor(m => m.MyProFile_MileMember[0].UserId)
+                    @Html.HiddenFor(m => m.MyProFile_MileMember[0].Index)
+                    <div class="font-18">
+                        <strong>@Localize.Show("PROFILE")</strong>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row row-mt">
+                                <div class="col-lg-2 col-12">
+                                    <small>@Localize.Show("TITLE")*</small>
+                                    <input type="hidden" id="title" value="@Model.MyProFile[0].TitleName" />
+                                    @Html.DropDownListFor(m => m.MyProFile[0].TitleName, ViewData["TitleList"] as SelectList, new
+                           {
+                               @class = "form-control",
+                               required = "required"
+                           })
+                                </div>
+                                <div class="col-lg-3 col-12">
+                                    <small>@Localize.Show("FIRSTNAME")*</small>
+                                    @Html.TextBoxFor(m => m.MyProFile[0].FirstName, new { required = "required", @class = "form-control only-text" })
+                                </div>
+                                <div class="col-lg-3 col-12">
+                                    <small>@Localize.Show("MIDDLENAME") <span class="text-red">(@Localize.Show("OPTIONAL"))</span></small>
+                                    @Html.TextBoxFor(m => m.MyProFile[0].MiddleName, new { @class = "form-control only-text" })
+                                </div>
+                                <div class="col-lg-4 col-12">
+                                    <small>@Localize.Show("LASTNAME")*</small>
+                                    @Html.TextBoxFor(m => m.MyProFile[0].LastName, new { required = "required", @class = "form-control only-text" })
+                                </div>
+                            </div>
+                            <div class="row row-mt">
+                                <div class="col-lg-4 col-12">
+                                    <small>@Localize.Show("BIRTHDAY")*</small>
+                                    <input name="BDAY" id="BDAY" type="text" value="@(Model.MyProFile[0].DateOfBirth == DateTime.Today ? "" : Model.MyProFile[0].DateOfBirth.ToString("dd'/'MM'/'yyyy"))" class="form-control form-control-bg-white birthday" required autocomplete="off" />
+                                </div>
+                                <div class="col-lg-4 col-12">
+                                    <small>@Localize.Show("EMAIL")*</small>
+                                    @Html.TextBoxFor(m => m.MyProFile[0].Email, new { required = "required", @class = "form-control email-text", @type = "email", pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$" })
+                                </div>
+                                <div class="col-lg-4 col-12">
+                                    <small>@Localize.Show("TELNO")*</small>
+                                    @Html.TextBoxFor(m => m.MyProFile[0].Phone, new { required = "required", @class = "form-control tel-number-text" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-12">
+                            <div class="font-18">
+                                <br />
+                                <strong>@Localize.Show("FF")</strong>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="font-14">
+                                                @Localize.Show("FFA")
+                                            </div>
+                                            <input type="hidden" id="FFA" value="@Model.MyProFile_MileMember[0].MileAirline" />
+                                            @Html.DropDownListFor(m => m.MyProFile_MileMember[0].MileAirline, ViewData["AirlineList"] as SelectList, new { @class = "form-control" })
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="font-14">
+                                                @Localize.Show("FFN")
+                                            </div>
+                                            @Html.TextBoxFor(m => m.MyProFile_MileMember[0].MileMember, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="font-18">
+                                <br />
+                                <strong>@Localize.Show("PROFILE_IMAGE")</strong>
+                            </div>
+                            <div class="card">
+                                <div class="card-body" style="height: 79px;">
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <td style="width: 60px;">
+
+                                                <img src="@(memberImgPath)/@(user.userInfo.UserId).jpg?@(Guid.NewGuid().ToString())" onerror="this.style.display = 'none'; $('#noEditProfileMemberImg').show()" class="rounded-circle" style="width: 50px; height: 50px;" />
+                                                <img src="~/Images/member/no-avatar.png" class="rounded-circle" style="width: 50px; height: 50px; display: none;" id="noEditProfileMemberImg" />
+                                            </td>
+                                            <td>
+                                                <div class="font-10" id="filename"></div>
+                                                <input type="file" id="selectedFile" name="selectedFile" style="display: none;" accept="image/*" />
+                                                <button type="button" id="btnEditImage" class="btn btn-sm btn-outline-secondary">
+                                                    @Localize.Show("CHANGE_PROFILE_IMAGE")
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="text-center">
+                        <button class="btn cust-btn search-btn" type="submit" id="submit" style="width: 100px;">
+                            <strong>@Localize.Show("SAVE")</strong>
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#btnEdit').click(function () {
+                $('#profileModal').modal('show');
+            });
+
+            $('#btnEditImage').click(function () {
+                $('#selectedFile').click();
+            });
+
+            $('#selectedFile').change(function () {
+                var filename = $('#selectedFile').val().replace(/.*(\/|\\)/, '');
+                $('#filename').html(filename);
+            });
+
+            $('#MyProFile_0__TitleName').val($('#title').val());
+            $('#MyProFile_MileMember_0__MileAirline').val($('#FFA').val());
+
+            var birthday = $('.birthday').datepicker({
+                language: $('#web_lang').val(),
+                maxDate: new Date(),
+                autoClose: true,
+                toggleSelected: false,
+                view: 'years'
+            });
+            $(".birthday").on('keydown paste', function (e) {
+                e.preventDefault();
+            });
+
+            $(".only-text").keypress(function (event) {
+                var ew = event.which;
+                //if (ew == 32) //space
+                //    return true;
+                if (65 <= ew && ew <= 90)
+                    return true;
+                if (97 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+            $(".tel-number-text").keypress(function (event) {
+                var ew = event.which;
+                if (ew == 35)
+                    return true;
+                if (ew == 42)
+                    return true;
+                if (ew == 43)
+                    return true;
+                if (48 <= ew && ew <= 57)
+                    return true;
+                return false;
+            });
+            $(".email-text").keypress(function (event) {
+                var ew = event.which;
+                if (ew == 45) //-
+                    return true;
+                if (ew == 46) //.
+                    return true;
+                if (ew == 95) //_
+                    return true;
+                if (ew == 64) //at
+                    return true;
+                if (48 <= ew && ew <= 57)
+                    return true;
+                if (65 <= ew && ew <= 90)
+                    return true;
+                if (97 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+        });
+
+    </script>
+}

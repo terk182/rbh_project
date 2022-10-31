@@ -1,0 +1,47 @@
+﻿@model DataModel.APIUser
+
+<h3>API User</h3>
+<hr />
+
+<div class="card">
+    <h5 class="card-header"><i class="fa fa-ticket-alt"></i> API User Detail</h5>
+    <div class="card-body">
+        @using (Html.BeginForm("APIUserDetail", "APIConfig", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-div-left", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.APIUserOID)
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Username <span class="required">*</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBoxFor(m => m.Username, new { required = "required", @class = "form-control form-control-sm col-md-4 col-xs-12" })
+                </div>
+            </div>
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Password <span class="required">*</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBoxFor(m => m.Password, new { required = "required", @class = "form-control form-control-sm col-md-4 col-xs-12" })
+                </div>
+            </div>
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    WebMode (0=demo, 1=prod) <span class="required">*</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBoxFor(m => m.WebMode, new { required = "required", @class = "form-control form-control-sm col-md-4 col-xs-12" })
+                </div>
+            </div>
+            <hr />
+            <div class="row row-mt">
+                <div class="col-lg-6 col-md-6 col-12 offset-md-3">
+                    <button type="submit" id="btnSubmit" class="btn btn-primary btn-sm">Save</button>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+

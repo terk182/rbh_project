@@ -1,0 +1,278 @@
+﻿@model BL.Entities.GogojiiFare.AirFare
+@{
+
+    string clsStr = "";
+    switch (Model.svc_class)
+    {
+        case "F":
+            clsStr = Localize.Show("FIRST");
+            break;
+        case "C":
+            clsStr = Localize.Show("BUSINESS");
+            break;
+        case "P":
+            clsStr = Localize.Show("PREMIUM_ECONOMY");
+            break;
+        case "Y":
+            clsStr = Localize.Show("ECONOMY");
+            break;
+    }
+}
+<div>
+    <div>
+        <div class="font-18">
+            <strong>
+                @Model.origin.name (@Model.origin.code)
+
+                <img src="~/Images/icon_gogo/Round.svg" /> @Model.destination.name (@Model.destination.code)
+            </strong>
+        </div>
+        <hr />
+
+        <div>
+            <strong class="font-14 mr-2">
+                @Model.depFlight[0].departureDateTime.ToString("ddd, dd MMM yyyy")
+            </strong>
+        </div>
+        @for (int i = 0; i < Model.depFlight.Count; i++)
+        {
+            <div class="font-12">
+                <div class="row">
+                    <div class="col-6">
+                        <img style="vertical-align:middle; height: 25px;" class="mr-2" src="//ai-r-logo.azurewebsites.net/square/@(Model.depFlight[i].airline.code).png" />
+                        @Model.depFlight[i].airline.name
+                        @if (Model.depFlight[i].airline.code != Model.depFlight[i].operatedAirline.code)
+                        {
+                            <div class="font-10">@Localize.Show("OPERATED_BY") <img style="vertical-align:middle; height: 15px;" src="//ai-r-logo.azurewebsites.net/square/@(Model.depFlight[i].operatedAirline.code).png" /> @Model.depFlight[i].operatedAirline.name</div>
+                        }
+
+                        <div>
+                            @Aircraft.Show(Model.depFlight[i].equipmentType)
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <strong>
+                            @Model.depFlight[i].airline.code @Model.depFlight[i].flightNumber
+                        </strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 font-16 font-weight-bold text-blue">
+                        @Html.Raw(Model.depFlight[i].depDisplayDateTime.displayTime.Replace("(", "<sup>").Replace(")", "</sup>"))
+                        <img src="~/Images/icon_gogo/air-dot.png" style="position: absolute; right: 10px" />
+                    </div>
+                    <div class="col-6 font-16 font-weight-bold text-blue">
+                        @Html.Raw(Model.depFlight[i].arrDisplayDateTime.displayTime.Replace("(", "<sup>").Replace(")", "</sup>"))
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        @{
+                            var dCity = Model.depFlight[i].depCity.name.Split(',');
+                        }
+                        <strong>@dCity[dCity.Length - 1]</strong>
+                        <div>
+                            @dCity[0] (@Model.depFlight[i].depCity.code)
+                        </div>
+                        @if (!String.IsNullOrEmpty(Model.depFlight[i].depCity.terminal))
+                        {
+                            <div>
+                                Terminal @Model.depFlight[i].depCity.terminal
+                            </div>
+                        }
+                    </div>
+                    <div class="col-6">
+                        @{
+                            var aCity = Model.depFlight[i].arrCity.name.Split(',');
+                        }
+                        <strong>@aCity[aCity.Length - 1]</strong>
+                        <div>
+                            @aCity[0] (@Model.depFlight[i].arrCity.code)
+                        </div>
+                        @if (!String.IsNullOrEmpty(Model.depFlight[i].arrCity.terminal))
+                        {
+                            <div>
+                                Terminal @Model.depFlight[i].arrCity.terminal
+                            </div>
+                        }
+                    </div>
+                </div>
+                @if (Model.depFlight[i].connectingTime != null && Model.depFlight[i].connectingTime != "0")
+                {
+                    <div class="row mt-3 mb-3">
+                        <div class="col-12">
+                            <u>
+                                <strong>
+                                    @{
+                                        string connectTime = Model.depFlight[i].connectingTime.PadLeft(4, '0');
+                                    }
+                                    @connectTime.Substring(0, 2) @Localize.Show("H")
+                                    @connectTime.Substring(2, 2) @Localize.Show("M")
+                                    @Localize.Show("STOP")
+                                </strong>
+                            </u>
+                            <span class="ml-2">
+                                @aCity[aCity.Length - 1] (@Model.depFlight[i].arrCity.code)
+                            </span>
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+        }
+        <div class="font-12 mt-3">
+            <div>
+                <strong class="text-blue">@Localize.Show("TOTAL_TRAVEL_TIME")</strong>
+                @Model.depFlight[0].flightTime.Substring(0, 2) @Localize.Show("HRS") @Model.depFlight[0].flightTime.Substring(2, 2) @Localize.Show("MINS")
+            </div>
+            @if (Model.adtFare.baggages != null && Model.adtFare.baggages.Count > 0 && Model.adtFare.baggages[0].baggageNo != "")
+            {
+                <div>
+                    <img src="~/Images/icon_gogo/Baggage.svg" />
+                    @Localize.Show("ADULT") @Model.adtFare.baggages[0].baggageNo @Localize.Show("BAGGAAGE_UNIT_" + Model.adtFare.baggages[0].baggageUnit)
+
+                    @if (Model.noOfChildren > 0 && Model.chdFare.baggages.Count > 0 && Model.chdFare.baggages[0].baggageNo != "")
+                    {
+                        <span>
+                            &bull;
+                            @Localize.Show("CHILD") @Model.chdFare.baggages[0].baggageNo @Localize.Show("BAGGAAGE_UNIT_" + Model.chdFare.baggages[0].baggageUnit)
+                        </span>
+                    }
+                    @if (Model.noOfInfants > 0 && Model.infFare.baggages.Count > 0 && Model.infFare.baggages[0].baggageNo != "")
+                    {
+                        <span>
+                            &bull;
+                            @Localize.Show("INFANT") @Model.infFare.baggages[0].baggageNo @Localize.Show("BAGGAAGE_UNIT_" + Model.infFare.baggages[0].baggageUnit)
+                        </span>
+                    }
+                </div>
+            }
+        </div>
+
+        @if (Model.retFlight != null && Model.retFlight.Count > 0)
+        {
+            <hr />
+            <div>
+                <strong class="font-14 mr-2">
+                    @Model.retFlight[0].departureDateTime.ToString("ddd, dd MMM yyyy")
+                </strong>
+            </div>
+            for (int i = 0; i < Model.retFlight.Count; i++)
+            {
+                <div class="font-12">
+                    <div class="row">
+                        <div class="col-6">
+                            <img style="vertical-align:middle; height: 25px;" class="mr-2" src="//ai-r-logo.azurewebsites.net/square/@(Model.retFlight[i].airline.code).png" />
+                            @Model.retFlight[i].airline.name
+                            @if (Model.retFlight[i].airline.code != Model.retFlight[i].operatedAirline.code)
+                            {
+                                <div class="font-10">@Localize.Show("OPERATED_BY") <img style="vertical-align:middle; height: 15px;" src="//ai-r-logo.azurewebsites.net/square/@(Model.retFlight[i].operatedAirline.code).png" /> @Model.retFlight[i].operatedAirline.name</div>
+                            }
+
+                            <div>
+                                @Aircraft.Show(Model.retFlight[i].equipmentType)
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <strong>
+                                @Model.retFlight[i].airline.code @Model.retFlight[i].flightNumber
+                            </strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 font-16 font-weight-bold text-blue">
+                            @Html.Raw(Model.retFlight[i].depDisplayDateTime.displayTime.Replace("(", "<sup>").Replace(")", "</sup>"))
+                            <img src="~/Images/icon_gogo/air-dot.png" style="position: absolute; right: 10px" />
+                        </div>
+                        <div class="col-6 font-16 font-weight-bold text-blue">
+                            @Html.Raw(Model.retFlight[i].arrDisplayDateTime.displayTime.Replace("(", "<sup>").Replace(")", "</sup>"))
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            @{
+                                var dCity = Model.retFlight[i].depCity.name.Split(',');
+                            }
+                            <strong>@dCity[dCity.Length - 1]</strong>
+                            <div>
+                                @dCity[0] (@Model.retFlight[i].depCity.code)
+                            </div>
+                            @if (!String.IsNullOrEmpty(Model.retFlight[i].depCity.terminal))
+                            {
+                                <div>
+                                    Terminal @Model.retFlight[i].depCity.terminal
+                                </div>
+                            }
+                        </div>
+                        <div class="col-6">
+                            @{
+                                var aCity = Model.retFlight[i].arrCity.name.Split(',');
+                            }
+                            <strong>@aCity[aCity.Length - 1]</strong>
+                            <div>
+                                @aCity[0] (@Model.retFlight[i].arrCity.code)
+                            </div>
+                            @if (!String.IsNullOrEmpty(Model.retFlight[i].arrCity.terminal))
+                            {
+                                <div>
+                                    Terminal @Model.retFlight[i].arrCity.terminal
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    @if (Model.retFlight[i].connectingTime != null && Model.retFlight[i].connectingTime != "0")
+                    {
+                        <div class="row mt-3 mb-3">
+                            <div class="col-12">
+                                <u>
+                                    <strong>
+                                        @{
+                                            string connectTime = Model.retFlight[i].connectingTime.PadLeft(4, '0');
+                                        }
+                                        @connectTime.Substring(0, 2) @Localize.Show("H")
+                                        @connectTime.Substring(2, 2) @Localize.Show("M")
+                                        @Localize.Show("STOP")
+                                    </strong>
+                                </u>
+                                <span class="ml-2">
+                                    @aCity[aCity.Length - 1] (@Model.retFlight[i].arrCity.code)
+                                </span>
+                            </div>
+                        </div>
+
+                    }
+
+                </div>
+            }
+            <div class="font-12 mt-3">
+                <div>
+                    <strong class="text-blue">@Localize.Show("TOTAL_TRAVEL_TIME")</strong>
+                    @Model.retFlight[0].flightTime.Substring(0, 2) @Localize.Show("HRS") @Model.retFlight[0].flightTime.Substring(2, 2) @Localize.Show("MINS")
+                </div>
+                @if (Model.adtFare.baggages != null && Model.adtFare.baggages.Count > 0 && Model.adtFare.baggages[0].baggageNo != "")
+                {
+                    <div>
+                        <img src="~/Images/icon_gogo/Baggage.svg" />
+                        @Localize.Show("ADULT") @Model.adtFare.baggages[0].baggageNo @Localize.Show("BAGGAAGE_UNIT_" + Model.adtFare.baggages[0].baggageUnit)
+
+                        @if (Model.noOfChildren > 0 && Model.chdFare.baggages.Count > 0 && Model.chdFare.baggages[0].baggageNo != "")
+                        {
+                            <span>
+                                &bull;
+                                @Localize.Show("CHILD") @Model.chdFare.baggages[0].baggageNo @Localize.Show("BAGGAAGE_UNIT_" + Model.chdFare.baggages[0].baggageUnit)
+                            </span>
+                        }
+                        @if (Model.noOfInfants > 0 && Model.infFare.baggages.Count > 0 && Model.infFare.baggages[0].baggageNo != "")
+                        {
+                            <span>
+                                &bull;
+                                @Localize.Show("INFANT") @Model.infFare.baggages[0].baggageNo @Localize.Show("BAGGAAGE_UNIT_" + Model.infFare.baggages[0].baggageUnit)
+                            </span>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

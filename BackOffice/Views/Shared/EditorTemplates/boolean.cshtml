@@ -1,0 +1,6 @@
+﻿@model bool?
+
+
+<label>
+    @Html.CheckBox("", Model.GetValueOrDefault(), new { @class = "js-switch", data_switchery = "true", style = "display: none;" })
+</label>

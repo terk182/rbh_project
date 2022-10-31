@@ -1,0 +1,827 @@
+﻿@model GogojiiWeb.Models.HotelFlightSearchModel
+@section styles
+{
+    <link href="~/Content/hotels/result.css?@(DateTime.Now.ToString("ddMMyyhhmmss"))" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.structure.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jRange/jquery.range.css" rel="stylesheet" />
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+        #map {
+            height: 85vh;
+        }
+    </style>
+}
+@{
+
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang().ToLower() == "th" ? "th-TH" : "en-US");
+}
+
+@section width100head
+{
+
+    <div class="hotel-search-box-bg d-none d-md-block" id="searchBox">
+        <div class="container">
+            <div class="font-60">@Localize.Show("BANNER_HF_1") </div>
+            <div class="font-20 mb-3">
+                @Localize.Show("BANNER_HF_2")
+            </div>
+            @Html.Partial("~/Views/HFPackage/SearchBox.cshtml", Model)
+        </div>
+    </div>
+}
+
+<div class="container container-hotel" id="loading">
+    <div class="row">
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="font-24"><strong>@Localize.Show("FILTER")</strong></div>
+            <div class="hotel-box">
+                <div class="loader">Loading...</div>
+            </div>
+        </div>
+        <div class='col-lg-9 col-sm-12'>
+            <div class="hotel-box text-center">
+                <img src="~/Images/waiting.gif" style="vertical-align:middle; width: 120px;" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container container-hotel" id="error" style="display: none;">
+    <div class="text-center">
+        <h4>Hotels not found!!</h4>
+    </div>
+</div>
+
+<div class="container container-hotel" id="result" style="display: none;">
+    <div class='row'>
+        <div class="col-lg-3 col-md-12 d-md-block d-lg-none d-xl-none text-right">
+            <button type="button" class="btn btn-outline-warning" id="mobileFilter" style="width: 48%">
+                <strong><i class="fas fa-filter"></i> @Localize.Show("FILTER")</strong>
+            </button>
+            <button type="button" class="btn btn-outline-warning" id="mobileSearch" style="width: 48%">
+                <strong><i class="fas fa-search"></i> @Localize.Show("CHANGE_SEARCH")</strong>
+            </button>
+            <button type="button" class="btn btn-warning" id="mobileCloseFilter" style="display: none;">
+                @Localize.Show("APPLY")
+            </button>
+            <br />
+            <br />
+        </div>
+        <div class="col-lg-3 col-md-12 d-md-none d-lg-block" id="filter-div">
+            <div class="card mb-4">
+                <div class="card-body" style="padding: 0px !important;">
+                    <div class="font-18 font-weight-bold" style="padding: 8px;">
+                        @Localize.Show("RESULTS") @Model.destination
+                    </div>
+                    <a href="#" data-toggle="modal" data-target="#mapModal">
+                        <div class="font-16 text-blue" style="padding-left: 8px;">@Localize.Show("SEE_MAP_VIEW")</div>
+                        <img src="~/Images/icon_gogo/clickmap.png" class="w-100" />
+                    </a>
+                </div>
+                <div class="card-footer" style="background-color: #06B0F4; color: #fff;">
+                    <table class="w-100">
+                        <tr>
+                            <td style="width: 30px">
+                                <img src="~/Images/icon_gogo/Map.svg" />
+                            </td>
+                            <td class="font-12 text-left">
+                                @(DateTime.Now.Month + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second) @Localize.Show("CLICKED_MAP")
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="hotel-box font-14">
+                <div class="font-18 d-none d-md-block mb-3"><strong>@Localize.Show("FILTER")</strong></div>
+                <strong>@Localize.Show("STAR_RATINGS")</strong>
+                <table style="width: 100%">
+                    <tr data-bind="foreach: fileterStars">
+                        <td style="width:20%">
+                            <div class="star-box">
+                                <input class="star" type="checkbox" data-bind="checkedValue: $data, checked: $parent.selectedStars, attr: { id: 'filter_' + $data }" />
+                                <div class="font-10" data-bind="text: $data"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <hr />
+                <strong>@Localize.Show("HOTEL_NAME")</strong>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <input type="text" data-bind="textInput: filterName" class="form-control" />
+                    </div>
+                </div>
+                <hr />
+                <strong>@Localize.Show("PRICE")</strong>
+                <div class="slider-box mt-3">
+                    <input type="hidden" class="slider-price" value="0,100" />
+                    @*<div id="slider-price"></div>*@
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <span class="font-12" data-bind="text: formatCurrency(filterPrice()[0])"></span>
+                        </div>
+                        <div class="col-6 text-right">
+                            <span class="font-12" data-bind="text: formatCurrency(filterPrice()[1])"></span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <strong>@Localize.Show("AREA")</strong>
+                <div class="form-group badge-checkboxes" data-bind="foreach: filterZones">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" value="" data-bind="checkedValue: code, checked: $parent.selectedZones">
+                        <span class="badge-option" data-bind="text: name"></span>
+                    </label>
+                </div>
+                <hr />
+                <strong>@Localize.Show("FACILITIES")</strong>
+                <div class="form-group badge-checkboxes" data-bind="foreach: filterFacilities">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" value="" data-bind="checkedValue: code, checked: $parent.selectedFacilities">
+                        <span class="badge-option" data-bind="text: name"></span>
+                    </label>
+                </div>
+                <hr />
+                <strong>@Localize.Show("PROPERTY_TYPE")</strong>
+                <div class="form-group badge-checkboxes" data-bind="foreach: filterPropertyType">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" value="" data-bind="checkedValue: code, checked: $parent.selectedPropertyType">
+                        <span class="badge-option" data-bind="text: name"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class='col-lg-9 col-md-12' id="hotel-list-div">
+            <div class="hotel-box mt-2 mb-2 d-none d-md-block" data-bind="foreach: flight">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="font-18 text-blue ml-3">Best Deal</div>
+                    </div>
+                </div>
+                <table class="w-100 font-12">
+                    <tr>
+                        <td style="width: 30px" class="text-center">
+                            <img src="~/Images/icon_gogo/dep_flight_icon_black.svg" style="width: 30px" class="ml-3 mr-3" />
+                        </td>
+                        <td style="width:50%; padding-right: 20px;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <img style="vertical-align:middle; height: 15px;" class="img-fluid" data-bind="attr:{src: getAirLogoSquareLink(depFlight.flightDetails[0].airline.code)}" />
+                                    <span class="font-14" data-bind="text: depFlight.flightDetails[0].airline.name">
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row font-weight-bold">
+                                <div class="col-5">
+                                    <span data-bind="text: depFlight.flightDetails[0].depCity.name.split(',')[0]">
+                                    </span>
+                                </div>
+                                <div class="col-2 text-center">
+                                    <img src="~/Images/icon_gogo/arrow_gray.svg" />
+                                </div>
+                                <div class="col-5 text-right">
+                                    <span data-bind="text: depFlight.flightDetails[depFlight.flightDetails.length - 1].arrCity.name.split(',')[0]">
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <span data-bind="text: depFlight.flightDetails[0].depDisplayDateTime.displayTime">
+                                    </span>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <span data-bind="text: getDuration(depFlight.totalTime)"></span>
+
+                                    <!-- ko if: depFlight.flightDetails.length == 1 -->
+                                    <span>@Localize.Show("NO_STOP").ToLower()</span>
+                                    <!-- /ko -->
+                                    <!-- ko if: depFlight.flightDetails.length == 2 -->
+                                    <span data-bind="text: (depFlight.flightDetails.length - 1)"></span>
+                                    <span>@Localize.Show("STOP").ToLower()</span>
+                                    <!-- /ko -->
+                                    <!-- ko if: depFlight.flightDetails.length > 2 -->
+                                    <span data-bind="text: (depFlight.flightDetails.length - 1)"></span>
+                                    <span>@Localize.Show("STOPS").ToLower()</span>
+                                    <!-- /ko -->
+                                </div>
+                                <div class="col-3 text-right">
+                                    <span data-bind="text: depFlight.flightDetails[depFlight.flightDetails.length - 1].arrDisplayDateTime.displayTime">
+                                    </span>
+
+                                </div>
+                            </div>
+                        </td>
+                        <td style="width: 30px" class="text-center">
+                            <img src="~/Images/icon_gogo/arrow_Big.svg" style="width: 30px" class="ml-3 mr-3" />
+                        </td>
+                        <td style="width: 30px" class="text-center">
+                            <img src="~/Images/icon_gogo/arr_flight_icon_black.svg" style="width: 30px" class="ml-3 mr-3" />
+                        </td>
+                        <td style="width:50%">
+                            <div class="row">
+                                <div class="col-12">
+                                    <img style="vertical-align:middle; height: 15px;" class="img-fluid" data-bind="attr:{src: getAirLogoSquareLink(retFlight.flightDetails[0].airline.code)}" />
+                                    <span class="font-14" data-bind="text: retFlight.flightDetails[0].airline.name">
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row font-weight-bold">
+                                <div class="col-5">
+                                    <span data-bind="text: retFlight.flightDetails[0].depCity.name.split(',')[0]">
+                                    </span>
+                                </div>
+                                <div class="col-2 text-center">
+                                    <img src="~/Images/icon_gogo/arrow_gray.svg" />
+                                </div>
+                                <div class="col-5 text-right">
+                                    <span data-bind="text: retFlight.flightDetails[retFlight.flightDetails.length - 1].arrCity.name.split(',')[0]">
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <span data-bind="text: retFlight.flightDetails[0].depDisplayDateTime.displayTime">
+                                    </span>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <span data-bind="text: getDuration(retFlight.totalTime)"></span>
+
+                                    <!-- ko if: retFlight.flightDetails.length == 1 -->
+                                    <span>@Localize.Show("NO_STOP").ToLower()</span>
+                                    <!-- /ko -->
+                                    <!-- ko if: retFlight.flightDetails.length == 2 -->
+                                    <span data-bind="text: (retFlight.flightDetails.length - 1)"></span>
+                                    <span>@Localize.Show("STOP").ToLower()</span>
+                                    <!-- /ko -->
+                                    <!-- ko if: retFlight.flightDetails.length > 2 -->
+                                    <span data-bind="text: (retFlight.flightDetails.length - 1)"></span>
+                                    <span>@Localize.Show("STOPS").ToLower()</span>
+                                    <!-- /ko -->
+                                </div>
+                                <div class="col-3 text-right">
+                                    <span data-bind="text: retFlight.flightDetails[retFlight.flightDetails.length - 1].arrDisplayDateTime.displayTime">
+                                    </span>
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="hotel-box">
+                <table class="w-100">
+                    <tr>
+                        <td class="text-center" style="width: 60px;">
+                            <div class="text-blue font-18 text-center">
+                                <span data-bind="text: booked()"></span>%
+                            </div>
+                            <div class="font-10 text-green text-center">
+                                booked
+                            </div>
+                        </td>
+                        <td>
+                            <div class="font-14">
+                                Hurry! Over <span data-bind="text: booked()"></span>% of properties are fully booked!
+                            </div>
+                            <div class="font-12 text-muted">
+                                Rooms in @Model.destination.Split(',')[0] are in high demand on your selected dates. Reserve yours now before prices go up.
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="row mt-2 mb-2">
+                <div class="col-md-6 col-12">
+                    <div class="font-weight-bold font-16">
+                        <span data-bind="text: records().length"></span> @Localize.Show("HOTELS") @Localize.Show("IN") @Model.destination
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="text-right font-12">
+                        <table style="margin-right: 0px;margin-left: auto;">
+                            <tr>
+                                <td class="font-weight-bold font-14">@Localize.Show("SORT_BY")</td>
+                                <td>
+                                    <select id="sortBy" class="form-control form-control-sm " style="border: none; background-color:#ECF2FF" data-bind="options: sorting,
+                       optionsText: 'text',
+                       optionsValue: 'value',
+                       value: selectedSort"></select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div data-bind="fastForEach: filteredBox">
+                <div class="hotel-box hotel-main" style="cursor:pointer" data-bind="attr:{id: 'fb_' + $index(), onclick: 'openHotelLink(\''+hotelSource+'\', \''+hotelCode+'\', \'' + $root.searchKey() + '\')'}">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                            <a data-bind="attr:{href: getHotelLink(hotelSource, hotelCode, $root.searchKey())}" target="_blank">
+                                <div class="hotel-image" data-bind="attr:{style: getHotelImage(images,hotelSource)}">
+                                    <div data-bind="visible: Advertise" class="advertise-container">
+                                        <div class="advertise-sign">@Localize.Show("SPECIAL_ADS")</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-8 col-sm-12">
+                            <a data-bind="attr:{href: getHotelLink(hotelSource, hotelCode, $root.searchKey())}" style="    color: inherit;" target="_blank">
+                                <div class="hotel-name" data-bind="text: hotelName">
+                                </div>
+                            </a>
+                            <div class="font-12 mt-1">
+                                <img src="~/Images/icon_gogo/pin.svg" style="width: 10px;">
+                                <span data-bind="html: getZoneName(zone)"></span>
+                                <span data-bind="text: city"></span>
+                                <span data-bind="html: getStar(category.code)" class="ml-2"></span>
+                            </div>
+                            <div class="mt-1" data-bind="foreach: facilities">
+                                <!-- ko if: groupCode == 70 && code != 260 && code != 390 -->
+                                <span class="hotel-facility" data-bind="text: name"></span>
+                                <!-- /ko -->
+                            </div>
+                            <div class="mt-2 mr-2 hotel-price-section">
+                                <div class="text-right">
+                                    <strong>
+                                        <span class="font-14">@Currency.GetCurrency()</span>
+                                        <span class="text-blue font-24" data-bind="text: formatCurrency(packageStartPrice)"></span>
+                                    </strong>
+                                    <div>
+                                        <strong class="font-14">@Localize.Show("PRICE_FOR") @Model.night @Localize.Show("NIGHTS") / @Localize.Show("Guest")</strong>
+                                        <span class="font-14 text-muted">@Localize.Show("TAX_INCLUDED")</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Map -->
+<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close modal-close-button" data-dismiss="modal">close &times;</button>
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/input-add-minus.js"></script>
+    <script src="~/Vendors/knockout/knockout-3.4.2.js"></script>
+    <script src="~/Vendors/knockout/knockout-fast-foreach.min.js"></script>
+    <script src="~/Vendors/jquery-ui-1.12.1/jquery-ui.min.js?v2"></script>
+    <script src="~/Vendors/jRange/jquery.range-min.js"></script>
+    <script>
+        var map;
+        var currWindow = false;
+        function dealModel() {
+            var self = this;
+            self.searchKey = ko.observable('');
+            self.records = ko.observableArray([]);
+            self.fileterStars = ko.observableArray([]);
+            self.selectedStars = ko.observableArray([]);
+            self.filterPrice = ko.observableArray([]);
+            self.filterZones = ko.observableArray([]);
+            self.selectedZones = ko.observableArray([]);
+            self.filterFacilities = ko.observableArray([]);
+            self.selectedFacilities = ko.observableArray([]);
+            self.filterPropertyType = ko.observableArray([]);
+            self.selectedPropertyType = ko.observableArray([]);
+            self.filterName = ko.observable('');
+            self.sorting = ko.observableArray([]);
+            self.selectedSort = ko.observable('rank_asc');
+            self.allHotel = ko.observable(20);
+            self.booked = ko.observable(0);
+            self.flight = ko.observableArray([]);
+
+            $(window).scroll(function () {
+                if ($(window).scrollTop() + $(window).height() > $(document).height() - 10) {
+                    self.allHotel(self.allHotel() + 20);
+                    //console.log(self.allHotel());
+                }
+            });
+            var count = 0;
+            var searchModel = @Html.Raw(Model.GetJsonModel());
+            //$('#loadingModal').modal('show');
+            $.ajax({
+                url: "@Url.Action("HotelResult", "HFPackage")",
+                data: searchModel,
+                cache: true,
+                method: "post",
+                success: function (data) {
+                    if (data && data.hotels && data.hotels.length > 0) {
+                        $('#loading').hide();
+                        $('#result').show();
+                    } else {
+                        $('#loading').hide();
+                        $('#error').show();
+                        return;
+                    }
+
+                    self.searchKey(data.searchKey);
+                    var flight = {};
+                    flight.depFlight = data.recommendedDepartureFlight;
+                    flight.retFlight = data.recommendedReturnFlight;
+                    var flights = [];
+                    flights.push(flight);
+                    self.flight(flights);
+
+                    var stars = ['1', '2', '3', '4', '5'];
+                    self.fileterStars(stars);
+                    self.selectedStars(stars);
+
+                    var sortObj = [{
+                        text: '@Localize.Show("HIGHEST_POPULARITY")',
+                        value: 'rank_asc'
+                    }, {
+                        text: '@Localize.Show("PRICE_MIN_MAX")',
+                        value: 'packageStartPrice_asc'
+                    }, {
+                        text: '@Localize.Show("PRICE_MAX_MIN")',
+                        value: 'packageStartPrice_desc'
+                    }, {
+                        text: '@Localize.Show("HOTELNAME_AZ")',
+                        value: 'hotelNameSort_asc'
+                    }, {
+                        text: '@Localize.Show("HOTELNAME_ZA")',
+                        value: 'hotelNameSort_desc'
+                        }];
+                    self.sorting(sortObj);
+
+                    var swidth = $('#filter-div').width() * 0.85;
+                    if (swidth <= 0) {
+                        swidth = $('#hotel-list-div').width() * 0.85;
+                    }
+                    var packageStartPrice = 0;
+                    var maxPrice = 0;
+                    var filterZone = [];
+                    var checkZone = [];
+                    var filterFacility = [];
+                    var checkFacility = [];
+                    var filterPropertyType = [];
+                    var checkPropertyType = [];
+                    for (var i = 0; i < data.hotels.length; i++) {
+                        //Add marker to map
+                        var contentString = '';
+                        contentString += '<a href="' + getHotelLink(data.hotels[i].hotelSource, data.hotels[i].hotelCode , data.searchKey) + '  target="_blank"">';
+                        contentString += '<table>';
+                        contentString += '<tr>';
+                        contentString += '<td>';
+                        if (data.hotels[i].images) {
+                            contentString += '<img src="//photos.hotelbeds.com/giata/small/' + data.hotels[i].images[0].url + '" />';
+                        }
+                        contentString += '</td>';
+                        contentString += '<td>';
+                        contentString += '<div class="font-14 text-blue font-weight-bold">' + data.hotels[i].hotelName + '</div>';
+                        contentString += '<div>' + getStar(data.hotels[i].category.code) + '</div>';
+                        contentString += '<div  class="font-14 text-red">' + '@Currency.GetCurrency()' + ' ' + formatCurrency(data.hotels[i].packageStartPrice) + '</div>';
+
+                        contentString += '</td>';
+                        contentString += '</tr>';
+                        contentString += '</table>';
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+                        var coordinate = { lat: data.hotels[i].latitude, lng: data.hotels[i].longitude };
+                        if (i === 0) {
+                            map.setCenter(coordinate);
+                        }
+                        var marker = new google.maps.Marker({
+                            position: coordinate,
+                            map: map,
+                            title: data.hotels[i].hotelName
+                        });
+                        google.maps.event.addListener(marker, 'click', (function (marker, contentString, infowindow) {
+                            return function () {
+                                if (currWindow) {
+                                    currWindow.close();
+                                }
+                                currWindow = infowindow;
+
+                                infowindow.setContent(contentString);
+                                infowindow.open(map, marker);
+                            };
+                        })(marker, contentString, infowindow));
+
+
+
+                        //End marker
+
+                        data.hotels[i].rank = i;
+                        if (packageStartPrice === 0 || data.hotels[i].packageStartPrice < packageStartPrice) {
+                            packageStartPrice = data.hotels[i].packageStartPrice;
+                        }
+                        if (maxPrice === 0 || data.hotels[i].packageStartPrice > maxPrice) {
+                            maxPrice = data.hotels[i].packageStartPrice;
+                        }
+                        if (data.hotels[i].zone != null) {
+                            if (checkZone.indexOf(data.hotels[i].zone.code) < 0) {
+                                checkZone.push(data.hotels[i].zone.code);
+                                filterZone.push(data.hotels[i].zone);
+                            }
+                        }
+                        if (checkPropertyType.indexOf(data.hotels[i].accomodationType.code) < 0) {
+                            checkPropertyType.push(data.hotels[i].accomodationType.code);
+                            filterPropertyType.push(data.hotels[i].accomodationType);
+                        }
+                        for (var f = 0; f < data.hotels[i].facilities.length; f++) {
+                            if (data.hotels[i].facilities[f].groupCode == 70 && data.hotels[i].facilities[f].code != 260 && data.hotels[i].facilities[f].code != 390) {
+                                if (checkFacility.indexOf(data.hotels[i].facilities[f].code) < 0) {
+                                    checkFacility.push(data.hotels[i].facilities[f].code);
+                                    filterFacility.push(data.hotels[i].facilities[f]);
+                                }
+                            }
+                        }
+                    }
+
+                    console.log(data);
+                    //set
+                    self.records(data.hotels);
+
+                    //compute % booked
+                    var totalBook = 200 - data.hotels.length;
+                    var percent = parseInt((totalBook / 2));
+                    self.booked(percent);
+
+                    //filter price
+                    packageStartPrice = 0;//-= 1;
+                    maxPrice += 1;
+                    var fInitPrice = [];
+                    fInitPrice.push(packageStartPrice);
+                    fInitPrice.push(maxPrice);
+                    self.filterPrice(fInitPrice);
+
+                    $('.slider-price').jRange({
+                        from: packageStartPrice,
+                        to: maxPrice,
+                        step: 1,
+                        format: '%s',
+                        showLabels: false,
+                        showScale: false,
+                        isRange: true,
+                        width: swidth,
+                        onstatechange: function (values) {
+                            var val = values.split(',');
+                            self.filterPrice(val);
+                        }
+                    });
+                    $('.slider-price').jRange('setValue', packageStartPrice + ',' + maxPrice);
+
+                    //filter zone
+                    self.filterZones(filterZone);
+                    self.filterFacilities(filterFacility);
+                    self.filterPropertyType(filterPropertyType);
+
+                },
+                error: function () {
+                    $('#loading').hide();
+                    $('#error').show();
+                }
+
+
+            });
+
+            self.formatCurrency = function (amount) {
+                if (!amount) {
+                    amount = 0;
+                }
+            amount = parseFloat(amount);
+            var convertRate = @(Currency.convertFromTHB(1));
+            amount *= convertRate;
+            amount = amount.toFixed(2)
+                amount += '';
+                x = amount.split('.');
+                x1 = x[0];
+                x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                }
+                return x1 + x2;
+            };
+            //filter
+            self.filteredBox = ko.computed(function () {
+                if (!self.selectedSort()) {
+                    return null;
+                }
+                count = 0;
+                var sortBy = self.selectedSort().split('_');
+                var sortedArray = self.records().sort(function (left, right) {
+                    if (sortBy[1] == 'asc') {
+                        return left[sortBy[0]] === right[sortBy[0]] ? 0
+                            : left[sortBy[0]] < right[sortBy[0]] ? -1
+                                : 1;
+                    } else {
+                        return left[sortBy[0]] === right[sortBy[0]] ? 0
+                            : left[sortBy[0]] > right[sortBy[0]] ? -1
+                                : 1;
+                    }
+                });
+                var filtered = ko.utils.arrayFilter(sortedArray, function (record, index) {
+                    var show = true;
+                    if (show) {
+                        show = self.selectedStars().indexOf(record.category.code[0]) >= 0;
+                    }
+                    if (show && self.filterName() != '') {
+                        show = record.hotelName.toLowerCase().indexOf(self.filterName().toLowerCase()) >= 0;
+                    }
+                    if (show) {
+                        show = record.packageStartPrice >= self.filterPrice()[0] && record.packageStartPrice <= self.filterPrice()[1];
+                    }
+                    if (show) {
+                        if (self.selectedZones().length > 0) {
+                            show = self.selectedZones().indexOf(record.zone.code) >= 0;
+                        }
+                    }
+                    if (show) {
+                        if (self.selectedPropertyType().length > 0) {
+                            show = self.selectedPropertyType().indexOf(record.accomodationType.code) >= 0;
+                        }
+                    }
+                    if (show) {
+                        if (self.selectedFacilities().length > 0) {
+                            var included = false;
+                            for (var f = 0; f < record.facilities.length; f++) {
+                                if (record.facilities[f].groupCode == 70 && record.facilities[f].code != 260 && record.facilities[f].code != 390) {
+                                    if (self.selectedFacilities().indexOf(record.facilities[f].code) >= 0) {
+                                        included = true;
+                                    }
+                                }
+
+                                if (included) {
+                                    f = record.facilities.length;
+                                }
+                            }
+                            show = included;
+                        }
+                    }
+
+                    if (show) {
+                        count++;
+                        if (count > self.allHotel()) {
+                            show = false;
+                        }
+                    }
+                    return show;
+                });
+
+
+                return filtered;
+
+
+            }).extend({ throttle: 300 });  ;
+
+        }
+        ko.applyBindings(new dealModel());
+
+        var getHotelImage = function (imgArray, hotelSource) {
+            if (hotelSource == 'EXT') {
+                if (imgArray && imgArray.length > 0) {
+                    for (var i = 0; i < imgArray.length; i++) {
+                        if (imgArray[i].description == 'Main') {
+                            return "background-image:url('@Model.hotelExtURL/" + imgArray[i].url + "');";
+                        }
+                    }
+                    return "background-image:url('@Model.hotelExtURL/" + imgArray[0].url + "');";
+                }
+            }
+            else {
+                if (imgArray && imgArray.length > 0) {
+                    for (var i = 0; i < imgArray.length; i++) {
+                        if (imgArray[i].url.indexOf('_a_') > 0) {
+                            return "background-image:url('" + "//photos.hotelbeds.com/giata/" + imgArray[i].url + "');";
+                        }
+                    }
+                    return "background-image:url('" + "//photos.hotelbeds.com/giata/" + imgArray[0].url + "');";
+                }
+            }
+            return "";
+        };
+
+        var getZoneName = function (zone) {
+            var zoneHtml = '-';
+            try {
+                zoneHtml = zone.name;
+            } catch { }
+            return zoneHtml;
+        };
+
+        var getStar = function (star) {
+            var starHtml = '';
+            try {
+                var iStar = parseInt(star[0]);
+                var i = 1;
+                for (i = 1; i <= iStar; i++) {
+                    starHtml += '<i class="fas fa-star yellow-star"></i>';
+                }
+                for (i = iStar + 1; i <= 5; i++) {
+                    starHtml += '<i class="fas fa-star grey-star"></i>';
+                }
+            } catch {}
+            return starHtml;
+        };
+        var formatCurrency = function (amount) {
+            if (!amount) {
+                amount = 0;
+            }
+            amount = parseFloat(amount);
+            var convertRate = @(Currency.convertFromTHB(1));
+            amount *= convertRate;
+            amount = amount.toFixed(2)
+            amount += '';
+            x = amount.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return x1 + x2;
+        };
+
+        var getHotelLink = function (hotelSource, hotelCode, searchKey) {
+            return '@Url.Action("HotelInfo", "HFPackage")' + '/?hotelSource='+hotelSource+'&hotelCode=' + hotelCode + '&searchKey=' + searchKey;
+        }
+
+        var openHotelLink = function (hotelSource, hotelCode, searchKey) {
+
+            var a = document.createElement('a');
+            a.target = '_blank';
+            a.href = getHotelLink(hotelSource, hotelCode, searchKey);
+            a.click();
+        }
+        var getAirLogoSquareLink = function (airlineCode) {
+            return "//ai-r-logo.azurewebsites.net/square/" + airlineCode + ".png";
+        };
+        var getDuration = function (d) {
+            d = pad(d, 4);
+            return d.substr(0, 2) + " h " + d.substr(2, 2) + " m";
+        };
+        var pad = function (num, size) {
+            var s = num + "";
+            while (s.length < size) s = "0" + s;
+            return s;
+        };
+
+
+        $(document).ready(function () {
+            $('#mobileFilter').click(function () {
+                $('#mobileFilter').hide();
+                $('#mobileSearch').hide();
+                $('#mobileCloseFilter').show();
+                $('#hotel-list-div').hide();
+                $('#filter-div').show();
+                $('#filter-div').removeClass("d-md-none");
+            });
+            $('#mobileCloseFilter').click(function () {
+                $('#mobileFilter').show();
+                $('#mobileSearch').show();
+                $('#mobileCloseFilter').hide();
+                $('#hotel-list-div').show();
+                $('#filter-div').hide();
+            });
+
+            $('#mobileSearch').click(function () {
+                if ($('#searchBox').hasClass("d-md-none")) {
+                    $('#searchBox').removeClass("d-md-none");
+                    $('#searchBox').hide();
+                }
+                $('#searchBox').slideToggle();
+            });
+
+        });
+    </script>
+    <script>
+        function initMap() {
+            var myLatLng = { lat: -25.363, lng: 131.044 };
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 17,
+                center: myLatLng
+            });
+
+        }
+
+
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX_pvel9_UQO7HSpapWF8vSLOhQ6uw2Qg&callback=initMap">
+    </script>
+}

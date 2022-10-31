@@ -1,0 +1,805 @@
+﻿
+@model BackOffice.Models.SendEmailFlight
+<h2></h2>
+
+
+<table border="0" cellpadding="0" cellspacing="0" width="960" style="background-color:#ffffff;border:1px solid #dddddd;border-collapse:separate;border-radius:0px;padding-bottom:20px">
+    <tbody>
+        <tr>
+            <td valign="top">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top:20px;padding-Right:20px;padding-Left:20px">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top" width="960" style="padding-top:20px;padding-Right:20px;padding-Left:20px">
+                                                
+                                                <table align="Right" border="0" cellpadding="0" cellspacing="0" width="538" height="110">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td valign="top" style="text-align:right;color:#404040;font-family:Helvetica;font-size:14px;line-height:1.4;vertical-align:bottom">
+                                                                @if (Model.emailInformation.Name != null)
+                                                                {
+                                                                    <b>@Model.emailInformation.Name</b><br>
+                                                                }
+                                                                @if (Model.emailInformation.Address != null)
+                                                                {
+                                                                    @Model.emailInformation.Address<br>
+                                                                }
+                                                                @*<span style="color:#f15a24"><b>ใบอนุญาตประกอบธุรกิจท่องเที่ยว เลขที่ 11/08856</b></span>*@
+                                                            </td>
+                                                        </tr>
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr border="0" cellpadding="0" cellspacing="0" width="100%">
+            <td valign="top">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" align="left" style="padding-bottom:10px;padding-Right:20px;padding-Left:20px">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top" width="960" style="padding-top:20px;padding-Right:20px;padding-Left:20px">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="60%" style="background-color:#fff;border:1px solid #fdd051">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td valign="top" style="padding-top:20px;padding-Right:20px;padding-Left:20px;padding-bottom:20px">
+                                                                <table align="Left" border="0" cellpadding="0" cellspacing="0" width="460">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td valign="top" style="color:#404040;font-family:Helvetica;font-size:14px;line-height:1.5;text-align:Left">
+                                                                                <h1 style="color:#fbce52!important;margin-top:0;margin-bottom:0">อีเมลยืนยันการจอง</h1>
+                                                                                <b>
+                                                                                    สวัสดี คุณ @if (Model.emailAirfare.contactInfo.firstname != null)
+                                                                                    {@Model.emailAirfare.contactInfo.firstname}กวิ้นสำรองที่นั่งไว้ให้เรียบร้<wbr>อยแล้ว!
+                                                                                </b><br>
+                                                                                อีเมลฉบับนี้เป็นอีเมลยืนยั<wbr>นการจองเท่านั้น <span style="color:red">ท่านจะได้รับ E-ticket ภายใน 24 ชั่วโมงหลังชำระเงิน หากท่านไม่ได้รับ E-ticket ภายในเวลาดังกล่าว กรุณาติดต่อเจ้าหน้าที่ทันที</span>ที่<wbr>อีเมล @if (Model.emailInformation.Email != null)
+                                                                                {@Model.emailInformation.Email}
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td valign="top" width="960" style="padding-top:20px;padding-Right:20px;padding-Left:20px">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="40%" style="background-color:#fff;border:1px solid #fdd051">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td valign="top" style="padding-top:20px;padding-Right:20px;padding-Left:20px;padding-bottom:20px">
+                                                                <table align="Right" border="0" cellpadding="0" cellspacing="0" width="290">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td valign="top" style="color:#404040;font-family:Helvetica;font-size:14px;line-height:1.4;text-align:Left">
+                                                                                <b>เลขที่อ้างอิงการจอง:<br></b>@if (Model.emailAirfare.PNR != null)
+                                                                                {@Model.emailAirfare.PNR}<br><br>
+                                                                                @*<b>ชำระก่อนวันที่:<br></b> 18:54 น. 23/10/19<br>*@
+                                                                            </td>
+                                                                            <td valign="top" style="color:#404040;font-family:Helvetica;font-size:14px;line-height:1.4;text-align:Left">
+
+                                                                                <b>สถานะ:<br></b><span style="color:red!important">
+                                                                                    <b>
+                                                                                        @*@if (Model.emailAirfare.statusPayment != null)
+                                                                                        {*@
+                                                                                            @switch (Model.emailAirfare.statusPayment)
+                                                                                            {
+                                                                                                case 0:<label>รอการชำระ</label>; break;
+                                                                                                case 1: <label>จ่ายเงินแล้ว</label>; break;
+                                                                                                case 2: <label>ยกเลิก</label>break;
+                                                                                            }
+                                                                                        @*}*@
+                                                                                    </b>
+                                                                                </span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td valign="top">
+
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td valign="top">
+
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top:0px;padding-Right:20px;padding-Left:20px">
+                                    <tbody>
+                                        <tr>
+                                            <td align="left" valign="top" width="960" style="padding-top:0px;padding-Right:20px;padding-Left:20px">
+                                                <h3>รายละเอียดผู้ติดต่อ</h3>
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#fff;border:1px solid #fdd051">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td valign="top" style="padding-top:20px;padding-Right:20px;padding-Left:20px;padding-bottom:20px">
+
+                                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                    <tbody>
+                                                                        <tr><td valign="top" width="60%" style="color:#404040;font-family:Helvetica;font-size:14px;line-height:1.4;text-align:Left"><div valign="top"><b>1. ชื่อ-นามสกุล: @Model.emailAirfare.contactInfo.title &nbsp; @Model.emailAirfare.contactInfo.firstname &nbsp; @Model.emailAirfare.contactInfo.lastname</b><div style="margin-top:6px"><b>ติดต่อ: </b>@Model.emailAirfare.contactInfo.email, @Model.emailAirfare.contactInfo.telNo</div></div></td><td width="40%"></td></tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td valign="top">
+
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td valign="top">
+
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top:0px;padding-Right:20px;padding-Left:20px">
+                                    <tbody>
+                                        <tr>
+                                            <td align="left" valign="top" width="960" style="padding-top:0px;padding-Right:20px;padding-Left:20px">
+                                                <h3>รายละเอียดผู้โดยสาร</h3>
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#fff;border:1px solid #fdd051">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td valign="top" style="padding-top:20px;padding-Right:20px;padding-Left:20px;padding-bottom:20px">
+
+                                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                    <tbody>
+                                                                        @{
+                                                                            int paxNo = 1;
+                                                                        }
+                                                                        @for (int i = 0; i < Model.emailAirfare.adtPaxs.Count; i++)
+                                                                        {
+                                                                            <tr>
+                                                                                <td valign="top" width="60%" style="color:#404040;font-family:Helvetica;font-size:14px;line-height:1.4;text-align:Left">
+                                                                                    <div valign="top">
+                                                                                        <b>
+                                                                                            @(paxNo.ToString()). ชื่อ-นามสกุล: @Model.emailAirfare.adtPaxs[i].title &nbsp; @Model.emailAirfare.adtPaxs[i].firstname @if (@Model.emailAirfare.adtPaxs[i].middlename != null)
+                                                                                            {<span>&nbsp;@Model.emailAirfare.adtPaxs[i].middlename</span>} &nbsp; @Model.emailAirfare.adtPaxs[i].lastname
+                                                                                        </b><div style="margin-top:6px"> </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td width="40%"></td>
+                                                                            </tr>
+
+                                                                            paxNo++;
+                                                                        }
+
+                                                                        @if (Model.emailAirfare.chdPaxs != null && Model.emailAirfare.chdPaxs.Count > 0)
+                                                                        {
+                                                                            for (int i = 0; i < Model.emailAirfare.chdPaxs.Count; i++)
+                                                                            {
+                                                                                <tr>
+                                                                                    <td valign="top" width="60%" style="color:#404040;font-family:Helvetica;font-size:14px;line-height:1.4;text-align:Left">
+                                                                                        <div valign="top">
+                                                                                            <b>
+                                                                                                @(paxNo.ToString()). ชื่อ-นามสกุล: @Model.emailAirfare.chdPaxs[i].title &nbsp; @Model.emailAirfare.chdPaxs[i].firstname @if (@Model.emailAirfare.chdPaxs[i].middlename != null)
+                                                                                                {<span>&nbsp;@Model.emailAirfare.chdPaxs[i].middlename</span>} &nbsp; @Model.emailAirfare.chdPaxs[i].lastname
+                                                                                            </b><div style="margin-top:6px"> </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td width="40%"></td>
+                                                                                </tr>
+
+                                                                                paxNo++;
+                                                                            }
+                                                                        }
+
+                                                                        @if (Model.emailAirfare.infPaxs != null && Model.emailAirfare.infPaxs.Count > 0)
+                                                                        {
+                                                                            for (int i = 0; i < Model.emailAirfare.infPaxs.Count; i++)
+                                                                            {
+                                                                                <tr>
+                                                                                    <td valign="top" width="60%" style="color:#404040;font-family:Helvetica;font-size:14px;line-height:1.4;text-align:Left">
+                                                                                        <div valign="top">
+                                                                                            <b>
+                                                                                                @(paxNo.ToString()). ชื่อ-นามสกุล: @Model.emailAirfare.infPaxs[i].title &nbsp; @Model.emailAirfare.infPaxs[i].firstname @if (@Model.emailAirfare.infPaxs[i].middlename != null)
+                                                                                                {<span>&nbsp;@Model.emailAirfare.infPaxs[i].middlename</span>} &nbsp; @Model.emailAirfare.infPaxs[i].lastname
+                                                                                            </b><div style="margin-top:6px"> </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td width="40%"></td>
+                                                                                </tr>
+
+                                                                                paxNo++;
+                                                                            }
+                                                                        }
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td valign="top">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top:0px;padding-Right:20px;padding-Left:20px">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top" width="960">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="left" valign="top" style="padding-top:0px;padding-Right:20px;padding-Left:20px;padding-bottom:0px">
+                                                                <h3>รายละเอียดเที่ยวบินขาไป</h3>
+                                                                @{
+                                                                    int flightNoDepart = 1;
+                                                                }
+                                                                @if (Model.emailAirfare.depFlight != null && Model.emailAirfare.depFlight.Count > 0)
+                                                                {
+                                                                    for (int i = 0; i < Model.emailAirfare.depFlight.Count; i++)
+                                                                    {
+
+                                                                        @(flightNoDepart.ToString())<table border="0" cellpadding="10" cellspacing="0" width="100%" style="background-color:#fffaec;border:1px solid #fdd051">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <th scope="col" align="left" valign="top" width="14%" style="background-color:#fdd051;color:#202020;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:150%">สายการบิน</th>
+                                                                                    <th scope="col" align="left" valign="top" width="14%" style="background-color:#fdd051;color:#202020;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:150%">เที่ยวบินขาไป</th>
+                                                                                    <th scope="col" align="left" valign="top" width="30%" style="background-color:#fdd051;color:#202020;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:150%"></th>
+                                                                                    <th scope="col" align="left" valign="top" width="24%" colspan="2" style="background-color:#fdd051;color:#202020;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:150%"></th>
+                                                                                    <th scope="col" align="left" valign="top" colspan="2" width="16%" style="background-color:#fdd051;color:#202020;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:150%"></th>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td valign="middle">@Model.emailAirfare.depFlight[i].airline.code</td>
+                                                                                    <td valign="middle" style="font-size:12px">@Model.emailAirfare.depFlight[i].airline.code @Model.emailAirfare.depFlight[i].flightNumber</td>
+                                                                                    <td valign="middle" style="border-left:1px solid #fdd051;font-size:12px">@Model.emailAirfare.depFlight[i].departureDateTime.ToString("dd MMMM yyyy")</td>
+                                                                                    <td valign="middle" style="font-size:12px">@Model.emailAirfare.depFlight[i].departureDateTime.ToString("HH:mm tt") - <b>@Model.emailAirfare.depFlight[i].depCity.code</b></td>
+                                                                                    <td valign="middle" style="font-size:12px">@Model.emailAirfare.depFlight[i].arrivalDateTime.ToString("HH:mm tt")<sup style="font-weight:bold"> </sup> - <b>@Model.emailAirfare.depFlight[i].arrCity.code</b></td>
+                                                                                    <td valign="middle" style="font-size:12px"></td>
+                                                                                </tr>
+                                                                                @if (@Model.emailAirfare.adtFare != null)
+                                                                                {
+                                                                                    if (Model.emailAirfare.adtFare.baggages != null && Model.emailAirfare.adtFare.baggages.Count > 0)
+                                                                                    {
+                                                                                        for (int j = 0; j < Model.emailAirfare.adtFare.baggages.Count; j++)
+                                                                                        {
+                                                                                            <tr><td></td><td></td><td valign="middle" align="left" colspan="4" style="border-left:1px solid #fdd051;border-top:1px solid #fdd051"><b>สัมภาระผู้ใหญ่ - </b>@Model.emailAirfare.adtFare.baggages[j].baggageNo กก.</td></tr>
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                                @if (Model.emailAirfare.chdFare != null)
+                                                                                {
+                                                                                    if (Model.emailAirfare.chdFare.baggages != null && Model.emailAirfare.chdFare.baggages.Count > 0)
+                                                                                    {
+                                                                                        for (int k = 0; k < Model.emailAirfare.chdFare.baggages.Count; k++)
+                                                                                        {
+                                                                                            <tr><td></td><td></td><td valign="middle" align="left" colspan="4" style="border-left:1px solid #fdd051;border-top:1px solid #fdd051"><b>สัมภาระเด็ก - </b>@Model.emailAirfare.chdFare.baggages[k].baggageNo กก.</td></tr>
+                                                                                        }
+                                                                                    }
+                                                                                }
+
+                                                                                @if (Model.emailAirfare.infFare != null)
+                                                                                {
+                                                                                    if (Model.emailAirfare.infFare.baggages != null && Model.emailAirfare.infFare.baggages.Count > 0)
+                                                                                    {
+                                                                                        for (int a = 0; a < Model.emailAirfare.infFare.baggages.Count; a++)
+                                                                                        {
+                                                                                            <tr><td></td><td></td><td valign="middle" align="left" colspan="4" style="border-left:1px solid #fdd051;border-top:1px solid #fdd051"><b>สัมภาระเด็กทารก - </b>@Model.emailAirfare.infFare.baggages[a].baggageNo กก.</td></tr>
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+
+                                                                        flightNoDepart++;
+                                                                    }
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <td valign="top">
+
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td valign="top">
+
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top:0px;padding-Right:20px;padding-Left:20px">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top" width="960">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="left" valign="top" style="padding-top:0px;padding-Right:20px;padding-Left:20px;padding-bottom:0px">
+                                                                <h3>รายละเอียดเที่ยวบินขากลับ</h3>
+
+                                                                @{
+                                                                    int flightNoReturn = 1;
+                                                                }
+                                                                @if (Model.emailAirfare.retFlight != null && Model.emailAirfare.retFlight.Count > 0)
+                                                                {
+                                                                    for (int i = 0; i < Model.emailAirfare.retFlight.Count; i++)
+                                                                    {
+
+                                                                        @(flightNoReturn.ToString())<table border="0" cellpadding="10" cellspacing="0" width="100%" style="background-color:#fffaec;border:1px solid #fdd051">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <th scope="col" align="left" valign="top" width="14%" style="background-color:#fdd051;color:#202020;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:150%">สายการบิน</th>
+                                                                                    <th scope="col" align="left" valign="top" width="14%" style="background-color:#fdd051;color:#202020;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:150%">เที่ยวบินขาไป</th>
+                                                                                    <th scope="col" align="left" valign="top" width="30%" style="background-color:#fdd051;color:#202020;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:150%"></th>
+                                                                                    <th scope="col" align="left" valign="top" width="24%" colspan="2" style="background-color:#fdd051;color:#202020;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:150%"></th>
+                                                                                    <th scope="col" align="left" valign="top" colspan="2" width="16%" style="background-color:#fdd051;color:#202020;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:150%"></th>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td valign="middle">@Model.emailAirfare.retFlight[i].airline.code</td>
+                                                                                    <td valign="middle" style="font-size:12px">@Model.emailAirfare.retFlight[i].airline.code @Model.emailAirfare.retFlight[i].flightNumber</td>
+                                                                                    <td valign="middle" style="border-left:1px solid #fdd051;font-size:12px">@Model.emailAirfare.retFlight[i].departureDateTime.ToString("dd MMMM yyyy")</td>
+                                                                                    <td valign="middle" style="font-size:12px">@Model.emailAirfare.retFlight[i].departureDateTime.ToString("HH:mm tt") - <b>@Model.emailAirfare.retFlight[i].depCity.code</b></td>
+                                                                                    <td valign="middle" style="font-size:12px">@Model.emailAirfare.retFlight[i].arrivalDateTime.ToString("HH:mm tt")<sup style="font-weight:bold"> </sup> - <b>@Model.emailAirfare.retFlight[i].arrCity.code</b></td>
+                                                                                    <td valign="middle" style="font-size:12px"></td>
+                                                                                </tr>
+                                                                                @if (@Model.emailAirfare.adtFare != null)
+                                                                                {
+                                                                                    if (Model.emailAirfare.adtFare.baggages != null && Model.emailAirfare.adtFare.baggages.Count > 0)
+                                                                                    {
+                                                                                        for (int j = 0; j < Model.emailAirfare.adtFare.baggages.Count; j++)
+                                                                                        {
+                                                                                            <tr><td></td><td></td><td valign="middle" align="left" colspan="4" style="border-left:1px solid #fdd051;border-top:1px solid #fdd051"><b>สัมภาระผู้ใหญ่ - </b>@Model.emailAirfare.adtFare.baggages[j].baggageNo กก.</td></tr>
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                                @if (Model.emailAirfare.chdFare != null)
+                                                                                {
+                                                                                    if (Model.emailAirfare.chdFare.baggages != null && Model.emailAirfare.chdFare.baggages.Count > 0)
+                                                                                    {
+                                                                                        for (int k = 0; k < Model.emailAirfare.chdFare.baggages.Count; k++)
+                                                                                        {
+                                                                                            <tr><td></td><td></td><td valign="middle" align="left" colspan="4" style="border-left:1px solid #fdd051;border-top:1px solid #fdd051"><b>สัมภาระเด็ก - </b>@Model.emailAirfare.chdFare.baggages[k].baggageNo กก.</td></tr>
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                                @if (Model.emailAirfare.infFare != null)
+                                                                                {
+                                                                                    if (Model.emailAirfare.infFare.baggages != null && Model.emailAirfare.infFare.baggages.Count > 0)
+                                                                                    {
+                                                                                        for (int a = 0; a < Model.emailAirfare.infFare.baggages.Count; a++)
+                                                                                        {
+                                                                                            <tr><td></td><td></td><td valign="middle" align="left" colspan="4" style="border-left:1px solid #fdd051;border-top:1px solid #fdd051"><b>สัมภาระเด็กทารก - </b>@Model.emailAirfare.infFare.baggages[a].baggageNo กก.</td></tr>
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+
+                                                                        flightNoReturn++;
+                                                                    }
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td valign="top">
+
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td valign="top">
+
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top:0px;padding-Right:20px;padding-Left:20px">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top" width="960">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="left" valign="top" style="padding-top:0px;padding-Right:20px;padding-Left:20px;padding-bottom:0px">
+                                                                <h3>รายละเอียดการชำระเงิน</h3>
+
+
+                                                                <table border="0" cellpadding="10" cellspacing="0" width="100%" style="background-color:#fafafa;border:1px solid #e9e9e9">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th style="background-color:#e9e9e9;background-color:#e9e9e9;color:#202020;font-family:Helvetica;font-size:14px;line-height:150%;text-align:left" scope="col" valign="top" width="1%">
+                                                                                <b>#</b>
+                                                                            </th>
+                                                                            <th style="background-color:#e9e9e9;background-color:#e9e9e9;color:#202020;font-family:Helvetica;font-size:14px;line-height:150%;text-align:left" scope="col" valign="top" width="15%">
+                                                                                <b>ประเภท</b>
+                                                                            </th>
+                                                                            <th style="background-color:#e9e9e9;background-color:#e9e9e9;color:#202020;font-family:Helvetica;font-size:14px;line-height:150%;text-align:left" scope="col" valign="top" width="15%">
+                                                                                <b>สกุลเงิน</b>
+                                                                            </th>
+                                                                            <th style="background-color:#e9e9e9;background-color:#e9e9e9;color:#202020;font-family:Helvetica;font-size:14px;line-height:150%;text-align:left" scope="col" valign="top" width="20%">
+                                                                                <b>ราคา</b>
+                                                                            </th>
+                                                                            <th style="background-color:#e9e9e9;background-color:#e9e9e9;color:#202020;font-family:Helvetica;font-size:14px;line-height:150%;text-align:left" scope="col" valign="top" width="20%">
+                                                                                <b>ภาษี</b>
+                                                                            </th>
+                                                                            <th style="background-color:#e9e9e9;background-color:#e9e9e9;color:#202020;font-family:Helvetica;font-size:14px;line-height:150%;text-align:left" scope="col" valign="top" width="10%">
+                                                                                <b>จำนวน</b>
+                                                                            </th>
+                                                                            <th style="background-color:#e9e9e9;background-color:#e9e9e9;color:#202020;font-family:Helvetica;font-size:14px;line-height:150%;text-align:right" scope="col" valign="top" width="20%">
+                                                                                <b>รวม</b>
+                                                                            </th>
+                                                                        </tr>
+                                                                        <tr><td style="border-top:1px solid #e9e9e9;border-bottom:0;color:#404040;font-family:Helvetica;font-size:12px;line-height:150%;text-align:left" valign="top">1</td><td style="border-top:1px solid #e9e9e9;border-bottom:0;color:#404040;font-family:Helvetica;font-size:12px;line-height:150%;text-align:left" valign="top">ผู้ใหญ่</td><td style="border-top:1px solid #e9e9e9;border-bottom:0;color:#404040;font-family:Helvetica;font-size:12px;line-height:150%;text-align:left" valign="top">THB</td><td style="border-top:1px solid #e9e9e9;border-bottom:0;color:#404040;font-family:Helvetica;font-size:12px;line-height:150%;text-align:left" valign="top">3,500</td><td style="border-top:1px solid #e9e9e9;border-bottom:0;color:#404040;font-family:Helvetica;font-size:12px;line-height:150%;text-align:left" valign="top">2,920</td><td style="border-top:1px solid #e9e9e9;border-bottom:0;color:#404040;font-family:Helvetica;font-size:12px;line-height:150%;text-align:left" valign="top">1</td><td style="border-top:1px solid #e9e9e9;border-bottom:0;color:#404040;font-family:Helvetica;font-size:12px;line-height:150%;text-align:right" valign="top">6,420</td></tr>
+
+
+                                                                        <tr>
+                                                                            <td style="border-top:1px solid #e9e9e9;border-bottom:0;color:#404040;font-family:Helvetica;font-size:12px;line-height:150%;text-align:right" colspan="5"></td>
+                                                                            <td style="border-top:1px solid #e9e9e9;border-bottom:0;color:#404040;font-family:Helvetica;font-size:12px;line-height:150%;text-align:right"><b>รวมทั้งสิ้น:</b></td>
+                                                                            <td style="border-top:1px solid #e9e9e9;border-bottom:0;color:#404040;font-family:Helvetica;font-size:12px;line-height:150%;text-align:right" valign="top">
+                                                                                <span style="color:#fbce52!important;text-align:right"><b>6,420</b></span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td valign="top">
+
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td valign="top">
+
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top:0px;padding-Right:20px;padding-Left:20px">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top" width="960">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="left" valign="top" style="padding-top:0px;padding-Right:20px;padding-Left:20px;padding-bottom:0px;background-color:#fff">
+                                                                <h3>ช่องทางการชำระเงิน</h3>
+
+                                                                <table border="0" cellpadding="10" cellspacing="0" width="100%" style="background-color:#fafafa;border:1px solid #e9e9e9">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th scope="col" valign="top" width="85%" style="background-color:#fafafa;color:#202020;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:150%;text-align:left">
+                                                                                <div>
+                                                                                    <img width="26" src="https://ci4.googleusercontent.com/proxy/CvviW8CqUVmvG4pVyyriKSn1CnNcnImG_U6vsx1BfL9kTzPq6tVO87lVjM1pgYkmioFMDpGvu58dbgZDdk71hjIocs_l62y--iYh=s0-d-e1-ft#http://www.fareok.com/fareok_adminDev/Images/bank-sm.jpg" style="display:inline-block;vertical-align:top;padding-top:0px;padding-right:15px" class="CToWUd">
+                                                                                    <div style="display:inline-block;font-size:12px;max-width:450px">
+                                                                                        <b>โอนเงิน</b><br><span style="font-weight:normal">ส่งหลักฐานการโอนเงินผ่านไลน์<wbr>ไอดี</span>
+                                                                                    </div>
+                                                                                    <div valign="middle" style="float:right;color:#ffffff;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:100%;text-align:center;min-height:54px">
+                                                                                        <a style="border-radius:4px;background-color:#00c300;color:#ffffff;display:block;padding:16px;text-decoration:none;max-width:220px;max-height:46px" href="https://u6614154.ct.sendgrid.net/wf/click?upn=X2CtOKzMVdkQSWwSPNdL2ncwY8X-2Fni6dN5ndZaRmo5uDjSXUTxfM-2FE12eTo422Nr_FMphPaBBad-2BFIBPe3dyscTXmRMU2WHR5arOs2DTynG1nnPOCmivxzoQn4SeFnlw79HBq5PBfwvDSmZyeqrhJeHIOiAapn9-2F6O5RF2qc6ISx9iGtrue3zBsIiGUH9L6xGHUX544py-2Fyag2rCbFIMwqjIiS3ky3HqI-2B1IhWw4galMWmeM7wU76FWM-2ByiKQtrjCGS-2F8bDX3T1GUQGya3VvFdi3AbyuBiOl3nSKSF-2F3pHAg-3D" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://u6614154.ct.sendgrid.net/wf/click?upn%3DX2CtOKzMVdkQSWwSPNdL2ncwY8X-2Fni6dN5ndZaRmo5uDjSXUTxfM-2FE12eTo422Nr_FMphPaBBad-2BFIBPe3dyscTXmRMU2WHR5arOs2DTynG1nnPOCmivxzoQn4SeFnlw79HBq5PBfwvDSmZyeqrhJeHIOiAapn9-2F6O5RF2qc6ISx9iGtrue3zBsIiGUH9L6xGHUX544py-2Fyag2rCbFIMwqjIiS3ky3HqI-2B1IhWw4galMWmeM7wU76FWM-2ByiKQtrjCGS-2F8bDX3T1GUQGya3VvFdi3AbyuBiOl3nSKSF-2F3pHAg-3D&amp;source=gmail&amp;ust=1576212392314000&amp;usg=AFQjCNEGhWtUvXC9E9MvfYgsr-fLZYINJw"></a>
+                                                                                    </div>
+
+                                                                                    <br><br>
+                                                                                    <img width="48" style="padding-left:41px;padding-right:15px" src="https://ci6.googleusercontent.com/proxy/8Ig4JS4__EuOgfFSlEsrq0OvGnX6pniFAO3DQtsn7TA89SCE_7gGEVfSRRrUu2zg7tuxYL9nY-iPuHgHntHcfjo6g9jz9oM=s0-d-e1-ft#https://fareokadmin.azurewebsites.net/Images/ktb.jpg" class="CToWUd">
+                                                                                    <div style="display:inline-block;font-size:12px;max-width:450px">
+                                                                                        <b>ธนาคารกสิกรไทย สาขาเซ็นทรัล ปิ่นเกล้า</b><br><span style="font-weight:normal">ชื่อบัญชี: บริษัท เอเชีย วัน คลิก จำกัด เลขที่บัญชี: 758-2-15954-4</span>
+                                                                                    </div>
+                                                                                    <hr style="opacity:0.4">
+                                                                                    <img width="48" style="padding-left:41px;padding-right:20px;padding-top:5px" src="https://ci4.googleusercontent.com/proxy/5kQngFmOow_RzDQ01cLX7K4aJ6yKXuQljsfPYj58O6QWri4zluya6bOIMrvFqUqYKViB9MvoZ4Bp9BvJSTb9r2omUTWGuVWZ0iSJ4g=s0-d-e1-ft#https://fareokadmin.azurewebsites.net/Images/kungthai.jpg" class="CToWUd">
+                                                                                    <div style="display:inline-block;font-size:12px;max-width:450px">
+                                                                                        <b>ธนาคารกรุงไทย สาขาอาคารซอฟต์แวร์ปาร์ค</b><br><span style="font-weight:normal">ชื่อบัญชี : บริษัท เอเชีย วัน คลิก จำกัด เลขที่บัญชี : 568-0-15083-2</span>
+                                                                                    </div>
+                                                                                    <hr style="opacity:0.4">
+                                                                                    <img width="48" style="padding-left:41px;padding-right:20px;padding-top:5px" src="https://ci3.googleusercontent.com/proxy/wQRDHjeEKkIqN_XU1ziE8pHH0Hmszk-iUMYzKP37ORjt1JB5RFYP-z6QrR09VCmUFDmhtcnZ4o1lnElOdlGR7jAZVT6U5BHVDCKM7g=s0-d-e1-ft#https://fareokadmin.azurewebsites.net/Images/krungsri.jpg" class="CToWUd">
+                                                                                    <div style="display:inline-block;font-size:12px;max-width:450px">
+                                                                                        <b>ธนาคารกรุงศรี สาขาถนนแจ้งวัฒนะ (ซอฟต์แวร์ปาร์ค)</b><br><span style="font-weight:normal">ชื่อบัญชี : บริษัท เอเชีย วัน คลิก จำกัด เลขที่บัญชี : 329-1-36549-9</span>
+                                                                                    </div>
+                                                                                    <hr style="opacity:0.4">
+                                                                                    <img width="48" style="padding-left:41px;padding-right:20px;padding-top:5px" src="https://ci4.googleusercontent.com/proxy/JTUloQk1vPJpNhBysl71PnnhNzThNrdMG5BnsUlWmIhArZFh9UWOuIuBYzJpQ4PVA3fzGU-mOML_WRof4o4NhA4-RQTvwVGAvArOY-tB9PpyVUc=s0-d-e1-ft#https://penguinstorage.blob.core.windows.net/images/logo-scb.png" class="CToWUd">
+                                                                                    <div style="display:inline-block;font-size:12px;max-width:450px">
+                                                                                        <b>ธนาคารไทยพาณิชย์ จำกัด (มหาชน) สาขาเซ็นทรัลพลาซาแจ้งวัฒนะ</b><br><span style="font-weight:normal">ชื่อบัญชี : บริษัท เอเชีย วัน คลิก จำกัด เลขที่บัญชี : 408-349483-2</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </th>
+
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+
+
+
+                                                                <br>
+
+
+                                                                <table border="0" cellpadding="10" cellspacing="0" width="100%" style="background-color:#fafafa;border:1px solid #e9e9e9">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th scope="col" valign="top" width="95%" style="background-color:#fafafa;color:#202020;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:150%;text-align:left">
+                                                                                <div>
+                                                                                    <img width="26" style="display:inline-block;vertical-align:top;padding-top:0px;padding-right:15px" src="https://ci3.googleusercontent.com/proxy/fmdk9tfmc79a8ZCfZRiynp2Nc5biSZiiUENEyhM6osoXkqhjUzS3Oq-pt1VHHeXxjMYndfb1ysvywlFHKxn8RgHlxY9mf_V9c-jk=s0-d-e1-ft#http://www.fareok.com/fareok_adminDev/Images/visa-sm.jpg" class="CToWUd">
+                                                                                    <div style="display:inline-block;font-size:12px">
+                                                                                        <b>บัตรเครดิต/เดบิต</b><br><br><img width="68" src="https://ci3.googleusercontent.com/proxy/ZdT5puiT0TC4Pr50xkk3LngBIaH7-1GqPjqtef_UYKURZ80UfygLHysUESYhoXxpBbnlZze2goweHaslnux_DecMX3sGE-dppIMbFp2BSt_Ryw=s0-d-e1-ft#http://www.fareok.com/fareok_adminDev/Images/visa-banner-sm.jpg" class="CToWUd">
+                                                                                        <span style="margin-left:10px;float:right;line-height:1.4;font-weight:normal">ค่าธรรมเนียม 3.25 % รวมยอดเงินที่ต้องชำระ 6,628.65 บาท</span>
+                                                                                    </div>
+                                                                                    <br>
+                                                                                    <div style="padding-left:41px;padding-right:15px">
+                                                                                        <div style="font-size:12px"><span style="font-weight:normal">หากท่านต้องการชำระเงินผ่านบั<wbr>ตรเครดิตหรือบัตรเดบิต  กรุณาแอดไลน์บอกกวิ้นที่ <a href="https://u6614154.ct.sendgrid.net/wf/click?upn=X2CtOKzMVdkQSWwSPNdL2ncwY8X-2Fni6dN5ndZaRmo5uDjSXUTxfM-2FE12eTo422Nr_FMphPaBBad-2BFIBPe3dyscTXmRMU2WHR5arOs2DTynG1nnPOCmivxzoQn4SeFnlw79HBq5PBfwvDSmZyeqrhJeJ4DBUu9skjvby9Du-2BTTLfvPzr3NID8imUtKzy87-2ByvrOeTpDZspCGTapdKM9Xl7he5Ouo1ZJ2It4oebKtrTiBWFR-2FMaIshj7653tFUYMslvsVh8713DVP2jq8ZbTF7VvTkBqT78PAMmCCBu-2B8ziQBE-3D" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://u6614154.ct.sendgrid.net/wf/click?upn%3DX2CtOKzMVdkQSWwSPNdL2ncwY8X-2Fni6dN5ndZaRmo5uDjSXUTxfM-2FE12eTo422Nr_FMphPaBBad-2BFIBPe3dyscTXmRMU2WHR5arOs2DTynG1nnPOCmivxzoQn4SeFnlw79HBq5PBfwvDSmZyeqrhJeJ4DBUu9skjvby9Du-2BTTLfvPzr3NID8imUtKzy87-2ByvrOeTpDZspCGTapdKM9Xl7he5Ouo1ZJ2It4oebKtrTiBWFR-2FMaIshj7653tFUYMslvsVh8713DVP2jq8ZbTF7VvTkBqT78PAMmCCBu-2B8ziQBE-3D&amp;source=gmail&amp;ust=1576212392315000&amp;usg=AFQjCNGJxiG5pUX_uYikeRpZwdkGpzdjIw"></a> กวิ้นจะส่งลิงก์สำหรับชำระเงิ<wbr>นให้ค้าบ</span></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td valign="top">
+
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td valign="top">
+
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top:0px;padding-Right:20px;padding-Left:20px">
+                                    <tbody>
+                                        <tr>
+                                            <td align="left" valign="top" width="860" style="padding-top:0px;padding-Right:20px;padding-Left:20px">
+                                                <h3>วิธีจองตั๋วกับกวิ้น</h3>
+                                                <table border="0" cellpadding="10" cellspacing="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="col" valign="top" width="100%" style="background-color:#fcfaee;border:1px solid #faebcc;color:#222;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:150%;text-align:left">
+                                                                <div>
+                                                                    <img width="26" style="display:inline-block;vertical-align:top;padding-top:10px;padding-right:15px" src="https://ci3.googleusercontent.com/proxy/A44PBF2SjPWWgJ_bmHKDBobUOWnCMQ-HDhdk7FU_6lzYSW7iiepcKOb73XTStuoZYNN4JKRfKVZg-pfQekXjufbuPNL30Y0dHlR9MYFGxkYxOVW5stQ=s0-d-e1-ft#http://www.fareok.com/fareok_adminDev/content/Images/if-airline.jpg" class="CToWUd">
+                                                                    <div style="display:inline-block;font-size:12px;max-width:85%;font-weight:normal">
+                                                                        <b>1. เลือกเที่ยวบินที่ถูกใจ</b><br>เลือกเที่ยวบิน ตรวจสอบราคา วันเดินทาง รวมถึงรายละเอียดเล็กๆ น้อยๆ อย่างสายการบินหรือคลาส (ชั้นประหยัด, ชั้นธุรกิจ, ชั้นหนึ่ง) ให้ถูกต้อง
+                                                                    </div>
+                                                                    <br><br>
+                                                                    <img width="26" style="display:inline-block;vertical-align:top;padding-top:10px;padding-right:15px" src="https://ci3.googleusercontent.com/proxy/A44PBF2SjPWWgJ_bmHKDBobUOWnCMQ-HDhdk7FU_6lzYSW7iiepcKOb73XTStuoZYNN4JKRfKVZg-pfQekXjufbuPNL30Y0dHlR9MYFGxkYxOVW5stQ=s0-d-e1-ft#http://www.fareok.com/fareok_adminDev/content/Images/if-airline.jpg" class="CToWUd">
+                                                                    <div style="display:inline-block;font-size:12px;max-width:85%;font-weight:normal">
+                                                                        <b>2. กรอกและตรวจสอบข้อมูลผู้โดยสาร</b><br>ใส่รายละเอียดผู้โดยสารทุกคนให้<wbr>ครบ ต้องการอะไรเป็นพิเศษมั้ย เช่น ระบุที่นั่ง, เลือกอาหาร และอย่าลืมว่าชื่อผู้โดยสารต้<wbr>องเป็นภาษาอังกฤษตรงตามหน้<wbr>าพาสปอร์ตเท่านั้นนะจ๊ะ หรือถ้ายังไม่มีพาสปอร์ต ให้กรอกชื่อ-นามสกุลภาษาอั<wbr>งกฤษให้ตรงกับบัตรประชาชน ส่วนชื่อกลางถ้าไม่มีไม่ต้องใส่ ข้ามไปได้เลย เมื่อจองเสร็จกวิ้นจะส่งอีเมลยื<wbr>นยันการจองมาให้นะ แต่ถ้าพบว่ามีข้อมูลผิดพลาด รีบแจ้งกวิ้นที่ ไลน์ไอดี
+                                                                    </div>
+                                                                    <br><br>
+                                                                    <img width="26" style="display:inline-block;vertical-align:top;padding-top:10px;padding-right:15px" src="https://ci5.googleusercontent.com/proxy/lBGNwnELZeVe-jyxYvlVd-WJuS5uAdpAt9yztf30GvycXQSICTTWxqhTxRzLBf1WfA-xZVo0WBpYjX1smCDS2EwiBDLWfNIy0t1i2Q=s0-d-e1-ft#http://www.fareok.com/fareok_adminDev/Images/if-money.jpg" class="CToWUd">
+                                                                    <div style="display:inline-block;font-size:12px;max-width:85%;font-weight:normal">
+                                                                        <b>3. ชำระเงิน</b><br>สามารถชำระทันทีหรือเก็บไว้<wbr>ชำระภายหลังก็ได้
+                                                                        <ul>
+                                                                            <li>ชำระทันทีหลังจากจองตั๋วเสร็<wbr>จเรียบร้อย จะได้ราคาตามที่จองไว้เลย</li>
+                                                                            <li>ชำระภายหลังในเวลาที่กำหนด แต่ราคาอาจเปลี่ยนแปลงได้หากมี<wbr>การปรับภาษีหรือสายการบินปรั<wbr>บราคา ซึ่งหากมีการเปลี่ยนแปลงราคาอั<wbr>นเกิดจากสายการบิน กวิ้นจะรีบติดต่อกลับเพื่อแจ้<wbr>งให้ทราบอีกทีนะ</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <br><br>
+                                                                    <img width="26" style="display:inline-block;vertical-align:top;padding-top:10px;padding-right:15px" src="https://ci5.googleusercontent.com/proxy/ctEmENMbKS8aufN-tKBORgH3IliloQIlWLoQGrq5EZ8RvmDVVJDJtFhzbpAKU-BFsbHkTQGq6UgtLFXNtDRSrtxmkXPtwfDRi1Y-=s0-d-e1-ft#http://www.fareok.com/fareok_adminDev/Images/if-srip.jpg" class="CToWUd">
+                                                                    <div style="display:inline-block;font-size:12px;max-width:85%;font-weight:normal">
+                                                                        <b>4. แจ้งหลักฐานการโอนเงิน (เฉพาะวิธีโอนเงินเท่านั้น)</b><br>สำหรับคนที่ชำระแบบโอนผ่<wbr>านธนาคารให้ส่งหลักฐานการโอนเงิ<wbr>นผ่านไลน์ไอดี  หากไม่แจ้งโอนภายในเวลาที่กำหนด ระบบจะทำการยกเลิกการจองดังกล่<wbr>าวทันทีนะ
+                                                                    </div>
+                                                                    <br><br>
+                                                                    <img width="26" style="display:inline-block;vertical-align:top;padding-top:10px;padding-right:15px" src="https://ci5.googleusercontent.com/proxy/o0DQvTGPrNm5jZeX2oiWT0WQLz9LIQqfKaD8LLve871mA4bsjh-K-XB-FiwFnjUlIljo7l0KKsUAWtZu80rbrjjkyH49cyaEEkxLIHAs=s0-d-e1-ft#http://www.fareok.com/fareok_adminDev/Images/if-paymant.jpg" class="CToWUd">
+                                                                    <div style="display:inline-block;font-size:12px;max-width:85%;font-weight:normal">
+                                                                        <b>5. รอรับ E-Ticket จากกวิ้น</b><br>หลังจากกวิ้นตรวจสอบข้อมู<wbr>ลการชำระเงินเรียบร้อย กวิ้นจะรีบจัดส่ง E-Ticket  ไปยังอีเมลที่ระบุไว้ตอนกรอกข้<wbr>อมูลโดยเร็วที่สุด
+                                                                    </div>
+                                                                    <br><br>
+                                                                    <img width="26" style="display:inline-block;vertical-align:top;padding-top:10px;padding-right:15px" src="https://ci5.googleusercontent.com/proxy/AI_T3XyebaECBnB3RMf7yz0IMF26TLiovbBaBeQvIR6z_s_00jQ4U_-QD--fs-b__H2Yj1h9oNywaVNwqzToe0UCLkxGUIqtagM=s0-d-e1-ft#http://www.fareok.com/fareok_adminDev/Images/if-fax.jpg" class="CToWUd">
+                                                                    <div style="display:inline-block;font-size:12px;max-width:85%;font-weight:normal">
+                                                                        <b>6. พิมพ์ E-Ticket เก็บไว้ก็ได้</b><br>เมื่อได้รับ E-Ticket แล้ว สามารถสั่งพิมพ์จากอีเมลเก็บไว้ เพื่อใช้แสดงกับเจ้าหน้าที่หน้<wbr>าเคาน์เตอร์เช็กอินได้เลย
+                                                                    </div>
+
+                                                                </div>
+                                                            </th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td valign="top">
+
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td valign="top">
+
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top:0px;padding-Right:20px;padding-Left:20px">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top" width="860">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="left" valign="top" style="padding-top:0px;padding-Right:20px;padding-Left:20px;padding-bottom:20px">
+                                                                <h3>เงื่อนไขบัตรโดยสาร<br><small>*กรุณาศึกษาเงื่อนไขบั<wbr>ตรโดยสารอย่างละเอียด</small></h3>
+                                                                <table border="0" cellpadding="10" cellspacing="0" width="100%" style="background-color:#fafafa;border:1px solid #e9e9e9">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="background-color:#e9e9e9;background-color:#e9e9e9;color:#202020;font-family:Helvetica;font-size:12px;line-height:150%;text-align:left" scope="col" valign="top" width="100%">
+                                                                                <b>เงื่อนไขการยกเลิก/เปลี่<wbr>ยนแปลงการจอง (BOOKING)</b>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td valign="top">
+                                                                                <div style="font-size:12px;margin-left:15px">- ในกรณีที่ต้องการยกเลิก/เปลี่<wbr>ยนแปลงข้อมูลก่อนได้รับ E-Ticket สามารถดำเนินการได้โดยไม่มีค่<wbr>าธรรมเนียม</div>
+                                                                                <div style="font-size:12px;margin-left:15px">- ในกรณีที่ต้องการยกเลิก/เปลี่<wbr>ยนแปลงข้อมูลหลังได้รับ E-Ticket จะเป็นไปตามเงื่อนไขบั<wbr>ตรโดยสารของแต่ละสายการบิน และจะมีค่าธรรมเนียม 500 บาท/ท่าน</div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <tbody border="0" cellpadding="10" cellspacing="0" width="100%" style="background-color:#fafafa;border:1px solid #e9e9e9">
+                                                                        <tr><td align="left" style="background-color:#e9e9e9;color:#202020;font-size:12px;line-height:150%" scope="col" valign="top" width="100%"><span><b>เงื่อนไขบัตรโดยสารขาไป</b></span></td></tr>
+                                                                        <tr><td valign="top"><a style="font-size:12px;margin-left:15px;color:#222;text-decoration:none!important;text-decoration:none"><br><b>MAX STAY</b> <br>MX.MAX STAY<br>BETWEEN THAILAND AND SIN FOR OLASRTH6 TYPE FARES<br><br>  TRAVEL FROM LAST STOPOVER MUST COMMENCE NO LATER THAN 7<br>  DAYS AFTER DEPARTURE FROM FARE ORIGIN.<br><br><b>SALES RESTRICTIONS</b> <br>SR.SALES RESTRICT<br><br>  TICKETS MUST BE ISSUED ON/AFTER 24SEP 19 AND ON/BEFORE<br>  17NOV 19 AND MAY ONLY BE SOLD IN THAILAND<br>  FARES MAY ONLY BE SOLD BY CX .<br>  OR - TICKETS MUST BE ISSUED ON/AFTER 24SEP 19 AND ON/<br>       BEFORE 17NOV 19 AND MAY ONLY BE SOLD IN THAILAND<br>       SALE IS RESTRICTED TO SPECIFIC AGENTS.<br>       PAYMENT MAY NOT BE MADE BY CREDIT CARD.<br>  OR - TICKETS MUST BE ISSUED ON/AFTER 24SEP 19 AND ON/<br>       BEFORE 17NOV 19 AND MAY ONLY BE SOLD IN THAILAND<br>       SALE IS RESTRICTED TO SPECIFIC AGENTS.<br>       PAYMENT MAY NOT BE MADE BY CREDIT CARD.<br>  OR - TICKETS MUST BE ISSUED ON/AFTER 24SEP 19 AND ON/<br>       BEFORE 17NOV 19 AND MAY ONLY BE SOLD IN THAILAND<br>       SALE IS RESTRICTED TO SPECIFIC AGENTS.<br>       PAYMENT MAY NOT BE MADE BY CREDIT CARD.<br>  OR - TICKETS MUST BE ISSUED ON/AFTER 24SEP 19 AND ON/<br>       BEFORE 17NOV 19 AND MAY ONLY BE SOLD IN THAILAND<br>       SALE IS RESTRICTED TO SPECIFIC AGENTS.<br>       PAYMENT MAY NOT BE MADE BY CREDIT CARD.<br><br><b>ADVANCE PURCHASE / RESERVATIONS AND TICKETING</b> <br>AP.ADVANCE RES/TKT<br><br>  RESERVATIONS ARE REQUIRED FOR ALL SECTORS.<br>  WAITLIST NOT PERMITTED.<br><br><b>PENALTIES</b> <br>PE.PENALTIES<br>FROM/TO SOUTHEAST ASIA FOR OLASRTH6 TYPE FARES<br><br>  CANCELLATIONS<br><br>    ANY TIME<br>      CHARGE THB 4500 FOR CANCEL/REFUND.<br>      CHILD/INFANT DISCOUNTS APPLY.<br>      CHARGE THB 4500 FOR NO-SHOW.<br>      CHILD/INFANT DISCOUNTS APPLY.<br>         NOTE -<br>          1. IN THE EVENT OF NO-SHOW CHARGE BOTH<br>          CANCELLATION FEE AND NO SHOW FEE.<br>          2. CHILD/INFANT WITHOUT SEAT/INFANT WITH SEAT -<br>          DISCOUNT APPLIES TO PENALTY FEE.<br>          3. WHEN THIS FARE IS COMBINED WITH ANOTHER FARE -<br>          CHARGE THE HIGHEST PENALTY FEE WITHIN THE<br>          PRICING UNIT.<br>          4. PARTIALLY USED TICKET - FLOWN PORTION MUST BE<br>          RE-PRICED USING THE SAME OR HIGHER BOOKING CODE<br>          AND THE NEW FARE AMOUNT MUST BE EQUAL OR HIGHER<br>          THAN ORIGINAL.<br>          5. THE LOCAL ADMINISTRATION/SERVICE/<wbr>HANDLING FEE<br>          MAY APPLY.<br><br>  CHANGES<br><br>    ANY TIME<br>      CHARGE THB 3500 FOR REISSUE/REVALIDATION.<br>      CHILD/INFANT DISCOUNTS APPLY.<br>      CHARGE THB 4500 FOR NO-SHOW.<br>      CHILD/INFANT DISCOUNTS APPLY.<br>         NOTE -<br>          1. IN THE EVENT OF NO-SHOW CHARGE BOTH CHANGE FEE<br>          AND NO-SHOW FEE.<br>          2. CHANGE OF AIRPORT WITHIN ONE CITY DOES NOT<br>          CONSTITUTE AS REROUTING.<br>          3. CHANGE MUST BE MADE WITHIN TICKET VALIDITY.<br>          4. PENALTY FEE APPLIES PER TRANSACTION PER PERSON.<br>          5. INFANT WITHOUT SEAT - NO PENALTY FEE APPLIES.<br>          6. WHEN THIS FARE IS COMBINED WITH ANOTHER FARE -<br>          CHARGE THE HIGHEST PENALTY FEE OF ALL CHANGED FARE<br>          COMPONENT PER TICKET.<br>          7. WHEN THE NEW ITINERARY RESULTS IN A HIGHER<br>          FARE - COLLECT FARE DIFFERENCE AND PENALTY FEE<br>          IF APPLICABLE.<br>          8. WHEN THE NEW ITINERARY RESULTS IN A LOWER FARE<br>          - NO REFUND OF FARE DIFFERENCE AND COLLECT PENALTY<br>          FEE IF APPLICABLE.<br>          9. TICKET MUST BE REVALIDATED/REISSUED BEFORE<br>          ORIGINAL FLIGHT/DATE/TIME OR ELSE NO-SHOW FEE WILL<br>          APPLY.<br>          10. THE LOCAL ADMINISTRATION/SERVICE/<wbr>HANDLING FEE<br>          MAY APPLY.<br>          ////////////   REPRICING CONDITIONS  /////////////<br>          ----------------<br>          BEFORE DEPARTURE<br>          ----------------<br>          RE-PRICE WITH BELOW OPTIONS AND PROVIDE THE BEST<br>          FARE TO PASSENGER -<br>          1. IF SAME ROUTING AND BOOKING CLASS -<br>             USE ANY CX/KA HISTORICAL FARE FOR RE-PRICE AND<br>             NEW TICKET MAY BE EQUAL/HIGHER OR LOWER THAN<br>             THE PREVIOUS TICKET OR<br>          2. IF SAME ROUTING BUT DIFFERENT BOOKING CLASS -<br>             USE ANY CX/KA HISTORICAL FARE FOR RE-PRICE AND<br>             NEW TICKET MUST BE EQUAL OR HIGHER THAN<br>             PREVIOUS TICKET OR<br>          3. USE ANY CURRENT CX/KA FARE FOR RE-PRICE AND NEW<br>             TICKET MUST BE EQUAL OR HIGHER VALUE THAN THE<br>             PREVIOUS TICKET.<br>          ---------------<br>          AFTER DEPARTURE<br>          ---------------<br>          RE-PRICE WITH BELOW OPTIONS AND PROVIDE THE BEST<br>          FARE TO PASSENGER -<br>          1. IF SAME ROUTING AND BOOKING CLASS - USE ANY<br>             CX/KA HISTORICAL FARE FOR RE-PRICE AND NEW<br>             TICKET MAY BE EQUAL/HIGHER OR LOWER THAN THE<br>             PREVIOUS TICKET OR<br>          2. USE ANY HISTORICAL CX/KA FARE FOR RE-PRICE AND<br>             NEW TICKET MUST BE EQUAL OR HIGHER VALUE THAN<br>             THE PREVIOUS TICKET.<br></a></td></tr>
+                                                                        <tr><td align="left" style="background-color:#e9e9e9;color:#202020;font-size:12px;line-height:150%" scope="col" valign="top" width="100%"><span><b>เงื่อนไขบัตรโดยสารขากลับ</b></span></td></tr>
+                                                                        <tr><td valign="top"><a style="font-size:12px;margin-left:15px;color:#222;text-decoration:none!important;text-decoration:none"><br><b>MAX STAY</b> <br>MX.MAX STAY<br>BETWEEN THAILAND AND SIN FOR OLASRTH6 TYPE FARES<br><br>  TRAVEL FROM LAST STOPOVER MUST COMMENCE NO LATER THAN 7<br>  DAYS AFTER DEPARTURE FROM FARE ORIGIN.<br><br><b>SALES RESTRICTIONS</b> <br>SR.SALES RESTRICT<br><br>  TICKETS MUST BE ISSUED ON/AFTER 24SEP 19 AND ON/BEFORE<br>  17NOV 19 AND MAY ONLY BE SOLD IN THAILAND<br>  FARES MAY ONLY BE SOLD BY CX .<br>  OR - TICKETS MUST BE ISSUED ON/AFTER 24SEP 19 AND ON/<br>       BEFORE 17NOV 19 AND MAY ONLY BE SOLD IN THAILAND<br>       SALE IS RESTRICTED TO SPECIFIC AGENTS.<br>       PAYMENT MAY NOT BE MADE BY CREDIT CARD.<br>  OR - TICKETS MUST BE ISSUED ON/AFTER 24SEP 19 AND ON/<br>       BEFORE 17NOV 19 AND MAY ONLY BE SOLD IN THAILAND<br>       SALE IS RESTRICTED TO SPECIFIC AGENTS.<br>       PAYMENT MAY NOT BE MADE BY CREDIT CARD.<br>  OR - TICKETS MUST BE ISSUED ON/AFTER 24SEP 19 AND ON/<br>       BEFORE 17NOV 19 AND MAY ONLY BE SOLD IN THAILAND<br>       SALE IS RESTRICTED TO SPECIFIC AGENTS.<br>       PAYMENT MAY NOT BE MADE BY CREDIT CARD.<br>  OR - TICKETS MUST BE ISSUED ON/AFTER 24SEP 19 AND ON/<br>       BEFORE 17NOV 19 AND MAY ONLY BE SOLD IN THAILAND<br>       SALE IS RESTRICTED TO SPECIFIC AGENTS.<br>       PAYMENT MAY NOT BE MADE BY CREDIT CARD.<br><br><b>ADVANCE PURCHASE / RESERVATIONS AND TICKETING</b> <br>AP.ADVANCE RES/TKT<br><br>  RESERVATIONS ARE REQUIRED FOR ALL SECTORS.<br>  WAITLIST NOT PERMITTED.<br><br><b>PENALTIES</b> <br>PE.PENALTIES<br>FROM/TO SOUTHEAST ASIA FOR OLASRTH6 TYPE FARES<br><br>  CANCELLATIONS<br><br>    ANY TIME<br>      CHARGE THB 4500 FOR CANCEL/REFUND.<br>      CHILD/INFANT DISCOUNTS APPLY.<br>      CHARGE THB 4500 FOR NO-SHOW.<br>      CHILD/INFANT DISCOUNTS APPLY.<br>         NOTE -<br>          1. IN THE EVENT OF NO-SHOW CHARGE BOTH<br>          CANCELLATION FEE AND NO SHOW FEE.<br>          2. CHILD/INFANT WITHOUT SEAT/INFANT WITH SEAT -<br>          DISCOUNT APPLIES TO PENALTY FEE.<br>          3. WHEN THIS FARE IS COMBINED WITH ANOTHER FARE -<br>          CHARGE THE HIGHEST PENALTY FEE WITHIN THE<br>          PRICING UNIT.<br>          4. PARTIALLY USED TICKET - FLOWN PORTION MUST BE<br>          RE-PRICED USING THE SAME OR HIGHER BOOKING CODE<br>          AND THE NEW FARE AMOUNT MUST BE EQUAL OR HIGHER<br>          THAN ORIGINAL.<br>          5. THE LOCAL ADMINISTRATION/SERVICE/<wbr>HANDLING FEE<br>          MAY APPLY.<br><br>  CHANGES<br><br>    ANY TIME<br>      CHARGE THB 3500 FOR REISSUE/REVALIDATION.<br>      CHILD/INFANT DISCOUNTS APPLY.<br>      CHARGE THB 4500 FOR NO-SHOW.<br>      CHILD/INFANT DISCOUNTS APPLY.<br>         NOTE -<br>          1. IN THE EVENT OF NO-SHOW CHARGE BOTH CHANGE FEE<br>          AND NO-SHOW FEE.<br>          2. CHANGE OF AIRPORT WITHIN ONE CITY DOES NOT<br>          CONSTITUTE AS REROUTING.<br>          3. CHANGE MUST BE MADE WITHIN TICKET VALIDITY.<br>          4. PENALTY FEE APPLIES PER TRANSACTION PER PERSON.<br>          5. INFANT WITHOUT SEAT - NO PENALTY FEE APPLIES.<br>          6. WHEN THIS FARE IS COMBINED WITH ANOTHER FARE -<br>          CHARGE THE HIGHEST PENALTY FEE OF ALL CHANGED FARE<br>          COMPONENT PER TICKET.<br>          7. WHEN THE NEW ITINERARY RESULTS IN A HIGHER<br>          FARE - COLLECT FARE DIFFERENCE AND PENALTY FEE<br>          IF APPLICABLE.<br>          8. WHEN THE NEW ITINERARY RESULTS IN A LOWER FARE<br>          - NO REFUND OF FARE DIFFERENCE AND COLLECT PENALTY<br>          FEE IF APPLICABLE.<br>          9. TICKET MUST BE REVALIDATED/REISSUED BEFORE<br>          ORIGINAL FLIGHT/DATE/TIME OR ELSE NO-SHOW FEE WILL<br>          APPLY.<br>          10. THE LOCAL ADMINISTRATION/SERVICE/<wbr>HANDLING FEE<br>          MAY APPLY.<br>          ////////////   REPRICING CONDITIONS  /////////////<br>          ----------------<br>          BEFORE DEPARTURE<br>          ----------------<br>          RE-PRICE WITH BELOW OPTIONS AND PROVIDE THE BEST<br>          FARE TO PASSENGER -<br>          1. IF SAME ROUTING AND BOOKING CLASS -<br>             USE ANY CX/KA HISTORICAL FARE FOR RE-PRICE AND<br>             NEW TICKET MAY BE EQUAL/HIGHER OR LOWER THAN<br>             THE PREVIOUS TICKET OR<br>          2. IF SAME ROUTING BUT DIFFERENT BOOKING CLASS -<br>             USE ANY CX/KA HISTORICAL FARE FOR RE-PRICE AND<br>             NEW TICKET MUST BE EQUAL OR HIGHER THAN<br>             PREVIOUS TICKET OR<br>          3. USE ANY CURRENT CX/KA FARE FOR RE-PRICE AND NEW<br>             TICKET MUST BE EQUAL OR HIGHER VALUE THAN THE<br>             PREVIOUS TICKET.<br>          ---------------<br>          AFTER DEPARTURE<br>          ---------------<br>          RE-PRICE WITH BELOW OPTIONS AND PROVIDE THE BEST<br>          FARE TO PASSENGER -<br>          1. IF SAME ROUTING AND BOOKING CLASS - USE ANY<br>             CX/KA HISTORICAL FARE FOR RE-PRICE AND NEW<br>             TICKET MAY BE EQUAL/HIGHER OR LOWER THAN THE<br>             PREVIOUS TICKET OR<br>          2. USE ANY HISTORICAL CX/KA FARE FOR RE-PRICE AND<br>             NEW TICKET MUST BE EQUAL OR HIGHER VALUE THAN<br>             THE PREVIOUS TICKET.<br></a></td></tr>
+                                                                    </tbody>
+                                                                </table>
+
+
+
+
+
+
+
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td valign="top">
+
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td valign="top">
+
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top:20px;padding-Right:20px;padding-Left:20px">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top" width="860">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="left" valign="top" style="padding-top:0px;padding-Right:20px;padding-Left:20px;padding-bottom:20px">
+                                                                <div style="border-bottom:15px solid #facd52;display:block;width:100%">
+                                                                    <h2 style="font-size:18px;display:inline-block;margin:0;padding:0">ขอบคุณที่ให้กวิ้นเป็นส่วนหนึ่<wbr>งของทริปในฝันของคุณ<small style="display:block">หากมี<wbr>คำถามหรือพบปัญหาการใช้<wbr>งานแอปพลิเคชั่น สามารถติดต่อกวิ้นได้<a style="display:inline-block;margin-left:6px;color:blue" href="https://u6614154.ct.sendgrid.net/wf/click?upn=X2CtOKzMVdkQSWwSPNdL2ncwY8X-2Fni6dN5ndZaRmo5uDjSXUTxfM-2FE12eTo422Nr_FMphPaBBad-2BFIBPe3dyscTXmRMU2WHR5arOs2DTynG1nnPOCmivxzoQn4SeFnlw79HBq5PBfwvDSmZyeqrhJeI51f8by1ho2EikQUmiEXcL5nuqnaribEQzVE06qrxJUPePUORvULM6iaprS6y4lBSKuj1A47uQulZjsoCC2VPUgbjvDh7pIvRGqId1njh32u2e1pYcNbEeSLDB-2BkO-2Bpdw0Y6vXik8Nd-2FRm0g4wEt-2FI-3D" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://u6614154.ct.sendgrid.net/wf/click?upn%3DX2CtOKzMVdkQSWwSPNdL2ncwY8X-2Fni6dN5ndZaRmo5uDjSXUTxfM-2FE12eTo422Nr_FMphPaBBad-2BFIBPe3dyscTXmRMU2WHR5arOs2DTynG1nnPOCmivxzoQn4SeFnlw79HBq5PBfwvDSmZyeqrhJeI51f8by1ho2EikQUmiEXcL5nuqnaribEQzVE06qrxJUPePUORvULM6iaprS6y4lBSKuj1A47uQulZjsoCC2VPUgbjvDh7pIvRGqId1njh32u2e1pYcNbEeSLDB-2BkO-2Bpdw0Y6vXik8Nd-2FRm0g4wEt-2FI-3D&amp;source=gmail&amp;ust=1576212392316000&amp;usg=AFQjCNEHZX5U4vbKY8AEdYpedOslpX2f6w">ที่นี่</a></small></h2>
+                                                                    <a style="display:inline-block;margin-left:6px;color:blue" href="https://u6614154.ct.sendgrid.net/wf/click?upn=X2CtOKzMVdkQSWwSPNdL2ncwY8X-2Fni6dN5ndZaRmo5uDjSXUTxfM-2FE12eTo422Nr_FMphPaBBad-2BFIBPe3dyscTXmRMU2WHR5arOs2DTynG1nnPOCmivxzoQn4SeFnlw79HBq5PBfwvDSmZyeqrhJeOGckObPrQGcuvKMdx4VWxSrxNWGn2cnbtCOtUGmMt-2Bg4MlSJsqijIdCKmotAiEjF-2Bf7oaQqHMg4nw9jIM-2FWNEiu7lcqfDiXBgveuj4Ibnu-2Bd8wIOLHj3rlIZ-2FrpqJ1vaCnXRhw0FnV6WSqr8-2F86Nqg-3D" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://u6614154.ct.sendgrid.net/wf/click?upn%3DX2CtOKzMVdkQSWwSPNdL2ncwY8X-2Fni6dN5ndZaRmo5uDjSXUTxfM-2FE12eTo422Nr_FMphPaBBad-2BFIBPe3dyscTXmRMU2WHR5arOs2DTynG1nnPOCmivxzoQn4SeFnlw79HBq5PBfwvDSmZyeqrhJeOGckObPrQGcuvKMdx4VWxSrxNWGn2cnbtCOtUGmMt-2Bg4MlSJsqijIdCKmotAiEjF-2Bf7oaQqHMg4nw9jIM-2FWNEiu7lcqfDiXBgveuj4Ibnu-2Bd8wIOLHj3rlIZ-2FrpqJ1vaCnXRhw0FnV6WSqr8-2F86Nqg-3D&amp;source=gmail&amp;ust=1576212392316000&amp;usg=AFQjCNGG15t_hwj--_AyV4A2MF9bxfCwcQ"><img width="34" src="https://ci4.googleusercontent.com/proxy/Fwf4NeSP61dfo29JgmVoC2fUOE2Y3NtGWZos1jv3-NLpZvguGVfRjePTLUZfYiu11D55UGFHlZ7OI1x1C32Nia21CV5fYmzmVPeaNNLYThgRGg_GIN5ZQw=s0-d-e1-ft#https://static.line.naver.jp/line_regulation/files/ver2/LINE_Icon.png" class="CToWUd"></a>
+                                                                    <div align="Right"><img style="text-align:right;margin-bottom:3px" src="https://ci6.googleusercontent.com/proxy/Pw6yzqeRNjaoob-Oo4VW2t0or2GTwr0CDpgwLKazFnwRMxl1a5DZkC4-Dh5-1bRwgBk55-2Rm30yiWav56UtFLvsA6W32gXBl0LAG4vtzJilQ1yy13FnFgiwQDuGsCsFIibJHSNVe7I=s0-d-e1-ft#https://fareokadmin.azurewebsites.net/Images/paiteawkunmai_mobile_mail_footer_new.jpg" class="CToWUd"></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </td>
+        </tr>
+
+    </tbody>
+</table>

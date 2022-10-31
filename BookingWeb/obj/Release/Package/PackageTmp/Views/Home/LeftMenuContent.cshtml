@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = null;
+     string sAbsolutePath = HttpContext.Current.Request.Url.AbsolutePath;
+}
+
+    <nav class="nav flex-column default-sidenav sidenav-static-content">
+        <a class="nav-link @(sAbsolutePath.IndexOf("TermOfUse") != -1 ? "active" : "")" href="@Url.Action("TermOfUse", "Home")">
+            @Localize.Show("LEFT_TermOfUse")
+        </a>
+        @*<a class="nav-link " href="https://devai-web.gogojii.com/how-to-use-points/">
+            Gogojii Member Program
+        </a>*@
+        <a class="nav-link @(sAbsolutePath.IndexOf("ContactUs") != -1 ? "active" : "") " href="@Url.Action("ContactUs", "Home")">
+            @Localize.Show("LEFT_ContactUs")
+        </a>
+        <a class="nav-link @(sAbsolutePath.IndexOf("CookiePolicy") != -1 ? "active" : "") " href="@Url.Action("CookiePolicy", "Home")">@Localize.Show("LEFT_CookiePolicy")</a>
+        <a class="nav-link @(sAbsolutePath.IndexOf("PrivacyPolicy") != -1 ? "active" : "") " href="@Url.Action("PrivacyPolicy", "Home")">@Localize.Show("LEFT_PrivacyPolicy")</a>
+        <a class="nav-link @(sAbsolutePath.IndexOf("AboutUs") != -1 ? "active" : "") " href="@Url.Action("AboutUs", "Home")">@Localize.Show("LEFT_AboutUs")</a>
+        <a class="nav-link @(sAbsolutePath.IndexOf("FAQs") != -1 ? "active" : "") " href="@Url.Action("FAQs", "Home")">@Localize.Show("LEFT_FAQs")</a>
+
+    </nav>    
+@if (sAbsolutePath.IndexOf("AboutUs") == -1)
+{
+<div class="mt-30">
+    <nav class="nav flex-column default-sidenav sidenav-contact-us">
+        <h4 class="mb-20">
+            @Localize.Show("LEFT_CannotFindAnswers")
+            
+        </h4>
+        <div class="div-email">
+            <p class="body-text mb-20">
+                @Localize.Show("LEFT_NeedHelpGoToContactus")
+                @Localize.Show("LEFT_WillGetBackToYou")                
+                
+            </p>
+            <div class="btn--secondary--outline text-center">
+                <a href="@Url.Action("ContactUs", "Home")" class="">Contact us</a>
+            </div>
+        </div>
+    </nav>
+</div>
+}

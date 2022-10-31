@@ -1,0 +1,935 @@
+﻿@*@model BackOffice.Models.FlightReportList*@
+@*@model DataModel.FlightBooking*@
+
+@model  BL.Entities.RobinhoodFare.AirFare
+
+@using (Html.BeginForm("FlightRefundDetailsave", "FlightRefund", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(m => m.bookingOID)
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-header py-3" style="text-align:right;">
+                @*<div class="d-sm-flex align-items-center justify-content-between">*@
+                <a href="@Url.Action("FlightRefundtList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Back
+                </a>
+
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primaryblue shadow-sm" id="btn_Save">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+                @*</div>*@
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        @*<div class="col-lg-12">*@
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Ticketing Task</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-1">
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Status :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @{
+                                SelectList selectListStatusRefund = (SelectList)ViewData["StatysRefundList"];
+                                SelectList selectListschd = (SelectList)ViewData["chdTitleList"];
+                            }
+                            @*//ใน text บวก value จาก controller มาด้วย*@
+                            @Html.DropDownListFor(m => m.refund.status, selectListStatusRefund.OrderBy(x => x.Text).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.refund.status == Convert.ToInt32(s.Value)) }), new
+                                               {
+                                                   @class = "form-control ADT-TT-",
+                                                   required = "required"
+                                               })
+
+                            @*<select class="form-control form-control-sm">
+                    <option value="0" selected>None-รอการระบุ</option>
+                    <option value="1">Precressing-กำลังดำเนินการ</option>
+                    <option value="2">Complete-เสร็จสิ้น</option>
+                </select>*@
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            New PNR :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Html.TextBoxFor(x => x.refund.newPNR, new { @class = "form-control form-control-sm" })
+                        </div>
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Refund No. :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Html.TextBoxFor(x => x.refund.refundNo, new { @class = "form-control form-control-sm" })
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Refund Create Date :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @*<input type="text" class="form-control form-control-sm" value="@Model.refund.refundCreateDate.ToString("MM/dd/yyyy")" readonly>*@
+                            @Html.TextBoxFor(m => m.refund.refundCreateDate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm", @id = "RefundCreateDate", @name = "RefundCreateDate", @readonly = "readonly" })
+                            @Html.Hidden("refundCreateDate", Model.refund.refundCreateDate)
+                        </div>
+
+
+
+                        <div class="col-lg-3" style="text-align:right;">
+                            Due date of refund(90days) :
+                        </div>
+                        <div class="col-lg-3 text">
+                            @Html.TextBoxFor(m => m.refund.dueDateOfRefund, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm", @id = "DueDateOfRefund", @name = "DueDateOfRefund", @readonly = "readonly" })
+                            @Html.Hidden("dueDateOfRefund", Model.refund.dueDateOfRefund, "{0:dd/MM/yyyy}")
+                        </div>
+
+                        <div class="col-lg-3" style="text-align:right;">
+                            GM Refund Date :
+                        </div>
+                        <div class="col-lg-3 text">
+                            @Html.TextBoxFor(m => m.refund.refundGMDate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm", @id = "RefundGMDate", @readonly = "readonly" })
+                            @Html.Hidden("refundGMDate", Model.refund.refundGMDate, "{0:dd/MM/yyyy}")
+                        </div>
+
+                        <div class="col-lg-3" style="text-align:right;">
+                            Remark :
+                        </div>
+                        <div class="col-lg-9 text">
+                            @Html.TextAreaFor(m => m.refund.remark, new { @class = "form-control form-control-sm", @style = "font-size:18px;" })
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    @*<div class="text-right">
+
+                            <a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                                <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                                Back
+                            </a>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Booking Detail</h6>
+                    </div>
+                </div>
+                @*<div class="row">
+                        <div class="col-lg-12" style="border-bottom:dotted solid dashed">
+                            Booking Deatail
+                        </div>
+                    </div>*@
+                <div class="card-body">
+                    <div class="row mb-1">
+                        <div class="col-lg-3" style="text-align:right;">
+                            PNR :
+                        </div>
+                        <div class="col-lg-3 text">
+                            <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;"><b>@Model.PNR</b></span>
+                            @Html.HiddenFor(x => x.PNR)
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Booking Date :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.bookingDate.ToString("dd MMMM yyyy HH:mm:ss tt")
+                            @*@Html.TextBoxFor(m => m.bookingDate, "{0:yyyy-MM-dd}", new { required = "required", @class = "form-control form-control-sm", @type = "date", @id = "datetime1", @readonly = "readonly" })*@
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            From City :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                            {
+                                @Model.depFlight[0].depCity.code
+                            }
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            To City :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @if (Model.retFlight != null && Model.retFlight.Count > 0)
+                            {
+                                @Model.retFlight[0].depCity.code
+                            }
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Airline :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                            {
+                                @Model.depFlight[0].airline.code
+                            }
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            No Of Pax :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @(Model.noOfAdults + Model.noOfChildren + Model.noOfInfants)
+                            @*<input type="text" class="form-control form-control-sm" value="@(Model.noOfAdults+Model.noOfChildren+Model.noOfInfants)" readonly>*@
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Segment/PNR :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            -
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            All Segment :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            -
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Discount :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            -
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Total(฿) :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.grandTotal.ToString("N0")
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+
+                        @*<a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                                <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                                Back
+                            </a>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Contact Detail</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-1">
+                        @if (Model.contactInfo.firstname != null && Model.contactInfo.email != null && Model.contactInfo.telNo != null)
+                        {
+                            <div class="col-lg-1">
+                                Title
+                            </div>
+                            <div class="col-lg-2 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.title" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                First Name
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.firstname" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                Middle Name
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.middlename" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                Last Name
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.lastname" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                Email
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.email" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                Phone number
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.telNo" readonly>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+
+                        @*<a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                                <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                                Back
+                            </a>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-plane"></i>&nbsp;Passenger Details</h6>
+
+            </div>
+        </div>
+        <div class="card-body">
+
+
+            <div class="row">
+                <table class="table table-bordered">
+
+                    <thead class="table">
+                        <tr>
+                            <th></th>
+                            <th>PaxNo</th>
+                            <th>PaxType</th>
+                            <th>Title</th>
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Last Name</th>
+                            <th>Net (Refund)</th>
+                            <th>Agent (Refund)</th>
+                            <th>Refund Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int paxNo = 1;
+                        }
+
+                        @for (int i = 0; i < Model.adtPaxs.Count; i++)
+                        {
+                            if (Model.adtPaxs[i].StatusRefund == true)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td>@(paxNo.ToString())</td>
+                                    <td>@Model.adtPaxs[i].paxType</td>
+                                    <td>@Model.adtPaxs[i].title</td>
+                                    <td>@Model.adtPaxs[i].firstname</td>
+                                    <td>@Model.adtPaxs[i].middlename</td>
+                                    <td>@Model.adtPaxs[i].lastname</td>
+                                    <td>@Html.TextBoxFor(x => x.adtPaxs[i].netRefund, new { @class = "form-control form-control-sm", @placeholder = "Net (Refund)" })</td>
+                                    <td>@Html.TextBoxFor(x => x.adtPaxs[i].agentRefund, new { @class = "form-control form-control-sm", @placeholder = "Agent (Refund)" })</td>
+                                    <td>@Html.TextBoxFor(x => x.adtPaxs[i].refundAmount, new { @class = "form-control form-control-sm", @placeholder = "Refund Amount" })</td>
+                                    @*<td>@Model.adtFare.sellingBaseFare.ToString("N2")</td>*@
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align:right;">TicketNo.:</td>
+                                    <td colspan="4">@Html.TextBoxFor(x => x.adtPaxs[i].tickNoRefund, new { @class = "form-control form-control-sm", @placeholder = "TicketNo." })</td>
+                                    <td colspan="6">
+                                        @if (Model.adtPaxs[i].StatusRefund == true)
+                                        {
+                                            <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                <b>
+                                                    <label>Refund</label>
+                                                </b>
+                                            </span>
+
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align:right;">Remark:</td>
+                                    <td colspan="10">@Html.TextBoxFor(x => x.adtPaxs[i].remarkRefund, new { @class = "form-control form-control-sm", @placeholder = "Remark" })</td>
+                                </tr>
+
+                                paxNo++;
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>@Html.HiddenFor(m => m.adtPaxs[i].StatusRefund, new { })</td>
+                                    <td>@(paxNo.ToString())</td>
+                                    <td>@Model.adtPaxs[i].paxType</td>
+                                    <td>@Model.adtPaxs[i].title</td>
+                                    <td>@Model.adtPaxs[i].firstname</td>
+                                    <td>@Model.adtPaxs[i].middlename</td>
+                                    <td>@Model.adtPaxs[i].lastname</td>
+                                    <td>@Html.TextBoxFor(x => x.adtPaxs[i].netRefund, new { @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @disabled = "disabled" })</td>
+                                    <td>@Html.TextBoxFor(x => x.adtPaxs[i].agentRefund, new { @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @disabled = "disabled" })</td>
+                                    <td>@Html.TextBoxFor(x => x.adtPaxs[i].refundAmount, new { @class = "form-control form-control-sm", @placeholder = "Refund Amount", @disabled = "disabled" })</td>
+                                    @*<td>@Model.adtFare.sellingBaseFare.ToString("N2")</td>*@
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align:right;">TicketNo.:</td>
+                                    <td colspan="4">@Html.TextBoxFor(x => x.adtPaxs[i].tickNoRefund, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @disabled = "disabled" })</td>
+                                    <td colspan="6">
+                                        @if (Model.adtPaxs[i].StatusRefund == true)
+                                        {
+                                            <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                <b>
+                                                    <label>Refund</label>
+                                                </b>
+                                            </span>
+
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align:right;">Remark:</td>
+                                    <td colspan="10">@Html.TextBoxFor(x => x.adtPaxs[i].remarkRefund, new { @class = "form-control form-control-sm", @placeholder = "Remark", @disabled = "disabled" })</td>
+                                </tr>
+
+                                paxNo++;
+                            }
+                        }
+
+                        @if (Model.chdPaxs.Count > 0 && Model.chdPaxs != null)
+                        {
+                            for (int j = 0; j < Model.chdPaxs.Count; j++)
+                            {
+                                if (Model.chdPaxs[j].StatusRefund == true)
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td>@(paxNo.ToString())</td>
+                                        <td>@Model.chdPaxs[j].paxType</td>
+                                        <td>@Model.chdPaxs[j].title</td>
+                                        <td>@Model.chdPaxs[j].firstname</td>
+                                        <td>@Model.chdPaxs[j].middlename</td>
+                                        <td>@Model.chdPaxs[j].lastname</td>
+                                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].netRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Net (Refund)" })</td>
+                                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].agentRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Agent (Refund)" })</td>
+                                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].refundAmount, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Refund Amount" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">TicketNo.:</td>
+                                        <td colspan="4">@Html.TextBoxFor(x => x.chdPaxs[j].tickNoRefund, new { @class = "form-control form-control-sm", @placeholder = "TicketNo." })</td>
+                                        <td colspan="6">
+                                            @if (Model.chdPaxs[j].StatusRefund == true)
+                                            {
+                                                <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                    <b>
+                                                        <label>Refund</label>
+                                                    </b>
+                                                </span>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">Remark:</td>
+                                        <td colspan="10">@Html.TextBoxFor(x => x.chdPaxs[j].remarkRefund, new { @class = "form-control form-control-sm", @placeholder = "Remark" })</td>
+                                    </tr>
+                                    paxNo++;
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>@Html.HiddenFor(m => m.chdPaxs[j].StatusRefund, new { })</td>
+                                        <td>@(paxNo.ToString())</td>
+                                        <td>@Model.chdPaxs[j].paxType</td>
+                                        <td>@Model.chdPaxs[j].title</td>
+                                        <td>@Model.chdPaxs[j].firstname</td>
+                                        <td>@Model.chdPaxs[j].middlename</td>
+                                        <td>@Model.chdPaxs[j].lastname</td>
+                                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].netRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @disabled = "disabled" })</td>
+                                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].agentRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @disabled = "disabled" })</td>
+                                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].refundAmount, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Refund Amount", @disabled = "disabled" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">TicketNo.:</td>
+                                        <td colspan="4">@Html.TextBoxFor(x => x.chdPaxs[j].tickNoRefund, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @disabled = "disabled" })</td>
+                                        <td colspan="6">
+                                            @if (Model.chdPaxs[j].StatusRefund == true)
+                                            {
+                                                <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                    <b>
+                                                        <label>Refund</label>
+                                                    </b>
+                                                </span>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">Remark:</td>
+                                        <td colspan="10">@Html.TextBoxFor(x => x.chdPaxs[j].remarkRefund, new { @class = "form-control form-control-sm", @placeholder = "Remark", @disabled = "disabled" })</td>
+                                    </tr>
+                                    paxNo++;
+                                }
+                            }
+
+                        }
+
+                        @if (Model.infPaxs.Count > 0 && Model.infPaxs != null)
+                        {
+                            for (int j = 0; j < Model.infPaxs.Count; j++)
+                            {
+                                if (Model.infPaxs[j].StatusRefund == true)
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td>@(paxNo.ToString())</td>
+                                        <td>@Model.infPaxs[j].paxType</td>
+                                        <td>@Model.infPaxs[j].title</td>
+                                        <td>@Model.infPaxs[j].firstname</td>
+                                        <td>@Model.infPaxs[j].middlename</td>
+                                        <td>@Model.infPaxs[j].lastname</td>
+                                        <td>@Html.TextBoxFor(x => x.infPaxs[j].netRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Net (Refund)" })</td>
+                                        <td>@Html.TextBoxFor(x => x.infPaxs[j].agentRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Agent (Refund)" })</td>
+                                        <td>@Html.TextBoxFor(x => x.infPaxs[j].refundAmount, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Refund Amount" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">TicketNo.:</td>
+                                        <td colspan="4">@Html.TextBoxFor(x => x.infPaxs[j].tickNoRefund, new { @class = "form-control form-control-sm", @placeholder = "TicketNo." })</td>
+                                        <td colspan="6">
+                                            @if (Model.infPaxs[j].StatusRefund == true)
+                                            {
+                                                <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                    <b>
+                                                        <label>Refund</label>
+                                                    </b>
+                                                </span>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">Remark:</td>
+                                        <td colspan="10">@Html.TextBoxFor(x => x.infPaxs[j].remarkRefund, new { @class = "form-control form-control-sm", @placeholder = "Remark" })</td>
+                                    </tr>
+                                    paxNo++;
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>@Html.HiddenFor(m => m.infPaxs[j].StatusRefund, new { })</td>
+                                        <td>@(paxNo.ToString())</td>
+                                        <td>@Model.infPaxs[j].paxType</td>
+                                        <td>@Model.infPaxs[j].title</td>
+                                        <td>@Model.infPaxs[j].firstname</td>
+                                        <td>@Model.infPaxs[j].middlename</td>
+                                        <td>@Model.infPaxs[j].lastname</td>
+                                        <td>@Html.TextBoxFor(x => x.infPaxs[j].netRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @disabled = "disabled" })</td>
+                                        <td>@Html.TextBoxFor(x => x.infPaxs[j].agentRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @disabled = "disabled" })</td>
+                                        <td>@Html.TextBoxFor(x => x.infPaxs[j].refundAmount, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Refund Amount", @disabled = "disabled" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">TicketNo.:</td>
+                                        <td colspan="4">@Html.TextBoxFor(x => x.infPaxs[j].tickNoRefund, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @disabled = "disabled" })</td>
+                                        <td colspan="6">
+                                            @if (Model.infPaxs[j].StatusRefund == true)
+                                            {
+                                                <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                    <b>
+                                                        <label>Refund</label>
+                                                    </b>
+                                                </span>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">Remark:</td>
+                                        <td colspan="10">@Html.TextBoxFor(x => x.infPaxs[j].remarkRefund, new { @class = "form-control form-control-sm", @placeholder = "Remark", @disabled = "disabled" })</td>
+                                    </tr>
+                                    paxNo++;
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-plane"></i>&nbsp;Booking Pax Fare</h6>
+                @*<a href="@Url.Action("MarkupDetail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                        <i class="fas fa-file-export text-white-50"></i>
+                        Export
+                    </a>*@
+            </div>
+        </div>
+        <div class="card-body">
+
+
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead class="table">
+                        <tr>
+                            <th>No</th>
+                            <th>PaxType</th>
+                            <th>Fare with tax</th>
+                            <th>Fare without tax</th>
+                            <th>tax</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int fareNo = 1;
+                        }
+                        @if (Model.adtFare != null)
+                        {
+
+                            <tr>
+                                <td>@(fareNo.ToString())</td>
+                                <td>@Model.adtPaxs[0].paxType</td>
+                                <td>@Model.adtFare.net.ToString("N2")</td>
+                                <td>@Model.adtFare.sellingBaseFare.ToString("N2")</td>
+                                <td>@Model.adtFare.tax.ToString("N2")</td>
+                            </tr>
+
+
+                            fareNo++;
+                        }
+
+                        @if (Model.chdFare != null)
+                        {
+
+                            <tr>
+                                <td>@(fareNo.ToString())</td>
+                                <td>@Model.chdPaxs[0].paxType</td>
+                                <td>@Model.chdFare.net.ToString("N2")</td>
+                                <td>@Model.chdFare.sellingBaseFare.ToString("N2")</td>
+                                <td>@Model.chdFare.tax.ToString("N2")</td>
+                            </tr>
+
+
+                            fareNo++;
+                        }
+
+                        @if (Model.infFare != null)
+                        {
+
+                            <tr>
+                                <td>@(fareNo.ToString())</td>
+                                <td>@Model.infPaxs[0].paxType</td>
+                                <td>@Model.infFare.net.ToString("N2")</td>
+                                <td>@Model.infFare.sellingBaseFare.ToString("N2")</td>
+                                <td>@Model.infFare.tax.ToString("N2")</td>
+                            </tr>
+
+
+                            fareNo++;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-plane"></i>&nbsp;Flight Details</h6>
+                @*<a href="@Url.Action("MarkupDetail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                        <i class="fas fa-file-export text-white-50"></i>
+                        Export
+                    </a>*@
+            </div>
+        </div>
+        <div class="card-body">
+
+
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead class="table">
+                        <tr>
+                            <th>RouteNo</th>
+                            <th>SegmentNo</th>
+                            <th>FromCity</th>
+                            <th>ToCity</th>
+                            <th>Market Airline</th>
+                            <th>Operate Airline</th>
+                            <th>FareBasis</th>
+                            <th>FareType</th>
+                            <th>DepartureDateTime</th>
+                            <th>ArrivalDateTime</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int flightNo = 1;
+                        }
+                        @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                        {
+                            for (int i = 0; i < Model.depFlight.Count; i++)
+                            {
+
+                                <tr>
+                                    <td>@(flightNo.ToString())</td>
+                                    <td></td>
+                                    <td>@Model.depFlight[i].depCity.code</td>
+                                    <td>@Model.depFlight[i].arrCity.code</td>
+                                    <td>@Model.depFlight[i].airline.code</td>
+                                    <td>@Model.depFlight[i].operatedAirline.code</td>
+                                    <td>@Model.depFlight[i].fareBasis</td>
+                                    <td>@Model.depFlight[i].fareType</td>
+                                    <td>@Model.depFlight[i].departureDateTime.ToString("dd MMMM yyyy HH:mm tt")</td>
+                                    <td>@Model.depFlight[i].arrivalDateTime.ToString("dd MMMM yyyy HH:mm tt")</td>
+                                </tr>
+                                flightNo++;
+                            }
+
+
+                        }
+
+                        @if (Model.retFlight != null && Model.retFlight.Count > 0)
+                        {
+                            for (int i = 0; i < Model.retFlight.Count; i++)
+                            {
+
+                                <tr>
+                                    <td>@(flightNo.ToString())</td>
+                                    <td></td>
+                                    <td>@Model.retFlight[i].depCity.code</td>
+                                    <td>@Model.retFlight[i].arrCity.code</td>
+                                    <td>@Model.retFlight[i].airline.code</td>
+                                    <td>@Model.retFlight[i].operatedAirline.code</td>
+                                    <td>@Model.retFlight[i].fareBasis</td>
+                                    <td>@Model.retFlight[i].fareType</td>
+                                    <td>@Model.retFlight[i].departureDateTime.ToString("dd MMMM yyyy HH:mm tt")</td>
+                                    <td>@Model.retFlight[i].arrivalDateTime.ToString("dd MMMM yyyy HH:mm tt")</td>
+                                </tr>
+
+                                flightNo++;
+                            }
+
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    if (Model.note != null)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <div class="d-sm-flex align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-pen-square"></i>&nbsp;Note</h6>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-1">
+                            @Html.TextAreaFor(m => m.note, new { @class = "form-control form-control-sm", @cols = 90, @rows = 6, @readonly = "readonly", @style = "font-size:18px;" })
+                            @*<textarea rows="5" cols="100" readonly>@Model.note</textarea>*@
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+                        <div class="text-right">
+
+                            @*<a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                                    Back
+                                </a>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @*</div>*@
+}
+
+
+@section Scripts
+{
+    <script>
+         $(document).ready(function () {
+            //Date Picker
+            var today = new Date();
+            var defaultDepDateText = $('#RefundCreateDate').val().split('/');
+            var defaultDepDate = new Date(parseInt(defaultDepDateText[2]), parseInt(defaultDepDateText[1]) - 1, parseInt(defaultDepDateText[0]));
+            console.log(defaultDepDate);
+            var defaultRetDateText = $('#DueDateOfRefund').val().split('/');
+            var defaultRetDate = new Date(parseInt(defaultRetDateText[2]), parseInt(defaultRetDateText[1]) - 1, parseInt(defaultRetDateText[0]));
+
+            var depDatepicker = $('#RefundCreateDate').datepicker({
+                minDate: today,
+                maxDate: addDays(today, 365),
+                language: 'en',
+                autoClose: true,
+                toggleSelected: false,
+                onSelect: function onSelect(fd, date) {
+                    var d = new Date(date),
+                        mnth = ((d.getMonth() + 1)),
+                        day = (d.getDate());
+                    $("#refundCreateDate").val(day + "/" + mnth + "/" + d.getFullYear());
+
+                    if (retDatepicker) {
+                        var retDate = retDatepicker.data('datepicker');
+                        var ret = retDate.selectedDates[0];
+                        //alert(ret);
+                        if (date > ret) {
+                            retDate.selectDate(addDays(date, 90));
+                        }
+                        retDate.update('minDate', date);
+                    }
+                }
+            });
+            var depDateDate = depDatepicker.data('datepicker');
+            depDateDate.selectDate(defaultDepDate);
+            var retDatepicker = $('#DueDateOfRefund').datepicker({
+                minDate: today,
+                maxDate: addDays(today, 1095),
+                language: 'en',
+                autoClose: true,
+                toggleSelected: false,
+                onSelect: function onSelect(fd, date) {
+
+                    var d = new Date(date),
+                        mnth = ((d.getMonth() + 1)),
+                        day = (d.getDate());
+                    $("#dueDateOfRefund").val(day + "/" + mnth + "/" + d.getFullYear());
+
+
+
+
+
+                    //var d = new Date(date),
+                    //    month = '' + (d.getMonth() + 1),
+                    //    day = '' + d.getDate(),
+                    //    year = d.getFullYear();
+                    //if (month.length < 2)
+                    //    month = '0' + month;
+                    //if (day.length < 2)
+                    //    day = '0' + day;
+                    //return date;
+
+
+
+                }
+
+            });
+            var retDateDate = retDatepicker.data('datepicker');
+            retDateDate.selectDate(defaultRetDate);
+
+            //Date Picker
+            var today = new Date();
+            var gmDepDateText = $('#RefundGMDate').val().split('/');
+            var gmdefaultDepDate = new Date(parseInt(gmDepDateText[2]), parseInt(gmDepDateText[1]) - 1, parseInt(gmDepDateText[0]));
+            console.log(gmdefaultDepDate);
+
+
+            var gmdepDatepicker = $('#RefundGMDate').datepicker({
+                minDate: today,
+                maxDate: addDays(today, 365),
+                language: 'en',
+                autoClose: true,
+                toggleSelected: false,
+                onSelect: function onSelect(fd, date) {
+                    var d = new Date(date),
+                        mnth = ((d.getMonth() + 1)),
+                        day = (d.getDate());
+                    $("#refundGMDate").val(day + "/" + mnth + "/" + d.getFullYear());
+                }
+            });
+            var gmdepDateDate = gmdepDatepicker.data('datepicker');
+            gmdepDateDate.selectDate(gmdefaultDepDate);
+
+
+        });
+        var addDays = function (date, days) {
+            var result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
+        }
+
+       
+
+        $("#btn_Save").click(function () {
+                $("#dueDateOfRefund").val($("#dueDateOfRefund").val())
+        });
+    </script>
+}
+
+<style>
+    .text {
+        margin-bottom: 10px;
+    }
+</style>
+
+@*<input type="checkbox" class="ba" checked="checked" />
+    <input type="text" class="tex" />
+
+    <script>
+        $(function () {
+        $('.ba').on('change', function () {
+            var checked = $(this).prop('checked');
+            $('.tex').prop('disabled', !checked);
+        });
+    });
+    </script>*@
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+@*<label for="chkPassport">
+        <input type="checkbox" id="chkPassport" />
+        Do you have Passport?
+    </label>
+    <br />
+    Passport Number:
+    <input type="text" id="txtPassportNumber" disabled="disabled" />*@

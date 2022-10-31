@@ -1,0 +1,40 @@
+:root {
+    --font-primary: "Quicksand", sans-serif;
+    --primary-color: #06b0f4;
+    --secondary-color: #faa90d;
+    --text-color-dark: #121216;
+    --text-color-light: #979797;
+}
+
+body {
+    font-family: "Quicksand", sans-serif;
+    background-color: #ecf2ff;
+    section {
+        padding: 84px 0 0;
+    }
+    .site-main {
+        background-color: #f7faff;
+    }
+    .container-body {
+        height: 70vh;
+        background: #979797;
+        position: relative;
+        h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+    @import "sass/header";
+    @import "sass/loyalty";
+    @import "sass/typography";
+    @import "sass/spacing";
+    @import "sass/footer";
+    @import "sass/responsive";
+    @media (max-width: 1200px) {
+        .container {
+            max-width: none;
+        }
+    }
+}

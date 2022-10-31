@@ -1,0 +1,117 @@
+﻿@model List<DataModel.BackOfficeAdmin>
+@*@{
+    DataModel.BackOfficeAdmin admin = null;
+    string sAbsolutePath = HttpContext.Current.Request.Url.AbsolutePath;
+    admin = (DataModel.BackOfficeAdmin)Session["admin"];
+}*@
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary" style="color:#FBAA09">Admin List</h6>
+           
+                <a href="@Url.Action("Detail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-plus fa-sm text-white-50"></i>
+                    Create New
+                </a>
+            
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Last Login</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var admins in Model)
+                    {
+                        <tr>
+                            <td>
+                                @admins.Username
+                            </td>
+                            <td>
+                                @admins.Firstname @admins.Lastname
+                            </td>
+                            <td>
+                                @admins.Email
+                            </td>
+                            <td>
+                                @if (admins.Role == 1)
+                                {
+                                    <span>Super Admin</span>
+                                }
+                                @if (admins.Role == 2)
+                                {
+                                    <span>Admin Flight</span>
+                                }
+                                @if (admins.Role == 3)
+                                {
+                                    <span>Admin Hotel</span>
+                                }
+                                @if (admins.Role == 4)
+                                {
+                                    <span>Admin Staff</span>
+                                }
+                                @*@(admins.Role == 1 ? "Super Admin" : "Admin")*@
+                            </td>
+                            <td>
+                                @admins.LastLogin.GetValueOrDefault().ToString("dd MMM yyyy HH:mm:ss tt")
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Detail", new {  id = admins.BackOfficeAdminOID })">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a><br />
+                                <a href="#" onclick="deleteRow('@admins.BackOfficeAdminOID', '@admins.Username')"><i class="fas fa-trash"></i> Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        var isSave = '@Request["save"]';
+        $(document).ready(function () {
+            $('#grid').DataTable({
+                columnDefs: [{
+                    "orderable": false,
+                    "targets": [4]
+                }]
+            });
+
+            if (isSave == 't') {
+                new PNotify({
+                    title: 'Success',
+                    text: 'Data have been updated',
+                    type: 'success',
+                    styling: 'bootstrap3',
+                    delay: 2000,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    buttons: {
+                        show_on_nonblock: true
+                    }
+                });
+            }
+        });
+
+        var deleteRow = function (id, name) {
+            if (confirm("Do you want to delete " + name + "?")) {
+                window.location.href = '@Url.Action("Delete")' + '/' + id;
+            }
+        }
+    </script>
+}

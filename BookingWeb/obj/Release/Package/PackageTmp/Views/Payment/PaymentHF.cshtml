@@ -1,0 +1,239 @@
+﻿@model BL.Entities.HFBooking.HFBundleBooking
+@{
+    if (ViewBag.Mode == "app")
+    {
+        Layout = "~/Views/Shared/LayoutNoHF.cshtml";
+    }
+}
+@section styles
+{
+    <link href="~/Content/flights/paxinfo.css?v1" rel="stylesheet" />
+    <style>
+
+        .abc-checkbox label::before {
+            border: 1px solid #fff !important;
+        }
+
+        .modal-backdrop {
+            background-color: #fff;
+        }
+    </style>
+}
+
+@section width100head
+{
+    <div class="process-bar text-center" style="margin-bottom: 15px;">
+        <table class="font-weight-bold" style="margin-left: auto; margin-right: auto;">
+            <tr>
+                <td><div class="number-circle-grey">1</div></td>
+                <td>@Localize.Show("DETAIL")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-orange">2</div></td>
+                <td>@Localize.Show("PAYMENT")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-grey">3</div></td>
+                <td>@Localize.Show("TICKET")</td>
+            </tr>
+        </table>
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-md-12" style="padding-right: 30px;">
+            <div class="font-18">
+                <strong>
+                    @Model.hotelBooking.hotel.hotelName
+                </strong>
+            </div>
+            <div class="font-12">
+                @Model.hotelBooking.hotelInformation.hotel.address @Model.hotelBooking.hotelInformation.hotel.country.name  @Model.hotelBooking.hotelInformation.hotel.postalCode
+            </div>
+            <div>
+                <div class="font-14 mr-2">
+                    <div>
+                        <img src="~/Images/icon_gogo/calendar.svg" style="height:12px; margin-right: 10px;" /> @Model.hotelBooking.searchRequest.checkIn.ToString("dd MMM") - @Model.hotelBooking.searchRequest.checkOut.ToString("dd MMM")
+                        <span class="font-12" style="position: absolute; right: 20px">@Model.hotelBooking.searchRequest.night @Localize.Show("NIGHTS")</span>
+                    </div>
+                    @{
+                        int iRoom = 1;
+                    }
+                    @foreach (var room in Model.hotelBooking.hotel.rooms)
+                    {
+                        foreach (var rate in room.rates)
+                        {
+                            if (iRoom != 1)
+                            {
+                                <hr />
+                            }
+                            <div>
+                                <img src="~/Images/icon_gogo/hotel.svg" style="height:12px; margin-right: 10px;" />
+                                @Localize.Show("ROOM") @iRoom:
+                                @room.roomName
+                                (@rate.boardName)
+                            </div>
+                            iRoom++;
+                        }
+                    }
+                </div>
+            </div>
+            <hr />
+            <div class="font-18">
+                <strong>
+                    @Model.flightBooking.origin.name (@Model.flightBooking.origin.code)
+
+                    <img src="~/Images/icon_gogo/Round.svg" /> @Model.flightBooking.destination.name (@Model.flightBooking.destination.code)
+                </strong>
+            </div>
+            <div>
+                <span class="font-14 mr-2">
+                    @Model.flightBooking.depFlight[0].departureDateTime.ToString("ddd, dd MMM yyyy")
+                    <span> - </span>
+                    @Model.flightBooking.retFlight[0].departureDateTime.ToString("ddd, dd MMM yyyy")
+                </span>
+            </div>
+            <hr />
+            <div class="font-18"><strong>@Localize.Show("PAX_DETAIL")</strong></div>
+            <div class="font-14">
+                @for (int i = 0; i < Model.flightBooking.noOfAdults; i++)
+                {
+                    <div class="row row-mt">
+                        <div class="col-12">
+                            <div>
+                                @Model.flightBooking.adtPaxs[i].title  @Model.flightBooking.adtPaxs[i].firstname   @Model.flightBooking.adtPaxs[i].middlename   @Model.flightBooking.adtPaxs[i].lastname
+                            </div>
+                        </div>
+                    </div>
+                }
+                @for (int i = 0; i < Model.flightBooking.noOfChildren; i++)
+                {
+                    <div class="row row-mt">
+                        <div class="col-12">
+                            <div>
+                                @Model.flightBooking.chdPaxs[i].title  @Model.flightBooking.chdPaxs[i].firstname   @Model.flightBooking.chdPaxs[i].middlename   @Model.flightBooking.chdPaxs[i].lastname
+                            </div>
+                        </div>
+                    </div>
+                }
+                @for (int i = 0; i < Model.flightBooking.noOfInfants; i++)
+                {
+                    <hr />
+                    <div class="row row-mt">
+                        <div class="col-12">
+                            <div>
+                                @Model.flightBooking.infPaxs[i].title  @Model.flightBooking.infPaxs[i].firstname   @Model.flightBooking.infPaxs[i].middlename   @Model.flightBooking.chdPaxs[i].lastname
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="info-box mt-3" style="padding: 10px;">
+                <div class="price-box">
+                    <div class="font-14"><strong>@Localize.Show("PRICE_DETAIL")</strong></div>
+                    <table style="width:100%" class="font-14">
+                        <tr>
+                            <td class="text-blue">
+                                <strong>@Localize.Show("TOTAL")</strong>
+                            </td>
+                            <td class="text-muted" style="vertical-align: top">
+                                THB
+                            </td>
+                            <td class="text-right font-18 text-blue" style="vertical-align: top">
+                                <strong>
+                                    @Model.totalPackagePrice.ToString("N2")
+                                </strong>
+                            </td>
+                        </tr>
+                        @if (Currency.GetCurrency() != "THB")
+                        {
+                            <tr>
+                                <td colspan="3" class="text-blue">
+                                    <hr />
+                                    <strong>@Localize.Show("YOUR_CURRENCY")</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-green">
+                                    <strong>@Localize.Show("TOTAL")</strong>
+                                </td>
+                                <td class="text-muted" style="vertical-align: top">
+                                    @Currency.GetCurrency()
+                                </td>
+                                <td class="text-right font-18 text-green" style="vertical-align: top">
+                                    <strong>
+                                        @Currency.convertFromTHB(Model.totalPackagePrice).ToString("N2")
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="font-10">
+                                    *@String.Format(Localize.Show("CURRENCY_CONDITION"), Currency.GetCurrency())
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-12">
+            <div class="font-24 font-weight-bold">@Localize.Show("PAYMENT_DETAIL")</div>
+
+            <div class="info-box" style="padding: 20px;">
+                @{
+                    string PaymentID = (string)(ViewBag.PaymentID);
+                }
+                <div class="row row-mt">
+                    <div class="col-12">
+                        <small class="font-weight-bold">@Localize.Show("SELECT_PAYMENT_METHOD")*</small>
+                        <select class="form-control form-control-pax" id="ggpaymentMethod">
+                            <option value="3" @(PaymentID == "3" ? "selected" : "")>
+                                @Localize.Show("PROMPT_PAY_QR")
+                            </option>
+                            <option value="1" @(PaymentID == "1" ? "selected" : "")>@Localize.Show("CREDIT_DEBIT_CARD")</option>
+                            @if (false && Model.totalPackagePrice >= 3000)
+                            {
+                                <option value="2" @(PaymentID == "2" ? "selected" : "")>@Localize.Show("KBANK_INSTALLMENT")</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                @Html.Action("Payment" + PaymentID, new { price = Model.totalPackagePrice.ToString("N2").Replace(",", ""), product = "HF", pid = Request["fid"], month = Request["month"] })
+            </div>
+        </div>
+    </div>
+
+    <div id="loading-ani" class="d-none">
+        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    
+    <div class="modal-dialog" role="document">
+        <div>
+            <img src="~/Images/waiting.gif" style="vertical-align:middle;" class="img-fluid" />
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var getPayment = function () {
+                var paymentid = $('#ggpaymentMethod').val();
+                $('#loadingModal').modal('show');
+                window.location.href = "@Url.Action("PaymentHF", new { id = "" })" + "/" + paymentid + "?fid=@Request["fid"]";
+            };
+            $('#ggpaymentMethod').change(getPayment);
+            var getMonth = function () {
+                var paymentid = $('#ggpaymentMethod').val();
+                var month = $('#ggMonth').val();
+                $('#loadingModal').modal('show');
+                window.location.href = "@Url.Action("PaymentHF", new { id = "" })" + "/" + paymentid + "?fid=@Request["fid"]&month=" + month;
+            };
+            $('#ggMonth').change(getMonth);
+
+        });
+    </script>
+}

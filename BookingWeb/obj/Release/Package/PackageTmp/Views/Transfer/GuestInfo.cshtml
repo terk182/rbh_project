@@ -1,0 +1,581 @@
+﻿@model GogojiiWeb.Models.SelectedTransfer
+@section styles
+{
+    <link href="~/Content/transfer/result.css?@(DateTime.Now.ToString("ddMMyyhhmmss"))" rel="stylesheet" />
+    <link href="~/Vendors/tel-input/build/css/intlTelInput.css" rel="stylesheet" />
+    <style>
+        iti__flag {
+            background-image: url("../../Vendors/tel-input/build/img/flags.png");
+        }
+
+        @@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .iti__flag {
+                background-image: url("../../Vendors/tel-input/build/img/flags@2x.png");
+            }
+        }
+    </style>
+}
+@{
+
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang().ToLower() == "th" ? "th-TH" : "en-US");
+    GogojiiWeb.Models.TransferSearchModel searchModel = (GogojiiWeb.Models.TransferSearchModel)ViewBag.SearchModel;
+}
+
+@section width100head
+{
+    <div class="process-bar text-center">
+        <table class="font-weight-bold" style="margin-left: auto; margin-right: auto;">
+            <tr>
+                <td><div class="number-circle-orange">1</div></td>
+                <td>@Localize.Show("DETAIL")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-grey">2</div></td>
+                <td>@Localize.Show("PAYMENT")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-grey">3</div></td>
+                <td>@Localize.Show("TICKET")</td>
+            </tr>
+        </table>
+    </div>
+    @using (Html.BeginForm("Booking", "Transfer", FormMethod.Get, new { data_parsley_validate = "", role = "form", enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(m => m.departureTransfers.rateKey)
+        if (Model.returnTransfers != null)
+        {
+            @Html.HiddenFor(m => m.returnTransfers.rateKey)
+        }
+        <div class="bg-white" style="padding-top: 15px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-12">
+                        <div>
+                            <strong>@Localize.Show("DEPARTURE_TRIP")</strong>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                @if (Model.departureTransfers.vehicleImages != null && Model.departureTransfers.vehicleImages.Count > 0)
+                                {
+                                    <img src="@(Model.departureTransfers.vehicleImages[0].url)" style="width: 95%" />
+                                }
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <strong class="font-14">
+                                    @Model.departureTransfers.categoryName @Model.departureTransfers.vehicleName - @Model.departureTransfers.transferType
+                                </strong>
+                                <div class="font-12">
+                                    @Model.search.adults  @Localize.Show("ADULTS")
+                                    @if (Model.search.children > 0)
+                                    {
+                                        <span>&bull;</span> @Model.search.children @Localize.Show("CHILDREN")
+                                    }
+                                    @if (Model.search.infants > 0)
+                                    {
+                                        <span>&bull;</span> @Model.search.infants @Localize.Show("INFANTS")
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="font-14 mt-2 font-weight-bold">
+                            <div>
+                                <img src="~/Images/icon_gogo/calendar.svg" style="height:12px; margin-right: 10px;" /> @Model.search.outboundDT.ToString("dd MMM yyyy", ci)
+                                @if (Model.departureTransfers.pickupInformation.mustCheckPickupTime)
+                                {
+                                    <div style="font-weight: normal">
+                                        @Localize.Show("PLEASE_CHECK_PICK_UP_TIME") @Model.departureTransfers.pickupInformation.checkPickupURL -  @Model.departureTransfers.pickupInformation.hourBeforeCheckPickupTime hrs before consulting
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span>(@Model.departureTransfers.pickupInformation.pickupTime)</span>
+                                }
+                            </div>
+                            <div>
+                                <img src="~/Images/icon_gogo/pin.svg" style="height:12px; margin-right: 10px;" /> <strong>
+                                    @Model.departureTransfers.pickupInformation.stopName
+                                </strong> @Model.departureTransfers.pickupInformation.pickupPlace
+                                <img src="~/Images/icon_gogo/arrow_gray.svg" />
+                                @Model.departureTransfers.dropoffPlace
+
+                            </div>
+
+                        </div>
+
+                        @if (Model.returnTransfers != null)
+                        {
+                            <hr />
+
+                            <div>
+                                <strong>@Localize.Show("RETURN_TRIP")</strong>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    @if (Model.returnTransfers.vehicleImages != null && Model.returnTransfers.vehicleImages.Count > 0)
+                                    {
+
+                                        <img src="@(Model.returnTransfers.vehicleImages[0].url)" style="width: 95%" />
+                                    }
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <strong class="font-14">
+                                        @Model.returnTransfers.categoryName
+                                        @Model.returnTransfers.vehicleName - @Model.returnTransfers.transferType
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="font-14 mt-2 font-weight-bold">
+                                <div>
+                                    <img src="~/Images/icon_gogo/calendar.svg" style="height:12px; margin-right: 10px;" /> @Model.search.inboundDT.ToString("dd MMM yyyy", ci)
+
+                                    @if (Model.returnTransfers.pickupInformation.mustCheckPickupTime)
+                                    {
+                                        <div style="font-weight: normal">
+                                            @Localize.Show("PLEASE_CHECK_PICK_UP_TIME") @Model.returnTransfers.pickupInformation.checkPickupURL  -  @Model.returnTransfers.pickupInformation.hourBeforeCheckPickupTime hrs before consulting
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span>(@Model.returnTransfers.pickupInformation.pickupTime)</span>
+                                    }
+                                </div>
+                                <div>
+                                    <img src="~/Images/icon_gogo/pin.svg" style="height:12px; margin-right: 10px;" /> <strong>
+                                        @Model.returnTransfers.pickupInformation.stopName
+                                    </strong> @Model.returnTransfers.pickupInformation.pickupPlace
+                                    <img src="~/Images/icon_gogo/arrow_gray.svg" />
+                                    @Model.returnTransfers.dropoffPlace
+                                </div>
+
+                            </div>
+                        }
+
+                        <div class="info-box mt-4">
+                            <strong class="font-16">
+                                @Localize.Show("PRICE_DETAIL")
+                            </strong>
+                            <table style="width:100%" class="font-14">
+                                @{
+                                    decimal total = Model.departureTransfers.price;
+                                }
+                                <tr>
+                                    <td>
+                                        <strong>@Localize.Show("DEPARTURE_TRIP")</strong>
+                                    </td>
+                                    <td class="text-muted" style="vertical-align: top">
+                                        @Model.departureTransfers.currencyCode
+                                    </td>
+                                    <td class="text-right" style="vertical-align: top">
+                                        <strong>
+                                            @Model.departureTransfers.price.ToString("N2")
+                                        </strong>
+                                    </td>
+                                </tr>
+                                @if (Model.returnTransfers != null)
+                                {
+                                    total += Model.returnTransfers.price;
+                                    <tr>
+                                        <td>
+                                            <strong>@Localize.Show("RETURN_TRIP")</strong>
+                                        </td>
+                                        <td class="text-muted" style="vertical-align: top">
+                                            @Model.returnTransfers.currencyCode
+                                        </td>
+                                        <td class="text-right" style="vertical-align: top">
+                                            <strong>
+                                                @Model.returnTransfers.price.ToString("N2")
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td class="text-blue">
+                                        <strong>@Localize.Show("TOTAL")</strong>
+                                    </td>
+                                    <td class="text-muted" style="vertical-align: top">
+                                        @Model.departureTransfers.currencyCode
+                                    </td>
+                                    <td class="text-right font-18 text-blue" style="vertical-align: top">
+                                        <strong>
+                                            @total.ToString("N2")
+                                        </strong>
+                                    </td>
+                                </tr>
+                                @if (Currency.GetCurrency() != "THB")
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-blue">
+                                            <hr />
+                                            <strong>@Localize.Show("YOUR_CURRENCY")</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-green">
+                                            <strong>@Localize.Show("TOTAL")</strong>
+                                        </td>
+                                        <td class="text-muted" style="vertical-align: top">
+                                            @Currency.GetCurrency()
+                                        </td>
+                                        <td class="text-right font-18 text-green" style="vertical-align: top">
+                                            <strong>
+                                                @Currency.convertFromTHB(total).ToString("N2")
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" class="font-10">
+                                            *@String.Format(Localize.Show("CURRENCY_CONDITION"), Currency.GetCurrency())
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                        <br />
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        <div class="font-24 font-weight-bold">@Localize.Show("PAX_TOPIC")</div>
+                        <div class="font-14 text-muted font-weight-bold">@Localize.Show("PERSONAL_INFO")</div>
+                        <br />
+                        <div class="info-box">
+                            <div class="font-20">
+                                <strong>@Localize.Show("CONTACT_DETAIL")</strong>
+                            </div>
+                            <div class="row row-mt">
+                                <div class="col-md-2 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("TITLE")*</small>
+                                    @Html.DropDownListFor(m => m.contactInfo.title, ViewData["adtTitleList"] as SelectList, new
+                           {
+                               @class = "form-control form-control-pax",
+                               required = "required"
+                           })
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("FIRSTNAME")*</small>
+                                    @Html.TextBoxFor(m => m.contactInfo.firstname, new { required = "required", @class = "form-control form-control-pax only-text booking-holder" })
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("MIDDLENAME") </small>
+                                    @Html.TextBoxFor(m => m.contactInfo.middlename, new { @class = "form-control form-control-pax only-text booking-holder" })
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("LASTNAME")*</small>
+                                    @Html.TextBoxFor(m => m.contactInfo.lastname, new { required = "required", @class = "form-control form-control-pax only-text booking-holder" })
+                                </div>
+                            </div>
+                            <div class="row row-mt">
+                                <div class="col-lg-4 col-md-6 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("EMAIL")*</small>
+                                    <div class="input-group input-icon">
+                                        <img src="~/Images/icon_gogo/Email.svg" class="ml-2" />
+                                        @Html.TextBoxFor(m => m.contactInfo.email, new { required = "required", @class = "form-control form-control-pax email-text ADT-E-0", @type = "email" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("TELNO")*</small>
+                                    @Html.TextBoxFor(m => m.contactInfo.telNo, new { required = "required", @class = "form-control form-control-pax tel-number-text ADT-T-0", autocomplete = "off" })
+                                    @Html.Hidden("phoneCode", "66")
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-12">
+                                    <small class="font-weight-bold">@Localize.Show("COUNTRY_OF_RESIDENCE")</small>
+                                    @Html.DropDownListFor(m => m.contactInfo.countryCode, ViewData["countryList"] as SelectList, new
+                           {
+                               @class = "form-control form-control-pax",
+                               required = "required"
+                           })
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
+
+                                    <div class="abc-checkbox abc-checkbox-info abc-checkbox-circle">
+                                        <input class="styled" type="checkbox" value="" name="as_other" id="as_other" />
+                                        <label class="font-12" for="as_other">
+                                            @Localize.Show("BOOK_TO_OTHER")
+                                        </label>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="contact_id" style="display: none">
+                                <hr />
+                                <div class="row row-mt mt-3">
+                                    <div class="col-6 font-14">
+                                        <div class="font-20">
+                                            <strong>@Localize.Show("GUEST_INFORMATION")</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-12">
+                                        <small>@Localize.Show("TITLE")*</small>
+                                        @Html.DropDownListFor(m => m.holder.title, ViewData["adtTitleList"] as SelectList, new { required = "required", @class = "form-control form-control-pax only-text" })
+                                    </div>
+                                    <div class="col-md-5 col-12">
+                                        <small>@Localize.Show("FIRSTNAME")*</small>
+                                        @Html.TextBoxFor(m => m.holder.firstName, new { required = "required", @class = "form-control form-control-pax only-text" })
+                                    </div>
+                                    <div class="col-md-5 col-12">
+                                        <small>@Localize.Show("LASTNAME")*</small>
+                                        @Html.TextBoxFor(m => m.holder.lastName, new { required = "required", @class = "form-control form-control-pax only-text" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="font-20 mt-3">
+                                <strong>@Localize.Show("SERVICE_INFO")</strong>
+                            </div>
+                            <div class=" mt-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>@Localize.Show("WELCOME_MESSAGE")*</small>
+                                        @Html.TextBoxFor(m => m.welcomeMessage, new { required = "required", @class = "form-control form-control-pax", placeholder = Localize.Show("WELCOME_MESSAGE_DETAIL") })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <small>
+                                            @if (searchModel.fromType == "A")
+                                            {
+                                                <span>@Localize.Show("ARR_FLIGHT_NO")</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@Localize.Show("DEP_FLIGHT_NO")</span>
+                                            }
+                                            *
+                                        </small>
+                                        @Html.TextBoxFor(m => m.depFlight, new { required = "required", @class = "form-control form-control-pax" })
+                                    </div>
+                                    @if (Model.returnTransfers != null)
+                                    {
+                                        <div class="col-md-6 col-12">
+                                            <small>
+                                                @if (searchModel.toType == "A")
+                                                {
+                                                    <span>@Localize.Show("ARR_FLIGHT_NO")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@Localize.Show("DEP_FLIGHT_NO")</span>
+                                                }
+                                                *
+                                            </small>
+                                            @Html.TextBoxFor(m => m.retFlight, new { required = "required", @class = "form-control form-control-pax" })
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>@Localize.Show("REMARK")</small>
+                                        @Html.TextBoxFor(m => m.remark, new { @class = "form-control form-control-pax" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-5">
+                                <div class="row">
+                                    <div class="col-md-9 col-12">
+                                        <div class="abc-checkbox abc-checkbox-info abc-checkbox-circle abc-checkbox-big">
+                                            <input class="styled" type="checkbox" value="" name="agree" id="agree" required />
+                                            <label for="agree">
+                                                <strong>
+                                                    @Localize.Show("PROCESS_BOOKING1")
+                                                    <a href="@(WebContent.mainWeb)Home/TermOfUse/" target="_blank">
+                                                        @Localize.Show("PROCESS_BOOKING2")
+                                                    </a>
+                                                    <br />
+                                                    @Localize.Show("PROCESS_BOOKING3")
+                                                    <a href="@(WebContent.mainWeb)Home/PrivacyPolicy/" target="_blank">
+                                                        @Localize.Show("PROCESS_BOOKING4")
+                                                    </a>
+                                                </strong>
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12 text-right">
+                                        <button class="btn btn-lg cust-btn" type="submit" id="book">
+                                            <strong>@Localize.Show("BOOK_NOW_PAY_LATER")</strong>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="info-box mt-4">
+                            <strong class="font-16">@Localize.Show("SERVICE_DETAILS")</strong>
+                            <div class="font-12">
+                                <div>
+                                    <strong>@Localize.Show("DEPARTURE_TRIP")</strong>
+                                </div>
+                                <ul>
+                                    @foreach (var detail in Model.departureTransfers.transferDetails)
+                                    {
+                                        <li>
+                                            @detail.name
+                                            @if (!String.IsNullOrEmpty(detail.description))
+                                            {
+                                                <span>: </span>
+                                                @Html.Raw(detail.description.Replace(".", "<br>"))
+                                            }
+                                        </li>
+                                    }
+                                    <li>
+                                        Supplier max waiting time: @Model.departureTransfers.supplierMaxWaitingTime
+                                    </li>
+                                    <li>
+                                        Customer max waiting time: @Model.departureTransfers.customerMaxWaitingTime
+                                    </li>
+                                    @foreach (var rm in Model.departureTransfers.remarks)
+                                    {
+                                        <li>
+                                            @Html.Raw(rm.Replace(".", "<br>"))
+                                        </li>
+                                    }
+                                    <li>
+                                        <strong>@Localize.Show("CANCELLATION_POLICY")</strong>
+                                        @foreach (var cp in Model.departureTransfers.cancellationPolicies)
+                                        {
+                                            <div>
+                                                @Html.Raw(cp)
+                                            </div>
+                                        }
+                                    </li>
+                                </ul>
+                                @if (Model.returnTransfers != null)
+                                {
+                                    <hr />
+                                    <div>
+                                        <strong>@Localize.Show("RETURN_TRIP")</strong>
+                                    </div>
+                                    <ul>
+                                        @foreach (var detail in Model.returnTransfers.transferDetails)
+                                        {
+                                            <li>
+                                                @detail.name
+                                                @if (!String.IsNullOrEmpty(detail.description))
+                                                {
+                                                    <span>: </span>
+                                                    @Html.Raw(detail.description.Replace(".", "<br>"))
+                                                }
+                                            </li>
+                                        }
+                                        <li>
+                                            Supplier max waiting time: @Model.departureTransfers.supplierMaxWaitingTime
+                                        </li>
+                                        <li>
+                                            Customer max waiting time: @Model.departureTransfers.customerMaxWaitingTime
+                                        </li>
+                                        @foreach (var rm in Model.returnTransfers.remarks)
+                                        {
+                                            <li>
+                                                @Html.Raw(rm.Replace(".", "<br>"))
+                                            </li>
+                                        }
+                                        <li>
+                                            <strong>@Localize.Show("CANCELLATION_POLICY")</strong>
+                                            @foreach (var cp in Model.returnTransfers.cancellationPolicies)
+                                            {
+                                                <div>
+                                                    @Html.Raw(cp.Replace(".", "<br>"))
+                                                </div>
+                                            }
+                                        </li>
+                                    </ul>
+                                }
+                            </div>
+                        </div>
+                        <br />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+    }
+}
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#as_other').click(function () {
+                if (this.checked) {
+                    $('#contact_id').slideDown();
+                    $('#holder_firstName').val('');
+                    $('#holder_lastName').val('');
+                } else {
+                    $('#contact_id').slideUp();
+                    autofill();
+                }
+            });
+
+            var autofill = function () {
+                $('#holder_firstName').val($('#contactInfo_firstname').val() + ' ' + $('#contactInfo_middlename').val());
+                $('#holder_lastName').val($('#contactInfo_lastname').val());
+                $('#holder_title').val($('#contactInfo_title').val());
+            };
+            $('.booking-holder').change(function () {
+                if (document.getElementById('contact_id').style.display == 'none') {
+                    autofill();
+                }
+            });
+
+            $(".only-text").keypress(function (event) {
+                var ew = event.which;
+                //if (ew == 32) //space
+                //    return true;
+                if (65 <= ew && ew <= 90)
+                    return true;
+                if (97 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+            $(".tel-number-text").keypress(function (event) {
+                var ew = event.which;
+                if (ew == 35)
+                    return true;
+                if (ew == 42)
+                    return true;
+                if (ew == 43)
+                    return true;
+                if (48 <= ew && ew <= 57)
+                    return true;
+                return false;
+            });
+            $(".email-text").keypress(function (event) {
+                var ew = event.which;
+                if (ew == 45) //-
+                    return true;
+                if (ew == 46) //.
+                    return true;
+                if (ew == 95) //_
+                    return true;
+                if (ew == 64) //at
+                    return true;
+                if (48 <= ew && ew <= 57)
+                    return true;
+                if (65 <= ew && ew <= 90)
+                    return true;
+                if (97 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+        });
+
+    </script>
+    <script src="~/Vendors/tel-input/build/js/intlTelInput.js"></script>
+    <script>
+        var input = document.querySelector("#contactInfo_telNo");
+        var iti = window.intlTelInput(input, {
+            initialCountry: 'th',
+            preferredCountries: ['th'],
+            separateDialCode: true,
+            nationalMode: false
+        });
+        input.addEventListener("countrychange", function () {
+            var pc = iti.getSelectedCountryData();
+            console.log(pc);
+            $('#phoneCode').val(pc.dialCode);
+        });
+    </script>
+}

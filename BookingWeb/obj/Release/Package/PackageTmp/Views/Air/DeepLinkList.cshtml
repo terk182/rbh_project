@@ -1,0 +1,71 @@
+﻿@model List<DataModel.AirPromotion>
+<link href="~/Vendors/Datatable/datatables.min.css" rel="stylesheet" />
+<div>
+    <strong>Deep Link</strong> / 
+    <a href="@Url.Action("ShortenList","Air")"><strong>Shorten URL</strong> </a>
+</div>
+<hr />
+<h3>Deep Link Control</h3>
+<hr />
+
+<div class="float-right">
+    <a href="@Url.Action("DeepLinkDetail","Air",new { id = Guid.Empty })" class="btn btn-round btn-primary"><i class="fa fa-plus"></i> Add</a>
+</div>
+
+<table id="grid" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Deep Link Title</th>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Airline</th>
+            <th>Price</th>
+            <th>Show From</th>
+            <th>Show To</th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var air in Model)
+            {
+            <tr>
+                <td>@air.DeepLinkText</td>
+                <td>@air.Origin</td>
+                <td>@air.Destination</td>
+                <td>@air.AirlineCode</td>
+                <td>@air.Price.GetValueOrDefault().ToString("N0")</td>
+                <td>@air.PeriodStart.GetValueOrDefault().ToString("dd MMM yyyy")</td>
+                <td>@air.PeriodEnd.GetValueOrDefault().ToString("dd MMM yyyy")</td>
+                <td>
+                    <a href="@Url.Action("DeepLinkDetail","Air",new { id = air.AirPromotionOID })">  Edit</a>
+                    <br />
+                    <a href="@Url.Action("Link","Air",new  { id = air.AirPromotionOID })" target="_blank"> Get Link</a>
+                    <br />
+                    <a href="#" onclick="deleteRow('@air.AirPromotionOID', '@air.DeepLinkText')">  Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts
+{
+    <script src="~/Vendors/Datatable/datatables.min.js"></script>
+
+<script>
+        $(document).ready(function () {
+            $('#grid').DataTable({
+                pageLength: 50,
+                order: [2, 'asc']
+            });
+            
+        });
+
+        var deleteRow = function (id, name) {
+            if (confirm("Do you want to delete " + name + "?")) {
+                window.location.href = '@Url.Action("DeepLinkDelete", "Air")' + '/' + id;
+            }
+        }
+</script>
+}

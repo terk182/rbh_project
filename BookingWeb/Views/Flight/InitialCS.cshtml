@@ -1,0 +1,38 @@
+﻿@model TGBookingWeb.Models.CounterServiceModel
+
+<div class="container">
+    <div class="card">
+        <br />
+        <div class="text-center">
+            <img class="img-fluid" style="width: 200px;" src="~/Images/36.png" />
+            <div class="font-24">กรุณารอสักครู่ กำลังนำท่านสู่การชำระเงิน</div>
+        </div>
+        <br />
+    </div>
+</div>
+<form name='PostForm' method='POST' action='@Model.Url4Authorize'>
+    @Html.HiddenFor(x => x.amt)
+    @Html.HiddenFor(x => x.curr_type)
+    @Html.HiddenFor(x => x.customer_email)
+    @Html.HiddenFor(x => x.customer_name)
+    @Html.HiddenFor(x => x.customer_phone)
+    @Html.HiddenFor(x => x.desp)
+    @Html.HiddenFor(x => x.expired_date)
+    @Html.HiddenFor(x => x.inv)
+    @Html.HiddenFor(x => x.language)
+    @Html.HiddenFor(x => x.message_slip1)
+    @Html.HiddenFor(x => x.message_slip2)
+    @Html.HiddenFor(x => x.mid)
+    @Html.HiddenFor(x => x.resp_url_back)
+    @Html.HiddenFor(x => x.resp_url_cancel)
+    @Html.HiddenFor(x => x.resp_url_confirm)
+    @Html.HiddenFor(x => x.serviceid)
+</form>
+
+
+@section Scripts
+{
+    <script>
+        document.PostForm.submit();
+    </script>
+}

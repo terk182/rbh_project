@@ -1,0 +1,416 @@
+﻿@model BL.Entities.RobinhoodFare.AirFare
+@{
+    if ((string)ViewBag.Mode == "app")
+    {
+        Layout = "~/Views/Shared/LayoutNoHF.cshtml";
+    }
+    bool isKiwiBooking = false;
+    BL.Entities.RobinhoodPNR.PNR pnr = null;
+    decimal dKiwiBagADT = 0;
+    decimal dKiwiBagCHD = 0;
+    if (Session["ssPNR"] != null)//from kiwi
+    {
+        pnr = (BL.Entities.RobinhoodPNR.PNR)Session["ssPNR"];
+        isKiwiBooking = pnr.recordLocator.Length > 6 ? true : false;
+
+    }
+}
+@section styles
+{
+    <link href="~/Content/flights/paxinfo.css?v1" rel="stylesheet" />
+    <style>
+
+        .abc-checkbox label::before {
+            border: 1px solid #fff !important;
+        }
+
+        .modal-backdrop {
+            background-color: #fff;
+        }
+    </style>
+}
+
+@section width100head
+{
+    <div class="process-bar text-center" style="margin-bottom: 15px;">
+        <table class="font-weight-bold" style="        margin-left: auto;
+        margin-right: auto;
+">
+            <tr>
+                <td><div class="number-circle-grey">1</div></td>
+                <td>@Localize.Show("DETAIL")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-orange">2</div></td>
+                <td>@Localize.Show("PAYMENT")</td>
+                <td><hr class="white-line" /></td>
+                <td><div class="number-circle-grey">3</div></td>
+                <td>@Localize.Show("TICKET")</td>
+            </tr>
+        </table>
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-md-12" style="padding-right: 30px;">
+            <div class="font-18">
+                <strong>
+                    @Model.origin.name (@Model.origin.code)
+
+                    <img src="~/Images/icon_gogo/Round.svg" /> @Model.destination.name (@Model.destination.code)
+                </strong>
+            </div>
+            <div>
+                <span class="font-14 mr-2">
+                    @Model.depFlight[0].departureDateTime.ToString("ddd, dd MMM yyyy")
+                    @if (Model.retFlight != null && Model.retFlight.Count > 0)
+                    {
+                        <span> - </span>
+                        @Model.retFlight[0].departureDateTime.ToString("ddd, dd MMM yyyy")
+                    }
+                </span>
+            </div>
+            <hr />
+            <div class="font-18"><strong>@Localize.Show("PAX_DETAIL")</strong></div>
+            <div class="font-14">
+                @for (int i = 0; i < Model.noOfAdults; i++)
+                {
+                    if (Model.adtPaxs[i].kiwiBag > 0)
+                    {
+                        dKiwiBagADT += Model.adtPaxs[i].kiwiBagPrice;
+                    }
+                    <div class="row row-mt">
+                        <div class="col-12">
+                            <div>
+                                @Model.adtPaxs[i].title  @Model.adtPaxs[i].firstname   @Model.adtPaxs[i].middlename   @Model.adtPaxs[i].lastname
+                            </div>
+                        </div>
+                    </div>
+                }
+                @for (int i = 0; i < Model.noOfChildren; i++)
+                {
+                    if (Model.chdPaxs[i].kiwiBag > 0)
+                    {
+                        dKiwiBagCHD += Model.chdPaxs[i].kiwiBagPrice;
+                    }
+                    <div class="row row-mt">
+                        <div class="col-12">
+                            <div>
+                                @Model.chdPaxs[i].title  @Model.chdPaxs[i].firstname   @Model.chdPaxs[i].middlename   @Model.chdPaxs[i].lastname
+                            </div>
+                        </div>
+                    </div>
+                }
+                @for (int i = 0; i < Model.noOfInfants; i++)
+                {
+                    <hr />
+                    <div class="row row-mt">
+                        <div class="col-12">
+                            <div>
+                                @Model.infPaxs[i].title  @Model.infPaxs[i].firstname   @Model.infPaxs[i].middlename   @Model.chdPaxs[i].lastname
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="info-box mt-3" style="padding: 10px;">
+                <div class="price-box">
+                    <div class="font-14"><strong>@Localize.Show("FARE_DETAIL")</strong></div>
+                    @if (Model.noOfAdults > 0)
+                    {
+
+                        <div class="row font-14">
+                            <div class="col-5">
+                                <strong>
+                                    @Localize.Show("ADULT")
+                                    @if (Model.noOfAdults > 1)
+                                    {
+                                        <span>x @Model.noOfAdults</span>
+                                    }
+                                </strong>
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right">
+                                <strong>@(((Model.adtFare.net * Model.noOfAdults) + dKiwiBagADT).ToString("N0"))</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                @Localize.Show("PRICE")
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right">
+                                @(((Model.adtFare.sellingBaseFare + Model.adtFare.qtax) * Model.noOfAdults).ToString("N0"))
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                @Localize.Show("TAX")
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right">
+                                @((Model.adtFare.tax * Model.noOfAdults).ToString("N0"))
+                            </div>
+                        </div>
+                        if (isKiwiBooking)
+                        {
+                            <div class="row">
+                                <div class="col-5">
+                                    @Localize.Show("BAGGAGE")
+                                </div>
+                                <div class="col-2 font-12 text-muted">
+                                    THB
+                                </div>
+                                <div class="col-5 text-right">
+                                    <span id="baggage_ADT">@(dKiwiBagADT > 0 ? dKiwiBagADT.ToString("N0") : Localize.Show("NOBAGGAGE"))</span>
+                                </div>
+                            </div>
+                        }
+                        <hr />
+                    }
+
+                    @if (Model.noOfChildren > 0)
+                    {
+                        <div class="row font-14">
+                            <div class="col-5">
+                                <strong>
+                                    @Localize.Show("CHILD")
+                                    @if (Model.noOfChildren > 1)
+                                    {
+                                        <span>x @Model.noOfChildren</span>
+                                    }
+                                </strong>
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right">
+                                <strong>@(((Model.chdFare.net * Model.noOfChildren) + dKiwiBagCHD).ToString("N0"))</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                @Localize.Show("PRICE")
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right">
+                                @((Model.chdFare.sellingBaseFare + Model.chdFare.qtax) * Model.noOfChildren).ToString("N0"))
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                @Localize.Show("TAX")
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right">
+                                @((Model.chdFare.tax * Model.noOfChildren).ToString("N0"))
+                            </div>
+                        </div>
+                        if (isKiwiBooking)
+                        {
+                            <div class="row">
+                                <div class="col-5">
+                                    @Localize.Show("BAGGAGE")
+                                </div>
+                                <div class="col-2 font-12 text-muted">
+                                    THB
+                                </div>
+                                <div class="col-5 text-right">
+                                    <span id="baggage_ADT">@(dKiwiBagCHD > 0 ? dKiwiBagCHD.ToString("N0") : Localize.Show("NOBAGGAGE"))</span>
+                                </div>
+                            </div>
+                        }
+                        <hr />
+                    }
+                    @if (Model.noOfInfants > 0)
+                    {
+                        <div class="row font-14">
+                            <div class="col-5">
+                                <strong>
+                                    @Localize.Show("INFANT")
+                                    @if (Model.noOfInfants > 1)
+                                    {
+                                        <span>x @Model.noOfInfants</span>
+                                    }
+                                </strong>
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right">
+                                <strong>@((Model.infFare.net * Model.noOfInfants).ToString("N0"))</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                @Localize.Show("PRICE")
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right">
+                                @(((Model.infFare.sellingBaseFare + Model.infFare.qtax) * Model.noOfInfants).ToString("N0"))
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                @Localize.Show("TAX")
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                THB
+                            </div>
+                            <div class="col-5 text-right">
+                                @((Model.infFare.tax * Model.noOfInfants).ToString("N0"))
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                    <div class="row font-14">
+                        <div class="col-5 text-blue">
+                            <strong>@Localize.Show("TOTAL")</strong>
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right text-blue font-18">
+                            <strong>@((Model.NFTFee > 0?Model.totalFare : Model.grandTotal).ToString("N0"))</strong>
+                        </div>
+                    </div>
+                    @if (Model.NFTFee > 0)
+                    {
+                    <div class="nft-fee-detail row font-14">
+                        <div class="col-5 text-red">
+                            <strong>@Localize.Show("NFT_FEE")</strong>
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right text-red">
+                            <strong><span id="NFTFee">@(Model.NFTFee.ToString("N0"))</span></strong>
+                        </div>
+                    </div>
+                    <div class="nft-fee-detail row font-14">
+                        <div class="col-5 text-blue">
+                            <strong>@Localize.Show("GRANDTOTAL")</strong>
+                        </div>
+                        <div class="col-2 font-12 text-muted">
+                            THB
+                        </div>
+                        <div class="col-5 text-right text-blue font-18">
+                            <strong><span id="GrandTotalWithNFT">@(Model.grandTotal.ToString("N0"))</span></strong>
+                        </div>
+                    </div>
+                    }
+                    @if (Currency.GetCurrency() != "THB")
+                    {
+                        <hr />
+                        <div class="row font-14">
+                            <div class="col-12 text-blue">
+                                <strong>@Localize.Show("YOUR_CURRENCY")</strong>
+                            </div>
+                        </div>
+                        <div class="row font-14">
+                            <div class="col-5 text-green">
+                                <strong>@Localize.Show("TOTAL")</strong>
+                            </div>
+                            <div class="col-2 font-12 text-muted">
+                                @Currency.GetCurrency()
+                            </div>
+                            <div class="col-5 text-right text-green font-18">
+                                <strong>@(Currency.convertFromTHB(Model.grandTotal).ToString("N2"))</strong>
+                            </div>
+                        </div>
+                        <div class="row font-10">
+                            <div class="col-12">
+                                *@String.Format(Localize.Show("CURRENCY_CONDITION"), Currency.GetCurrency())
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-12">
+            <div class="font-24 font-weight-bold">@Localize.Show("PAYMENT_DETAIL")</div>
+
+            <div class="info-box" style="padding: 20px;">
+                @{
+                    string PaymentID = (string)(ViewBag.PaymentID);
+                }
+                <div class="row row-mt">
+                    <div class="col-12">
+                        <small class="font-weight-bold">@Localize.Show("SELECT_PAYMENT_METHOD")*</small>
+                        <select class="form-control form-control-pax" id="ggpaymentMethod">
+                            <option value="3" @(PaymentID == "3" ? "selected" : "")>
+                                @Localize.Show("PROMPT_PAY_QR")
+                            </option>
+                            <option value="1" @(PaymentID == "1" ? "selected" : "")>@Localize.Show("CREDIT_DEBIT_CARD")</option>
+                            @if (false && Model.grandTotal >= 3000)
+                            {
+                                <option value="2" @(PaymentID == "2" ? "selected" : "")>@Localize.Show("KBANK_INSTALLMENT")</option>
+                            }
+                        
+                            @if (!isKiwiBooking)
+                            {
+                                <option value="4" @(PaymentID == "4" ? "selected" : "")>
+                                    @Localize.Show("BANK_TRANSFER")
+                                </option>
+                            }
+                            @if (Model.grandTotal >= 700)
+                            {
+                                <option value="5" @(PaymentID == "5" ? "selected" : "")>@Localize.Show("CHILLPAY")</option>
+                            }
+
+                        </select>
+                    </div>
+                </div>
+                @Html.Action("Payment" + PaymentID, new { price = Model.grandTotal.ToString("N2").Replace(",", ""), product = "A", pid = Request["fid"] })
+            </div>
+        </div>
+    </div>
+
+    <div id="loading-ani" class="d-none">
+        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static">>
+    <div class="modal-dialog" role="document">
+        <div>
+            <img src="~/Images/waiting.gif" style="vertical-align:middle;" class="img-fluid" />
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var getPayment = function () {
+                var paymentid = $('#ggpaymentMethod').val();
+                $('#loadingModal').modal('show');
+                window.location.href = "@Url.Action("PaymentFlight", new { id = "" })" + "/" + paymentid + "?fid=@Request["fid"]";
+            };
+            $('#ggpaymentMethod').change(getPayment);
+
+            $('#ggpaymentMethod').change(getPayment);
+            var getMonth = function () {
+                var paymentid = $('#ggpaymentMethod').val();
+                var month = $('#ggMonth').val();
+                $('#loadingModal').modal('show');
+                window.location.href = "@Url.Action("PaymentFlight", new { id = "" })" + "/" + paymentid + "?fid=@Request["fid"]&month=" + month;
+            };
+            $('#ggMonth').change(getMonth);
+        });
+    </script>
+}

@@ -1,0 +1,65 @@
+﻿@model List<BL.Entities.NewsAndActivity.AllNewAndActivity>
+@{
+    string URL = System.Configuration.ConfigurationManager.AppSettings["admin_URL"].ToString();
+}
+@section styles
+{
+    <link rel='stylesheet' id='gogojistyle-css' href='~/mpgogojii/style.min.css' type='text/css' media='all' />
+}
+@section width100head {
+    <div style="background-color: #FAA90D;  padding-top:100px; padding-bottom:10px">
+        <div class="container">
+            <h1 class="mb-10" style="color: #fff;">@Localize.Show("NEWSANDACTIVITIES")</h1>
+        </div>
+    </div>
+}
+@if (Model != null && Model.Count > 0)
+{
+    int iStart = 0, iEnd = 0;
+    int iMax = 3;
+    int iAll = Model.Count;//4
+    int iRow = iAll / iMax;
+    if ((iAll > iMax && iAll % iMax > 0) || iRow == 0)
+    {
+        iRow += 1;
+    }
+    <section class="recent-view">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title mb-40">
+
+                    </div>
+                </div>
+            </div>
+            @for (int iR = 0; iR < iRow; iR++)//2
+            {
+                iStart = (iR * iMax);
+                iEnd = ((iR * iMax) + iMax);
+                if (iEnd > iAll)
+                {
+                    iEnd = iAll;
+                }
+                <div class="row mb-40 ">
+                    @for (int iH = iStart; iH < iEnd; iH++)//2
+                    {
+                        var news = Model[iH];
+                        <div class="col-md-4 col-12">
+                            <div class="destination-card" style="height:223px">
+                                <div class="destination-card__image">
+                                    <a href="@Url.Action("NewsAndActivityDetail", "NewsAndActivity", new { id = news.NewsAndActivity.NewsAndActivityOID })" alt="Destination">
+                                        <img src="@(URL)images/news_activities/@(news.NewsAndActivity.ImageName)?id=@Guid.NewGuid()" style="height:223px;" />
+                                    </a>
+                                </div>
+                                <div class="destination-card__text-container">
+                                    <h4 class="destination-card__title margin-b-5">@(news.NewsAndActivityDetails.Find(x => x.LangCode == Localize.GetLang()).Title)</h4>
+                                    <p class="body-text destination-card__subtitle">@(news.NewsAndActivityDetails.Find(x => x.LangCode == Localize.GetLang()).ShortDescriptions)</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </section>
+}

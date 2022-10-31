@@ -1,0 +1,1025 @@
+﻿@font-face {
+    font-family: 'Quicksand';
+    font-weight: normal;
+    font-style: normal;
+    src: url('fonts/Quicksand-Medium.ttf') format('woff');
+    src: url('fonts/Quicksand-Medium.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Quicksand-Bold';
+    font-weight: normal;
+    font-style: normal;
+    src: url('fonts/Quicksand-Bold.ttf') format('woff');
+    src: url('fonts/Quicksand-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+@font-face {
+    font-family: 'Sarabun';
+    font-weight: normal;
+    font-style: normal;
+    src: url('fonts/Sarabun-Regular.ttf') format('woff');
+    src: url('fonts/Sarabun-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Sarabun-Bold';
+    font-weight: normal;
+    font-style: normal;
+    src: url('fonts/Sarabun-Bold.ttf') format('woff');
+    src: url('fonts/Sarabun-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+body {
+    font-family: 'Quicksand', 'Sarabun', sans-serif !important;
+    background-color: #ECF2FF;
+}
+header {
+    background-color: #fff;
+}
+@media (min-width: 768px) {
+    .col-3-go, .col-lg-3-go, .col-md-3-go, .col-sm-3-go, .col-xl-3-go {
+        max-width: 30% !important;
+        flex: 0 0 30% !important;
+    }
+
+    .col-9-go, .col-lg-9-go, .col-md-9-go, .col-sm-9-go, .col-xl-9-go {
+        max-width: 70% !important;
+        flex: 0 0 70% !important;
+    }
+}
+
+.font-10 {
+    font-size: 10px;
+}
+
+.font-12 {
+    font-size: 12px;
+}
+
+.font-14 {
+    font-size: 14px;
+}
+
+.font-16 {
+    font-size: 16px;
+}
+
+.font-18 {
+    font-size: 18px;
+}
+
+
+.font-20 {
+    font-size: 20px;
+}
+
+.font-24 {
+    font-size: 24px;
+}
+
+.font-30 {
+    font-size: 30px;
+}
+
+.font-36 {
+    font-size: 36px;
+}
+.box {
+    float: left;
+    margin: 10px;
+}
+
+.after-box {
+    clear: left;
+}
+
+.form-control-pax {
+    border-radius: 10px !important;
+    border: none;
+}
+
+    .form-control-pax[readonly] {
+        background-color: #fff !important;
+    }
+
+.input-icon {
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.form-search {
+    background-color: #fff !important;
+    height: 45px;
+    color: #520302 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset;
+}
+.form-search-disable {
+    border-color: #419BBF !important;
+    background-color: #b4b4b4 !important;
+    height: 45px;
+    color: #520302 !important;
+}
+
+.member-input-group {
+    border-color: #D7D7D7 !important;
+    background-color: #F3F3F3 !important;
+    height: 35px;
+    color: #000000 !important;
+    padding: 8px;
+    font-size: 12px;
+    border: 1px solid;
+    margin-bottom: 5px;
+}
+.form-member {
+    border: none !important;
+    background-color: transparent !important;
+    font-size: 15px;
+    width: 90%; 
+    outline-width: 0;
+}
+.text-sucsess{
+	position: inherit !important;
+    color: #00B900;
+    padding-bottom: 15px;
+}
+.text-error{
+	color: #ff0000 !important;
+	position: inherit !important;
+	padding-bottom: 15px;
+}
+.error{
+	color: #ff0000 !important;
+}
+.text-red {
+    color: #ff0000 !important;
+}
+
+.text-orange {
+    color: #FCD14F !important;
+}
+.text-g-blue {
+    color: #419BBF;
+}
+.text-g-orange {
+    color: #FBAA09;
+}
+
+.row-mt {
+    margin-top: 4px;
+}
+
+
+.icon-footer {
+    margin-left: auto;
+    width: 180px;
+}
+/* The radio 
+    https://bootsnipp.com/snippets/O5oAl
+*/
+.radio {
+    margin-right: 20px;
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+    /* Hide the browser's default radio button */
+    .radio input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+/* Create a custom radio button */
+.checkround {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    height: 14px;
+    width: 14px;
+    background-color: #fff;
+    border-color: #fff;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 50%;
+}
+
+
+/* When the radio button is checked, add a blue background */
+.radio input:checked ~ .checkround {
+    background-color: #fff;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkround:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio input:checked ~ .checkround:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio .checkround:after {
+    /*left: 1px;
+    top: 1px;*/
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #06B0F4;
+}
+
+.checkround-blue {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    height: 14px;
+    width: 14px;
+    background-color: #fff;
+    border-color: #06B0F4;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 50%;
+}
+
+
+/* When the radio button is checked, add a blue background */
+.radio input:checked ~ .checkround-blue {
+    background-color: #fff;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkround-blue:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio input:checked ~ .checkround-blue:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio .checkround-blue:after {
+    /*left: 1px;
+    top: 1px;*/
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #06B0F4;
+    border: 1px solid #ffffff;
+}
+
+/* The check */
+.check {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 1px;
+    padding-right: 15px;
+    margin-right: 20px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+    /* Hide the browser's default checkbox */
+    .check input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 3px;
+    left: 0px;
+    height: 16px;
+    width: 16px;
+    background-color: #E9E9E9;
+    border-color: #ff0000;
+    /* border-style: solid; */
+    border-radius: 5px;
+    /* border-width: 2px; */
+}
+
+
+
+/* When the checkbox is checked, add a blue background */
+.check input:checked ~ .checkmark {
+    background-color: #E9E9E9;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.check input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.check .checkmark:after {
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 9px;
+    border: solid;
+    border-color: #ff6a00;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.cust-btn {
+    margin-bottom: 10px;
+    background-color: #06B0F4;
+    border-width: 2px;
+    border-color: #06B0F4;
+    color: #fff;
+    border-radius: 10px !important;
+}
+
+    .cust-btn:hover {
+        border-color: #64d3ff;
+        background-color: #64d3ff;
+        color: #EBEBEB;
+        border-radius: 20px;
+        transform-style: 2s;
+    }
+
+.cust-book-btn {
+    margin-bottom: 10px;
+    background-color: #06B0F4;
+    border-width: 2px;
+    border-color: #06B0F4;
+    color: #fff;
+    border-radius: 120px !important;
+    width: 128px;
+    height: 40px;
+    font-size: 14px;
+}
+
+    .cust-book-btn:hover {
+        border-color: #64d3ff;
+        background-color: #64d3ff;
+        color: #EBEBEB;
+        transform-style: 2s;
+    }
+
+.fb-btn {
+    margin-bottom: 10px;
+    background-color: #40579A;
+    border-width: 2px;
+    border-color: #40579A;
+    color: #ffffff;
+    border-radius: 0px !important;
+    border-bottom-color: #2D394F !important;
+    border-bottom-width: 4px;
+}
+
+    .fb-btn:hover {
+        border-color: #40579A;
+        background-color: #576A96;
+        color: #ffffff;
+        border-radius: 20px;
+        transform-style: 2s;
+    }
+
+.cancel-btn {
+    margin-bottom: 10px;
+    background-color: #EBEBEB;
+    border-width: 2px;
+    border-color: #EBEBEB;
+    color: #000000;
+    border-radius: 0px !important;
+    border-bottom-color: #9F9F9F !important;
+    border-bottom-width: 4px;
+}
+
+    .cancel-btn:hover {
+        border-color: #9F9F9F;
+        background-color: #F9F9F9;
+        color: #000000;
+        border-radius: 20px;
+        transform-style: 2s;
+    }
+
+.search-btn {
+    width: 100%;
+    height: 45px;
+}
+
+.seemore-btn {
+    margin-bottom: 10px;
+    background-color: #06B0F4;
+    border-width: 2px;
+    border-color: #06B0F4;
+    color: #fff;
+    border-radius: 20px !important;
+	padding: 5px 20px 5px 20px;
+}
+
+    .seemore-btn:hover {
+        border-color: #64d3ff;
+        background-color: #64d3ff;
+        color: #EBEBEB;
+        border-radius: 20px;
+        transform-style: 2s;
+    }
+
+
+
+.register-btn {
+    height: 35px;
+}
+.padding-lr-2 {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+}
+
+.padding-r-2 {
+    padding-right: 4px !important;
+}
+.padding-l-2 {
+    padding-left: 4px !important;
+}
+.btn-pax {
+    color: #000000;
+    background-color: #ffffff;
+    border-color: #dae0e5;
+}
+
+.form-control-bg-white {
+    background-color: #ffffff !important;
+}
+
+.alert-payment-check {
+    background-color: #FFF5DA;
+}
+
+.alert-payment {
+    background-color: #E9E9E9;
+}
+
+.carousel-indicators li {
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+}
+
+.menu-select {
+    font-weight: bold;
+    color: #F6A61C !important;
+}
+
+.bg-footer {
+    background-color: #F2F3F5;
+}
+
+.social-td {
+    padding-right: 10px;
+}
+
+.mb-0 > button {
+    word-wrap: break-word;
+    text-align: left;
+    white-space: normal;
+}
+
+.lds-ellipsis {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 20px;
+}
+
+    .lds-ellipsis div {
+        position: absolute;
+        top: 10px;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #fff;
+        animation-timing-function: cubic-bezier(0, 1, 1, 0);
+    }
+
+        .lds-ellipsis div:nth-child(1) {
+            left: 6px;
+            animation: lds-ellipsis1 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(2) {
+            left: 6px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(3) {
+            left: 26px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(4) {
+            left: 45px;
+            animation: lds-ellipsis3 0.6s infinite;
+        }
+
+@keyframes lds-ellipsis1 {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes lds-ellipsis3 {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0);
+    }
+}
+
+@keyframes lds-ellipsis2 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(19px, 0);
+    }
+}
+
+@keyframes showConversation {
+    from {
+        opacity: 0 !important;
+    }
+
+    to {
+        opacity: 0 !important;
+    }
+}
+
+.show {
+    -webkit-animation-name: none !important;
+    -webkit-animation-duration: 0.5s !important;
+    -webkit-animation-fill-mode: forwards !important;
+}
+
+.card-Gogojii {
+    border-radius: 0 !important;
+    margin-bottom: 10px;
+}
+
+.card-img-Gogojii {
+    border-radius: 0 !important;
+}
+
+.icon-member {
+    height: 14px;
+    margin-right: 10px;
+}
+
+.member-list {
+    height: 37px;
+}
+
+.member-list-active {
+    background-color: #FCD14F;
+    color: #521800;
+}
+.datepicker {
+    z-index: 9999 !important;
+}
+
+
+.trip-head-box {
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+}
+
+    .trip-head-box ul {
+        padding: 0px;
+        margin: 0px;
+    }
+
+
+        .trip-head-box ul li {
+            float: right;
+            list-style: none;
+            width: 160px;
+            height: 60px;
+            background: #F2F3F5;
+            margin: 10px;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+.trip-head-box-text {
+    color: #4685A8;
+}
+
+.room-number {
+    width: 100px;
+}
+
+.room-number input {
+    height: 30px;
+}
+.minus, .plus {
+    cursor: pointer;
+    width: 26px;
+    height: 30px;
+    background: #f2f2f2;
+    padding: 4px 5px 8px 5px;
+    border: 1px solid #ddd;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+}
+.room-dropdown {
+    padding: 10px;
+    font-size: 13px;
+    width: 100%;
+}
+.pax-dropdown {
+    padding: 10px;
+    font-size: 13px;
+    width: 100%;
+}
+.pax-table {
+    width: 100%;
+}
+.form-control-chd-age {
+    width: 50px;
+}
+
+.eac-item {
+    font-size: 12px;
+}
+
+.easy-autocomplete-container {
+    min-width: 220px;
+}
+
+.badge-checkboxes .checkbox input[type="checkbox"],
+.badge-checkboxes label.checkbox-inline input[type="checkbox"] {
+    /*  Hide the checkbox, but keeps tabbing to it possible. */
+    position: absolute;
+    clip: rect(0 0 0 0);
+}
+
+.badge-checkboxes .checkbox label,
+.badge-checkboxes label.checkbox-inline {
+    padding-left: 0; /* Remove space normally used for the checkbox */
+    display: block;
+}
+
+    .badge-checkboxes .checkbox input[type="checkbox"]:checked:focus + .badge-option,
+    .badge-checkboxes label.checkbox-inline input[type="checkbox"]:checked:focus + .badge-option {
+        box-shadow: 0 0 2pt 1pt #007bff; /* Outline when checkbox is focused/tabbed to */
+    }
+
+    .badge-checkboxes .checkbox input[type="checkbox"]:focus + .badge-option,
+    .badge-checkboxes label.checkbox-inline input[type="checkbox"]:focus + .badge-option {
+        box-shadow: 0 0 2pt 1pt #007bff; /* Outline when checkbox is focused/tabbed to */
+    }
+
+    .badge-checkboxes .checkbox input[type="checkbox"] + .badge-option,
+    .badge-checkboxes label.checkbox-inline input[type="checkbox"] + .badge-option {
+        border: 1px solid #007bff; /* Add outline to badge */
+        /* Make text in badge not selectable */
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Give badges for disabled checkboxes an opacity of 50% */
+    .badge-checkboxes .checkbox input[type="checkbox"]:disabled + .badge-option,
+    .badge-checkboxes label.checkbox-inline input[type="checkbox"]:disabled + .badge-option {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+        filter: alpha(opacity=50);
+        -moz-opacity: 0.5;
+        -khtml-opacity: 0.5;
+        opacity: 0.5;
+    }
+
+    /* Remove badge background-color and set text color for not checked options */
+    .badge-checkboxes .checkbox input[type="checkbox"]:not(:checked) + .badge-option,
+    .badge-checkboxes label.checkbox-inline input[type="checkbox"]:not(:checked) + .badge-option {
+        background-color: Transparent;
+        color: #000;
+        border-color: #DBDCDD;
+    }
+
+/*The following css only required for Bootstrap <= 3.1.0 */
+.badge-checkboxes .checkbox {
+    padding-left: 0; /* Remove space normally used for the checkbox */
+}
+
+.badge-checkboxes .disabled label,
+.badge-checkboxes label.checkbox-inline.disabled {
+    cursor: not-allowed
+}
+.badge-option {
+    cursor:pointer;
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #007bff;
+    border-radius: 4px;
+}
+
+.text-green {
+    color: #72CA15;
+}
+.text-blue {
+    color: #0393CD;
+}
+
+.white-search-box {
+    border-radius: 10px;
+    width: 100%;
+    height: 60px;
+    background-color: #fff;
+    padding: 5px;
+}
+
+.form-search-inside {
+    border: none !important;
+    font-size: 14px;
+    width: 100%;
+    box-shadow: none !important;
+    padding: 0px !important;
+}
+
+.form-border-right {
+    border-right: 1px solid;
+    border-right-color: #979797;
+}
+
+.easy-autocomplete-container ul {
+    background: none repeat scroll 0 0 #fff !important;
+    color: #000 !important;
+}
+    .easy-autocomplete-container ul li.selected {
+        background: none repeat scroll 0 0 #06B0F4 !important;
+        color: #fff !important;
+    }
+
+.flight-search-box-bg {
+    background-color: #FAA90D;
+    color: #fff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-image: url('../Images/icon_gogo/Outline.png');
+    background-position-x: right;
+    background-position-y: bottom;
+    background-repeat: no-repeat;
+}
+.hotel-search-box-bg {
+    background-color: #FAA90D;
+    color: #fff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-image: url('../Images/icon_gogo/HotelSearchBG.png');
+    background-repeat: no-repeat;
+    background-position-x:right;
+    background-position-y:bottom;
+}
+.transfer-search-box-bg {
+    background-color: #FAA90D;
+    color: #fff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-image: url('../Images/icon_gogo/HotelSearchBG.png');
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-position-y: bottom;
+}
+.green-line {
+    height: 8px;
+    width: 100%;
+    border-radius: 2px;
+    background-color: #6CC80B;
+}
+.blue-line {
+    height: 8px;
+    width: 100%;
+    border-radius: 2px;
+    background-color: #06B0F4;
+}
+.summary-head-bg {
+    width: 100%;
+    padding: 20px;
+    background-color: #0393CD;
+    color: #fff;
+}
+
+.summary-card-bg {
+    width: 100%;
+    background-image: url('../Images/icon_gogo/summary-bg.png'), linear-gradient(180deg, rgba(3,147,205,1) 0%, rgba(3,147,205,1) 10%, rgba(236,242,255,1) 10%, rgba(236,242,255,1) 100%);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.card-summary {
+    max-width: 630px;
+    margin-left:auto;
+    margin-right:auto;
+    border: none;
+}
+
+.card-header-summary {
+    background-color: #FAA90D;
+    color: #fff;
+}
+
+.room-select {
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #000;
+}
+
+.font-60 {
+    font-size: 60px;
+}
+
+.process-bar {
+    background-color: #06B0F4;
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    font-size: 14px;
+    
+}
+
+.number-circle-orange {
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    background: #FAA90D;
+    color: #fff;
+    text-align: center;
+    margin-right: 3px;
+    font-size: 11px;
+}
+.number-circle-grey {
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    background: rgba(255,255,255,0.2);
+    color: #06B0F4;
+    text-align: center;
+    margin-right: 3px;
+    font-size: 11px;
+}
+
+.white-line {
+    border-color: #fff;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 30px;
+}
+
+.form-control:focus{
+    box-shadow: none;
+}
+
+.kbank-box {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.modal-close-button {
+    position: absolute;
+    z-index: 100;
+    right: 5px;
+    top: -22px;
+    font-size: 12px;
+    background-color: #ffffff !important;
+    padding: 4px !important;
+    border-radius: 5px;
+    opacity: 1 !important;
+}
+
+
+#currencyModal .modal-dialog {
+    border-radius: 5px;
+    margin-top: 100px;
+    max-width: 700px
+}
+
+    #currencyModal .modal-dialog .modal-content .modal-header {
+        padding: 12px;
+        background-color: #ecf2ff
+    }
+
+        #currencyModal .modal-dialog .modal-content .modal-header p {
+            font-weight: bold;
+            color: var(--primary-color)
+        }
+
+    #currencyModal .modal-dialog .modal-content .modal-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-height: 450px;
+        overflow: scroll;
+        padding: 0 15px
+    }
+
+        #currencyModal .modal-dialog .modal-content .modal-body a {
+            padding: 12px 5px;
+            font-size: 12px;
+            border-bottom: 1px solid #dcdcdc
+        }
+
+            #currencyModal .modal-dialog .modal-content .modal-body a:hover {
+                background-color: #ddf5ff
+            }
+
+        #currencyModal .modal-dialog .modal-content .modal-body .a-suggest {
+            border-bottom: none
+        }
+
+.error-page {
+    padding-bottom: 110px;
+    background-image: url(../Images/icon_gogo/bg-orange.svg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #3193cd;
+    padding-top: 100px;
+}
+.img-user {
+    width: 50px;
+    height: 50px;
+}
+.img-member-profile {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+}
+.font-bold{
+    font-weight: bold;
+}
+
+.promotion-link-remove
+{
+	text-decoration:underline;
+	cursor:pointer;
+}
+
+.promotion-col-left
+{
+	width:70%;
+}
+
+.promotion-col-right
+{
+	width:30%;
+	text-align:right;
+}
+
+@media screen and (min-device-width : 320px) {
+	.hotel-facility {
+        margin-right: 5px;
+        background-color: #F0F9E6;
+        color: #72CA15;
+        font-size: 13px;
+     
+}

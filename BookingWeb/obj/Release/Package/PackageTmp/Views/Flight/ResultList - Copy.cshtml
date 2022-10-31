@@ -1,0 +1,822 @@
+﻿@model GogojiiWeb.Models.SearchModel
+@section styles
+{
+    <link href="~/Content/flights/result.css" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.structure.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet" />
+}
+@Html.Partial("~/Views/Flight/SearchBox.cshtml", Model)
+<br />
+<div class="search-detail-box">
+    <div style="font-size:40px;">
+        @Model.line1
+    </div>
+    <div style="font-size:20px;">@Model.line2</div>
+</div>
+
+<div class="container container-flight" id="loading">
+    <div class="row">
+        <div class="col-md-3 d-none d-md-block">
+            <div class="font-24"><strong>@Localize.Show("FILTER")</strong></div>
+            <div class="flight-box grad-ani">
+            </div>
+        </div>
+        <div class='col-md-9 col-sm-12'>
+            <div class="flight-box">
+                <table style="width: 100%">
+                    <tr>
+                        <td style="width: 10%"><img src="~/Images/36.png" style="vertical-align:middle; width: 100%;" class="img-fluid" /></td>
+                        <td>
+                            <span>@Localize.Show("PRICE_INFO")</span>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="flight-box grad-ani">
+            </div>
+            <div class="flight-box grad-ani">
+            </div>
+            <div class="flight-box grad-ani">
+            </div>
+            <div class="flight-box grad-ani">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container container-flight" id="error" style="display: none;">
+    <div class="text-center">
+        <h4>Flight not found!!</h4>
+    </div>
+</div>
+<div class="container container-flight" id="result" style="display: none;">
+    <div class='row'>
+        <div class="col-md-3 d-none d-md-block">
+            <div class="font-24"><strong>@Localize.Show("FILTER")</strong></div>
+            <div class="flight-box">
+                <strong>@Localize.Show("AIRLINES")</strong>
+                <div data-bind="foreach: fileterAirlines">
+                    <div>
+                        <label class="check">
+                            <span data-bind="text: name"></span>
+                            <input type="checkbox" value="" data-bind="checkedValue: code, checked: $parent.selectedAirlines, attr: { id: 'filter_' + code }">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <br />
+                <strong>@Localize.Show("PRICE")</strong>
+                <div class="slider-box">
+                    <div id="slider-price"></div>
+                    <div class="row">
+                        <div class="col-6">
+                            <span class="badge badge-pill badge-warning badge-pg" data-bind="text: formatCurrency(filterPrice()[0])"></span>
+                        </div>
+                        <div class="col-6 text-right">
+                            <span class="badge badge-pill badge-warning badge-pg" data-bind="text: formatCurrency(filterPrice()[1])"></span>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <strong>@Localize.Show("STOP_POINT")</strong>
+                <div data-bind="foreach: filterStops">
+                    <div>
+                        <label class="check">
+                            <span data-bind="text: name"></span>
+                            <input type="checkbox" value="" data-bind="checkedValue: id, checked: $parent.selectedStops">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <br />
+                <strong>@Localize.Show("DEPARTURE_TIME")</strong>
+                <div class="slider-box">
+                    <div id="slider-dep"></div>
+                    <div class="row">
+                        <div class="col-6">
+                            <span class="badge badge-pill badge-warning badge-pg" data-bind="text: formatIntToTime(filterDep()[0])"></span>
+                        </div>
+                        <div class="col-6 text-right">
+                            <span class="badge badge-pill badge-warning badge-pg" data-bind="text: formatIntToTime(filterDep()[1])"></span>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.triptype == "R")
+                {
+                    <br />
+                    <strong>@Localize.Show("RETURN_TIME")</strong>
+                    <div class="slider-box">
+                        <div id="slider-ret"></div>
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="badge badge-pill badge-warning badge-pg" data-bind="text: formatIntToTime(filterRet()[0])"></span>
+                            </div>
+                            <div class="col-6 text-right">
+                                <span class="badge badge-pill badge-warning badge-pg" data-bind="text: formatIntToTime(filterRet()[1])"></span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class='col-md-9 col-sm-12'>
+            <div class="flight-box">
+                <table style="width: 100%">
+                    <tr>
+                        <td style="width: 10%"><img src="~/Images/36.png" style="vertical-align:middle; width: 100%;" class="img-fluid" /></td>
+                        <td>
+                            <span>@Localize.Show("PRICE_INFO")</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div data-bind="fastForEach: filteredBox">
+                <div class="flight-box">
+                    <div class="head toggle-flight" data-bind="attr:{id: id, onclick: printOpenPBoxFn(id)}">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="adt-price" data-bind="text: formatCurrency(fare.adtFare.net)"></div>
+                                @if (Model.adult + Model.child + Model.infant > 1)
+                                {
+                                    <div class="total-price">@Localize.Show("TOTAL") <span data-bind="text: formatCurrency(fare.total)"></span></div>
+                                }
+                            </div>
+                            <div class="col-6">
+                                <img style="vertical-align:middle; max-height: 100%;" class="img-fluid" data-bind="attr:{src: getAirLogoLink(mainAirline.code)}" />
+                                <span data-bind="text: mainAirline.name" class="airline-name"></span>
+                            </div>
+                            <div class="col-3 connection">
+                                <!-- ko if: departureFlight[0].flightDetails.length == 1 -->
+                                <span class="connection-blue-text">@Localize.Show("DIRECT_FLIGHT")</span>
+                                <!-- /ko -->
+                                <!-- ko if: departureFlight[0].flightDetails.length > 1 -->
+                                <span data-bind="text: (departureFlight[0].flightDetails.length - 1)"></span> <span>@Localize.Show("STOPS")</span>
+                                <span class="connection-blue-text" data-bind="text: getOnlyCity(departureFlight[0].flightDetails[0].arrCity.name)"></span>
+
+                                <!-- /ko -->
+                                <!-- ko if: departureFlight[0].flightDetails[0].avail <= 6 -->
+                                <div>
+                                    <span class="connection-red-text"> <span data-bind="text: departureFlight[0].flightDetails[0].avail"></span> @Localize.Show("LAST_SEATS")</span>
+                                </div>
+                                <!-- /ko -->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <img src="~/Images/black_plane.png" style="vertical-align:middle; width: 20px;" class="img-fluid" />
+                                <span data-bind="text: getDuration(departureFlight[0].totalTime)" class="total-price"></span>
+                            </div>
+                            <div class="col-9">
+                                <div class="wrap-time-line">
+                                    <div class="links">
+                                        <div class="dot">00:00</div>
+                                        <div class="dot"></div>
+                                        <div class="dot">06:00</div>
+                                        <div class="dot"></div>
+                                        <div class="dot">12:00</div>
+                                        <div class="dot"></div>
+                                        <div class="dot">18:00</div>
+                                        <div class="dot"></div>
+                                        <div class="dot"></div>
+                                    </div>
+                                    <div data-bind="foreach: departureFlight">
+                                        <div class="time-dot" data-bind="attr:{style: getTimePercentage(flightDetails[0].depDisplayDateTime.time)}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.triptype == "R")
+                        {
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <img src="~/Images/black_plane - Copy.png" style="vertical-align:middle; width: 20px;" class="img-fluid" />
+                                    <span data-bind="text: getDuration(returnFlight[0].totalTime)" class="total-price"></span>
+                                </div>
+                                <div class="col-9">
+                                    <div class="wrap-time-line">
+                                        <div class="links">
+                                            <div class="dot">00:00</div>
+                                            <div class="dot"></div>
+                                            <div class="dot">06:00</div>
+                                            <div class="dot"></div>
+                                            <div class="dot">12:00</div>
+                                            <div class="dot"></div>
+                                            <div class="dot">18:00</div>
+                                            <div class="dot"></div>
+                                            <div class="dot"></div>
+                                        </div>
+                                        <div data-bind="foreach: returnFlight">
+                                            <div class="time-dot" data-bind="attr:{style: getTimePercentage(flightDetails[0].depDisplayDateTime.time)}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <form action="@Url.Action("SelectFlight", "Flight")" method="get">
+                        <input id="origin" name="origin" type="hidden" value="@Model.originCode">
+                        <input id="destination" name="destination" type="hidden" value="@Model.destinationCode">
+                        @Html.HiddenFor(m => m.adult)
+                        @Html.HiddenFor(m => m.child)
+                        @Html.HiddenFor(m => m.infant)
+                        @Html.HiddenFor(m => m.triptype)
+                        @Html.HiddenFor(m => m.svc_class)
+                        <div data-bind="attr:{id: ('select_' + id)}" style="display: none;" class="flight-time-table">
+                            <table class="table-flight" data-bind="attr:{id: ('D_' + id)}">
+                                <thead>
+                                    <tr>
+                                        <td colspan="2" class="table-flight-head">
+                                            <img src="~/Images/icon_web/Plane_white_right.png" style="vertical-align:middle;" class="img-fluid" /> @Localize.Show("SELECT_DEPARTURE_FLIGHT") @Model.destinationName @Model.dtDep.ToString("dd MMM yyyy")
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: departureFlight">
+                                    <tr class="table-flight-tr" data-bind="attr:{id: 'D_' +$parent.id + '_' + $index()}">
+                                        <td style="width: 15px;">
+                                            <label class="radio">
+                                                <input type="radio" name="S1" data-bind="attr: {value: bookingCode, onClick: 'clickFlight(\'' + 'D_' +$parent.id + '_' + $index() + '\')'}" />
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 col-12">
+                                                    <div>
+                                                        <strong><span data-bind="text: flightDetails[0].airline.code + flightDetails[0].flightNumber"></span></strong>
+                                                    </div>
+                                                    <div>
+                                                        <strong class="text-red">
+                                                            <span data-bind="text: flightDetails[0].depDisplayDateTime.displayTime"></span>
+                                                            -
+                                                            <span data-bind="text: flightDetails[flightDetails.length - 1].arrDisplayDateTime.displayTime"></span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-8 col-12">
+                                                    <table style="width: 100%">
+                                                        <tr>
+                                                            <td>
+                                                                <div>
+                                                                    <strong>
+                                                                        <span data-bind="text: getOnlyAirport(flightDetails[0].depCity.name)"></span> - <span data-bind="text: flightDetails[0].depCity.code"></span>
+                                                                    </strong>
+                                                                </div>
+                                                                <div>
+                                                                    <strong>@Localize.Show("CLASS")</strong> @Model.svc_class_name
+                                                                </div>
+                                                            </td>
+                                                            <td style="vertical-align:top;"><img src="~/Images/black_plane.png" style="width: 15px;" class="img-fluid" /></td>
+                                                            <td>
+                                                                <div>
+                                                                    <strong>
+                                                                        <span data-bind="text: getOnlyAirport(flightDetails[flightDetails.length - 1].arrCity.name)"></span> - <span data-bind="text: flightDetails[flightDetails.length - 1].arrCity.code"></span>
+                                                                    </strong>
+                                                                </div>
+                                                                <div>
+                                                                    <strong>@Localize.Show("TOTAL_TIME")</strong> <span data-bind="text: getDuration(totalTime)"></span>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6 col-12 text-right">
+                                                    <!-- ko if: flightDetails.length == 1 -->
+                                                    <div class="connection-blue-text">@Localize.Show("DIRECT_FLIGHT")</div>
+                                                    <!-- /ko -->
+                                                    <!-- ko if: flightDetails.length > 1 -->
+                                                    <div>
+                                                        <span data-bind="text: (flightDetails.length - 1)"></span> <span>@Localize.Show("STOPS")</span>
+                                                        <span class="connection-blue-text">
+                                                            <a  href="javascript:;" class="popper" data-toggle="popover" data-bind="text: getOnlyAirport(flightDetails[0].arrCity.name)"></a>
+                                                            <div class="popper-content d-none">
+                                                                <div class="connect-flight-popper" data-bind="foreach: flightDetails">
+                                                                    <div class="font-14">
+                                                                        <img src="/Images/black_plane.png" style="vertical-align:middle; width: 15px;" class="img-fluid">
+                                                                        <strong>@Localize.Show("FLIGHTINDEX")</strong> <span data-bind="text: ($index() + 1)"></span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <span data-bind="text: airline.name + '-' + airline.code + flightNumber"></span>, 
+                                                                        @Localize.Show("CLASS") 
+                                                                        <span data-bind="text: rbd"></span>,
+                                                                        @Localize.Show("AVAIL_SEAT") <span data-bind="text: avail"></span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <i class="fas fa-plane-departure"></i> 
+                                                                        <strong class="text-red" data-bind="text: depDisplayDateTime.displayTime"></strong> 
+                                                                        <span data-bind="text: getOnlyAirport(depCity.name)"></span>(<span data-bind="text: depCity.code"></span>)
+                                                                    </div>
+                                                                    <div>
+                                                                        <i class="fas fa-plane-arrival"></i>
+                                                                        <strong class="text-red" data-bind="text: arrDisplayDateTime.displayTime"></strong>
+                                                                        <span data-bind="text: getOnlyAirport(arrCity.name)"></span>(<span data-bind="text: arrCity.code"></span>)
+                                                                    </div>
+                                                                    <!-- ko if: connectingTime != '0' -->
+                                                                    <div class="connection-pop">
+                                                                        <table style="width: 100%">
+                                                                            <tr>
+                                                                                <td style="width: 25px;">
+                                                                                    <img src="~/Images/icon_web/Cllock.png" /></td>
+                                                                                <td class="font-18">
+                                                                                    @Localize.Show("STOPON")
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div>
+                                                                                        <strong data-bind="text: getDuration(connectingTime)"></strong>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <span data-bind="text: getOnlyAirport(arrCity.name)"></span>(<span data-bind="text: arrCity.code"></span>)
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                    <!-- /ko -->
+                                                                </div>
+                                                            </div>
+                                                    </span>
+                                                </div>
+                                                <!-- /ko -->                                                <!-- ko if: flightDetails[0].avail <= 6 -->
+                                                <div class="connection-red-text"> <span data-bind="text: flightDetails[0].avail"></span> @Localize.Show("LAST_SEATS")</div>
+                                                <!-- /ko -->
+                                            </div>
+                        </div>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+
+
+                        <h6>@Localize.Show("DEPARTURE_FLIGHT")</h6>
+
+                        <table style="width: 100%" data-bind="foreach: departureFlight">
+                            <tr>
+                                <td style="width: 15px;">
+                                    <label class="radio">
+                                        <input type="radio" name="S1" data-bind="attr: {value: bookingCode}" />
+                                        <span class="checkround"></span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <div class="row" style="font-size: 12px;">
+                                        <div class="col-6">
+                                            @Localize.Show("TOTAL_TIME") <span data-bind="text: getDuration(totalTime)"></span>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <!-- ko if: flightDetails[0].avail <= 6 -->
+                                            <span class="connection-red-text"> <span data-bind="text: flightDetails[0].avail"></span> @Localize.Show("LAST_SEATS")</span>
+                                            <!-- /ko -->
+                                            <!-- ko if: flightDetails.length == 1 -->
+                                            <span class="connection-blue-text">@Localize.Show("DIRECT_FLIGHT")</span>
+                                            <!-- /ko -->
+                                            <!-- ko if: flightDetails.length > 1 -->
+                                            <span class="connection-blue-text" data-bind="text: (flightDetails.length - 1)"></span> <span>@Localize.Show("STOPS")</span>
+                                            <!-- /ko -->
+
+                                        </div>
+                                    </div>
+                                    <div class="wrap-flight-line">
+                                        <div class="flight-links" data-bind="foreach: flightDetails">
+                                            <div class="flight-bullet" data-bind="attr:{style: getWidthSyle(scaleFlight)}">
+                                                <span data-bind="text: airline.code + flightNumber + ' (' + rbd + ')'"></span>
+                                                <div class="flight-detail-above">
+                                                    <span data-bind="text: depDisplayDateTime.displayTime"></span>
+                                                    <img src="~/Images/black_plane.png" style="vertical-align:middle; width: 10px;" class="img-fluid" />
+                                                    <span data-bind="text: arrDisplayDateTime.displayTime"></span>
+                                                </div>
+                                                <div class="flight-detail-below" data-bind="attr:{style: getWidthSyle(scaleFlight)}">
+                                                    <span data-bind="text: getOnlyAirport(depCity.name)"></span>(<span data-bind="text: depCity.code"></span>)
+                                                    <img src="~/Images/black_plane.png" style="vertical-align:middle; width: 10px;" class="img-fluid" />
+                                                    <span data-bind="text: getOnlyAirport(arrCity.name)"></span>(<span data-bind="text: arrCity.code"></span>)
+
+                                                </div>
+                                            </div>
+                                            <!-- ko if: connectingTime != '0' -->
+                                            <div class="connection-bullet" data-bind="attr:{style: getWidthSyle(scaleConnection)}">
+                                                <!-- ko if: scaleConnection > 10 -->
+                                                <span>@Localize.Show("STOPON")</span>
+                                                <!-- /ko -->
+                                                <span data-bind="text: getDuration(connectingTime)"></span>
+                                            </div>
+                                            <!-- /ko -->                                                                <!-- ko if: connectingTime == '0' -->
+                                            <div class="connection-clear" data-bind="attr:{style: getWidthSyle(scaleConnection)}">
+                                            </div>
+                                            <!-- /ko -->
+                                        </div>
+                                    </div>
+                                    <!-- ko if: ($index() != ($parent.departureFlight.length - 1)) -->
+                                    <hr />
+                                    <!-- /ko -->
+                                </td>
+                            </tr>
+                        </table>
+
+                        @if (Model.triptype == "R")
+                        {
+                            <hr />
+                            <h6>@Localize.Show("RETURN_FLIGHT")</h6>
+                                <table style="width: 100%" data-bind="foreach: returnFlight">
+                                    <tr>
+                                        <td style="width: 15px;">
+                                            <label class="radio">
+                                                <input type="radio" name="S2" data-bind="attr: {value: bookingCode}" />
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <div class="row" style="font-size: 12px;">
+                                                <div class="col-6">
+                                                    @Localize.Show("TOTAL_TIME") <span data-bind="text: getDuration(totalTime)"></span>
+                                                </div>
+                                                <div class="col-6 text-right">
+                                                    <!-- ko if: flightDetails.length == 1 -->
+                                                    <span class="connection-blue-text">@Localize.Show("DIRECT_FLIGHT")</span>
+                                                    <!-- /ko -->
+                                                    <!-- ko if: flightDetails.length > 1 -->
+                                                    <span class="connection-blue-text" data-bind="text: (flightDetails.length - 1)"></span> <span>@Localize.Show("STOPS")</span>
+                                                    <!-- /ko -->
+
+                                                </div>
+                                            </div>
+                                            <div class="wrap-flight-line">
+                                                <div class="flight-links" data-bind="foreach: flightDetails">
+                                                    <div class="flight-bullet" data-bind="attr:{style: getWidthSyle(scaleFlight)}">
+                                                        <span data-bind="text: airline.code + flightNumber + ' (' + rbd + ')'"></span>
+                                                        <div class="flight-detail-above">
+                                                            <span data-bind="text: depDisplayDateTime.displayTime"></span>
+                                                            <img src="~/Images/black_plane.png" style="vertical-align:middle; width: 10px;" class="img-fluid" />
+                                                            <span data-bind="text: arrDisplayDateTime.displayTime"></span>
+                                                        </div>
+                                                        <div class="flight-detail-below" data-bind="attr:{style: getWidthSyle(scaleFlight)}">
+                                                            <span data-bind="text: getOnlyAirport(depCity.name)"></span>(<span data-bind="text: depCity.code"></span>)
+                                                            <img src="~/Images/black_plane.png" style="vertical-align:middle; width: 10px;" class="img-fluid" />
+                                                            <span data-bind="text: getOnlyAirport(arrCity.name)"></span>(<span data-bind="text: arrCity.code"></span>)
+
+                                                        </div>
+                                                    </div>
+                                                    <!-- ko if: connectingTime != '0' -->
+                                                    <div class="connection-bullet" data-bind="attr:{style: getWidthSyle(scaleConnection)}">
+                                                        <!-- ko if: scaleConnection > 10 -->
+                                                        <span>@Localize.Show("STOPON")</span>
+                                                        <!-- /ko -->
+                                                        <span data-bind="text: getDuration(connectingTime)"></span>
+                                                    </div>
+                                                    <!-- /ko -->                                                                <!-- ko if: connectingTime == '0' -->
+                                                    <div class="connection-clear" data-bind="attr:{style: getWidthSyle(scaleConnection)}">
+                                                    </div>
+                                                    <!-- /ko -->
+                                                </div>
+                                            </div>
+                                            <!-- ko if: ($index() != ($parent.returnFlight.length - 1)) -->
+                                            <hr />
+                                            <!-- /ko -->
+                                        </td>
+                                    </tr>
+                                </table>
+                        }
+                        <hr />
+                        <div class="row">
+                            <div class="col-12 text-right">
+                                <button class="btn cust-btn " type="button" id="booknoe" onclick="book(this.form)">@Localize.Show("BOOK_NOW")</button>
+                            </div>
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <img src="~/Images/waiting.gif" style="vertical-align:middle; width: 80%;" class="img-fluid" />
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/input-add-minus.js"></script>
+    <script src="~/Vendors/knockout/knockout-3.4.2.js"></script>
+    <script src="~/Vendors/knockout/knockout-fast-foreach.min.js"></script>
+    <script src="~/Vendors/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+
+    <script>
+        function dealModel() {
+            var self = this;
+            self.records = ko.observableArray([]);
+            self.fileterAirlines = ko.observableArray([]);
+            self.selectedAirlines = ko.observableArray([]);
+            self.filterPrice = ko.observableArray([]);
+            self.filterStops = ko.observableArray([]);
+            self.selectedStops = ko.observableArray([]);
+            self.filterDep = ko.observableArray([]);
+            self.filterRet = ko.observableArray([]);
+            self.tripType = '@Model.triptype';
+
+            var searchModel = @Html.Raw(Model.GetJsonModel());
+            $('#loadingModal').modal('show');
+            $.ajax({
+                url: "@Url.Action("FlightResult", "Flight")",
+                data: searchModel,
+                cache: true,
+                method: "post",
+                success: function (data) {
+                console.log(data);
+                if (data && data.flights && data.flights.length > 0) {
+                    $('#loading').hide();
+                    $('#result').show();
+                } else {
+                    $('#loading').hide();
+                    $('#error').show();
+                }
+
+                window.setTimeout(function () {
+                    $('#loadingModal').modal('hide');
+                }, 1000);
+
+                self.records(data.flights);
+
+                //filter airline
+                self.fileterAirlines(data.filter.airlines);
+                //var selectedAir = [];
+                //for (var i = 0; i < data.filter.airlines.length; i++) {
+                //    selectedAir.push(data.filter.airlines[i].code);
+                //}
+                //self.selectedAirlines(selectedAir);
+
+                //filter price
+                var fInitPrice = [];
+                fInitPrice.push(0);
+                fInitPrice.push(data.filter.maxPrice);
+                self.filterPrice(fInitPrice);
+                $("#slider-price").slider({
+                    range: true,
+                    min: 0,
+                    max: data.filter.maxPrice,
+                    step: 50,
+                    values: [0, data.filter.maxPrice],
+                    slide: function (e, ui) {
+                        var filterPrice = [];
+                        filterPrice.push(ui.values[0]);
+                        filterPrice.push(ui.values[1]);
+                        self.filterPrice(filterPrice);
+                    }
+                });
+
+                //filter stop
+                var fStop = [];
+                var fSelectedStop = [];
+                for (var i = 0; i <= data.filter.maxStop; i++) {
+                    fSelectedStop.push(i);
+                    var stopObj = {};
+                    stopObj.id = i;
+                    if (i === 0) {
+                        stopObj.name = '@Localize.Show("NO_STOP")';
+                    } else {
+                        stopObj.name = i + '@Localize.Show("STOP_POINT")';
+                    }
+                    fStop.push(stopObj);
+                }
+                self.filterStops(fStop);
+                //self.selectedStops(fSelectedStop);
+
+                //filter dep
+                self.filterDep([0, 1440]);
+                $("#slider-dep").slider({
+                    range: true,
+                    min: 0,
+                    max: 1440,
+                    step: 10,
+                    values: [0, data.filter.maxPrice],
+                    slide: function (e, ui) {
+                        var filterDep = [];
+                        filterDep.push(ui.values[0]);
+                        filterDep.push(ui.values[1]);
+                        self.filterDep(filterDep);
+                    }
+                });
+
+                if (self.tripType == 'R') {
+                    //filter ret
+                    self.filterRet([0, 1440]);
+                    $("#slider-ret").slider({
+                        range: true,
+                        min: 0,
+                        max: 1440,
+                        step: 10,
+                        values: [0, data.filter.maxPrice],
+                        slide: function (e, ui) {
+                            var filterRet = [];
+                            filterRet.push(ui.values[0]);
+                            filterRet.push(ui.values[1]);
+                            self.filterRet(filterRet);
+                        }
+                    });
+
+                }
+
+
+                },
+                error: function () {
+                    $('#loadingModal').modal('hide');
+                    $('#loading').hide();
+                    $('#error').show();
+                }
+
+
+            });
+
+            //filter
+            self.filteredBox = ko.computed(function () {
+                var filtered = ko.utils.arrayFilter(self.records(), function (record) {
+                    var show = true;
+                    if (self.selectedAirlines().length > 0) {
+                        show = self.selectedAirlines().indexOf(record.mainAirline.code) >= 0;
+                        if (show) {
+                            show = record.fare.adtFare.net >= self.filterPrice()[0] && record.fare.adtFare.net <= self.filterPrice()[1];
+                        }
+                    }
+
+                    if (self.selectedStops().length > 0) {
+                        if (show) {
+                            show = self.selectedStops().indexOf(record.departureFlight[0].flightDetails.length - 1) >= 0;
+                        }
+                    }
+                    if (show) {
+                        var depShow = false;
+                        for (var i = 0; i < record.departureFlight.length; i++) {
+                            var time = record.departureFlight[i].flightDetails[0].depDisplayDateTime.time;
+                            var intTime = ((Math.floor(time / 100)) * 60) + (time % 100);
+                            depShow = depShow || (intTime >= self.filterDep()[0] && intTime <= self.filterDep()[1]);
+                        }
+                        show = depShow;
+                    }
+                    if (show && self.tripType == 'R') {
+                        var retShow = false;
+                        for (var i = 0; i < record.returnFlight.length; i++) {
+                            var time = record.returnFlight[i].flightDetails[0].depDisplayDateTime.time;
+                            var intTime = ((Math.floor(time / 100)) * 60) + (time % 100);
+                            retShow = retShow || (intTime >= self.filterRet()[0] && intTime <= self.filterRet()[1]);
+                        }
+                        show = retShow;
+                    }
+                    return show;
+                });
+
+
+                return filtered;
+            }).extend({ throttle: 300 });  ;
+
+
+            self.formatCurrency = function (amount) {
+                if (!amount) {
+                    amount = 0;
+                }
+                amount += '';
+                x = amount.split('.');
+                x1 = x[0];
+                x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                }
+                return "฿" + x1 + x2;
+            };
+
+            self.formatIntToTime = function (amount) {
+
+                var hours1 = Math.floor(amount / 60);
+                var minutes1 = amount - (hours1 * 60);
+                hours1 = hours1 + '';
+                minutes1 = minutes1 + '';
+                if (hours1.length == 1) hours1 = '0' + hours1;
+                if (minutes1.length == 1) minutes1 = '0' + minutes1;
+                if (minutes1 == '0') minutes1 = '00';
+                return hours1 + ":" + minutes1;
+            };
+        }
+        ko.applyBindings(new dealModel());
+
+        var formatCurrency = function (amount) {
+            if (!amount) {
+                amount = 0;
+            }
+            amount += '';
+            x = amount.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return "฿" + x1 + x2;
+        };
+
+        var printOpenPBoxFn = function (id) {
+            return "openPBox('" + id + "');";
+        };
+
+        var openPBox = function (id) {
+            $("#select_" + id).slideToggle();
+            $('.popper').popover({
+                placement: 'bottom',
+                container: 'body',
+                trigger: 'focus',
+                html: true,
+                content: function () {
+                    return $(this).next('.popper-content').html();
+                }
+            });
+        };
+
+        //$('.toggle-flight').click(function (t) {
+        //    var targetId = t.currentTarget.id;
+        //    $("#select_" + targetId).slideToggle();
+        //});
+        var getAirLogoLink = function (airlineCode) {
+            return "//www.plusibe.com/images/airline/logos/" + airlineCode + "logo_35x35.gif";
+        };
+
+        var getOnlyCity = function (cityName) {
+            var c = cityName.split(',');
+            if (c[1]) {
+                return c[1].trim();
+            }
+            return c[0];
+        }
+
+        var getOnlyAirport = function (cityName) {
+            var c = cityName.split(',');
+            return c[0];
+        }
+
+        var getTimePercentage = function (t) {
+            var p = (t * 100) / 2400;
+            return "margin-left: calc(" + p.toFixed(0) + "% - 4px);";
+        };
+
+        var getTimeFormat = function (d) {
+            d = pad(d, 4);
+            return d.substr(0, 2) + ":" + d.substr(2, 2);
+        };
+
+        var getDuration = function (d) {
+            d = pad(d, 4);
+            return d.substr(0, 2) + ":" + d.substr(2, 2) + " @(Localize.Show("HRS"))";
+        };
+
+        var getWidthSyle = function (w) {
+            return "width: " + w + "%";
+        };
+
+        var pad = function (num, size) {
+            var s = num + "";
+            while (s.length < size) s = "0" + s;
+            return s;
+        };
+
+        var book = function (form) {
+            var tripType = '@Model.triptype';
+            if (form.S1.length) {
+                if (!form.S1.value || form.S1.value == "") {
+                    alert('@Localize.Show("PLEASE_SELECT_DEP")');
+                    return;
+                }
+            } else {
+                if (!form.S1.checked) {
+                    alert('@Localize.Show("PLEASE_SELECT_DEP")');
+                    return;
+                }
+            }
+
+            if (tripType == "R") {
+                if (form.S2.length) {
+                    if (!form.S2.value || form.S2.value == "") {
+                    alert('@Localize.Show("PLEASE_SELECT_RET")');
+                        return;
+                    }
+                } else {
+                    if (!form.S2.checked) {
+                    alert('@Localize.Show("PLEASE_SELECT_RET")');
+                        return;
+                    }
+                }
+            }
+            form.submit();
+        };
+
+        var clickFlight = function (id) {
+            var ids = id.split('_');
+            $('#' + ids[0] + '_' + ids[1]).find('.table-flight-tr-select').addClass('table-flight-tr').removeClass('table-flight-tr-select');
+            $('#' + id).addClass('table-flight-tr-select').removeClass('table-flight-tr');
+
+        };
+        
+    </script>
+}

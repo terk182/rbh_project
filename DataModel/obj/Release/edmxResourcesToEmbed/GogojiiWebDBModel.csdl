@@ -1,0 +1,2065 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GogojiiWebDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="GogojiiWebDBEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="GetHotelName" ReturnType="Collection(GogojiiWebDBModel.GetHotelName_Result)">
+      <Parameter Name="Language" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="AirlineCodes" EntityType="GogojiiWebDBModel.AirlineCode" />
+    <EntitySet Name="AirlineControls" EntityType="GogojiiWebDBModel.AirlineControl" />
+    <EntitySet Name="AirlineControlSubs" EntityType="GogojiiWebDBModel.AirlineControlSub" />
+    <EntitySet Name="AirlineQtaxControls" EntityType="GogojiiWebDBModel.AirlineQtaxControl" />
+    <EntitySet Name="AirportCodes" EntityType="GogojiiWebDBModel.AirportCode" />
+    <EntitySet Name="AirportLocations" EntityType="GogojiiWebDBModel.AirportLocation" />
+    <EntitySet Name="AirportTranfers" EntityType="GogojiiWebDBModel.AirportTranfer" />
+    <EntitySet Name="AirportWithCities" EntityType="GogojiiWebDBModel.AirportWithCity" />
+    <EntitySet Name="AirPromotions" EntityType="GogojiiWebDBModel.AirPromotion" />
+    <EntitySet Name="APITokens" EntityType="GogojiiWebDBModel.APIToken" />
+    <EntitySet Name="APIUsers" EntityType="GogojiiWebDBModel.APIUser" />
+    <EntitySet Name="BackOfficeAdmins" EntityType="GogojiiWebDBModel.BackOfficeAdmin" />
+    <EntitySet Name="BundleSearches" EntityType="GogojiiWebDBModel.BundleSearch" />
+    <EntitySet Name="CityCodes" EntityType="GogojiiWebDBModel.CityCode" />
+    <EntitySet Name="CountryCodes" EntityType="GogojiiWebDBModel.CountryCode" />
+    <EntitySet Name="CurrencyExchanges" EntityType="GogojiiWebDBModel.CurrencyExchange" />
+    <EntitySet Name="DiscountTransactions" EntityType="GogojiiWebDBModel.DiscountTransaction" />
+    <EntitySet Name="FlightBookingBaggages" EntityType="GogojiiWebDBModel.FlightBookingBaggage" />
+    <EntitySet Name="FlightBookingContactInfoes" EntityType="GogojiiWebDBModel.FlightBookingContactInfo" />
+    <EntitySet Name="FlightBookingFares" EntityType="GogojiiWebDBModel.FlightBookingFare" />
+    <EntitySet Name="FlightBookingFareRules" EntityType="GogojiiWebDBModel.FlightBookingFareRule" />
+    <EntitySet Name="FlightBookingFareRuleDatails" EntityType="GogojiiWebDBModel.FlightBookingFareRuleDatail" />
+    <EntitySet Name="FlightBookingFlightDetails" EntityType="GogojiiWebDBModel.FlightBookingFlightDetail" />
+    <EntitySet Name="FlightBookingRefunds" EntityType="GogojiiWebDBModel.FlightBookingRefund" />
+    <EntitySet Name="FlightBookingReissues" EntityType="GogojiiWebDBModel.FlightBookingReissue" />
+    <EntitySet Name="FlightSearchLogs" EntityType="GogojiiWebDBModel.FlightSearchLog" />
+    <EntitySet Name="FourDigitControls" EntityType="GogojiiWebDBModel.FourDigitControl" />
+    <EntitySet Name="GogojiiPassports" EntityType="GogojiiWebDBModel.GogojiiPassport" />
+    <EntitySet Name="HBCategories" EntityType="GogojiiWebDBModel.HBCategory" />
+    <EntitySet Name="HBCountries" EntityType="GogojiiWebDBModel.HBCountry" />
+    <EntitySet Name="HBDestinations" EntityType="GogojiiWebDBModel.HBDestination" />
+    <EntitySet Name="HBFacilities" EntityType="GogojiiWebDBModel.HBFacility" />
+    <EntitySet Name="HBFacilityGroups" EntityType="GogojiiWebDBModel.HBFacilityGroup" />
+    <EntitySet Name="HBHotelAirports" EntityType="GogojiiWebDBModel.HBHotelAirport" />
+    <EntitySet Name="HBHotelDetails" EntityType="GogojiiWebDBModel.HBHotelDetail" />
+    <EntitySet Name="HBHotelFacilities" EntityType="GogojiiWebDBModel.HBHotelFacility" />
+    <EntitySet Name="HBHotelImages" EntityType="GogojiiWebDBModel.HBHotelImage" />
+    <EntitySet Name="HBHotelInterestPoints" EntityType="GogojiiWebDBModel.HBHotelInterestPoint" />
+    <EntitySet Name="HBHotelMains" EntityType="GogojiiWebDBModel.HBHotelMain" />
+    <EntitySet Name="HBHotelRooms" EntityType="GogojiiWebDBModel.HBHotelRoom" />
+    <EntitySet Name="HBHotelRoomFacilities" EntityType="GogojiiWebDBModel.HBHotelRoomFacility" />
+    <EntitySet Name="HBHotelUpdates" EntityType="GogojiiWebDBModel.HBHotelUpdate" />
+    <EntitySet Name="HBImageTypes" EntityType="GogojiiWebDBModel.HBImageType" />
+    <EntitySet Name="HBImportedHotelNames" EntityType="GogojiiWebDBModel.HBImportedHotelName" />
+    <EntitySet Name="HBLanguages" EntityType="GogojiiWebDBModel.HBLanguage" />
+    <EntitySet Name="HBTerminals" EntityType="GogojiiWebDBModel.HBTerminal" />
+    <EntitySet Name="HBZones" EntityType="GogojiiWebDBModel.HBZone" />
+    <EntitySet Name="HFBundleBookingMains" EntityType="GogojiiWebDBModel.HFBundleBookingMain" />
+    <EntitySet Name="HFBundleExBookingMains" EntityType="GogojiiWebDBModel.HFBundleExBookingMain" />
+    <EntitySet Name="HotelBookings" EntityType="GogojiiWebDBModel.HotelBooking" />
+    <EntitySet Name="HotelBookingContactInfoes" EntityType="GogojiiWebDBModel.HotelBookingContactInfo" />
+    <EntitySet Name="HotelBookingHolders" EntityType="GogojiiWebDBModel.HotelBookingHolder" />
+    <EntitySet Name="HotelBookingHotels" EntityType="GogojiiWebDBModel.HotelBookingHotel" />
+    <EntitySet Name="HotelBookingHotelRooms" EntityType="GogojiiWebDBModel.HotelBookingHotelRoom" />
+    <EntitySet Name="HotelBookingHotelRoomRates" EntityType="GogojiiWebDBModel.HotelBookingHotelRoomRate" />
+    <EntitySet Name="HotelBookingHotelRoomRateCancells" EntityType="GogojiiWebDBModel.HotelBookingHotelRoomRateCancell" />
+    <EntitySet Name="HotelBookingHotelRoomRatePromotions" EntityType="GogojiiWebDBModel.HotelBookingHotelRoomRatePromotion" />
+    <EntitySet Name="HotelBookingHotelRoomRateRooms" EntityType="GogojiiWebDBModel.HotelBookingHotelRoomRateRoom" />
+    <EntitySet Name="HotelBookingResponseBookings" EntityType="GogojiiWebDBModel.HotelBookingResponseBooking" />
+    <EntitySet Name="HotelBookingSearchRequests" EntityType="GogojiiWebDBModel.HotelBookingSearchRequest" />
+    <EntitySet Name="HotelExAdmins" EntityType="GogojiiWebDBModel.HotelExAdmin" />
+    <EntitySet Name="HotelExAdminHotels" EntityType="GogojiiWebDBModel.HotelExAdminHotel" />
+    <EntitySet Name="HotelExBookings" EntityType="GogojiiWebDBModel.HotelExBooking" />
+    <EntitySet Name="HotelExBookingHotels" EntityType="GogojiiWebDBModel.HotelExBookingHotel" />
+    <EntitySet Name="HotelExBookingHotelRates" EntityType="GogojiiWebDBModel.HotelExBookingHotelRate" />
+    <EntitySet Name="HotelExBookingHotelRateCancels" EntityType="GogojiiWebDBModel.HotelExBookingHotelRateCancel" />
+    <EntitySet Name="HotelExBookingHotelRooms" EntityType="GogojiiWebDBModel.HotelExBookingHotelRoom" />
+    <EntitySet Name="HotelExBookingPaxes" EntityType="GogojiiWebDBModel.HotelExBookingPax" />
+    <EntitySet Name="HotelExCompanies" EntityType="GogojiiWebDBModel.HotelExCompany" />
+    <EntitySet Name="HotelExHotels" EntityType="GogojiiWebDBModel.HotelExHotel" />
+    <EntitySet Name="HotelExHotelDetails" EntityType="GogojiiWebDBModel.HotelExHotelDetail" />
+    <EntitySet Name="HotelExHotelDetailFacilities" EntityType="GogojiiWebDBModel.HotelExHotelDetailFacility" />
+    <EntitySet Name="HotelExHotelDetailFacilityRooms" EntityType="GogojiiWebDBModel.HotelExHotelDetailFacilityRoom" />
+    <EntitySet Name="HotelExHotelDetailImages" EntityType="GogojiiWebDBModel.HotelExHotelDetailImage" />
+    <EntitySet Name="HotelExHotelMainImages" EntityType="GogojiiWebDBModel.HotelExHotelMainImage" />
+    <EntitySet Name="HotelExHotelPricings" EntityType="GogojiiWebDBModel.HotelExHotelPricing" />
+    <EntitySet Name="HotelExHotelRates" EntityType="GogojiiWebDBModel.HotelExHotelRate" />
+    <EntitySet Name="HotelExHotelRooms" EntityType="GogojiiWebDBModel.HotelExHotelRoom" />
+    <EntitySet Name="HotelExHotelRoomDetails" EntityType="GogojiiWebDBModel.HotelExHotelRoomDetail" />
+    <EntitySet Name="HotelExHotelRoomImages" EntityType="GogojiiWebDBModel.HotelExHotelRoomImage" />
+    <EntitySet Name="HotelFlightBookingMains" EntityType="GogojiiWebDBModel.HotelFlightBookingMain" />
+    <EntitySet Name="HotelFlightDetails" EntityType="GogojiiWebDBModel.HotelFlightDetail" />
+    <EntitySet Name="HotPromotions" EntityType="GogojiiWebDBModel.HotPromotion" />
+    <EntitySet Name="Information" EntityType="GogojiiWebDBModel.Information" />
+    <EntitySet Name="KBankCharges" EntityType="GogojiiWebDBModel.KBankCharge" />
+    <EntitySet Name="MarkupAirportTransfers" EntityType="GogojiiWebDBModel.MarkupAirportTransfer" />
+    <EntitySet Name="MarkupBundles" EntityType="GogojiiWebDBModel.MarkupBundle" />
+    <EntitySet Name="MarkupFlights" EntityType="GogojiiWebDBModel.MarkupFlight" />
+    <EntitySet Name="MarkupHotels" EntityType="GogojiiWebDBModel.MarkupHotel" />
+    <EntitySet Name="MarkupSubHotels" EntityType="GogojiiWebDBModel.MarkupSubHotel" />
+    <EntitySet Name="Members" EntityType="GogojiiWebDBModel.Member" />
+    <EntitySet Name="MemberLogs" EntityType="GogojiiWebDBModel.MemberLog" />
+    <EntitySet Name="MoreThanJustHotel_BOL" EntityType="GogojiiWebDBModel.MoreThanJustHotel_BOL" />
+    <EntitySet Name="MoreThanJustHotel_EXT" EntityType="GogojiiWebDBModel.MoreThanJustHotel_EXT" />
+    <EntitySet Name="NewsAndActivities" EntityType="GogojiiWebDBModel.NewsAndActivity" />
+    <EntitySet Name="PaxTypes" EntityType="GogojiiWebDBModel.PaxType" />
+    <EntitySet Name="Payments" EntityType="GogojiiWebDBModel.Payment" />
+    <EntitySet Name="ProductInTopDestinations" EntityType="GogojiiWebDBModel.ProductInTopDestination" />
+    <EntitySet Name="PromotionCodeBundles" EntityType="GogojiiWebDBModel.PromotionCodeBundle" />
+    <EntitySet Name="PromotionCodeByProducts" EntityType="GogojiiWebDBModel.PromotionCodeByProduct" />
+    <EntitySet Name="PromotionCodeFlights" EntityType="GogojiiWebDBModel.PromotionCodeFlight" />
+    <EntitySet Name="PromotionCodeHotels" EntityType="GogojiiWebDBModel.PromotionCodeHotel" />
+    <EntitySet Name="PromotionCodeTransfers" EntityType="GogojiiWebDBModel.PromotionCodeTransfer" />
+    <EntitySet Name="PromotionUsings" EntityType="GogojiiWebDBModel.PromotionUsing" />
+    <EntitySet Name="RunningNumbers" EntityType="GogojiiWebDBModel.RunningNumber" />
+    <EntitySet Name="SeatMapControls" EntityType="GogojiiWebDBModel.SeatMapControl" />
+    <EntitySet Name="ShortenURLs" EntityType="GogojiiWebDBModel.ShortenURL" />
+    <EntitySet Name="SubScribeDeals" EntityType="GogojiiWebDBModel.SubScribeDeal" />
+    <EntitySet Name="TopDestinations" EntityType="GogojiiWebDBModel.TopDestination" />
+    <EntitySet Name="TransferBookings" EntityType="GogojiiWebDBModel.TransferBooking" />
+    <EntitySet Name="TransferBookingContactInfoes" EntityType="GogojiiWebDBModel.TransferBookingContactInfo" />
+    <EntitySet Name="TransferBookingHolders" EntityType="GogojiiWebDBModel.TransferBookingHolder" />
+    <EntitySet Name="TransferBookingMains" EntityType="GogojiiWebDBModel.TransferBookingMain" />
+    <EntitySet Name="TransferBookingPickupInfoes" EntityType="GogojiiWebDBModel.TransferBookingPickupInfo" />
+    <EntitySet Name="TransferBookingTransferDetails" EntityType="GogojiiWebDBModel.TransferBookingTransferDetail" />
+    <EntitySet Name="TransferBookingTransferServices" EntityType="GogojiiWebDBModel.TransferBookingTransferService" />
+    <EntitySet Name="TransferDetails" EntityType="GogojiiWebDBModel.TransferDetail" />
+    <EntitySet Name="WhyTravelWiths" EntityType="GogojiiWebDBModel.WhyTravelWith" />
+    <EntitySet Name="HBHotelNames" EntityType="GogojiiWebDBModel.HBHotelName" />
+    <EntitySet Name="FlightBookings" EntityType="GogojiiWebDBModel.FlightBooking" />
+    <EntitySet Name="HotPromotionDetails" EntityType="GogojiiWebDBModel.HotPromotionDetail" />
+    <EntitySet Name="NewsAndActivityDetails" EntityType="GogojiiWebDBModel.NewsAndActivityDetail" />
+    <EntitySet Name="TopDestinationDetails" EntityType="GogojiiWebDBModel.TopDestinationDetail" />
+    <EntitySet Name="WhyTravelWithDetails" EntityType="GogojiiWebDBModel.WhyTravelWithDetail" />
+    <EntitySet Name="FlightBookingPaxInfoes" EntityType="GogojiiWebDBModel.FlightBookingPaxInfo" />
+    <EntitySet Name="CustomerReviews" EntityType="GogojiiWebDBModel.CustomerReview" />
+    <EntitySet Name="CustomerReviewDetails" EntityType="GogojiiWebDBModel.CustomerReviewDetail" />
+  </EntityContainer>
+  <ComplexType Name="GetHotelName_Result">
+    <Property Type="Int32" Name="HotelCode" Nullable="false" />
+    <Property Type="String" Name="DestinationCode" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CountryCode" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="HotelName" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <EntityType Name="AirlineCode">
+    <Key>
+      <PropertyRef Name="Code" />
+      <PropertyRef Name="Language" />
+    </Key>
+    <Property Name="Code" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="Language" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="AirlineControl">
+    <Key>
+      <PropertyRef Name="AirlineOID" />
+    </Key>
+    <Property Name="AirlineOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="OriginalCountryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationCountryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="AirlineControlSub">
+    <Key>
+      <PropertyRef Name="AirlineSubOID" />
+    </Key>
+    <Property Name="AirlineSubOID" Type="Guid" Nullable="false" />
+    <Property Name="AirlineOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="AirlineCode" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ClassOfService" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FareBasis" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="AirlineQtaxControl">
+    <Key>
+      <PropertyRef Name="AirlineQtaxOID" />
+    </Key>
+    <Property Name="AirlineQtaxOID" Type="Guid" Nullable="false" />
+    <Property Name="AirlineCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="OriginalCountryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationCountryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="AirportCode">
+    <Key>
+      <PropertyRef Name="Code" />
+      <PropertyRef Name="Language" />
+    </Key>
+    <Property Name="Code" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="Language" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="CountryCode" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="AirportLocation">
+    <Key>
+      <PropertyRef Name="AirportCode" />
+    </Key>
+    <Property Name="AirportCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CityCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Latitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Longitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="AirportTranfer">
+    <Key>
+      <PropertyRef Name="AirportTranferOID" />
+    </Key>
+    <Property Name="AirportTranferOID" Type="Guid" Nullable="false" />
+    <Property Name="Destination" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="StartBookingDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishBookingDate" Type="DateTime" Precision="3" />
+    <Property Name="StartTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="Discount" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="IsPercentDiscount" Type="Boolean" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="AirportCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="AirportWithCity">
+    <Key>
+      <PropertyRef Name="AirportCode" />
+    </Key>
+    <Property Name="AirportCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="FacilityCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CityCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Latitude" Type="Double" />
+    <Property Name="Longitude" Type="Double" />
+    <Property Name="CountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="IsCommercialAirport" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="ProvinceCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="ProvinceCountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="AirPromotion">
+    <Key>
+      <PropertyRef Name="AirPromotionOID" />
+    </Key>
+    <Property Name="AirPromotionOID" Type="Guid" Nullable="false" />
+    <Property Name="Origin" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="Destination" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DepartDate" Type="DateTime" Precision="3" />
+    <Property Name="ReturnDate" Type="DateTime" Precision="3" />
+    <Property Name="PeriodStart" Type="DateTime" Precision="3" />
+    <Property Name="PeriodEnd" Type="DateTime" Precision="3" />
+    <Property Name="DeepLinkText" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="AirlineCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="APIToken">
+    <Key>
+      <PropertyRef Name="Token" />
+      <PropertyRef Name="APIUserOID" />
+    </Key>
+    <Property Name="Token" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="APIUserOID" Type="Guid" Nullable="false" />
+    <Property Name="Expires" Type="DateTime" Precision="3" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="APIUser">
+    <Key>
+      <PropertyRef Name="APIUserOID" />
+    </Key>
+    <Property Name="APIUserOID" Type="Guid" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="WebMode" Type="Int32" />
+  </EntityType>
+  <EntityType Name="BackOfficeAdmin">
+    <Key>
+      <PropertyRef Name="BackOfficeAdminOID" />
+    </Key>
+    <Property Name="BackOfficeAdminOID" Type="Guid" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Firstname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Lastname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="LastLogin" Type="DateTime" Precision="3" />
+    <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Role" Type="Int32" />
+  </EntityType>
+  <EntityType Name="BundleSearch">
+    <Key>
+      <PropertyRef Name="SearchOID" />
+    </Key>
+    <Property Name="SearchOID" Type="Guid" Nullable="false" />
+    <Property Name="SearchJson" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FlightStartPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+    <Property Name="DestinationCity" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="CityCode">
+    <Key>
+      <PropertyRef Name="Code" />
+      <PropertyRef Name="Language" />
+    </Key>
+    <Property Name="Code" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="Language" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="CountryCode" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="CountryCode">
+    <Key>
+      <PropertyRef Name="Code" />
+      <PropertyRef Name="Language" />
+    </Key>
+    <Property Name="Code" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="Language" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Alpha3" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="CurrencyExchange">
+    <Key>
+      <PropertyRef Name="CurrencyExchangeOID" />
+    </Key>
+    <Property Name="CurrencyExchangeOID" Type="Guid" Nullable="false" />
+    <Property Name="ExchangeRate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="DiscountTransaction">
+    <Key>
+      <PropertyRef Name="DiscountRequestID" />
+    </Key>
+    <Property Name="DiscountRequestID" Type="Guid" Nullable="false" />
+    <Property Name="DiscountProductType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RequestDateTime" Type="DateTime" Precision="3" />
+    <Property Name="JsonRequest" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DiscountCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TotalPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Success" Type="Boolean" />
+    <Property Name="Message" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PromotionCodeID" Type="Guid" />
+  </EntityType>
+  <EntityType Name="FlightBookingBaggage">
+    <Key>
+      <PropertyRef Name="FlightBookingBaggageOID" />
+    </Key>
+    <Property Name="FlightBookingBaggageOID" Type="Guid" Nullable="false" />
+    <Property Name="FlightBookingFareOID" Type="Guid" Nullable="false" />
+    <Property Name="Baggages" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BaggageNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BaggageUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="FlightBookingContactInfo">
+    <Key>
+      <PropertyRef Name="FlightBookingContactInfoOID" />
+    </Key>
+    <Property Name="FlightBookingContactInfoOID" Type="Guid" Nullable="false" />
+    <Property Name="BookingOID" Type="Guid" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Firstname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Middlename" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Lastname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="FlightBookingFare">
+    <Key>
+      <PropertyRef Name="FlightBookingFareOID" />
+    </Key>
+    <Property Name="FlightBookingFareOID" Type="Guid" Nullable="false" />
+    <Property Name="BookingOID" Type="Guid" Nullable="false" />
+    <Property Name="PessengerType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="BaseFare" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="SellingBaseFare" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Tax" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Qtax" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="LessFare" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Net" Type="Decimal" Precision="19" Scale="4" />
+  </EntityType>
+  <EntityType Name="FlightBookingFareRule">
+    <Key>
+      <PropertyRef Name="FlightBookingFareRuleOID" />
+    </Key>
+    <Property Name="FlightBookingFareRuleOID" Type="Guid" Nullable="false" />
+    <Property Name="BookingOID" Type="Guid" Nullable="false" />
+    <Property Name="Origin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Destination" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FareBasis" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="FlightBookingFareRuleDatail">
+    <Key>
+      <PropertyRef Name="FlightBookingFareRuleDatailOID" />
+    </Key>
+    <Property Name="FlightBookingFareRuleDatailOID" Type="Guid" Nullable="false" />
+    <Property Name="FlightBookingFareRuleOID" Type="Guid" Nullable="false" />
+    <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FareRuleText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="FlightBookingFlightDetail">
+    <Key>
+      <PropertyRef Name="FlightBookingFlightDetailOID" />
+    </Key>
+    <Property Name="FlightBookingFlightDetailOID" Type="Guid" Nullable="false" />
+    <Property Name="BookingOID" Type="Guid" Nullable="false" />
+    <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DepartureDateTime" Type="DateTime" Precision="3" />
+    <Property Name="ArrivalDateTime" Type="DateTime" Precision="3" />
+    <Property Name="FlightTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ConnectingTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Rbd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FareBasis" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AvailableSeat" Type="Int32" />
+    <Property Name="FareType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Cabin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="EquipmentType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DepCity" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="ArrCity" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Airline" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="OperatedAirline" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="TripType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Seq" Type="Int32" />
+  </EntityType>
+  <EntityType Name="FlightBookingRefund">
+    <Key>
+      <PropertyRef Name="FlightBookingRefundOID" />
+    </Key>
+    <Property Name="FlightBookingRefundOID" Type="Guid" Nullable="false" />
+    <Property Name="BookingOID" Type="Guid" Nullable="false" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="NewPNR" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RefundNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RefundCreateDate" Type="DateTime" Precision="3" />
+    <Property Name="RefundGMDate" Type="DateTime" Precision="3" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DueDateOfRefund" Type="DateTime" Precision="3" />
+    <Property Name="OldPNR" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="FlightBookingReissue">
+    <Key>
+      <PropertyRef Name="FlightBookingReissueOID" />
+    </Key>
+    <Property Name="FlightBookingReissueOID" Type="Guid" Nullable="false" />
+    <Property Name="BookingOID" Type="Guid" Nullable="false" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="NewPNR" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ReissueCreateDate" Type="DateTime" Precision="3" />
+    <Property Name="TypeChage" Type="Int32" />
+    <Property Name="DetailChage" Type="Int32" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="FlightSearchLog">
+    <Key>
+      <PropertyRef Name="FlightSearchLog1" />
+    </Key>
+    <Property Name="FlightSearchLog1" Type="Guid" Nullable="false" />
+    <Property Name="From1" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="From2" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="From3" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="From4" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="From5" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="From6" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="To1" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="To2" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="To3" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="To4" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="To5" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="To6" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="TripType" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="Date1" Type="DateTime" Precision="0" />
+    <Property Name="Date2" Type="DateTime" Precision="0" />
+    <Property Name="Date3" Type="DateTime" Precision="0" />
+    <Property Name="Date4" Type="DateTime" Precision="0" />
+    <Property Name="Date5" Type="DateTime" Precision="0" />
+    <Property Name="Date6" Type="DateTime" Precision="0" />
+    <Property Name="NoOfAdult" Type="Int32" />
+    <Property Name="NoOfChild" Type="Int32" />
+    <Property Name="NoOfInfant" Type="Int32" />
+    <Property Name="SeatClass" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="AirlinePreference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TransactionDateTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="FourDigitControl">
+    <Key>
+      <PropertyRef Name="FourDigitOID" />
+    </Key>
+    <Property Name="FourDigitOID" Type="Guid" Nullable="false" />
+    <Property Name="AirlineCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="OriginalCountryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationCountryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="GogojiiPassport">
+    <Key>
+      <PropertyRef Name="PassportOID" />
+    </Key>
+    <Property Name="PassportOID" Type="Guid" Nullable="false" />
+    <Property Name="AirlineCodes" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="OriginCodes" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationCodes" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="HBCategory">
+    <Key>
+      <PropertyRef Name="CategoryCode" />
+      <PropertyRef Name="AccommodationCode" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="CategoryCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="AccommodationCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="SimpleCode" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBCountry">
+    <Key>
+      <PropertyRef Name="CountryCode" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="CountryCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="CountryName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBDestination">
+    <Key>
+      <PropertyRef Name="DestinationCode" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="DestinationCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationName" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+    <Property Name="CountryCode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBFacility">
+    <Key>
+      <PropertyRef Name="FacilityCode" />
+      <PropertyRef Name="LanguageCode" />
+      <PropertyRef Name="FacilityGroupCode" />
+      <PropertyRef Name="FacilityTypologyCode" />
+    </Key>
+    <Property Name="FacilityCode" Type="Int32" Nullable="false" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FacilityGroupCode" Type="Int32" Nullable="false" />
+    <Property Name="FacilityTypologyCode" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBFacilityGroup">
+    <Key>
+      <PropertyRef Name="FacilityGroupCode" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="FacilityGroupCode" Type="Int32" Nullable="false" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBHotelAirport">
+    <Key>
+      <PropertyRef Name="HotelCode" />
+      <PropertyRef Name="AirportCode" />
+    </Key>
+    <Property Name="HotelCode" Type="Int32" Nullable="false" />
+    <Property Name="AirportCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Distance" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBHotelDetail">
+    <Key>
+      <PropertyRef Name="HotelCode" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="HotelCode" Type="Int32" Nullable="false" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="HotelName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="HotelDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="PostalCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="HotelTermCond" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBHotelFacility">
+    <Key>
+      <PropertyRef Name="HotelCode" />
+      <PropertyRef Name="FacilityCode" />
+      <PropertyRef Name="FacilityGroupCode" />
+    </Key>
+    <Property Name="HotelCode" Type="Int32" Nullable="false" />
+    <Property Name="FacilityCode" Type="Int32" Nullable="false" />
+    <Property Name="FacilityGroupCode" Type="Int32" Nullable="false" />
+    <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ExtraFee" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="HBHotelImage">
+    <Key>
+      <PropertyRef Name="HotelImageOID" />
+    </Key>
+    <Property Name="HotelImageOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelCode" Type="Int32" />
+    <Property Name="ImageTypeCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="ImagePath" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="RoomCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="RoomType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBHotelInterestPoint">
+    <Key>
+      <PropertyRef Name="HotelInterestPointOID" />
+    </Key>
+    <Property Name="HotelInterestPointOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelCode" Type="Int32" />
+    <Property Name="POI" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Distance" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBHotelMain">
+    <Key>
+      <PropertyRef Name="HotelCode" />
+    </Key>
+    <Property Name="HotelCode" Type="Int32" Nullable="false" />
+    <Property Name="CountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="StateCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="ZoneCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Longitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Latitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryGroupCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="ChainCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="AccommodationTypeCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="URL" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Phones" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+    <Property Name="Ranking" Type="Int32" />
+  </EntityType>
+  <EntityType Name="HBHotelRoom">
+    <Key>
+      <PropertyRef Name="HotelCode" />
+      <PropertyRef Name="RoomCode" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="HotelCode" Type="Int32" Nullable="false" />
+    <Property Name="RoomCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="RoomName" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+    <Property Name="RoomDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBHotelRoomFacility">
+    <Key>
+      <PropertyRef Name="HotelCode" />
+      <PropertyRef Name="RoomCode" />
+      <PropertyRef Name="FacilityCode" />
+      <PropertyRef Name="FacilityGroup" />
+    </Key>
+    <Property Name="HotelCode" Type="Int32" Nullable="false" />
+    <Property Name="RoomCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="FacilityCode" Type="Int32" Nullable="false" />
+    <Property Name="FacilityGroup" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HBHotelUpdate">
+    <Key>
+      <PropertyRef Name="HotelUpdateLogOID" />
+    </Key>
+    <Property Name="HotelUpdateLogOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelCode" Type="Int32" />
+    <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+    <Property Name="LanguageCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBImageType">
+    <Key>
+      <PropertyRef Name="ImageTypeCode" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="ImageTypeCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBImportedHotelName">
+    <Key>
+      <PropertyRef Name="HotelCode" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="HotelCode" Type="Int32" Nullable="false" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="CountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="HotelName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBLanguage">
+    <Key>
+      <PropertyRef Name="Alpha2" />
+    </Key>
+    <Property Name="Alpha2" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="LanguageName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HotelBedLanguage" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBTerminal">
+    <Key>
+      <PropertyRef Name="TerminalCode" />
+      <PropertyRef Name="LanguageCode" />
+      <PropertyRef Name="TerminalTypeCode" />
+    </Key>
+    <Property Name="TerminalCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="TerminalTypeCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="TerminalType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TerminalName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HBZone">
+    <Key>
+      <PropertyRef Name="DestinationCode" />
+      <PropertyRef Name="ZoneCode" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="DestinationCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="ZoneCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="ZoneName" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HFBundleBookingMain">
+    <Key>
+      <PropertyRef Name="BookingKeyReference" />
+    </Key>
+    <Property Name="BookingKeyReference" Type="Guid" Nullable="false" />
+    <Property Name="GogojiiID" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="FlightBookingOID" Type="Guid" />
+    <Property Name="HotelBookingOID" Type="Guid" />
+    <Property Name="BookingDate" Type="DateTime" Precision="3" />
+    <Property Name="PaymentStatus" Type="Int32" />
+    <Property Name="BookingStatus" Type="Int32" />
+    <Property Name="TotalPackagePrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PaymentMethod" Type="Int32" />
+    <Property Name="SourceBy" Type="Int32" />
+    <Property Name="PaymentFee" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PromoCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="InstallmentPlan" Type="Int32" />
+    <Property Name="InstallmentMonthly" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="FinalPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="UUID" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberOID" Type="Guid" />
+  </EntityType>
+  <EntityType Name="HFBundleExBookingMain">
+    <Key>
+      <PropertyRef Name="BookingOID" />
+    </Key>
+    <Property Name="BookingOID" Type="Guid" Nullable="false" />
+    <Property Name="GogojiiID" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="FlightBookingOID" Type="Guid" />
+    <Property Name="HotelExBookingOID" Type="Guid" />
+    <Property Name="BookingDate" Type="DateTime" Precision="3" />
+    <Property Name="PaymentStatus" Type="Int32" />
+    <Property Name="BookingStatus" Type="Int32" />
+    <Property Name="TotalPackagePrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PaymentMethod" Type="Int32" />
+    <Property Name="SourceBy" Type="Int32" />
+    <Property Name="PaymentFee" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PromoCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="InstallmentPlan" Type="Int32" />
+    <Property Name="InstallmentMonthly" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="FinalPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="UUID" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberOID" Type="Guid" />
+  </EntityType>
+  <EntityType Name="HotelBooking">
+    <Key>
+      <PropertyRef Name="HotelBookingOID" />
+    </Key>
+    <Property Name="HotelBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="IsError" Type="Boolean" />
+    <Property Name="GogojiiID" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+    <Property Name="StatusPayment" Type="Int32" />
+    <Property Name="BookingDate" Type="DateTime" Precision="3" />
+    <Property Name="StatusBooking" Type="Int32" />
+    <Property Name="SearchKey" Type="Guid" />
+    <Property Name="TotalPackagePrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PaymentMethod" Type="Int32" />
+    <Property Name="CheckIn" Type="DateTime" Precision="3" />
+    <Property Name="CheckOut" Type="DateTime" Precision="3" />
+    <Property Name="IsBundle" Type="Boolean" />
+    <Property Name="SourceBy" Type="Int32" />
+    <Property Name="PaymentFee" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PromoCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="InstallmentPlan" Type="Int32" />
+    <Property Name="InstallmentMonthly" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="FinalPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="UUID" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberOID" Type="Guid" />
+    <Property Name="DiscountRequestID" Type="Guid" />
+  </EntityType>
+  <EntityType Name="HotelBookingContactInfo">
+    <Key>
+      <PropertyRef Name="ContactInfoOID" />
+    </Key>
+    <Property Name="ContactInfoOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Firstname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Middlename" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Lastname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CountryCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelBookingHolder">
+    <Key>
+      <PropertyRef Name="HotelHolderOID" />
+    </Key>
+    <Property Name="HotelHolderOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TelNo" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelBookingHotel">
+    <Key>
+      <PropertyRef Name="HotelOID" />
+    </Key>
+    <Property Name="HotelOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelCode" Type="Int32" />
+    <Property Name="HotelName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CurrencyCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="TotalSelling" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="HotelAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DefaultImage" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelBookingHotelRoom">
+    <Key>
+      <PropertyRef Name="HotelRoomOID" />
+    </Key>
+    <Property Name="HotelRoomOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelOID" Type="Guid" Nullable="false" />
+    <Property Name="RoomCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="RoomName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelBookingHotelRoomRate">
+    <Key>
+      <PropertyRef Name="HotelRateOID" />
+    </Key>
+    <Property Name="HotelRateOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelRoomOID" Type="Guid" Nullable="false" />
+    <Property Name="RateKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SellingPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="NetPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="BoardCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="BoardName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="RateComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelBookingHotelRoomRateCancell">
+    <Key>
+      <PropertyRef Name="CancellOID" />
+    </Key>
+    <Property Name="CancellOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelRateOID" Type="Guid" Nullable="false" />
+    <Property Name="CancellationFee" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="FromDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="HotelBookingHotelRoomRatePromotion">
+    <Key>
+      <PropertyRef Name="PromotionOID" />
+    </Key>
+    <Property Name="PromotionOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelRateOID" Type="Guid" Nullable="false" />
+    <Property Name="DiscountPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PromotionName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelBookingHotelRoomRateRoom">
+    <Key>
+      <PropertyRef Name="RoomOID" />
+    </Key>
+    <Property Name="RoomOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelRateOID" Type="Guid" Nullable="false" />
+    <Property Name="Adult" Type="Int32" />
+    <Property Name="Children" Type="Int32" />
+    <Property Name="ChildAge" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Score" Type="Int32" />
+  </EntityType>
+  <EntityType Name="HotelBookingResponseBooking">
+    <Key>
+      <PropertyRef Name="ResponseBookingOID" />
+    </Key>
+    <Property Name="ResponseBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelBookingNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="IsError" Type="Boolean" />
+    <Property Name="BookingKeyReference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SupplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="VatNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelBookingSearchRequest">
+    <Key>
+      <PropertyRef Name="SearchRequestOID" />
+    </Key>
+    <Property Name="SearchRequestOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="CheckIn" Type="DateTime" Precision="3" />
+    <Property Name="CheckOut" Type="DateTime" Precision="3" />
+    <Property Name="HotelCode" Type="Int32" />
+    <Property Name="LanguageCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CurrencyCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelExAdmin">
+    <Key>
+      <PropertyRef Name="AdminOID" />
+    </Key>
+    <Property Name="AdminOID" Type="Guid" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="AccessLevel" Type="Int32" />
+    <Property Name="Firstname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Lastname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="CompanyOID" Type="Guid" />
+    <Property Name="Position" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="MobilePhone" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Telephone" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+    <Property Name="LastLogin" Type="DateTime" Precision="3" />
+    <Property Name="CurrentLogin" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="HotelExAdminHotel">
+    <Key>
+      <PropertyRef Name="AdminOID" />
+      <PropertyRef Name="HotelOID" />
+    </Key>
+    <Property Name="AdminOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelOID" Type="Guid" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HotelExBooking">
+    <Key>
+      <PropertyRef Name="BookingOID" />
+    </Key>
+    <Property Name="BookingOID" Type="Guid" Nullable="false" />
+    <Property Name="IsError" Type="Boolean" />
+    <Property Name="GogojiiID" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+    <Property Name="StatusPayment" Type="Int32" />
+    <Property Name="BookingDate" Type="DateTime" Precision="3" />
+    <Property Name="StatusBooking" Type="Int32" />
+    <Property Name="PaymentMethod" Type="Int32" />
+    <Property Name="CheckIn" Type="DateTime" Precision="3" />
+    <Property Name="CheckOut" Type="DateTime" Precision="3" />
+    <Property Name="MemberOID" Type="Guid" />
+    <Property Name="ContactTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ContactFirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ContactMiddleName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ContactLastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ContactEmail" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="ContactPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ContactCountryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BookingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="EmailTxt" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="AcencyAccountOID" Type="Guid" />
+    <Property Name="Remark" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PaymentFee" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PromoCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="InstallmentPlan" Type="Int32" />
+    <Property Name="InstallmentMonthly" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="FinalPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="LanguageCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsBundle" Type="Boolean" />
+    <Property Name="DiscountRequestID" Type="Guid" />
+  </EntityType>
+  <EntityType Name="HotelExBookingHotel">
+    <Key>
+      <PropertyRef Name="BookingHotelOID" />
+    </Key>
+    <Property Name="BookingHotelOID" Type="Guid" Nullable="false" />
+    <Property Name="BookingOID" Type="Guid" />
+    <Property Name="HotelOID" Type="Guid" />
+    <Property Name="HotelName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CurrencyCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="TotalSelling" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CheckInDate" Type="DateTime" Precision="3" />
+    <Property Name="CheckOutDate" Type="DateTime" Precision="3" />
+    <Property Name="CompanyOID" Type="Guid" />
+    <Property Name="NoOfRooms" Type="Int32" />
+    <Property Name="StatusBooking" Type="Int32" />
+    <Property Name="HotelPMSCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SyncPMS" Type="Boolean" />
+    <Property Name="SyncDateTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="HotelExBookingHotelRate">
+    <Key>
+      <PropertyRef Name="BookingHotelRateOID" />
+    </Key>
+    <Property Name="BookingHotelRateOID" Type="Guid" Nullable="false" />
+    <Property Name="BookingHotelRoomOID" Type="Guid" />
+    <Property Name="HotelRateOID" Type="Guid" />
+    <Property Name="SellingPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="NetPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="BoardCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="BoardName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Adults" Type="Int32" />
+    <Property Name="Children" Type="Int32" />
+    <Property Name="ChildAge" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Tax" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="TaxIsPercent" Type="Boolean" />
+    <Property Name="ServiceCharge" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="ServiceIsPercent" Type="Boolean" />
+    <Property Name="Commission" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="CommissionPercent" Type="Boolean" />
+    <Property Name="IncludeBF" Type="Boolean" />
+    <Property Name="Policy" Type="Boolean" />
+    <Property Name="CancelRate" Type="Int32" />
+    <Property Name="CancelBeforeCheckinDate" Type="Int32" />
+    <Property Name="CancelBeforeCheckinRate" Type="Int32" />
+    <Property Name="CheckInDate" Type="DateTime" Precision="3" />
+    <Property Name="CheckOutDate" Type="DateTime" Precision="3" />
+    <Property Name="BookingOID" Type="Guid" />
+    <Property Name="RateCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelExBookingHotelRateCancel">
+    <Key>
+      <PropertyRef Name="BookingHotelCancelOID" />
+    </Key>
+    <Property Name="BookingHotelCancelOID" Type="Guid" Nullable="false" />
+    <Property Name="BookingHotelRateOID" Type="Guid" />
+    <Property Name="CancellationFee" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="FromDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="HotelExBookingHotelRoom">
+    <Key>
+      <PropertyRef Name="BookingHotelRoomOID" />
+    </Key>
+    <Property Name="BookingHotelRoomOID" Type="Guid" Nullable="false" />
+    <Property Name="BookingHotelOID" Type="Guid" />
+    <Property Name="HotelRoomOID" Type="Guid" />
+    <Property Name="RoomName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="RoomCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelExBookingPax">
+    <Key>
+      <PropertyRef Name="BookingPaxOID" />
+    </Key>
+    <Property Name="BookingPaxOID" Type="Guid" Nullable="false" />
+    <Property Name="BookingOID" Type="Guid" />
+    <Property Name="PaxType" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="TelNo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelExCompany">
+    <Key>
+      <PropertyRef Name="CompanyOID" />
+    </Key>
+    <Property Name="CompanyOID" Type="Guid" Nullable="false" />
+    <Property Name="CompanyName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Telephone" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Fax" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+    <Property Name="DestinationCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="Logo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelExHotel">
+    <Key>
+      <PropertyRef Name="HotelOID" />
+    </Key>
+    <Property Name="HotelOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="CompanyOID" Type="Guid" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="DestinationCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="Rating" Type="Int32" />
+    <Property Name="TelNo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Latitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Longitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Advertise" Type="Boolean" />
+    <Property Name="AdsSeq" Type="Int32" />
+    <Property Name="AdsStart" Type="DateTime" Precision="3" />
+    <Property Name="AdsEnd" Type="DateTime" Precision="3" />
+    <Property Name="IsPMSComanche" Type="Boolean" />
+    <Property Name="SyncIP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SyncEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="HotelPMSCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelExHotelDetail">
+    <Key>
+      <PropertyRef Name="HotelOID" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="HotelOID" Type="Guid" Nullable="false" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="HotelName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HotelDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="HotelTermCond" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="HotelAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelExHotelDetailFacility">
+    <Key>
+      <PropertyRef Name="HotelOID" />
+      <PropertyRef Name="FacilityCode" />
+    </Key>
+    <Property Name="HotelOID" Type="Guid" Nullable="false" />
+    <Property Name="FacilityCode" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HotelExHotelDetailFacilityRoom">
+    <Key>
+      <PropertyRef Name="HotelRoomOID" />
+      <PropertyRef Name="FacilityCode" />
+    </Key>
+    <Property Name="HotelRoomOID" Type="Guid" Nullable="false" />
+    <Property Name="FacilityCode" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HotelExHotelDetailImage">
+    <Key>
+      <PropertyRef Name="HotelImageOID" />
+    </Key>
+    <Property Name="HotelImageOID" Type="Guid" Nullable="false" />
+    <Property Name="ImageName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HotelOID" Type="Guid" />
+  </EntityType>
+  <EntityType Name="HotelExHotelMainImage">
+    <Key>
+      <PropertyRef Name="HotelMainImageOID" />
+    </Key>
+    <Property Name="HotelMainImageOID" Type="Guid" Nullable="false" />
+    <Property Name="MainImageName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HotelOID" Type="Guid" />
+  </EntityType>
+  <EntityType Name="HotelExHotelPricing">
+    <Key>
+      <PropertyRef Name="HotelPricingOID" />
+    </Key>
+    <Property Name="HotelPricingOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelRateOID" Type="Guid" />
+    <Property Name="IsSpecialDate" Type="Boolean" />
+    <Property Name="SpecialDate" Type="DateTime" Precision="3" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Tax" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="TaxIsPercent" Type="Boolean" />
+    <Property Name="Markup" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="MarkupIsPercent" Type="Boolean" />
+    <Property Name="MarkupB2B" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="MarkupIsPercentB2B" Type="Boolean" />
+    <Property Name="ExtraBed" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="IncludeBF" Type="Boolean" />
+    <Property Name="MonCost" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="TueCost" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="WedCost" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="ThuCost" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="FriCost" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="SatCost" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="SunCost" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="MonAllotment" Type="Int32" />
+    <Property Name="TueAllotment" Type="Int32" />
+    <Property Name="WedAllotment" Type="Int32" />
+    <Property Name="ThuAllotment" Type="Int32" />
+    <Property Name="FriAllotment" Type="Int32" />
+    <Property Name="SatAllotment" Type="Int32" />
+    <Property Name="SunAllotment" Type="Int32" />
+    <Property Name="Commission" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="CommissionPercent" Type="Boolean" />
+    <Property Name="ServiceCharge" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="ServiceIsPercent" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="HotelExHotelRate">
+    <Key>
+      <PropertyRef Name="HotelRateOID" />
+    </Key>
+    <Property Name="HotelRateOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelOID" Type="Guid" />
+    <Property Name="HotelRoomOID" Type="Guid" />
+    <Property Name="PeriodStart" Type="DateTime" Precision="3" />
+    <Property Name="PeriodEnd" Type="DateTime" Precision="3" />
+    <Property Name="RateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="TermCond" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="BookBeforeHour" Type="Int32" />
+    <Property Name="Policy" Type="Boolean" />
+    <Property Name="CancelRate" Type="Int32" />
+    <Property Name="CancelBeforeCheckinDate" Type="Int32" />
+    <Property Name="CancelBeforeCheckinRate" Type="Int32" />
+    <Property Name="RateCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelExHotelRoom">
+    <Key>
+      <PropertyRef Name="HotelRoomOID" />
+    </Key>
+    <Property Name="HotelRoomOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelOID" Type="Guid" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="NoOfPax" Type="Int32" />
+    <Property Name="NoOfExtraBed" Type="Int32" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="RoomCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelExHotelRoomDetail">
+    <Key>
+      <PropertyRef Name="HotelRoomOID" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="HotelRoomOID" Type="Guid" Nullable="false" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RoomName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="RoomDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotelExHotelRoomImage">
+    <Key>
+      <PropertyRef Name="HotelRoomImageOID" />
+    </Key>
+    <Property Name="HotelRoomImageOID" Type="Guid" Nullable="false" />
+    <Property Name="ImageName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HotelRoomOID" Type="Guid" />
+  </EntityType>
+  <EntityType Name="HotelFlightBookingMain">
+    <Key>
+      <PropertyRef Name="bookingKeyReference" />
+    </Key>
+    <Property Name="bookingKeyReference" Type="Guid" Nullable="false" />
+    <Property Name="hotelBookingNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="recordLocator" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="supplierName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="vatNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BookingDate" Type="DateTime" Precision="3" />
+    <Property Name="BookingStatus" Type="Int32" />
+    <Property Name="PaymentStatus" Type="Int32" />
+    <Property Name="PaymentDatetime" Type="DateTime" Precision="3" />
+    <Property Name="BookingHotelOID" Type="Guid" />
+    <Property Name="BookingFlightOID" Type="Guid" />
+    <Property Name="GogojiiID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="PaymentMethod" Type="Int32" />
+    <Property Name="SearchKey" Type="Guid" />
+    <Property Name="TotalPackagePrice" Type="Decimal" Precision="19" Scale="4" />
+  </EntityType>
+  <EntityType Name="HotelFlightDetail">
+    <Key>
+      <PropertyRef Name="HotelFlightDetailOID" />
+    </Key>
+    <Property Name="HotelFlightDetailOID" Type="Guid" Nullable="false" />
+    <Property Name="HotelBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="OriginCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Airline" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SvcClass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DirectFlight" Type="Boolean" />
+    <Property Name="FlightDepartDate" Type="DateTime" Precision="3" />
+    <Property Name="FlightReturnDate" Type="DateTime" Precision="3" />
+    <Property Name="HotelCheckIn" Type="DateTime" Precision="3" />
+    <Property Name="HotelCheckOut" Type="DateTime" Precision="3" />
+    <Property Name="LanguageCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CurrencyCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="GetHotelNights" Type="Int32" />
+  </EntityType>
+  <EntityType Name="HotPromotion">
+    <Key>
+      <PropertyRef Name="HotPromotionOID" />
+    </Key>
+    <Property Name="HotPromotionOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Seq" Type="Int32" />
+    <Property Name="Product" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="URLForSearch" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Information">
+    <Key>
+      <PropertyRef Name="InformationOID" />
+    </Key>
+    <Property Name="InformationOID" Type="Guid" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="TelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="KBankCharge">
+    <Key>
+      <PropertyRef Name="ChargeID" />
+    </Key>
+    <Property Name="ChargeID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="transaction_state" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ref1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ref2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="MarkupAirportTransfer">
+    <Key>
+      <PropertyRef Name="AirportTranferOID" />
+    </Key>
+    <Property Name="AirportTranferOID" Type="Guid" Nullable="false" />
+    <Property Name="AirportCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CountryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DomainName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="StartBookingDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishBookingDate" Type="DateTime" Precision="3" />
+    <Property Name="StartTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="Discount" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="IsPercentDiscount" Type="Boolean" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="MarkupBundle">
+    <Key>
+      <PropertyRef Name="MarkupBundleOID" />
+    </Key>
+    <Property Name="MarkupBundleOID" Type="Guid" Nullable="false" />
+    <Property Name="AirportOrigin" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="HotelDestination" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="StartBookingDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishBookingDate" Type="DateTime" Precision="3" />
+    <Property Name="StartTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="NetfareValue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PublishedfareValue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AtpcofareValue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="HotelValue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="DomainName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsPercentNetfare" Type="Boolean" />
+    <Property Name="IsPercentPublishedfare" Type="Boolean" />
+    <Property Name="IsPercentAtpcofare" Type="Boolean" />
+    <Property Name="IsPercentHotel" Type="Boolean" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="MarkupFlight">
+    <Key>
+      <PropertyRef Name="GogojiiMarkupOID" />
+    </Key>
+    <Property Name="GogojiiMarkupOID" Type="Guid" Nullable="false" />
+    <Property Name="AirlineCodes" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="MixAirlineCodes" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="RBD" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="FareBasis" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="FlightNo" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="PaxTypeADT" Type="Boolean" />
+    <Property Name="PaxTypeCHD" Type="Boolean" />
+    <Property Name="PaxTypeINF" Type="Boolean" />
+    <Property Name="StartBookingDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishBookingDate" Type="DateTime" Precision="3" />
+    <Property Name="ZoneFrom" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="ZoneTo" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="MinPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="MaxPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="LV1Type" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="LV1Value" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="LV2Type" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="LV2Value" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="IsPercentLV1" Type="Boolean" />
+    <Property Name="IsPercentLV2" Type="Boolean" />
+    <Property Name="StartTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="DomainName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="MarkupHotel">
+    <Key>
+      <PropertyRef Name="MarkupHotelOID" />
+    </Key>
+    <Property Name="MarkupHotelOID" Type="Guid" Nullable="false" />
+    <Property Name="CountryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CityCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="HotelID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="StartBookingDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishBookingDate" Type="DateTime" Precision="3" />
+    <Property Name="StartTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="ZoneCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DomainName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="MarkupSubHotel">
+    <Key>
+      <PropertyRef Name="MarkupSubHotelOID" />
+    </Key>
+    <Property Name="MarkupSubHotelOID" Type="Guid" Nullable="false" />
+    <Property Name="MarkupHotelOID" Type="Guid" Nullable="false" />
+    <Property Name="MinPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="MaxPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="MarkupValue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="IsPercentMarkupValue" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="MemberOID" />
+    </Key>
+    <Property Name="MemberOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="LoginType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AccessToken" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Sex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BirthDate" Type="DateTime" Precision="0" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ImageProfile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDateTime" Type="DateTime" Precision="3" />
+    <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="MemberLog">
+    <Key>
+      <PropertyRef Name="MemberLogOID" />
+    </Key>
+    <Property Name="MemberLogOID" Type="Guid" Nullable="false" />
+    <Property Name="MemberOID" Type="Guid" />
+    <Property Name="LogDateTime" Type="DateTime" Precision="3" />
+    <Property Name="Activity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ErrorMsg" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="MoreThanJustHotel_BOL">
+    <Key>
+      <PropertyRef Name="MoreThanJustHotelOID" />
+    </Key>
+    <Property Name="MoreThanJustHotelOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Seq" Type="Int32" />
+    <Property Name="HotelCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Rating" Type="Double" />
+    <Property Name="StartPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="MoreThanJustHotel_EXT">
+    <Key>
+      <PropertyRef Name="MoreThanJustHotelOID" />
+    </Key>
+    <Property Name="MoreThanJustHotelOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Seq" Type="Int32" />
+    <Property Name="HotelOID" Type="Guid" />
+    <Property Name="Rating" Type="Double" />
+    <Property Name="StartPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="NewsAndActivity">
+    <Key>
+      <PropertyRef Name="NewsAndActivityOID" />
+    </Key>
+    <Property Name="NewsAndActivityOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Seq" Type="Int32" />
+    <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BannerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FileName_Paragraph11" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FileName_Paragraph12" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FileName_Paragraph21" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FileName_Paragraph22" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FileName_Paragraph31" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FileName_Paragraph32" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDateTime" Type="DateTime" Precision="3" />
+    <Property Name="UpdateDateTime" Type="DateTime" Precision="3" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="PaxType">
+    <Key>
+      <PropertyRef Name="PaxTypeID" />
+    </Key>
+    <Property Name="PaxTypeID" Type="Guid" Nullable="false" />
+    <Property Name="PaxTypeName" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Payment">
+    <Key>
+      <PropertyRef Name="PaymentOID" />
+    </Key>
+    <Property Name="PaymentOID" Type="Guid" Nullable="false" />
+    <Property Name="BankTranferValue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="KbankFullValue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="KbankInstallValue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PaySolutionCounterValue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PaySolutionInstallValue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="UnionpayValue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IspercentBankTranfer" Type="Boolean" />
+    <Property Name="IspercentKbankFull" Type="Boolean" />
+    <Property Name="IspercentKbankInstall" Type="Boolean" />
+    <Property Name="IspercentPayCouter" Type="Boolean" />
+    <Property Name="IspercentPayInstall" Type="Boolean" />
+    <Property Name="IIspercentUnionpay" Type="Boolean" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="ProductInTopDestination">
+    <Key>
+      <PropertyRef Name="ProductInTopDesOID" />
+    </Key>
+    <Property Name="ProductInTopDesOID" Type="Guid" Nullable="false" />
+    <Property Name="TopDestinationOID" Type="Guid" />
+    <Property Name="Product" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HotelSource" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="HotelCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Seq" Type="Int32" />
+    <Property Name="Rating" Type="Double" />
+    <Property Name="StartPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="PromotionCodeBundle">
+    <Key>
+      <PropertyRef Name="PromotionCodeBundleOID" />
+    </Key>
+    <Property Name="PromotionCodeBundleOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="CampaignName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="AirportOrigin" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="HotelDestination" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Discountper" Type="Int32" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="MaxAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IsPercentDiscountAmount" Type="Boolean" />
+    <Property Name="StartCampaignDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishCampaignDate" Type="DateTime" Precision="3" />
+    <Property Name="StartTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Allotment" Type="Int32" />
+    <Property Name="UseBundle" Type="Int32" />
+    <Property Name="RemoveBundle" Type="Int32" />
+    <Property Name="AddBundle" Type="Int32" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+    <Property Name="HotelZone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HotelID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="PromotionCodeByProduct">
+    <Key>
+      <PropertyRef Name="PromotionCodeProductOID" />
+    </Key>
+    <Property Name="PromotionCodeProductOID" Type="Guid" Nullable="false" />
+    <Property Name="CampaignName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DiscountForProductFlight" Type="Boolean" />
+    <Property Name="DiscountForProductHotel" Type="Boolean" />
+    <Property Name="DiscountForProductBundle" Type="Boolean" />
+    <Property Name="DiscountForProductTransfer" Type="Boolean" />
+    <Property Name="Discountper" Type="Int32" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="MaxAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IsPercentDiscountAmount" Type="Boolean" />
+    <Property Name="StartCampaignDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishCampaignDate" Type="DateTime" Precision="3" />
+    <Property Name="StartTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Allotment" Type="Int32" />
+    <Property Name="UseProduct" Type="Int32" />
+    <Property Name="RemoveProduct" Type="Int32" />
+    <Property Name="AddProduct" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="DomainName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="PromotionCodeFlight">
+    <Key>
+      <PropertyRef Name="PromotionCodeFlightOID" />
+    </Key>
+    <Property Name="PromotionCodeFlightOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="CampaignName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DepartureCity" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationCity" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Airlines" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Discountper" Type="Int32" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="MaxAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IsPercentDiscountAmount" Type="Boolean" />
+    <Property Name="StartCampaignDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishCampaignDate" Type="DateTime" Precision="3" />
+    <Property Name="StartTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Allotment" Type="Int32" />
+    <Property Name="UseFlight" Type="Int32" />
+    <Property Name="RemoveFlight" Type="Int32" />
+    <Property Name="AddFlight" Type="Int32" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="PromotionCodeHotel">
+    <Key>
+      <PropertyRef Name="PromotionCodeHotelOID" />
+    </Key>
+    <Property Name="PromotionCodeHotelOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="CampaignName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="HotelID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CountryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CityCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Discountper" Type="Int32" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="MaxAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IsPercentDiscountAmount" Type="Boolean" />
+    <Property Name="StartCampaignDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishCampaignDate" Type="DateTime" Precision="3" />
+    <Property Name="StartTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Allotment" Type="Int32" />
+    <Property Name="RemoveHotel" Type="Int32" />
+    <Property Name="AddHotel" Type="Int32" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+    <Property Name="UseHotel" Type="Int32" />
+    <Property Name="ZoneCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsDiscountHotelExtranet" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="PromotionCodeTransfer">
+    <Key>
+      <PropertyRef Name="PromotionCodeTransferOID" />
+    </Key>
+    <Property Name="PromotionCodeTransferOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="CampaignName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Destination" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="AirportCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Discountper" Type="Int32" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="MaxAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IsPercentDiscountAmount" Type="Boolean" />
+    <Property Name="StartCampaignDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishCampaignDate" Type="DateTime" Precision="3" />
+    <Property Name="StartTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="FinishTravelDate" Type="DateTime" Precision="3" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Allotment" Type="Int32" />
+    <Property Name="UseTransfer" Type="Int32" />
+    <Property Name="RemoveTransfer" Type="Int32" />
+    <Property Name="AddTransfer" Type="Int32" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="PromotionUsing">
+    <Key>
+      <PropertyRef Name="PromotionUsingOID" />
+    </Key>
+    <Property Name="PromotionUsingOID" Type="Guid" Nullable="false" />
+    <Property Name="PromotionOID" Type="Guid" />
+    <Property Name="PromotionCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GogojiiID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TotalAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="UsingDateTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="RunningNumber">
+    <Key>
+      <PropertyRef Name="RunningKey" />
+    </Key>
+    <Property Name="RunningKey" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RunningNo" Type="Int32" />
+  </EntityType>
+  <EntityType Name="SeatMapControl">
+    <Key>
+      <PropertyRef Name="SeatMapOID" />
+    </Key>
+    <Property Name="SeatMapOID" Type="Guid" Nullable="false" />
+    <Property Name="AirlineCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="OriginalCountryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationCountryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="RBD" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="ShortenURL">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FullURL" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="SubScribeDeal">
+    <Key>
+      <PropertyRef Name="SubScribeDealsOID" />
+    </Key>
+    <Property Name="SubScribeDealsOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="SubScribeDatetime" Type="DateTime" Precision="3" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="TopDestination">
+    <Key>
+      <PropertyRef Name="TopDestinationOID" />
+    </Key>
+    <Property Name="TopDestinationOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Seq" Type="Int32" />
+    <Property Name="DestinationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="IsInternational" Type="Boolean" />
+    <Property Name="BannerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FileName_Paragraph11" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FileName_Paragraph12" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FileName_Paragraph21" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FileName_Paragraph22" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FileName_Paragraph31" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FileName_Paragraph32" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="TransferBooking">
+    <Key>
+      <PropertyRef Name="TransferBookingOID" />
+    </Key>
+    <Property Name="TransferBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="WelcomeMessage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PaymentMethod" Type="Int32" />
+    <Property Name="IsBundle" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="TransferBookingContactInfo">
+    <Key>
+      <PropertyRef Name="TransferBookingContactInferOID" />
+    </Key>
+    <Property Name="TransferBookingContactInferOID" Type="Guid" Nullable="false" />
+    <Property Name="TransferBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Firstname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Middlename" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Lastname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TelNo" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="CountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="TransferBookingHolder">
+    <Key>
+      <PropertyRef Name="TransferBookingHolderOID" />
+    </Key>
+    <Property Name="TransferBookingHolderOID" Type="Guid" Nullable="false" />
+    <Property Name="TransferBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Firstname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Lastname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="TransferBookingMain">
+    <Key>
+      <PropertyRef Name="BookingKeyReference" />
+    </Key>
+    <Property Name="BookingKeyReference" Type="Guid" Nullable="false" />
+    <Property Name="TransferBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="TransferReferenceNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SupplierName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="VatNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GogojiiID" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+    <Property Name="BookingDate" Type="DateTime" Precision="3" />
+    <Property Name="BookingStatus" Type="Int32" />
+    <Property Name="PaymentStatus" Type="Int32" />
+    <Property Name="PaymentDatetime" Type="DateTime" Precision="3" />
+    <Property Name="PaymentMethod" Type="Int32" />
+    <Property Name="EmergencyContact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreationDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SourceBy" Type="Int32" />
+    <Property Name="PaymentFee" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PromoCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="InstallmentPlan" Type="Int32" />
+    <Property Name="InstallmentMonthly" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="FinalPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="UUID" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberOID" Type="Guid" />
+  </EntityType>
+  <EntityType Name="TransferBookingPickupInfo">
+    <Key>
+      <PropertyRef Name="TransferBookingPickupInfoOID" />
+    </Key>
+    <Property Name="TransferBookingPickupInfoOID" Type="Guid" Nullable="false" />
+    <Property Name="TransferBookingTransferServiceOID" Type="Guid" Nullable="false" />
+    <Property Name="PickupPlace" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PickupDate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="PickupDateString" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="PickupTime" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="StopName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="TransferBookingTransferDetail">
+    <Key>
+      <PropertyRef Name="TransferBookingDetailOID" />
+    </Key>
+    <Property Name="TransferBookingDetailOID" Type="Guid" Nullable="false" />
+    <Property Name="TransferBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="RateKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FlightNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="TripType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="TransferBookingTransferService">
+    <Key>
+      <PropertyRef Name="TransferBookingTransferServiceOID" />
+    </Key>
+    <Property Name="TransferBookingTransferServiceOID" Type="Guid" Nullable="false" />
+    <Property Name="TransferBookingOID" Type="Guid" Nullable="false" />
+    <Property Name="Adult" Type="Int32" />
+    <Property Name="Children" Type="Int32" />
+    <Property Name="Infants" Type="Int32" />
+    <Property Name="TransferType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="VehicleCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="VehicleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DropOffPlace" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MinPassengers" Type="Int32" />
+    <Property Name="MaxPassengers" Type="Int32" />
+    <Property Name="RateKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="NetPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PricePerPerson" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CurrencyCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerMaxWaitingTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SupplierMaxWaitingTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SourceCurrencyCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SourcePrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="FlightNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="TripType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="TransferDetail">
+    <Key>
+      <PropertyRef Name="TransferDetailOID" />
+    </Key>
+    <Property Name="TransferDetailOID" Type="Guid" Nullable="false" />
+    <Property Name="Timestamp" Type="DateTime" Precision="3" />
+    <Property Name="RateKey" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsBooking" Type="Boolean" />
+    <Property Name="TransferType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="VehicleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="VehicleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PickupPlace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PickupDate" Type="DateTime" Precision="3" />
+    <Property Name="PickupTime" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="PickupAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PickupTown" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="PickupZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PickupDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PickupLatitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PickupLongitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PickupMustCheckTime" Type="Boolean" />
+    <Property Name="PickupCheckURL" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="PickupCheckBeforeHour" Type="Int32" />
+    <Property Name="PickupStopName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DropOffPlace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MinPax" Type="Int32" />
+    <Property Name="MaxPax" Type="Int32" />
+    <Property Name="CancellationPolicy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerMaxWaitingTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SupplierMaxWaitingTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="VehicleImages" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TransferDetailInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SourceCurrency" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SourcePrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="adults" Type="Int32" />
+    <Property Name="children" Type="Int32" />
+    <Property Name="infants" Type="Int32" />
+    <Property Name="NetPrice" Type="Decimal" Precision="19" Scale="4" />
+  </EntityType>
+  <EntityType Name="WhyTravelWith">
+    <Key>
+      <PropertyRef Name="WhyTravelWithOID" />
+    </Key>
+    <Property Name="WhyTravelWithOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Seq" Type="Int32" />
+    <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="HBHotelName">
+    <Key>
+      <PropertyRef Name="HotelCode" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="HotelCode" Type="Int32" Nullable="false" />
+    <Property Name="DestinationCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="CountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="HotelName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="FlightBooking">
+    <Key>
+      <PropertyRef Name="BookingOID" />
+    </Key>
+    <Property Name="BookingOID" Type="Guid" Nullable="false" />
+    <Property Name="NoOfAdults" Type="Int32" />
+    <Property Name="NoOfChildren" Type="Int32" />
+    <Property Name="NoOfInfants" Type="Int32" />
+    <Property Name="Svc_class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GrandTotal" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IsPassportRequired" Type="Boolean" />
+    <Property Name="PNR" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Platform" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MedId" Type="Int32" />
+    <Property Name="PriceChange" Type="Boolean" />
+    <Property Name="OldPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TKTL" Type="DateTime" Precision="3" />
+    <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TotalFare" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CreditCardFee" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PaypalFee" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CounterServiceFee" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IsError" Type="Boolean" />
+    <Property Name="ErrorMessage" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Origin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Destination" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="bookingDate" Type="DateTime" Precision="3" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Firstname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Middlename" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Lastname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CountryOfResidence" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="GogoiiID" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+    <Property Name="StatusPayment" Type="Int32" />
+    <Property Name="PaymentMethod" Type="Int32" />
+    <Property Name="StatusBooking" Type="Int32" />
+    <Property Name="IsBundle" Type="Boolean" />
+    <Property Name="sourceBy" Type="Int32" />
+    <Property Name="PaymentFee" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PromoCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="InstallmentPlan" Type="Int32" />
+    <Property Name="InstallmentMonthly" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="FinalPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="UUID" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberOID" Type="Guid" />
+    <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HotPromotionDetail">
+    <Key>
+      <PropertyRef Name="HotPromotionOID" />
+      <PropertyRef Name="LangCode" />
+    </Key>
+    <Property Name="HotPromotionOID" Type="Guid" Nullable="false" />
+    <Property Name="LangCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="PromotionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShortDescriptions" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ImageALT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="NewsAndActivityDetail">
+    <Key>
+      <PropertyRef Name="NewsAndActivityOID" />
+      <PropertyRef Name="LangCode" />
+    </Key>
+    <Property Name="NewsAndActivityOID" Type="Guid" Nullable="false" />
+    <Property Name="LangCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShortDescriptions" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Descriptions_Paragraph1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Descriptions_Paragraph2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Descriptions_Paragraph3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ImageALT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="TopDestinationDetail">
+    <Key>
+      <PropertyRef Name="TopDestinationOID" />
+      <PropertyRef Name="LangCode" />
+    </Key>
+    <Property Name="TopDestinationOID" Type="Guid" Nullable="false" />
+    <Property Name="LangCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShortDescriptions" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Descriptions_Paragraph1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Descriptions_Paragraph2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Descriptions_Paragraph3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ImageALT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="WhyTravelWithDetail">
+    <Key>
+      <PropertyRef Name="WhyTravelWithOID" />
+      <PropertyRef Name="LangCode" />
+    </Key>
+    <Property Name="WhyTravelWithOID" Type="Guid" Nullable="false" />
+    <Property Name="LangCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShortDescriptions" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ImageALT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="FlightBookingPaxInfo">
+    <Key>
+      <PropertyRef Name="FlightBookingPaxInfoOID" />
+    </Key>
+    <Property Name="FlightBookingPaxInfoOID" Type="Guid" Nullable="false" />
+    <Property Name="BookingOID" Type="Guid" Nullable="false" />
+    <Property Name="PaxType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Firstname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Middlename" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Lastname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Birthday" Type="DateTime" Precision="3" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PassportNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PassportIssuingDate" Type="DateTime" Precision="3" />
+    <Property Name="PassportExpiryDate" Type="DateTime" Precision="3" />
+    <Property Name="PassportIssuingCountry" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PassportNationality" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PessengerType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NetRefund" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AgentRefund" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="RefundAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TickNoRefund" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RemarkRefund" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="NetReissue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AgentReissue" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="ReissueSelling" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TickNoReissueOld" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TickNoReissueNew" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RemarkReissue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="StatusRefund" Type="Boolean" />
+    <Property Name="StatusReissue" Type="Boolean" />
+    <Property Name="KiwiBag" Type="Int32" />
+    <Property Name="KiwiBagPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="KiwiBagWeight" Type="Int32" />
+  </EntityType>
+  <EntityType Name="CustomerReview">
+    <Key>
+      <PropertyRef Name="CustomerReviewOID" />
+    </Key>
+    <Property Name="CustomerReviewOID" Type="Guid" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Seq" Type="Int32" />
+    <Property Name="CustomerImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="CustomerReviewDetail">
+    <Key>
+      <PropertyRef Name="CustomerReviewOID" />
+      <PropertyRef Name="LangCode" />
+    </Key>
+    <Property Name="CustomerReviewOID" Type="Guid" Nullable="false" />
+    <Property Name="LangCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Review" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="ImageALT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

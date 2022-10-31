@@ -1,0 +1,196 @@
+﻿@model BL.Entities.RobinhoodFare.AirFare
+@{
+    Layout = null;
+    string URL = System.Configuration.ConfigurationManager.AppSettings["webpages_URL"].ToString();
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang().ToLower() == "th" ? "th-TH" : "en-US");
+    decimal vat = Convert.ToDecimal("1.07");
+    decimal total = Model.grandTotal;
+    int iNo = 0;
+    bool isKiwiBooking = Model.PNR.Length > 6 ? true : false;
+    decimal dKiwiBagADT = 0;
+    decimal dKiwiBagCHD = 0;
+    int iKiwiBagADT = 0;
+    int iKiwiBagCHD = 0;
+    for (int i = 0; i < Model.noOfAdults; i++)
+    {
+        if (Model.adtPaxs[i].kiwiBag > 0)
+        {
+            iKiwiBagADT++;
+            dKiwiBagADT += Model.adtPaxs[i].kiwiBagPrice;
+        }
+    }
+    for (int i = 0; i < Model.noOfChildren; i++)
+    {
+        if (Model.chdPaxs[i].kiwiBag > 0)
+        {
+            iKiwiBagCHD++;
+            dKiwiBagCHD += Model.chdPaxs[i].kiwiBagPrice;
+        }
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Receipt</title>
+    <style>
+        .container {
+            width: 100%;
+            margin-right: auto;
+            margin-left: auto;
+            font-family: Tahoma, sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            text-align: left
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>
+                    <table width="100%" border="0" cellspacing="2" cellpadding="2">
+                        <tr>
+                            <td>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                                    @if (Model.noOfAdults > 0)
+                                    {
+                                        iNo++;
+                                        <tr>
+                                            <td width="10%" style="text-align:center;vertical-align:top;">@iNo</td>
+                                            <td width="45%" style="font-weight:bold;text-align:left;padding-left:15px;">@Localize.Show("ADULT")</td>
+                                            <td width="15%" style="text-align:center;vertical-align:top;">@Model.noOfAdults</td>
+                                            <td width="15%" style="text-align:right;padding-right:25px;vertical-align:top;">@Model.adtFare.net.ToString("N2")</td>
+                                            <td width="15%" style="text-align:right;padding-right:25px;vertical-align:top;">@((Model.adtFare.net * Model.noOfAdults).ToString("N2"))</td>
+                                        </tr>
+
+                                        if (isKiwiBooking && dKiwiBagADT > 0)
+                                        {
+                                            iNo++;
+                                            <tr>
+                                                <td rowspan="@(iKiwiBagADT+1)" style="text-align:center;vertical-align:top;">@iNo</td>
+                                                <td style="font-weight:bold;text-align:left;padding-left:15px;">@Localize.Show("BAGGAGE")</td>
+                                                <td rowspan="@(iKiwiBagADT+1)" style="text-align:center;vertical-align:top;">@iKiwiBagADT</td>
+                                                <td rowspan="@(iKiwiBagADT+1)" style="text-align:right;padding-right:25px;vertical-align:top;"></td>
+                                                <td rowspan="@(iKiwiBagADT+1)" style="text-align:right;padding-right:25px;vertical-align:top;">@dKiwiBagADT.ToString("N2")</td>
+                                            </tr>
+                                            for (int i = 0; i < Model.noOfAdults; i++)
+                                            {
+                                                if (Model.adtPaxs[i].kiwiBag > 0)
+                                                {
+                                                    <tr>
+                                                        <td style="text-align:left;padding-left:15px;">@String.Format("{0} x {1} {3} {2}", Model.adtPaxs[i].kiwiBag, Model.adtPaxs[i].kiwiBagWeight, (Model.adtPaxs[i].kiwiBagPrice > 0 ? (Convert.ToDouble(Model.adtPaxs[i].kiwiBagPrice).ToString("N0") + " " + Localize.Show("THB")) : Localize.Show("BAGGAGE_FREE")), Localize.Show("BaggageKG"))</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    }
+                                    @if (Model.noOfChildren > 0)
+                                    {
+                                        iNo++;
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;">@iNo</td>
+                                            <td style="font-weight:bold;text-align:left;padding-left:15px;">@Localize.Show("CHILD")</td>
+                                            <td style="text-align:center;vertical-align:top;">@Model.noOfChildren</td>
+                                            <td style="text-align:right;padding-right:25px;vertical-align:top;">@Model.chdFare.net.ToString("N2")</td>
+                                            <td style="text-align:right;padding-right:25px;vertical-align:top;">@((Model.chdFare.net * Model.noOfChildren).ToString("N2"))</td>
+                                        </tr>
+
+                                        if (isKiwiBooking && dKiwiBagCHD > 0)
+                                        {
+                                            iNo++;
+                                            <tr>
+                                                <td rowspan="@(iKiwiBagCHD+1)" style="text-align:center;vertical-align:top;">@iNo</td>
+                                                <td style="font-weight:bold;text-align:left;padding-left:15px;">@Localize.Show("BAGGAGE")</td>
+                                                <td rowspan="@(iKiwiBagCHD+1)" style="text-align:center;vertical-align:top;">@iKiwiBagCHD</td>
+                                                <td rowspan="@(iKiwiBagCHD+1)" style="text-align:right;padding-right:25px;vertical-align:top;"></td>
+                                                <td rowspan="@(iKiwiBagCHD+1)" style="text-align:right;padding-right:25px;vertical-align:top;">@dKiwiBagCHD.ToString("N2")</td>
+                                            </tr>
+                                            for (int i = 0; i < Model.noOfChildren; i++)
+                                            {
+                                                if (Model.chdPaxs[i].kiwiBag > 0)
+                                                {
+                                                    <tr>
+                                                        <td style="text-align:left;padding-left:15px;">@String.Format("{0} x {1} {3} {2}", Model.chdPaxs[i].kiwiBag, Model.chdPaxs[i].kiwiBagWeight, (Model.chdPaxs[i].kiwiBagPrice > 0 ? (Convert.ToDouble(Model.chdPaxs[i].kiwiBagPrice).ToString("N0") + " " + Localize.Show("THB")) : Localize.Show("BAGGAGE_FREE")), Localize.Show("BaggageKG"))</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    }
+                                    @if (Model.noOfInfants > 0)
+                                    {
+                                        iNo++;
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;">@iNo</td>
+                                            <td style="font-weight:bold;text-align:left;padding-left:15px;">@Localize.Show("INFANT")</td>
+                                            <td style="text-align:center;vertical-align:top;">@Model.noOfInfants</td>
+                                            <td style="text-align:right;padding-right:25px;vertical-align:top;">@Model.infFare.net.ToString("N2")</td>
+                                            <td style="text-align:right;padding-right:25px;vertical-align:top;">@((Model.infFare.net * Model.noOfInfants).ToString("N2"))</td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td rowspan="3"></td>
+                                        <td style="text-align:left;padding-left:15px;"> <strong>Airline Booking Ref:</strong> @Model.PNR</td>
+                                        <td rowspan="3"></td>
+                                        <td rowspan="3"></td>
+                                        <td rowspan="3"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;padding-left:15px;">@Model.origin.name (@Model.origin.code) - @Model.destination.name (@Model.destination.code)</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;padding-left:15px;">
+                                            <span>@Model.depFlight[0].departureDateTime.ToString("ddd, dd MMM yyyy")</span>
+                                            @if (Model.retFlight != null && Model.retFlight.Count > 0)
+                                            {
+                                            <span> - @Model.retFlight[0].departureDateTime.ToString("ddd, dd MMM yyyy")</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="height:20px;"></td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="10">                        
+                        <tr style="background-color:#F9A90C;color:#FFF;">
+                            <td>
+                                @Html.Raw(Localize.Show("RECEIRT_NETAMOUNT"))
+                            </td>
+                            <td style="text-align:right;padding-right:25px;vertical-align:middle;">
+                                @(total.ToString("N2"))
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%" border="0" cellspacing="5" cellpadding="5">
+                        <tr>
+                            <td style="padding-right:15px;text-align:right;">
+                                @Html.Raw(Localize.Show("RECEIRT_TOTAL_LETTER"))
+                            </td>
+                            <td style="background-color:#E5E5E5;padding:10px;text-align:center;vertical-align:middle;font-weight:bold;">
+                                (@TGBookingWeb.Utilities.Utility.getThaiBahtText(total))<br />
+                                (@TGBookingWeb.Utilities.Utility.NumberToText(Convert.ToInt32(total), true))
+                            </td>
+                        </tr>
+
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

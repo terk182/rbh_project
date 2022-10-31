@@ -1,0 +1,2415 @@
+﻿@model  BL.Entities.RobinhoodFare.AirFare
+
+@*<form id="form1" onSubmit="return check(this)" name="form1" method="post">*@
+@using (Html.BeginForm("FlightReportReissueDetailsave", "ReportFlight", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data", @onSubmit = "return check(this)" }))
+{
+    @Html.HiddenFor(m => m.bookingOID)
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-header py-3" style="text-align:right;">
+                @*<div class="d-sm-flex align-items-center justify-content-between">*@
+                <a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Back
+                </a>
+
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primaryblue shadow-sm" id="btn_Save">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+                @*</div>*@
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Ticketing Task</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-1">
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Status :
+                        </div>
+                        <div class="col-lg-4 col-md-5 col-sm-5 text">
+                            @{
+                                SelectList selectListStatusReissue = (SelectList)ViewData["StatusReissueList"];
+                            }
+                            @*//ใน text บวก value จาก controller มาด้วย*@
+                            @Html.DropDownListFor(m => m.reissue.status, selectListStatusReissue.OrderBy(x => x.Value).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.reissue.status == Convert.ToInt32(s.Value)) }), new
+                                {
+                                    @class = "form-control ADT-TT-",
+                                    required = "required"
+                                })
+
+                        </div>
+
+
+
+                        <div class="col-lg-2 col-md-5 col-sm-5" style="text-align:right;">
+                            New PNR :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Html.TextBoxFor(x => x.reissue.newPNR, new { @class = "form-control form-control-sm" })
+                        </div>
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Reissue Create Date :
+                        </div>
+                        <div class="col-lg-4 col-md-5 col-sm-5 text">
+                            @*<input type="text" class="form-control form-control-sm" value="@Model.refund.refundCreateDate.ToString("MM/dd/yyyy")" readonly>*@
+                            @Html.TextBoxFor(m => m.reissue.reissueCreateDate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm", @id = "ReissueCreateDate", @name = "ReissueCreateDate", @readonly = "readonly" })
+                            @Html.Hidden("reissueCreateDate", Model.reissue.reissueCreateDate)
+                        </div>
+
+                        <div class="col-lg-2 col-md-5 col-sm-5" style="text-align:right;">
+                            Type Chage :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @{
+                                SelectList selectListTypeChage = (SelectList)ViewData["TypeChangeList"];
+                            }
+                            @Html.DropDownListFor(m => m.reissue.typeChage, selectListTypeChage.OrderBy(x => x.Value).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.reissue.typeChage == Convert.ToInt32(s.Value)) }), new
+                                {
+                                    @class = "form-control ADT-TT-",
+                                    required = "required"
+                                })
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Detail Change :
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 text">
+                            @{
+                                SelectList selectListDetailChange = (SelectList)ViewData["DetailChangeList"];
+                            }
+                            @Html.DropDownListFor(m => m.reissue.detailChage, selectListDetailChange.OrderBy(x => x.Value).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.reissue.detailChage == Convert.ToInt32(s.Value)) }), new
+                                {
+                                    @class = "form-control ADT-TT-",
+                                    required = "required"
+                                })
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-sm-5"></div>
+
+                        <div class="col-lg-3" style="text-align:right;">
+                            Remark :
+                        </div>
+                        <div class="col-lg-9 text">
+                            @Html.TextAreaFor(m => m.reissue.remark, new { @class = "form-control form-control-sm", @style = "font-size:18px;" })
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Booking Detail</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-1">
+                        <div class="col-lg-3" style="text-align:right;">
+                            PNR :
+                        </div>
+                        <div class="col-lg-3 text">
+                            <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;"><b>@Model.PNR</b></span>
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Booking Date :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.bookingDate.ToString("dd MMMM yyyy HH:mm:ss tt")
+                            @*@Html.TextBoxFor(m => m.bookingDate, "{0:yyyy-MM-dd}", new { required = "required", @class = "form-control form-control-sm", @type = "date", @id = "datetime1", @readonly = "readonly" })*@
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            From City :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                            {
+                                @Model.depFlight[0].depCity.code
+                            }
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            To City :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                            {
+                                @Model.depFlight[Model.depFlight.Count - 1].arrCity.code
+                            }
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Airline :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                            {
+                                @Model.depFlight[0].airline.code
+                            }
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            No Of Pax :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @(Model.noOfAdults + Model.noOfChildren + Model.noOfInfants)
+                            @*<input type="text" class="form-control form-control-sm" value="@(Model.noOfAdults+Model.noOfChildren+Model.noOfInfants)" readonly>*@
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Segment/PNR :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            -
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            All Segment :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            -
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Discount :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            -
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Total(฿) :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.grandTotal.ToString("N0")
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Contact Detail</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-1">
+                        @if (Model.contactInfo.firstname != null && Model.contactInfo.email != null && Model.contactInfo.telNo != null)
+                        {
+                            <div class="col-lg-1">
+                                Title
+                            </div>
+                            <div class="col-lg-2 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.title" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                First Name
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.firstname" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                Middle Name
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.middlename" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                Last Name
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.lastname" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                Email
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.email" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                Phone number
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.telNo" readonly>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-plane"></i>&nbsp;Passenger Details</h6>
+
+            </div>
+        </div>
+        <div class="card-body">
+
+
+            <div class="row" id="checkRefund" name="checkRefund">
+                <table class="table table-bordered">
+
+                    <thead class="table">
+                        <tr>
+                            <th><input type="checkbox" name="select-all" id="select-all" /></th>
+                            <th>PaxNo</th>
+                            <th>PaxType</th>
+                            <th>Title</th>
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Last Name</th>
+                            <th>Other details</th>
+                            <th>Net (Reissue/Revalidate)</th>
+                            <th>Agent (Reissue/Revalidate)</th>
+                            <th>Selling (Reissue/Revalidate)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int paxNo = 1;
+                        }
+                        @for (int i = 0; i < Model.adtPaxs.Count; i++)
+                        {
+                            if (Model.adtPaxs[i].StatusReissue == true)
+                            {
+                        <tr>
+                            <td></td>
+                            <td>@(paxNo.ToString())</td>
+                            <td>@Model.adtPaxs[i].paxType</td>
+                            <td>@Model.adtPaxs[i].title</td>
+                            <td>@Model.adtPaxs[i].firstname</td>
+                            <td>@Model.adtPaxs[i].middlename</td>
+                            <td>@Model.adtPaxs[i].lastname</td>
+                            <td>
+                                @if (Model.adtPaxs[i].birthday != null && Model.adtPaxs[i].birthday.ToString("dd/MM/yyyy") != "01/01/0001")
+                                {
+                                    <div>DOB: @Model.adtPaxs[i].birthday.ToString("dd/MM/yyyy")</div>
+                                }
+                                @if (Model.adtPaxs[i].passportNumber != null && Model.adtPaxs[i].passportNumber.Length > 0)
+                                {
+                                    <div>Passport/ID Card: @Model.adtPaxs[i].passportNumber</div>
+                                }
+                                @if (Model.adtPaxs[i].passportIssuingCountry != null && Model.adtPaxs[i].passportIssuingCountry.Length > 0
+                                    && Model.adtPaxs[i].passportNationality != null && Model.adtPaxs[i].passportNationality.Length > 0
+                                    && Model.adtPaxs[i].passportIssuingDate.ToString("dd/MM/yyyy") != "01/01/0001"
+                                    && Model.adtPaxs[i].passportExpiryDate.ToString("dd/MM/yyyy") != "01/01/0001")
+                                {
+                                    <div>Issue: @Model.adtPaxs[i].passportIssuingDate.ToString("dd/MM/yyyy")</div>
+                                    <div>Expire: @Model.adtPaxs[i].passportExpiryDate.ToString("dd/MM/yyyy")</div>
+                                    <div>Issuing Country: @Model.adtPaxs[i].passportIssuingCountry</div>
+                                    <div>Nationality: @Model.adtPaxs[i].passportNationality</div>
+                                }
+                                @if (Model.adtPaxs[i].frequencyFlyerAirline != null && Model.adtPaxs[i].frequencyFlyerAirline.Length > 0)
+                                {
+                                    <div>Frequency Flyer Airline: @Model.adtPaxs[i].frequencyFlyerAirline</div>
+                                    <div>Frequency Flyer No.: @Model.adtPaxs[i].frequencyFlyerNumber</div>
+                                }
+                                @if (Model.adtPaxs[i].mealRequest != null && Model.adtPaxs[i].mealRequest.Length > 0)
+                                {
+                                    <div>Meal Request: @Model.adtPaxs[i].mealRequest</div>
+                                }
+                                @if (Model.adtPaxs[i].seatRequest != null && Model.adtPaxs[i].seatRequest.Length > 0)
+                                {
+                                    <div>Seat Request: @Model.adtPaxs[i].seatRequest</div>
+                                }
+                                @if (Model.adtPaxs[i].kiwiBag != null && Model.adtPaxs[i].kiwiBag > 0)
+                                {
+                                    <div>kiwi Bag: @Model.adtPaxs[i].kiwiBag x @Model.adtPaxs[i].kiwiBagWeight KG. Total(฿): @Model.adtPaxs[i].kiwiBagPrice.ToString("N2") </div>
+                                }
+                            </td>
+                            <td>@Html.TextBoxFor(x => x.adtPaxs[i].netReissue, new { @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @readonly = "readonly" })</td>
+                            <td>@Html.TextBoxFor(x => x.adtPaxs[i].agentReissue, new { @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @readonly = "readonly" })</td>
+                            <td>@Html.TextBoxFor(x => x.adtPaxs[i].reissueSelling, new { @class = "form-control form-control-sm", @placeholder = "Refund Amount", @readonly = "readonly" })</td>
+                            @*<td>@Model.adtFare.sellingBaseFare.ToString("N2")</td>*@
+                        </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align:right;">TicketNo. (Old):</td>
+                                    <td colspan="2">@Html.TextBoxFor(x => x.adtPaxs[i].tickNoReissueOld, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @readonly = "readonly" })</td>
+                                    <td colspan="2" style="text-align:right;">TicketNo. (New):</td>
+                                    <td colspan="2">@Html.TextBoxFor(x => x.adtPaxs[i].tickNoReissueNew, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @readonly = "readonly" })</td>
+                                    <td colspan="4">
+                                        @if (Model.adtPaxs[i].StatusReissue == true)
+                                        {
+                                            <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                <b>
+                                                    <label>Reissue</label>
+                                                </b>
+                                            </span>
+
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align:right;">Remark:</td>
+                                    <td colspan="10">@Html.TextBoxFor(x => x.adtPaxs[i].remarkReissue, new { @class = "form-control form-control-sm", @placeholder = "Remark", @readonly = "readonly" })</td>
+                                </tr>
+
+
+                                paxNo++;
+                            }
+                            else
+                            {
+                    <tr>
+                        <td>@Html.CheckBoxFor(m => m.adtPaxs[i].StatusReissue, new { @type = "checkbox" })</td>
+                        <td>@(paxNo.ToString())</td>
+                        <td>@Model.adtPaxs[i].paxType</td>
+                        <td>@Model.adtPaxs[i].title</td>
+                        <td>@Model.adtPaxs[i].firstname</td>
+                        <td>@Model.adtPaxs[i].middlename</td>
+                        <td>@Model.adtPaxs[i].lastname</td>
+                        <td>
+                            @if (Model.adtPaxs[i].birthday != null && Model.adtPaxs[i].birthday.ToString("dd/MM/yyyy") != "01/01/0001")
+                            {
+                                <div>DOB: @Model.adtPaxs[i].birthday.ToString("dd/MM/yyyy")</div>
+                            }
+                            @if (Model.adtPaxs[i].passportNumber != null && Model.adtPaxs[i].passportNumber.Length > 0)
+                            {
+                                <div>Passport/ID Card: @Model.adtPaxs[i].passportNumber</div>
+                            }
+                            @if (Model.adtPaxs[i].passportIssuingCountry != null && Model.adtPaxs[i].passportIssuingCountry.Length > 0
+                                && Model.adtPaxs[i].passportNationality != null && Model.adtPaxs[i].passportNationality.Length > 0
+                                && Model.adtPaxs[i].passportIssuingDate.ToString("dd/MM/yyyy") != "01/01/0001"
+                                && Model.adtPaxs[i].passportExpiryDate.ToString("dd/MM/yyyy") != "01/01/0001")
+                            {
+                                <div>Issue: @Model.adtPaxs[i].passportIssuingDate.ToString("dd/MM/yyyy")</div>
+                                <div>Expire: @Model.adtPaxs[i].passportExpiryDate.ToString("dd/MM/yyyy")</div>
+                                <div>Issuing Country: @Model.adtPaxs[i].passportIssuingCountry</div>
+                                <div>Nationality: @Model.adtPaxs[i].passportNationality</div>
+                            }
+                            @if (Model.adtPaxs[i].frequencyFlyerAirline != null && Model.adtPaxs[i].frequencyFlyerAirline.Length > 0)
+                            {
+                                <div>Frequency Flyer Airline: @Model.adtPaxs[i].frequencyFlyerAirline</div>
+                                <div>Frequency Flyer No.: @Model.adtPaxs[i].frequencyFlyerNumber</div>
+                            }
+                            @if (Model.adtPaxs[i].mealRequest != null && Model.adtPaxs[i].mealRequest.Length > 0)
+                            {
+                                <div>Meal Request: @Model.adtPaxs[i].mealRequest</div>
+                            }
+                            @if (Model.adtPaxs[i].seatRequest != null && Model.adtPaxs[i].seatRequest.Length > 0)
+                            {
+                                <div>Seat Request: @Model.adtPaxs[i].seatRequest</div>
+                            }
+                            @if (Model.adtPaxs[i].kiwiBag != null && Model.adtPaxs[i].kiwiBag > 0)
+                            {
+                                <div>kiwi Bag: @Model.adtPaxs[i].kiwiBag x @Model.adtPaxs[i].kiwiBagWeight KG. Total(฿): @Model.adtPaxs[i].kiwiBagPrice.ToString("N2") </div>
+                            }
+                        </td>
+                        <td>@Html.TextBoxFor(x => x.adtPaxs[i].netReissue, new { @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @disabled = "disabled" })</td>
+                        <td>@Html.TextBoxFor(x => x.adtPaxs[i].agentReissue, new { @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @disabled = "disabled" })</td>
+                        <td>@Html.TextBoxFor(x => x.adtPaxs[i].reissueSelling, new { @class = "form-control form-control-sm", @placeholder = "Refund Amount", @disabled = "disabled" })</td>
+                        @*<td>@Model.adtFare.sellingBaseFare.ToString("N2")</td>*@
+                    </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align:right;">TicketNo. (Old):</td>
+                                    <td colspan="2">@Html.TextBoxFor(x => x.adtPaxs[i].tickNoReissueOld, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @disabled = "disabled" })</td>
+                                    <td colspan="2" style="text-align:right;">TicketNo. (New):</td>
+                                    <td colspan="2">@Html.TextBoxFor(x => x.adtPaxs[i].tickNoReissueNew, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @disabled = "disabled" })</td>
+                                    <td colspan="4">
+                                        @if (Model.adtPaxs[i].StatusReissue == true)
+                                        {
+                                            <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                <b>
+                                                    <label>Reissue</label>
+                                                </b>
+                                            </span>
+
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align:right;">Remark:</td>
+                                    <td colspan="10">@Html.TextBoxFor(x => x.adtPaxs[i].remarkReissue, new { @class = "form-control form-control-sm", @placeholder = "Remark", @disabled = "disabled" })</td>
+                                </tr>
+
+
+                                paxNo++;
+                            }
+                        }
+
+                        @if (Model.chdPaxs.Count > 0 && Model.chdPaxs != null)
+                        {
+                            for (int j = 0; j < Model.chdPaxs.Count; j++)
+                            {
+                                if (Model.chdPaxs[j].StatusReissue == true)
+                                {
+                    <tr>
+                        <td></td>
+                        <td>@(paxNo.ToString())</td>
+                        <td>@Model.chdPaxs[j].paxType</td>
+                        <td>@Model.chdPaxs[j].title</td>
+                        <td>@Model.chdPaxs[j].firstname</td>
+                        <td>@Model.chdPaxs[j].middlename</td>
+                        <td>@Model.chdPaxs[j].lastname</td>
+                        <td>
+                            @if (Model.chdPaxs[j].birthday != null && Model.chdPaxs[j].birthday.ToString("dd/MM/yyyy") != "01/01/0001")
+                            {
+                                <div>DOB: @Model.chdPaxs[j].birthday.ToString("dd/MM/yyyy")</div>
+                            }
+                            @if (Model.chdPaxs[j].passportNumber != null && Model.chdPaxs[j].passportNumber.Length > 0)
+                            {
+                                <div>Passport/ID Card: @Model.chdPaxs[j].passportNumber</div>
+                            }
+                            @if (Model.chdPaxs[j].passportIssuingCountry != null && Model.chdPaxs[j].passportIssuingCountry.Length > 0
+                                && Model.chdPaxs[j].passportNationality != null && Model.chdPaxs[j].passportNationality.Length > 0
+                                && Model.chdPaxs[j].passportIssuingDate.ToString("dd/MM/yyyy") != "01/01/0001"
+                                && Model.chdPaxs[j].passportExpiryDate.ToString("dd/MM/yyyy") != "01/01/0001")
+                            {
+                                <div>Issue: @Model.chdPaxs[j].passportIssuingDate.ToString("dd/MM/yyyy")</div>
+                                <div>Expire: @Model.chdPaxs[j].passportExpiryDate.ToString("dd/MM/yyyy")</div>
+                                <div>Issuing Country: @Model.chdPaxs[j].passportIssuingCountry</div>
+                                <div>Nationality: @Model.chdPaxs[j].passportNationality</div>
+                            }
+                            @if (Model.chdPaxs[j].frequencyFlyerAirline != null && Model.chdPaxs[j].frequencyFlyerAirline.Length > 0)
+                            {
+                                <div>Frequency Flyer Airline: @Model.chdPaxs[j].frequencyFlyerAirline</div>
+                                <div>Frequency Flyer No.: @Model.chdPaxs[j].frequencyFlyerNumber</div>
+                            }
+                            @if (Model.chdPaxs[j].mealRequest != null && Model.chdPaxs[j].mealRequest.Length > 0)
+                            {
+                                <div>Meal Request: @Model.chdPaxs[j].mealRequest</div>
+                            }
+                            @if (Model.chdPaxs[j].seatRequest != null && Model.chdPaxs[j].seatRequest.Length > 0)
+                            {
+                                <div>Seat Request: @Model.chdPaxs[j].seatRequest</div>
+                            }
+                            @if (Model.chdPaxs[j].kiwiBag != null && Model.chdPaxs[j].kiwiBag > 0)
+                            {
+                                <div>kiwi Bag: @Model.chdPaxs[j].kiwiBag x @Model.chdPaxs[j].kiwiBagWeight KG. Total(฿): @Model.chdPaxs[j].kiwiBagPrice.ToString("N2") </div>
+                            }
+                        </td>
+                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].netReissue, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @readonly = "readonly" })</td>
+                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].agentReissue, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @readonly = "readonly" })</td>
+                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].reissueSelling, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Refund Amount", @readonly = "readonly" })</td>
+                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">TicketNo. (Old):</td>
+                                        <td colspan="2">@Html.TextBoxFor(x => x.chdPaxs[j].tickNoReissueOld, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @readonly = "readonly" })</td>
+                                        <td colspan="2" style="text-align:right;">TicketNo. (New):</td>
+                                        <td colspan="2">@Html.TextBoxFor(x => x.chdPaxs[j].tickNoReissueNew, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @readonly = "readonly" })</td>
+                                        <td colspan="4">
+                                            @if (Model.chdPaxs[j].StatusReissue == true)
+                                            {
+                                                <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                    <b>
+                                                        <label>Reissue</label>
+                                                    </b>
+                                                </span>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">Remark:</td>
+                                        <td colspan="10">@Html.TextBoxFor(x => x.chdPaxs[j].remarkReissue, new { @class = "form-control form-control-sm", @placeholder = "Remark", @readonly = "readonly" })</td>
+                                    </tr>
+                                    paxNo++;
+                                }
+                                else
+                                {
+                    <tr>
+                        <td>@Html.CheckBoxFor(m => m.chdPaxs[j].StatusReissue, new { @type = "checkbox" })</td>
+                        <td>@(paxNo.ToString())</td>
+                        <td>@Model.chdPaxs[j].paxType</td>
+                        <td>@Model.chdPaxs[j].title</td>
+                        <td>@Model.chdPaxs[j].firstname</td>
+                        <td>@Model.chdPaxs[j].middlename</td>
+                        <td>@Model.chdPaxs[j].lastname</td>
+                        <td>
+                            @if (Model.chdPaxs[j].birthday != null && Model.chdPaxs[j].birthday.ToString("dd/MM/yyyy") != "01/01/0001")
+                            {
+                                <div>DOB: @Model.chdPaxs[j].birthday.ToString("dd/MM/yyyy")</div>
+                            }
+                            @if (Model.chdPaxs[j].passportNumber != null && Model.chdPaxs[j].passportNumber.Length > 0)
+                            {
+                                <div>Passport/ID Card: @Model.chdPaxs[j].passportNumber</div>
+                            }
+                            @if (Model.chdPaxs[j].passportIssuingCountry != null && Model.chdPaxs[j].passportIssuingCountry.Length > 0
+                                && Model.chdPaxs[j].passportNationality != null && Model.chdPaxs[j].passportNationality.Length > 0
+                                && Model.chdPaxs[j].passportIssuingDate.ToString("dd/MM/yyyy") != "01/01/0001"
+                                && Model.chdPaxs[j].passportExpiryDate.ToString("dd/MM/yyyy") != "01/01/0001")
+                            {
+                                <div>Issue: @Model.chdPaxs[j].passportIssuingDate.ToString("dd/MM/yyyy")</div>
+                                <div>Expire: @Model.chdPaxs[j].passportExpiryDate.ToString("dd/MM/yyyy")</div>
+                                <div>Issuing Country: @Model.chdPaxs[j].passportIssuingCountry</div>
+                                <div>Nationality: @Model.chdPaxs[j].passportNationality</div>
+                            }
+                            @if (Model.chdPaxs[j].frequencyFlyerAirline != null && Model.chdPaxs[j].frequencyFlyerAirline.Length > 0)
+                            {
+                                <div>Frequency Flyer Airline: @Model.chdPaxs[j].frequencyFlyerAirline</div>
+                                <div>Frequency Flyer No.: @Model.chdPaxs[j].frequencyFlyerNumber</div>
+                            }
+                            @if (Model.chdPaxs[j].mealRequest != null && Model.chdPaxs[j].mealRequest.Length > 0)
+                            {
+                                <div>Meal Request: @Model.chdPaxs[j].mealRequest</div>
+                            }
+                            @if (Model.chdPaxs[j].seatRequest != null && Model.chdPaxs[j].seatRequest.Length > 0)
+                            {
+                                <div>Seat Request: @Model.chdPaxs[j].seatRequest</div>
+                            }
+                            @if (Model.chdPaxs[j].kiwiBag != null && Model.chdPaxs[j].kiwiBag > 0)
+                            {
+                                <div>kiwi Bag: @Model.chdPaxs[j].kiwiBag x @Model.chdPaxs[j].kiwiBagWeight KG. Total(฿): @Model.chdPaxs[j].kiwiBagPrice.ToString("N2") </div>
+                            }
+                        </td>
+                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].netReissue, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @disabled = "disabled" })</td>
+                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].agentReissue, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @disabled = "disabled" })</td>
+                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].reissueSelling, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Refund Amount", @disabled = "disabled" })</td>
+                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">TicketNo. (Old):</td>
+                                        <td colspan="2">@Html.TextBoxFor(x => x.chdPaxs[j].tickNoReissueOld, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @disabled = "disabled" })</td>
+                                        <td colspan="2" style="text-align:right;">TicketNo. (New):</td>
+                                        <td colspan="2">@Html.TextBoxFor(x => x.chdPaxs[j].tickNoReissueNew, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @disabled = "disabled" })</td>
+                                        <td colspan="4">
+                                            @if (Model.chdPaxs[j].StatusReissue == true)
+                                            {
+                                                <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                    <b>
+                                                        <label>Reissue</label>
+                                                    </b>
+                                                </span>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">Remark:</td>
+                                        <td colspan="10">@Html.TextBoxFor(x => x.chdPaxs[j].remarkReissue, new { @class = "form-control form-control-sm", @placeholder = "Remark", @disabled = "disabled" })</td>
+                                    </tr>
+                                    paxNo++;
+                                }
+                            }
+
+                        }
+
+                        @if (Model.infPaxs.Count > 0 && Model.infPaxs != null)
+                        {
+                            for (int j = 0; j < Model.infPaxs.Count; j++)
+                            {
+                                if (Model.infPaxs[j].StatusReissue == true)
+                                {
+                    <tr>
+                        <td></td>
+                        <td>@(paxNo.ToString())</td>
+                        <td>@Model.infPaxs[j].paxType</td>
+                        <td>@Model.infPaxs[j].title</td>
+                        <td>@Model.infPaxs[j].firstname</td>
+                        <td>@Model.infPaxs[j].middlename</td>
+                        <td>@Model.infPaxs[j].lastname</td>
+                        <td>
+                            @if (Model.infPaxs[j].birthday != null && Model.infPaxs[j].birthday.ToString("dd/MM/yyyy") != "01/01/0001")
+                            {
+                                <div>DOB: @Model.infPaxs[j].birthday.ToString("dd/MM/yyyy")</div>
+                            }
+                            @if (Model.infPaxs[j].passportNumber != null && Model.infPaxs[j].passportNumber.Length > 0)
+                            {
+                                <div>Passport/ID Card: @Model.infPaxs[j].passportNumber</div>
+                            }
+                            @if (Model.infPaxs[j].passportIssuingCountry != null && Model.infPaxs[j].passportIssuingCountry.Length > 0
+                                && Model.infPaxs[j].passportNationality != null && Model.infPaxs[j].passportNationality.Length > 0
+                                && Model.infPaxs[j].passportIssuingDate.ToString("dd/MM/yyyy") != "01/01/0001"
+                                && Model.infPaxs[j].passportExpiryDate.ToString("dd/MM/yyyy") != "01/01/0001")
+                            {
+                                <div>Issue: @Model.infPaxs[j].passportIssuingDate.ToString("dd/MM/yyyy")</div>
+                                <div>Expire: @Model.infPaxs[j].passportExpiryDate.ToString("dd/MM/yyyy")</div>
+                                <div>Issuing Country: @Model.infPaxs[j].passportIssuingCountry</div>
+                                <div>Nationality: @Model.infPaxs[j].passportNationality</div>
+                            }
+                            @if (Model.infPaxs[j].frequencyFlyerAirline != null && Model.infPaxs[j].frequencyFlyerAirline.Length > 0)
+                            {
+                                <div>Frequency Flyer Airline: @Model.infPaxs[j].frequencyFlyerAirline</div>
+                                <div>Frequency Flyer No.: @Model.infPaxs[j].frequencyFlyerNumber</div>
+                            }
+                            @if (Model.infPaxs[j].mealRequest != null && Model.infPaxs[j].mealRequest.Length > 0)
+                            {
+                                <div>Meal Request: @Model.infPaxs[j].mealRequest</div>
+                            }
+                            @if (Model.infPaxs[j].seatRequest != null && Model.infPaxs[j].seatRequest.Length > 0)
+                            {
+                                <div>Seat Request: @Model.infPaxs[j].seatRequest</div>
+                            }
+                            @if (Model.infPaxs[j].kiwiBag != null && Model.infPaxs[j].kiwiBag > 0)
+                            {
+                                <div>kiwi Bag: @Model.infPaxs[j].kiwiBag x @Model.infPaxs[j].kiwiBagWeight KG. Total(฿): @Model.infPaxs[j].kiwiBagPrice.ToString("N2") </div>
+                            }
+                        </td>
+                        <td>@Html.TextBoxFor(x => x.infPaxs[j].netReissue, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @readonly = "readonly" })</td>
+                        <td>@Html.TextBoxFor(x => x.infPaxs[j].agentReissue, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @readonly = "readonly" })</td>
+                        <td>@Html.TextBoxFor(x => x.infPaxs[j].reissueSelling, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Refund Amount", @readonly = "readonly" })</td>
+                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">TicketNo. (Old):</td>
+                                        <td colspan="2">@Html.TextBoxFor(x => x.infPaxs[j].tickNoReissueOld, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @readonly = "readonly" })</td>
+                                        <td colspan="2" style="text-align:right;">TicketNo. (New):</td>
+                                        <td colspan="2">@Html.TextBoxFor(x => x.infPaxs[j].tickNoReissueNew, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @readonly = "readonly" })</td>
+                                        <td colspan="4">
+                                            @if (Model.infPaxs[j].StatusReissue == true)
+                                            {
+                                                <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                    <b>
+                                                        <label>Reissue</label>
+                                                    </b>
+                                                </span>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">Remark:</td>
+                                        <td colspan="10">@Html.TextBoxFor(x => x.infPaxs[j].remarkReissue, new { @class = "form-control form-control-sm", @placeholder = "Remark", @readonly = "readonly" })</td>
+                                    </tr>
+                                    paxNo++;
+                                }
+                                else
+                                {
+                    <tr>
+                        <td>@Html.CheckBoxFor(m => m.infPaxs[j].StatusReissue, new { @type = "checkbox" })</td>
+                        <td>@(paxNo.ToString())</td>
+                        <td>@Model.infPaxs[j].paxType</td>
+                        <td>@Model.infPaxs[j].title</td>
+                        <td>@Model.infPaxs[j].firstname</td>
+                        <td>@Model.infPaxs[j].middlename</td>
+                        <td>@Model.infPaxs[j].lastname</td>
+                        <td>
+                            @if (Model.infPaxs[j].birthday != null && Model.infPaxs[j].birthday.ToString("dd/MM/yyyy") != "01/01/0001")
+                            {
+                                <div>DOB: @Model.infPaxs[j].birthday.ToString("dd/MM/yyyy")</div>
+                            }
+                            @if (Model.infPaxs[j].passportNumber != null && Model.infPaxs[j].passportNumber.Length > 0)
+                            {
+                                <div>Passport/ID Card: @Model.infPaxs[j].passportNumber</div>
+                            }
+                            @if (Model.infPaxs[j].passportIssuingCountry != null && Model.infPaxs[j].passportIssuingCountry.Length > 0
+                                && Model.infPaxs[j].passportNationality != null && Model.infPaxs[j].passportNationality.Length > 0
+                                && Model.infPaxs[j].passportIssuingDate.ToString("dd/MM/yyyy") != "01/01/0001"
+                                && Model.infPaxs[j].passportExpiryDate.ToString("dd/MM/yyyy") != "01/01/0001")
+                            {
+                                <div>Issue: @Model.infPaxs[j].passportIssuingDate.ToString("dd/MM/yyyy")</div>
+                                <div>Expire: @Model.infPaxs[j].passportExpiryDate.ToString("dd/MM/yyyy")</div>
+                                <div>Issuing Country: @Model.infPaxs[j].passportIssuingCountry</div>
+                                <div>Nationality: @Model.infPaxs[j].passportNationality</div>
+                            }
+                            @if (Model.infPaxs[j].frequencyFlyerAirline != null && Model.infPaxs[j].frequencyFlyerAirline.Length > 0)
+                            {
+                                <div>Frequency Flyer Airline: @Model.infPaxs[j].frequencyFlyerAirline</div>
+                                <div>Frequency Flyer No.: @Model.infPaxs[j].frequencyFlyerNumber</div>
+                            }
+                            @if (Model.infPaxs[j].mealRequest != null && Model.infPaxs[j].mealRequest.Length > 0)
+                            {
+                                <div>Meal Request: @Model.infPaxs[j].mealRequest</div>
+                            }
+                            @if (Model.infPaxs[j].seatRequest != null && Model.infPaxs[j].seatRequest.Length > 0)
+                            {
+                                <div>Seat Request: @Model.infPaxs[j].seatRequest</div>
+                            }
+                            @if (Model.infPaxs[j].kiwiBag != null && Model.infPaxs[j].kiwiBag > 0)
+                            {
+                                <div>kiwi Bag: @Model.infPaxs[j].kiwiBag x @Model.infPaxs[j].kiwiBagWeight KG. Total(฿): @Model.infPaxs[j].kiwiBagPrice.ToString("N2") </div>
+                            }
+                        </td>
+                        <td>@Html.TextBoxFor(x => x.infPaxs[j].netReissue, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @disabled = "disabled" })</td>
+                        <td>@Html.TextBoxFor(x => x.infPaxs[j].agentReissue, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @disabled = "disabled" })</td>
+                        <td>@Html.TextBoxFor(x => x.infPaxs[j].reissueSelling, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Refund Amount", @disabled = "disabled" })</td>
+                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">TicketNo. (Old):</td>
+                                        <td colspan="2">@Html.TextBoxFor(x => x.infPaxs[j].tickNoReissueOld, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @disabled = "disabled" })</td>
+                                        <td colspan="2" style="text-align:right;">TicketNo. (New):</td>
+                                        <td colspan="2">@Html.TextBoxFor(x => x.infPaxs[j].tickNoReissueNew, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @disabled = "disabled" })</td>
+                                        <td colspan="4">
+                                            @if (Model.infPaxs[j].StatusReissue == true)
+                                            {
+                                                <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                    <b>
+                                                        <label>Reissue</label>
+                                                    </b>
+                                                </span>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">Remark:</td>
+                                        <td colspan="10">@Html.TextBoxFor(x => x.infPaxs[j].remarkReissue, new { @class = "form-control form-control-sm", @placeholder = "Remark", @disabled = "disabled" })</td>
+                                    </tr>
+                                    paxNo++;
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-plane"></i>&nbsp;Booking Pax Fare</h6>
+
+            </div>
+        </div>
+        <div class="card-body">
+
+
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead class="table">
+                        <tr>
+                            <th>No</th>
+                            <th>PaxType</th>
+                            <th>Fare with tax</th>
+                            <th>Fare without tax</th>
+                            <th>tax</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int fareNo = 1;
+                        }
+                        @if (Model.adtFare != null)
+                        {
+
+                            <tr>
+                                <td>@(fareNo.ToString())</td>
+                                <td>@Model.adtPaxs[0].paxType</td>
+                                <td>@Model.adtFare.net.ToString("N2")</td>
+                                <td>@Model.adtFare.sellingBaseFare.ToString("N2")</td>
+                                <td>@Model.adtFare.tax.ToString("N2")</td>
+                            </tr>
+
+
+                            fareNo++;
+                        }
+
+                        @if (Model.chdFare != null)
+                        {
+
+                            <tr>
+                                <td>@(fareNo.ToString())</td>
+                                <td>@Model.chdPaxs[0].paxType</td>
+                                <td>@Model.chdFare.net.ToString("N2")</td>
+                                <td>@Model.chdFare.sellingBaseFare.ToString("N2")</td>
+                                <td>@Model.chdFare.tax.ToString("N2")</td>
+                            </tr>
+
+
+                            fareNo++;
+                        }
+
+                        @if (Model.infFare != null)
+                        {
+
+                            <tr>
+                                <td>@(fareNo.ToString())</td>
+                                <td>@Model.infPaxs[0].paxType</td>
+                                <td>@Model.infFare.net.ToString("N2")</td>
+                                <td>@Model.infFare.sellingBaseFare.ToString("N2")</td>
+                                <td>@Model.infFare.tax.ToString("N2")</td>
+                            </tr>
+
+
+                            fareNo++;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-plane"></i>&nbsp;Flight Details</h6>
+            </div>
+        </div>
+        <div class="card-body">
+
+
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead class="table">
+                        <tr>
+                            <th>Route No.</th>
+                            <th>Segment No.</th>
+                            <th>From City</th>
+                            <th>To City</th>
+                            <th>Market Airline</th>
+                            <th>Operate Airline</th>
+                            <th>Flight No.</th>
+                            <th>RBD</th>
+                            <th>Fare Basis</th>
+                            <th>Fare Type</th>
+                            <th>Departure DateTime</th>
+                            <th>Arrival DateTime</th>
+                            <th>Airline Control Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int flightNo = 1;
+                        }
+                        @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                        {
+                            for (int i = 0; i < Model.depFlight.Count; i++)
+                            {
+
+                        <tr>
+                            <td>@(flightNo.ToString())</td>
+                            <td>@Model.depFlight[i].Seq</td>
+                            <td>@Model.depFlight[i].depCity.code</td>
+                            <td>@Model.depFlight[i].arrCity.code</td>
+                            <td>@Model.depFlight[i].airline.code</td>
+                            <td>@Model.depFlight[i].operatedAirline.code</td>
+                            <td>@Model.depFlight[i].flightNumber</td>
+                            <td>@Model.depFlight[i].rbd</td>
+                            <td>@Model.depFlight[i].fareBasis</td>
+                            <td>@Model.depFlight[i].fareType</td>
+                            <td>@Model.depFlight[i].departureDateTime.ToString("dd MMM yyyy HH:mm tt")</td>
+                            <td>@Model.depFlight[i].arrivalDateTime.ToString("dd MMM yyyy HH:mm tt")</td>
+                            <td>@Model.depFlight[i].controlNumber</td>
+                        </tr>
+                                flightNo++;
+                            }
+
+
+                        }
+
+                        @if (Model.retFlight != null && Model.retFlight.Count > 0)
+                        {
+                            for (int i = 0; i < Model.retFlight.Count; i++)
+                            {
+
+                    <tr>
+                        <td>@(flightNo.ToString())</td>
+                        <td>@Model.retFlight[i].Seq</td>
+                        <td>@Model.retFlight[i].depCity.code</td>
+                        <td>@Model.retFlight[i].arrCity.code</td>
+                        <td>@Model.retFlight[i].airline.code</td>
+                        <td>@Model.retFlight[i].operatedAirline.code</td>
+                        <td>@Model.retFlight[i].flightNumber</td>
+                        <td>@Model.retFlight[i].rbd</td>
+                        <td>@Model.retFlight[i].fareBasis</td>
+                        <td>@Model.retFlight[i].fareType</td>
+                        <td>@Model.retFlight[i].departureDateTime.ToString("dd MMM yyyy HH:mm tt")</td>
+                        <td>@Model.retFlight[i].arrivalDateTime.ToString("dd MMM yyyy HH:mm tt")</td>
+                        <td>@Model.retFlight[i].controlNumber</td>
+                    </tr>
+
+                                flightNo++;
+                            }
+                        }
+                        @if (Model.multiFlight != null && Model.multiFlight.Count > 0)
+                        {
+                            for (int i = 0; i < Model.multiFlight.Count; i++)
+                            {
+                                for (int j = 0; j < Model.multiFlight[i].Count; j++)
+                                {
+                    <tr>
+                        <td>@(flightNo.ToString())</td>
+                        <td>@Model.multiFlight[i][j].Seq</td>
+                        <td>@Model.multiFlight[i][j].depCity.code</td>
+                        <td>@Model.multiFlight[i][j].arrCity.code</td>
+                        <td>@Model.multiFlight[i][j].airline.code</td>
+                        <td>@Model.multiFlight[i][j].operatedAirline.code</td>
+                        <td>@Model.multiFlight[i][j].flightNumber</td>
+                        <td>@Model.multiFlight[i][j].rbd</td>
+                        <td>@Model.multiFlight[i][j].fareBasis</td>
+                        <td>@Model.multiFlight[i][j].fareType</td>
+                        <td>@Model.multiFlight[i][j].departureDateTime.ToString("dd MMM yyyy HH:mm tt")</td>
+                        <td>@Model.multiFlight[i][j].arrivalDateTime.ToString("dd MMM yyyy HH:mm tt")</td>
+                        <td>@Model.multiFlight[i][j].controlNumber</td>
+                    </tr>
+                                }
+                                flightNo++;
+                            }
+
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    if (Model.note != null)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <div class="d-sm-flex align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-pen-square"></i>&nbsp;Note</h6>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-1">
+                            @Html.TextAreaFor(m => m.note, new { @class = "form-control form-control-sm", @cols = 90, @rows = 6, @readonly = "readonly", @style = "font-size:18px;" })
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+                        <div class="text-right">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @*</div>*@
+}
+@*</form>*@
+
+@section Scripts
+{
+    <script>
+        //$(document).ready(function () {
+        //    //Date Picker
+        //    var today = new Date();
+        //    var defaultDepDateText = $('#DueDateOfRefund').val().split('/');
+        //    var defaultDepDate = new Date(parseInt(defaultDepDateText[2]), parseInt(defaultDepDateText[1]) - 1, parseInt(defaultDepDateText[0]));
+        //    console.log(defaultDepDate);
+
+
+        //    var depDatepicker = $('#DueDateOfRefund').datepicker({
+        //        minDate: today,
+        //        maxDate: addDays(today, 365),
+        //        language: 'en',
+        //        autoClose: true,
+        //        toggleSelected: false,
+        //        onSelect: function onSelect(fd, date) {
+
+        //        }
+        //    });
+        //    var depDateDate = depDatepicker.data('datepicker');
+        //    depDateDate.selectDate(defaultDepDate);
+
+        //});
+        //var addDays = function (date, days) {
+        //    var result = new Date(date);
+        //    result.setDate(result.getDate() + days);
+        //    return result;
+        //}
+
+        $(document).ready(function () {
+            //Date Picker
+            var today = new Date();
+            var gmDepDateText = $('#ReissueCreateDate').val().split('/');
+            var gmdefaultDepDate = new Date(parseInt(gmDepDateText[2]), parseInt(gmDepDateText[1]) - 1, parseInt(gmDepDateText[0]));
+            console.log(gmdefaultDepDate);
+
+
+            var gmdepDatepicker = $('#ReissueCreateDate').datepicker({
+                minDate: today,
+                maxDate: addDays(today, 365),
+                language: 'en',
+                autoClose: true,
+                toggleSelected: false,
+                onSelect: function onSelect(fd, date) {
+                    var d = new Date(date),
+                        mnth = ((d.getMonth() + 1)),
+                        day = (d.getDate());
+                    $("#reissueCreateDate").val(day + "/" + mnth + "/" + d.getFullYear());
+                }
+            });
+            var gmdepDateDate = gmdepDatepicker.data('datepicker');
+            gmdepDateDate.selectDate(gmdefaultDepDate);
+
+
+        });
+        var addDays = function (date, days) {
+            var result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
+        }
+
+
+        $(function () {
+            //Adult
+            $("#adtPaxs_0__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_0__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_0__netReissue").focus();
+                    $("#adtPaxs_0__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_0__agentReissue").focus();
+                    $("#adtPaxs_0__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_0__reissueSelling").focus();
+                    $("#adtPaxs_0__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_0__tickNoReissueOld").focus();
+                    $("#adtPaxs_0__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_0__tickNoReissueNew").focus();
+                    $("#adtPaxs_0__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_0__remarkReissue").focus();
+                } else {
+                    $("#adtPaxs_0__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_0__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_0__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_0__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_0__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_0__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#adtPaxs_1__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_1__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_1__netReissue").focus();
+                    $("#adtPaxs_1__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_1__agentReissue").focus();
+                    $("#adtPaxs_1__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_1__reissueSelling").focus();
+                    $("#adtPaxs_1__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_1__tickNoReissueOld").focus();
+                    $("#adtPaxs_1__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_1__tickNoReissueNew").focus();
+                    $("#adtPaxs_1__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_1__remarkReissue").focus();
+                } else {
+                    $("#adtPaxs_1__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_1__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_1__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_1__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_1__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_1__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#adtPaxs_2__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_2__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_2__netReissue").focus();
+                    $("#adtPaxs_2__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_2__agentReissue").focus();
+                    $("#adtPaxs_2__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_2__reissueSelling").focus();
+                    $("#adtPaxs_2__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_2__tickNoReissueOld").focus();
+                    $("#adtPaxs_2__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_2__tickNoReissueNew").focus();
+                    $("#adtPaxs_2__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_2__remarkReissue").focus();
+                } else {
+                    $("#adtPaxs_2__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_2__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_2__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_2__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_2__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_2__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_3__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_3__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_3__netReissue").focus();
+                    $("#adtPaxs_3__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_3__agentReissue").focus();
+                    $("#adtPaxs_3__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_3__reissueSelling").focus();
+                    $("#adtPaxs_3__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_3__tickNoReissueOld").focus();
+                    $("#adtPaxs_3__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_3__tickNoReissueNew").focus();
+                    $("#adtPaxs_3__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_3__remarkReissue").focus();
+                } else {
+                    $("#adtPaxs_3__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_3__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_3__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_3__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_3__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_3__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_4__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_4__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_4__netReissue").focus();
+                    $("#adtPaxs_4__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_4__agentReissue").focus();
+                    $("#adtPaxs_4__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_4__reissueSelling").focus();
+                    $("#adtPaxs_4__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_4__tickNoReissueOld").focus();
+                    $("#adtPaxs_4_tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_4__tickNoReissueNew").focus();
+                    $("#adtPaxs_4__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_4__remarkReissue").focus();
+                } else {
+                    $("#adtPaxs_4__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_4__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_4__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_4__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_4__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_4__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_5__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_5__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_5__netReissue").focus();
+                    $("#adtPaxs_5__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_5__agentReissue").focus();
+                    $("#adtPaxs_5__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_5__reissueSelling").focus();
+                    $("#adtPaxs_5__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_5__tickNoReissueOld").focus();
+                    $("#adtPaxs_5__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_5__tickNoReissueNew").focus();
+                    $("#adtPaxs_5__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_5__remarkReissue").focus();
+                } else {
+                    $("#adtPaxs_5__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_5__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_5__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_5__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_5__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_5__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_6__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_6__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_6__netReissue").focus();
+                    $("#adtPaxs_6__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_6__agentReissue").focus();
+                    $("#adtPaxs_6__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_6__reissueSelling").focus();
+                    $("#adtPaxs_6__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_6__tickNoReissueOld").focus();
+                    $("#adtPaxs_6__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_6__tickNoReissueNew").focus();
+                    $("#adtPaxs_6__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_6__remarkReissue").focus();
+                } else {
+                    $("#adtPaxs_6__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_6__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_6__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_6__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_6__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_6__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_7__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_7__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_7__netReissue").focus();
+                    $("#adtPaxs_7__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_7__agentReissue").focus();
+                    $("#adtPaxs_7__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_7__reissueSelling").focus();
+                    $("#adtPaxs_7__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_7__tickNoReissueOld").focus();
+                    $("#adtPaxs_7__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_7__tickNoReissueNew").focus();
+                    $("#adtPaxs_7__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_7__remarkReissue").focus();
+                } else {
+                    $("#adtPaxs_7__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_7__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_7__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_7__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_7__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_7__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_8__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_8__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_8__netReissue").focus();
+                    $("#adtPaxs_8__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_8__agentReissue").focus();
+                    $("#adtPaxs_8__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_8__reissueSelling").focus();
+                    $("#adtPaxs_8__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_8__tickNoReissueOld").focus();
+                    $("#adtPaxs_8__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_8__tickNoReissueNew").focus();
+                    $("#adtPaxs_8__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_8__remarkReissue").focus();
+                } else {
+                    $("#adtPaxs_8__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_8__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_8__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_8__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_8__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_8__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_9__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_9__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_9__netReissue").focus();
+                    $("#adtPaxs_9__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_9__agentReissue").focus();
+                    $("#adtPaxs_9__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_9__reissueSelling").focus();
+                    $("#adtPaxs_9__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_9__tickNoReissueOld").focus();
+                    $("#adtPaxs_9__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_9__tickNoReissueNew").focus();
+                    $("#adtPaxs_9__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_9__remarkReissue").focus();
+                } else {
+                    $("#adtPaxs_9__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_9__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_9__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_9__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_9__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_9__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            //Child
+            $("#chdPaxs_0__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_0__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_0__netReissue").focus();
+                    $("#chdPaxs_0__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_0__agentReissue").focus();
+                    $("#chdPaxs_0__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_0__reissueSelling").focus();
+                    $("#chdPaxs_0__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_0__tickNoReissueOld").focus();
+                    $("#chdPaxs_0__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_0__tickNoReissueNew").focus();
+                    $("#chdPaxs_0__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_0__remarkReissue").focus();
+                } else {
+                    $("#chdPaxs_0__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_0__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_0__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_0__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_0__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_0__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#chdPaxs_1__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_1__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_1__netReissue").focus();
+                    $("#chdPaxs_1__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_1__agentReissue").focus();
+                    $("#chdPaxs_1__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_1__reissueSelling").focus();
+                    $("#chdPaxs_1__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_1__tickNoReissueOld").focus();
+                    $("#chdPaxs_1__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_1__tickNoReissueNew").focus();
+                    $("#chdPaxs_1__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_1__remarkReissue").focus();
+                } else {
+                    $("#chdPaxs_1__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_1__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_1__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_1__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_1__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_1__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#chdPaxs_2__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_2__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_2__netReissue").focus();
+                    $("#chdPaxs_2__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_2__agentReissue").focus();
+                    $("#chdPaxs_2__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_2__reissueSelling").focus();
+                    $("#chdPaxs_2__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_2__tickNoReissueOld").focus();
+                    $("#chdPaxs_2__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_2__tickNoReissueNew").focus();
+                    $("#chdPaxs_2__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_2__remarkReissue").focus();
+                } else {
+                    $("#chdPaxs_2__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_2__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_2__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_2__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_2__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_2__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#chdPaxs_3__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_3__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_3__netReissue").focus();
+                    $("#chdPaxs_3__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_3__agentReissue").focus();
+                    $("#chdPaxs_3__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_3__reissueSelling").focus();
+                    $("#chdPaxs_3__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_3__tickNoReissueOld").focus();
+                    $("#chdPaxs_3__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_3__tickNoReissueNew").focus();
+                    $("#chdPaxs_3__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_3__remarkReissue").focus();
+                } else {
+                    $("#chdPaxs_3__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_3__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_3__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_3__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_3__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_3__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#chdPaxs_4__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_4__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_4__netReissue").focus();
+                    $("#chdPaxs_4__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_4__agentReissue").focus();
+                    $("#chdPaxs_4__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_4__reissueSelling").focus();
+                    $("#chdPaxs_4__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_4__tickNoReissueOld").focus();
+                    $("#chdPaxs_4__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_4__tickNoReissueNew").focus();
+                    $("#chdPaxs_4__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_4__remarkReissue").focus();
+                } else {
+                    $("#chdPaxs_4__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_4__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_4__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_4__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_4__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_4__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#chdPaxs_5__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_5__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_5__netReissue").focus();
+                    $("#chdPaxs_5__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_5__agentReissue").focus();
+                    $("#chdPaxs_5__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_5__reissueSelling").focus();
+                    $("#chdPaxs_5__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_5__tickNoReissueOld").focus();
+                    $("#chdPaxs_5__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_5__tickNoReissueNew").focus();
+                    $("#chdPaxs_5__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_5__remarkReissue").focus();
+                } else {
+                    $("#chdPaxs_5__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_5__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_5__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_5__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_5__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_5__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#chdPaxs_6__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_6__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_6__netReissue").focus();
+                    $("#chdPaxs_6__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_6__agentReissue").focus();
+                    $("#chdPaxs_6__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_6__reissueSelling").focus();
+                    $("#chdPaxs_6__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_6__tickNoReissueOld").focus();
+                    $("#chdPaxs_6__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_6__tickNoReissueNew").focus();
+                    $("#chdPaxs_6__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_6__remarkReissue").focus();
+                } else {
+                    $("#chdPaxs_6__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_6__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_6__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_6__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_6__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_6__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#chdPaxs_7__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_7__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_7__netReissue").focus();
+                    $("#chdPaxs_7__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_7__agentReissue").focus();
+                    $("#chdPaxs_7__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_7__reissueSelling").focus();
+                    $("#chdPaxs_7__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_7__tickNoReissueOld").focus();
+                    $("#chdPaxs_7__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_7__tickNoReissueNew").focus();
+                    $("#chdPaxs_7__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_7__remarkReissue").focus();
+                } else {
+                    $("#chdPaxs_7__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_7__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_7__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_7__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_7__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_7__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#chdPaxs_8__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_8__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_8__netReissue").focus();
+                    $("#chdPaxs_8__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_8__agentReissue").focus();
+                    $("#chdPaxs_8__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_8__reissueSelling").focus();
+                    $("#chdPaxs_8__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_8__tickNoReissueOld").focus();
+                    $("#chdPaxs_8__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_8__tickNoReissueNew").focus();
+                    $("#chdPaxs_8__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_8__remarkReissue").focus();
+                } else {
+                    $("#chdPaxs_8__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_8__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_8__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_8__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_8__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_8__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#chdPaxs_9__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_9__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_9__netReissue").focus();
+                    $("#chdPaxs_9__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_9__agentReissue").focus();
+                    $("#chdPaxs_9__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_9__reissueSelling").focus();
+                    $("#chdPaxs_9__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_9__tickNoReissueOld").focus();
+                    $("#chdPaxs_9__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_9__tickNoReissueNew").focus();
+                    $("#chdPaxs_9__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_9__remarkReissue").focus();
+                } else {
+                    $("#chdPaxs_9__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_9__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_9__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_9__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_9__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_9__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+
+
+
+            //Infants
+            $("#infPaxs_0__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_0__netReissue").removeAttr("disabled");
+                    $("#infPaxs_0__netReissue").focus();
+                    $("#infPaxs_0__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_0__agentReissue").focus();
+                    $("#infPaxs_0__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_0__reissueSelling").focus();
+                    $("#infPaxs_0__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_0__tickNoReissueOld").focus();
+                    $("#infPaxs_0__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_0__tickNoReissueNew").focus();
+                    $("#infPaxs_0__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_0__remarkReissue").focus();
+                } else {
+                    $("#infPaxs_0__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_0__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_0__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_0__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_0__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_0__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_1__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_1__netReissue").removeAttr("disabled");
+                    $("#infPaxs_1__netReissue").focus();
+                    $("#infPaxs_1__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_1__agentReissue").focus();
+                    $("#infPaxs_1__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_1__reissueSelling").focus();
+                    $("#infPaxs_1__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_1__tickNoReissueOld").focus();
+                    $("#infPaxs_1__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_1__tickNoReissueNew").focus();
+                    $("#infPaxs_1__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_1__remarkReissue").focus();
+                } else {
+                    $("#infPaxs_1__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_1__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_1__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_1__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_1__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_1__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_2__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_2__netReissue").removeAttr("disabled");
+                    $("#infPaxs_2__netReissue").focus();
+                    $("#infPaxs_2__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_2__agentReissue").focus();
+                    $("#infPaxs_2__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_2__reissueSelling").focus();
+                    $("#infPaxs_2__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_2__tickNoReissueOld").focus();
+                    $("#infPaxs_2__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_2__tickNoReissueNew").focus();
+                    $("#infPaxs_2__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_2__remarkReissue").focus();
+                } else {
+                    $("#infPaxs_2__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_2__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_2__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_2__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_2__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_2__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_3__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_3__netReissue").removeAttr("disabled");
+                    $("#infPaxs_3__netReissue").focus();
+                    $("#infPaxs_3__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_3__agentReissue").focus();
+                    $("#infPaxs_3__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_3__reissueSelling").focus();
+                    $("#infPaxs_3__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_3__tickNoReissueOld").focus();
+                    $("#infPaxs_3__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_3__tickNoReissueNew").focus();
+                    $("#infPaxs_3__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_3__remarkReissue").focus();
+                } else {
+                    $("#infPaxs_3__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_3__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_3__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_3__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_3__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_3__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_4__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_4__netReissue").removeAttr("disabled");
+                    $("#infPaxs_4__netReissue").focus();
+                    $("#infPaxs_4__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_4__agentReissue").focus();
+                    $("#infPaxs_4__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_4__reissueSelling").focus();
+                    $("#infPaxs_4__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_4__tickNoReissueOld").focus();
+                    $("#infPaxs_4__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_4__tickNoReissueNew").focus();
+                    $("#infPaxs_4__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_4__remarkReissue").focus();
+                } else {
+                    $("#infPaxs_4__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_4__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_4__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_4__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_4__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_4__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_5__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_5__netReissue").removeAttr("disabled");
+                    $("#infPaxs_5__netReissue").focus();
+                    $("#infPaxs_5__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_5__agentReissue").focus();
+                    $("#infPaxs_5__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_5__reissueSelling").focus();
+                    $("#infPaxs_5__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_5__tickNoReissueOld").focus();
+                    $("#infPaxs_5__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_5__tickNoReissueNew").focus();
+                    $("#infPaxs_5__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_5__remarkReissue").focus();
+                } else {
+                    $("#infPaxs_5__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_5__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_5__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_5__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_5__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_5__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_6__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_6__netReissue").removeAttr("disabled");
+                    $("#infPaxs_6__netReissue").focus();
+                    $("#infPaxs_6__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_6__agentReissue").focus();
+                    $("#infPaxs_6__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_6__reissueSelling").focus();
+                    $("#infPaxs_6__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_6__tickNoReissueOld").focus();
+                    $("#infPaxs_6__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_6__tickNoReissueNew").focus();
+                    $("#infPaxs_6__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_6__remarkReissue").focus();
+                } else {
+                    $("#infPaxs_6__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_6__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_6__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_6__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_6__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_6__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_7__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_7__netReissue").removeAttr("disabled");
+                    $("#infPaxs_7__netReissue").focus();
+                    $("#infPaxs_7__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_7__agentReissue").focus();
+                    $("#infPaxs_7__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_7__reissueSelling").focus();
+                    $("#infPaxs_7__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_7__tickNoReissueOld").focus();
+                    $("#infPaxs_7__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_7__tickNoReissueNew").focus();
+                    $("#infPaxs_7__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_7__remarkReissue").focus();
+                } else {
+                    $("#infPaxs_7__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_7__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_7__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_7__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_7__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_7__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_8__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_8__netReissue").removeAttr("disabled");
+                    $("#infPaxs_8__netReissue").focus();
+                    $("#infPaxs_8__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_8__agentReissue").focus();
+                    $("#infPaxs_8__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_8__reissueSelling").focus();
+                    $("#infPaxs_8__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_8__tickNoReissueOld").focus();
+                    $("#infPaxs_8__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_8__tickNoReissueNew").focus();
+                    $("#infPaxs_8__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_8__remarkReissue").focus();
+                } else {
+                    $("#infPaxs_8__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_8__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_8__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_8__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_8__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_8__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_9__StatusReissue").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_9__netReissue").removeAttr("disabled");
+                    $("#infPaxs_9__netReissue").focus();
+                    $("#infPaxs_9__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_9__agentReissue").focus();
+                    $("#infPaxs_9__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_9__reissueSelling").focus();
+                    $("#infPaxs_9__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_9__tickNoReissueOld").focus();
+                    $("#infPaxs_9__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_9__tickNoReissueNew").focus();
+                    $("#infPaxs_9__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_9__remarkReissue").focus();
+                } else {
+                    $("#infPaxs_9__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_9__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_9__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_9__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_9__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_9__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+        });
+
+        $(function () {
+            $("#select-all").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_0__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_0__netReissue").focus();
+                    $("#adtPaxs_0__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_0__agentReissue").focus();
+                    $("#adtPaxs_0__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_0__reissueSelling").focus();
+                    $("#adtPaxs_0__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_0__tickNoReissueOld").focus();
+                    $("#adtPaxs_0__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_0__tickNoReissueNew").focus();
+                    $("#adtPaxs_0__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_0__remarkReissue").focus();
+                    $("#adtPaxs_1__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_1__netReissue").focus();
+                    $("#adtPaxs_1__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_1__agentReissue").focus();
+                    $("#adtPaxs_1__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_1__reissueSelling").focus();
+                    $("#adtPaxs_1__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_1__tickNoReissueOld").focus();
+                    $("#adtPaxs_1__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_1__tickNoReissueNew").focus();
+                    $("#adtPaxs_1__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_1__remarkReissue").focus();
+                    $("#adtPaxs_2__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_2__netReissue").focus();
+                    $("#adtPaxs_2__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_2__agentReissue").focus();
+                    $("#adtPaxs_2__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_2__reissueSelling").focus();
+                    $("#adtPaxs_2__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_2__tickNoReissueOld").focus();
+                    $("#adtPaxs_2__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_2__tickNoReissueNew").focus();
+                    $("#adtPaxs_2__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_2__remarkReissue").focus();
+                    $("#adtPaxs_3__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_3__netReissue").focus();
+                    $("#adtPaxs_3__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_3__agentReissue").focus();
+                    $("#adtPaxs_3__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_3__reissueSelling").focus();
+                    $("#adtPaxs_3__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_3__tickNoReissueOld").focus();
+                    $("#adtPaxs_3__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_3__tickNoReissueNew").focus();
+                    $("#adtPaxs_3__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_3__remarkReissue").focus();
+                    $("#adtPaxs_4__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_4__netReissue").focus();
+                    $("#adtPaxs_4__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_4__agentReissue").focus();
+                    $("#adtPaxs_4__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_4__reissueSelling").focus();
+                    $("#adtPaxs_4__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_4__tickNoReissueOld").focus();
+                    $("#adtPaxs_4_tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_4__tickNoReissueNew").focus();
+                    $("#adtPaxs_4__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_4__remarkReissue").focus();
+                    $("#adtPaxs_5__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_5__netReissue").focus();
+                    $("#adtPaxs_5__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_5__agentReissue").focus();
+                    $("#adtPaxs_5__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_5__reissueSelling").focus();
+                    $("#adtPaxs_5__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_5__tickNoReissueOld").focus();
+                    $("#adtPaxs_5__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_5__tickNoReissueNew").focus();
+                    $("#adtPaxs_5__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_5__remarkReissue").focus();
+                    $("#adtPaxs_6__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_6__netReissue").focus();
+                    $("#adtPaxs_6__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_6__agentReissue").focus();
+                    $("#adtPaxs_6__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_6__reissueSelling").focus();
+                    $("#adtPaxs_6__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_6__tickNoReissueOld").focus();
+                    $("#adtPaxs_6__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_6__tickNoReissueNew").focus();
+                    $("#adtPaxs_6__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_6__remarkReissue").focus();
+                    $("#adtPaxs_7__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_7__netReissue").focus();
+                    $("#adtPaxs_7__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_7__agentReissue").focus();
+                    $("#adtPaxs_7__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_7__reissueSelling").focus();
+                    $("#adtPaxs_7__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_7__tickNoReissueOld").focus();
+                    $("#adtPaxs_7__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_7__tickNoReissueNew").focus();
+                    $("#adtPaxs_7__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_7__remarkReissue").focus();
+                    $("#adtPaxs_8__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_8__netReissue").focus();
+                    $("#adtPaxs_8__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_8__agentReissue").focus();
+                    $("#adtPaxs_8__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_8__reissueSelling").focus();
+                    $("#adtPaxs_8__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_8__tickNoReissueOld").focus();
+                    $("#adtPaxs_8__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_8__tickNoReissueNew").focus();
+                    $("#adtPaxs_8__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_8__remarkReissue").focus();
+                    $("#adtPaxs_9__netReissue").removeAttr("disabled");
+                    $("#adtPaxs_9__netReissue").focus();
+                    $("#adtPaxs_9__agentReissue").removeAttr("disabled");
+                    $("#adtPaxs_9__agentReissue").focus();
+                    $("#adtPaxs_9__reissueSelling").removeAttr("disabled");
+                    $("#adtPaxs_9__reissueSelling").focus();
+                    $("#adtPaxs_9__tickNoReissueOld").removeAttr("disabled");
+                    $("#adtPaxs_9__tickNoReissueOld").focus();
+                    $("#adtPaxs_9__tickNoReissueNew").removeAttr("disabled");
+                    $("#adtPaxs_9__tickNoReissueNew").focus();
+                    $("#adtPaxs_9__remarkReissue").removeAttr("disabled");
+                    $("#adtPaxs_9__remarkReissue").focus();
+                    $("#chdPaxs_0__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_0__netReissue").focus();
+                    $("#chdPaxs_0__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_0__agentReissue").focus();
+                    $("#chdPaxs_0__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_0__reissueSelling").focus();
+                    $("#chdPaxs_0__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_0__tickNoReissueOld").focus();
+                    $("#chdPaxs_0__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_0__tickNoReissueNew").focus();
+                    $("#chdPaxs_0__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_0__remarkReissue").focus();
+                    $("#chdPaxs_1__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_1__netReissue").focus();
+                    $("#chdPaxs_1__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_1__agentReissue").focus();
+                    $("#chdPaxs_1__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_1__reissueSelling").focus();
+                    $("#chdPaxs_1__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_1__tickNoReissueOld").focus();
+                    $("#chdPaxs_1__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_1__tickNoReissueNew").focus();
+                    $("#chdPaxs_1__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_1__remarkReissue").focus();
+                    $("#chdPaxs_2__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_2__netReissue").focus();
+                    $("#chdPaxs_2__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_2__agentReissue").focus();
+                    $("#chdPaxs_2__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_2__reissueSelling").focus();
+                    $("#chdPaxs_2__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_2__tickNoReissueOld").focus();
+                    $("#chdPaxs_2__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_2__tickNoReissueNew").focus();
+                    $("#chdPaxs_2__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_2__remarkReissue").focus();
+                    $("#chdPaxs_3__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_3__netReissue").focus();
+                    $("#chdPaxs_3__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_3__agentReissue").focus();
+                    $("#chdPaxs_3__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_3__reissueSelling").focus();
+                    $("#chdPaxs_3__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_3__tickNoReissueOld").focus();
+                    $("#chdPaxs_3__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_3__tickNoReissueNew").focus();
+                    $("#chdPaxs_3__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_3__remarkReissue").focus();
+                    $("#chdPaxs_4__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_4__netReissue").focus();
+                    $("#chdPaxs_4__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_4__agentReissue").focus();
+                    $("#chdPaxs_4__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_4__reissueSelling").focus();
+                    $("#chdPaxs_4__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_4__tickNoReissueOld").focus();
+                    $("#chdPaxs_4__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_4__tickNoReissueNew").focus();
+                    $("#chdPaxs_4__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_4__remarkReissue").focus();
+                    $("#chdPaxs_5__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_5__netReissue").focus();
+                    $("#chdPaxs_5__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_5__agentReissue").focus();
+                    $("#chdPaxs_5__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_5__reissueSelling").focus();
+                    $("#chdPaxs_5__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_5__tickNoReissueOld").focus();
+                    $("#chdPaxs_5__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_5__tickNoReissueNew").focus();
+                    $("#chdPaxs_5__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_5__remarkReissue").focus();
+                    $("#chdPaxs_6__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_6__netReissue").focus();
+                    $("#chdPaxs_6__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_6__agentReissue").focus();
+                    $("#chdPaxs_6__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_6__reissueSelling").focus();
+                    $("#chdPaxs_6__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_6__tickNoReissueOld").focus();
+                    $("#chdPaxs_6__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_6__tickNoReissueNew").focus();
+                    $("#chdPaxs_6__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_6__remarkReissue").focus();
+                    $("#chdPaxs_7__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_7__netReissue").focus();
+                    $("#chdPaxs_7__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_7__agentReissue").focus();
+                    $("#chdPaxs_7__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_7__reissueSelling").focus();
+                    $("#chdPaxs_7__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_7__tickNoReissueOld").focus();
+                    $("#chdPaxs_7__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_7__tickNoReissueNew").focus();
+                    $("#chdPaxs_7__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_7__remarkReissue").focus();
+                    $("#chdPaxs_8__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_8__netReissue").focus();
+                    $("#chdPaxs_8__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_8__agentReissue").focus();
+                    $("#chdPaxs_8__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_8__reissueSelling").focus();
+                    $("#chdPaxs_8__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_8__tickNoReissueOld").focus();
+                    $("#chdPaxs_8__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_8__tickNoReissueNew").focus();
+                    $("#chdPaxs_8__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_8__remarkReissue").focus();
+                    $("#chdPaxs_9__netReissue").removeAttr("disabled");
+                    $("#chdPaxs_9__netReissue").focus();
+                    $("#chdPaxs_9__agentReissue").removeAttr("disabled");
+                    $("#chdPaxs_9__agentReissue").focus();
+                    $("#chdPaxs_9__reissueSelling").removeAttr("disabled");
+                    $("#chdPaxs_9__reissueSelling").focus();
+                    $("#chdPaxs_9__tickNoReissueOld").removeAttr("disabled");
+                    $("#chdPaxs_9__tickNoReissueOld").focus();
+                    $("#chdPaxs_9__tickNoReissueNew").removeAttr("disabled");
+                    $("#chdPaxs_9__tickNoReissueNew").focus();
+                    $("#chdPaxs_9__remarkReissue").removeAttr("disabled");
+                    $("#chdPaxs_9__remarkReissue").focus();
+                    $("#infPaxs_0__netReissue").removeAttr("disabled");
+                    $("#infPaxs_0__netReissue").focus();
+                    $("#infPaxs_0__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_0__agentReissue").focus();
+                    $("#infPaxs_0__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_0__reissueSelling").focus();
+                    $("#infPaxs_0__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_0__tickNoReissueOld").focus();
+                    $("#infPaxs_0__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_0__tickNoReissueNew").focus();
+                    $("#infPaxs_0__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_0__remarkReissue").focus();
+                    $("#infPaxs_1__netReissue").removeAttr("disabled");
+                    $("#infPaxs_1__netReissue").focus();
+                    $("#infPaxs_1__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_1__agentReissue").focus();
+                    $("#infPaxs_1__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_1__reissueSelling").focus();
+                    $("#infPaxs_1__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_1__tickNoReissueOld").focus();
+                    $("#infPaxs_1__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_1__tickNoReissueNew").focus();
+                    $("#infPaxs_1__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_1__remarkReissue").focus();
+                    $("#infPaxs_2__netReissue").removeAttr("disabled");
+                    $("#infPaxs_2__netReissue").focus();
+                    $("#infPaxs_2__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_2__agentReissue").focus();
+                    $("#infPaxs_2__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_2__reissueSelling").focus();
+                    $("#infPaxs_2__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_2__tickNoReissueOld").focus();
+                    $("#infPaxs_2__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_2__tickNoReissueNew").focus();
+                    $("#infPaxs_2__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_2__remarkReissue").focus();
+                    $("#infPaxs_3__netReissue").removeAttr("disabled");
+                    $("#infPaxs_3__netReissue").focus();
+                    $("#infPaxs_3__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_3__agentReissue").focus();
+                    $("#infPaxs_3__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_3__reissueSelling").focus();
+                    $("#infPaxs_3__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_3__tickNoReissueOld").focus();
+                    $("#infPaxs_3__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_3__tickNoReissueNew").focus();
+                    $("#infPaxs_3__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_3__remarkReissue").focus();
+                    $("#infPaxs_4__netReissue").removeAttr("disabled");
+                    $("#infPaxs_4__netReissue").focus();
+                    $("#infPaxs_4__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_4__agentReissue").focus();
+                    $("#infPaxs_4__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_4__reissueSelling").focus();
+                    $("#infPaxs_4__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_4__tickNoReissueOld").focus();
+                    $("#infPaxs_4__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_4__tickNoReissueNew").focus();
+                    $("#infPaxs_4__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_4__remarkReissue").focus();
+                    $("#infPaxs_5__netReissue").removeAttr("disabled");
+                    $("#infPaxs_5__netReissue").focus();
+                    $("#infPaxs_5__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_5__agentReissue").focus();
+                    $("#infPaxs_5__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_5__reissueSelling").focus();
+                    $("#infPaxs_5__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_5__tickNoReissueOld").focus();
+                    $("#infPaxs_5__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_5__tickNoReissueNew").focus();
+                    $("#infPaxs_5__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_5__remarkReissue").focus();
+                    $("#infPaxs_6__netReissue").removeAttr("disabled");
+                    $("#infPaxs_6__netReissue").focus();
+                    $("#infPaxs_6__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_6__agentReissue").focus();
+                    $("#infPaxs_6__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_6__reissueSelling").focus();
+                    $("#infPaxs_6__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_6__tickNoReissueOld").focus();
+                    $("#infPaxs_6__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_6__tickNoReissueNew").focus();
+                    $("#infPaxs_6__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_6__remarkReissue").focus();
+                    $("#infPaxs_7__netReissue").removeAttr("disabled");
+                    $("#infPaxs_7__netReissue").focus();
+                    $("#infPaxs_7__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_7__agentReissue").focus();
+                    $("#infPaxs_7__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_7__reissueSelling").focus();
+                    $("#infPaxs_7__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_7__tickNoReissueOld").focus();
+                    $("#infPaxs_7__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_7__tickNoReissueNew").focus();
+                    $("#infPaxs_7__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_7__remarkReissue").focus();
+                    $("#infPaxs_8__netReissue").removeAttr("disabled");
+                    $("#infPaxs_8__netReissue").focus();
+                    $("#infPaxs_8__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_8__agentReissue").focus();
+                    $("#infPaxs_8__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_8__reissueSelling").focus();
+                    $("#infPaxs_8__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_8__tickNoReissueOld").focus();
+                    $("#infPaxs_8__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_8__tickNoReissueNew").focus();
+                    $("#infPaxs_8__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_8__remarkReissue").focus();
+                    $("#infPaxs_9__netReissue").removeAttr("disabled");
+                    $("#infPaxs_9__netReissue").focus();
+                    $("#infPaxs_9__agentReissue").removeAttr("disabled");
+                    $("#infPaxs_9__agentReissue").focus();
+                    $("#infPaxs_9__reissueSelling").removeAttr("disabled");
+                    $("#infPaxs_9__reissueSelling").focus();
+                    $("#infPaxs_9__tickNoReissueOld").removeAttr("disabled");
+                    $("#infPaxs_9__tickNoReissueOld").focus();
+                    $("#infPaxs_9__tickNoReissueNew").removeAttr("disabled");
+                    $("#infPaxs_9__tickNoReissueNew").focus();
+                    $("#infPaxs_9__remarkReissue").removeAttr("disabled");
+                    $("#infPaxs_9__remarkReissue").focus();
+                } else {
+                    $("#adtPaxs_0__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_0__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_0__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_0__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_0__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_0__remarkReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_1__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_1__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_1__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_1__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_1__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_1__remarkReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_2__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_2__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_2__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_2__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_2__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_2__remarkReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_3__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_3__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_3__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_3__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_3__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_3__remarkReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_4__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_4__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_4__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_4__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_4__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_4__remarkReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_5__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_5__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_5__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_5__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_5__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_5__remarkReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_6__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_6__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_6__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_6__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_6__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_6__remarkReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_7__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_7__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_7__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_7__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_7__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_7__remarkReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_8__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_8__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_8__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_8__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_8__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_8__remarkReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_9__netReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_9__agentReissue").attr("disabled", "disabled");
+                    $("#adtPaxs_9__reissueSelling").attr("disabled", "disabled");
+                    $("#adtPaxs_9__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#adtPaxs_9__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#adtPaxs_9__remarkReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_0__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_0__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_0__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_0__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_0__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_0__remarkReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_1__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_1__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_1__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_1__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_1__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_1__remarkReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_2__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_2__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_2__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_2__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_2__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_2__remarkReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_3__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_3__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_3__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_3__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_3__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_3__remarkReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_4__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_4__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_4__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_4__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_4__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_4__remarkReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_5__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_5__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_5__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_5__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_5__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_5__remarkReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_6__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_6__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_6__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_6__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_6__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_6__remarkReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_7__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_7__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_7__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_7__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_7__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_7__remarkReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_8__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_8__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_8__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_8__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_8__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_8__remarkReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_9__netReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_9__agentReissue").attr("disabled", "disabled");
+                    $("#chdPaxs_9__reissueSelling").attr("disabled", "disabled");
+                    $("#chdPaxs_9__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#chdPaxs_9__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#chdPaxs_9__remarkReissue").attr("disabled", "disabled");
+                    $("#infPaxs_0__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_0__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_0__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_0__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_0__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_0__remarkReissue").attr("disabled", "disabled");
+                    $("#infPaxs_1__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_1__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_1__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_1__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_1__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_1__remarkReissue").attr("disabled", "disabled");
+                    $("#infPaxs_2__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_2__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_2__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_2__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_2__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_2__remarkReissue").attr("disabled", "disabled");
+                    $("#infPaxs_3__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_3__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_3__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_3__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_3__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_3__remarkReissue").attr("disabled", "disabled");
+                    $("#infPaxs_4__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_4__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_4__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_4__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_4__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_4__remarkReissue").attr("disabled", "disabled");
+                    $("#infPaxs_5__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_5__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_5__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_5__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_5__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_5__remarkReissue").attr("disabled", "disabled");
+                    $("#infPaxs_6__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_6__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_6__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_6__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_6__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_6__remarkReissue").attr("disabled", "disabled");
+                    $("#infPaxs_7__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_7__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_7__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_7__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_7__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_7__remarkReissue").attr("disabled", "disabled");
+                    $("#infPaxs_8__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_8__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_8__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_8__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_8__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_8__remarkReissue").attr("disabled", "disabled");
+                    $("#infPaxs_9__netReissue").attr("disabled", "disabled");
+                    $("#infPaxs_9__agentReissue").attr("disabled", "disabled");
+                    $("#infPaxs_9__reissueSelling").attr("disabled", "disabled");
+                    $("#infPaxs_9__tickNoReissueOld").attr("disabled", "disabled");
+                    $("#infPaxs_9__tickNoReissueNew").attr("disabled", "disabled");
+                    $("#infPaxs_9__remarkReissue").attr("disabled", "disabled");
+                }
+            });
+        });
+
+
+        $('#select-all').click(function (event) {
+            if (this.checked) {
+                // Iterate each checkbox
+                $(':checkbox').each(function () {
+                    this.checked = true;
+                });
+            } else {
+                $(':checkbox').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+
+        function check(frm) {
+            var inputs = frm.getElementsByTagName('input');
+            for (var i = 0; i < inputs.length; i++) {
+                input = inputs[i];
+                if (input.type == 'checkbox') {
+                    if (input.checked) {
+                        return true;
+                    };
+                };
+            };
+            alert('กรุณาเลือกผู้โดยสารก่อนทำการ Reissue/Revalidate');
+            return false;
+        }
+
+
+
+        $("#btn_Save").click(function () {
+            $("#dueDateOfRefund").val($("#dueDateOfRefund").val())
+        });
+
+
+    </script>
+}
+
+<style>
+    .text {
+        margin-bottom: 10px;
+    }
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>

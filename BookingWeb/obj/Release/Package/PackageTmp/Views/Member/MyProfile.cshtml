@@ -1,0 +1,299 @@
+﻿@model DataModel.Member
+@section styles
+{
+    <link href="~/mpgogojii/style.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .div-Profile {
+            background-color: #FFF;
+            border: #E8E8E8 1px solid;
+            border-radius: 10px;
+        }
+
+        .div-border-left {
+            border-left: #E8E8E8 1px solid;
+        }
+         .btn-edit-profile{
+            margin-bottom: 10px;
+            background-color: #06B0F4;
+            border-width: 2px;
+            border-color: #06B0F4;
+            color: #fff;
+            border-radius: 20px !important;
+            padding: 5px 20px 5px 20px;
+        }
+         .radio {
+            padding-left: 30px!important;
+            font-weight: normal !important;
+        }
+        .checkround-blue {
+            width: 14px !important;
+            height: 14px !important;
+        }
+          @@media(max-width: 767px) {
+            .div-border-left {
+                border-left: none;
+            }
+        }
+    </style>
+}
+<section class="Paragraph">
+    @using (Html.BeginForm("EditMyProfile", "Member", FormMethod.Post, new { @class="form-default", data_parsley_validate = "", role = "form", enctype = "multipart/form-data" }))
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title mb-40">
+                        <h2 class="mb-10">@Localize.Show("MY_PROFILE")</h2>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row  div-Profile">
+                        <div class="col-md-3 col-12 text-center" style="padding: 60px 10px;">
+                            <div>
+                                @if (Model.ImageProfile != null && Model.ImageProfile.Length > 0)
+                                {
+                                    <img class="img-member-profile" src="@(Model.ImageProfile+(Model.LoginType=="GJ"?("?id="+Guid.NewGuid()):""))" />
+                                }
+                                else
+                                {
+                                    <img src="~/Images/member/no-avatar.png" class="img-member-profile" />
+                                }
+                            </div>
+                            @if(Model.LoginType=="GJ"){
+                            <div class="mt-15">
+                                <div class="font-10" id="filename"></div>
+                                <input type="file" id="selectedFile" name="selectedFile" style="display: none;" accept="image/*" />
+                                <div id="btnEditImage" class="btn-edit-profile">
+                                    @Localize.Show("CHANGE_PROFILE_IMAGE")
+                                </div>
+                            </div>
+                            }
+                        </div>
+                        <div class="col-md-9 col-12 div-border-left" style="padding: 60px 10px;">
+                            <div class="input-group">
+                                <div class="col-md-4 col-12">
+                                    @Localize.Show("FIRSTNAME")*
+                                </div>
+                                <div class="col-md-5 col-12">
+                                    @Html.TextBoxFor(m => m.FirstName, new { required = "required", @class = "form-control form-control-pax only-text booking-holder" })
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="col-md-4 col-12">
+                                    @Localize.Show("LASTNAME")*
+                                </div>
+                                <div class="col-md-5 col-12">
+                                    @Html.TextBoxFor(m => m.LastName, new { required = "required", @class = "form-control form-control-pax only-text booking-holder" })
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="col-md-4 col-12">
+                                    @Localize.Show("GENDER"):
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label class="radio ">
+                                        @Localize.Show("MALE")
+                                        @Html.RadioButtonFor(x => x.Sex, "Male", new { @Text = "Male", Checked = "checked" })
+                                        <span class="checkround-blue"></span>
+                                    </label>
+                                    <label class="radio ">
+                                        @Localize.Show("FEMALE")
+                                        @Html.RadioButtonFor(x => x.Sex, "Female", new { @Text = "Female" })
+                                        <span class="checkround-blue"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="col-md-4 col-12">
+                                    @Localize.Show("BIRTHDAY")*
+                                </div>
+                                <div class="col-md-5 col-12">
+                                    <input name="DOB" id="DOB" type="text" value="@(Model.BirthDate != null && Model.BirthDate.ToString().Length > 0 ? Convert.ToDateTime(Model.BirthDate).ToString("dd/MM/yyyy") : "")" placeholder="@Localize.Show("Birthdate_format")" class="form-control form-control-pax birthday" readonly />
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="col-md-4 col-12">
+                                    @Localize.Show("PHONE_NUMBER")*
+                                </div>
+                                <div class="col-md-5 col-12">
+                                    @Html.TextBoxFor(m => m.Phone, new { required = "required", @class = "form-control form-control-pax tel-number-text" })
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="col-md-4 col-12">@Localize.Show("EMAIL"):</div>
+                                <div class="col-md-5 col-12">
+                                    <span class="input__icon">
+                                        <img src="~/mpgogojii/StrapPress/assets/icon/email.svg">
+                                    </span>
+                                    @Html.TextBoxFor(m => m.Email, new { required = "required", @class = "form-control form-control-pax email-text", @type = "email", pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$" })
+                                </div>
+                            </div>
+                            @if (Model.LoginType == "GJ")
+                            {
+                                <div class="input-group">
+                                    <div class="col-md-4 col-12 text-center">
+                                        <div id="btnChangePassword" class="btn-edit-profile">
+                                            @Localize.Show("CHANGE_PASSWORD")
+                                        </div>
+                                        <div id="btnCancelChangePassword" class="btn-edit-profile">
+                                            @Localize.Show("CANCEL_CHANGE_PASSWORD")
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-12">
+
+                                    </div>
+                                </div>
+                                <div class="input-group change-password">
+                                    <div class="col-md-4 col-12">@Localize.Show("OLD_PASSWORD"):</div>
+                                    <div class="col-md-5 col-12">
+                                        <span class="input__icon">
+                                            <img src="~/mpgogojii/StrapPress/assets/icon/password.svg">
+                                        </span>
+                                        <input type="password" value="" name="old_password" id="old_password">
+                                    </div>
+                                </div>
+                                <div class="input-group change-password">
+                                    <div class="col-md-4 col-12">@Localize.Show("NEW_PASSWORD"):</div>
+                                    <div class="col-md-5 col-12">
+                                        <span class="input__icon">
+                                            <img src="~/mpgogojii/StrapPress/assets/icon/password.svg">
+                                        </span>
+                                        <input type="password" value="" name="new_password" id="new_password">
+                                    </div>
+                                </div>
+                                <div class="input-group change-password">
+                                    <div class="col-md-4 col-12">@Localize.Show("CONFIRM_NEW_PASSWORD"):</div>
+                                    <div class="col-md-5 col-12">
+                                        <span class="input__icon">
+                                            <img src="~/mpgogojii/StrapPress/assets/icon/password.svg">
+                                        </span>
+                                        <input type="password" value="" name="confirm_password" id="confirm_password">
+                                    </div>
+                                </div>
+                                <div class="input-group error-change-password">
+                                    <div class="col-md-4 col-12"></div>
+                                    <div class="col-md-8 col-12"><span class="text-error">@TempData["ErrorMessage"]</span></div>
+                                </div>
+                            }
+                            </div>
+
+                    </div>
+                </div>
+                <div class="col-12 text-center mt-15 mb-40">
+                    <button class="btn-default btn--primary" type="submit" id="submit" style="width: 100px;">
+                        <strong>@Localize.Show("SAVE")</strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</section>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#btnEditImage').click(function () {
+                $('#selectedFile').click();
+            });
+            $('#selectedFile').change(function () {
+                var filename = $('#selectedFile').val().replace(/.*(\/|\\)/, '');
+                $('#filename').html(filename);
+            });
+            $('.error-change-password').hide();            
+            $('.change-password').hide();
+            $('#btnCancelChangePassword').hide();
+            $('#btnChangePassword').click(function () {
+                $('.change-password').show();
+                $('#btnCancelChangePassword').show();
+                $('#btnChangePassword').hide();
+                $('#old_password').attr('required', 'required');
+                $('#new_password').attr('required', 'required');
+                $('#confirm_password').attr('required', 'required');
+            });
+            $('#btnCancelChangePassword').click(function () {
+                $('.change-password').hide();
+                $('#btnCancelChangePassword').hide();
+                $('#btnChangePassword').show();
+                $('#old_password').removeAttr('required');
+                $('#new_password').removeAttr('required');
+                $('#confirm_password').removeAttr('required');
+                $('#new_password').val('');
+                $('#new_password').val('');
+                $('#confirm_password').val('');
+                $('.error-change-password').hide();
+            });
+            if ('@TempData["ErrorMessage"]' != '') {
+                $('.error-change-password').show();
+                $('.change-password').show();
+                $('#btnCancelChangePassword').show();
+                $('#btnChangePassword').hide();
+                $('#old_password').attr('required', 'required');
+                $('#new_password').attr('required', 'required');
+                $('#confirm_password').attr('required', 'required');
+            }
+
+            var birthday = $('.birthday').datepicker({
+                language: $('#web_lang').val(),
+                maxDate: new Date(),
+                autoClose: true,
+                toggleSelected: false,
+                view: 'years'
+            });
+            $(".birthday").on('keydown paste', function (e) {
+                e.preventDefault();
+            });
+
+            $(".only-text").keypress(function (event) {
+                var ew = event.which;
+                //if (ew == 32) //space
+                //    return true;
+                if (65 <= ew && ew <= 90)
+                    return true;
+                if (97 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+            $(".tel-number-text").keypress(function (event) {
+                var ew = event.which;
+                if (ew == 35)
+                    return true;
+                if (ew == 42)
+                    return true;
+                if (ew == 43)
+                    return true;
+                if (48 <= ew && ew <= 57)
+                    return true;
+                return false;
+            });
+            $(".email-text").keypress(function (event) {
+                var ew = event.which;
+                if (ew == 45) //-
+                    return true;
+                if (ew == 46) //.
+                    return true;
+                if (ew == 95) //_
+                    return true;
+                if (ew == 64) //at
+                    return true;
+                if (48 <= ew && ew <= 57)
+                    return true;
+                if (65 <= ew && ew <= 90)
+                    return true;
+                if (97 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+            $('#submit').click(function () {
+
+                if ($('#new_password').val() != "" && $('#confirm_password').val() != "" && $('#new_password').val() != $('#confirm_password').val() != "") {
+                    $('.error-change-password').show();
+                    $('.text-error').html('@Localize.Show("CONFIRM_NEW_PASSWORD_NOT_MATCH")');
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,115 @@
+﻿@model List<DataModel.MarkupSubHotel>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-sm-flex1 align-items-center justify-content-between" style="display:-webkit-box !important;">
+            <h6 class="m-0 font-weight-bold text-primary">Markup Hotel Detail List</h6>
+            @*<a href="@Url.Action("MarkupHotelSubDetail", new { MarkupHotelOID = ViewBag.markuphotel_id , MarkupHoteSublOID = Guid.NewGuid() })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">*@
+            <a href="@Url.Action("MarkupHotelList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm" style="margin-right: 5px;">
+                <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                Back to List
+            </a>
+            <a href="@Url.Action("MarkupHotelSubDetail", new { MarkupHotelOID = ViewBag.markuphotel_id , id = Guid.NewGuid() })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-plus fa-sm text-white-50"></i>
+                Create New
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="width: 20px;">Active</th>
+                        <th>Min Price</th>
+                        <th>Max Price</th>
+                        <th>Markup Value</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var markupSubHotel in Model)
+                    {
+                        <tr>
+                            <td>
+                                @(markupSubHotel.IsActive.GetValueOrDefault() ? "1" : "2")
+                            </td>
+                            <td>
+                                @markupSubHotel.MinPrice
+                            </td>
+                            <td>
+                                @markupSubHotel.MaxPrice
+                            </td>
+
+                            <td>
+                                @markupSubHotel.MarkupValue.GetValueOrDefault().ToString("N2") @(markupSubHotel.IsPercentMarkupValue.GetValueOrDefault() ? "%" : "฿")
+                            </td>
+                            <td>
+                                @*<a href="@Url.Action("MarkupHotelSubDetail", new { MarkupHotelOID = ViewBag.markuphotel_id , MarkupHoteSublOID = markupSubHotel.MarkupSubHotelOID })">*@
+                                <a href="@Url.Action("MarkupHotelSubDetail", new { MarkupHotelOID = ViewBag.markuphotel_id , id = markupSubHotel.MarkupSubHotelOID })">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#" onclick="deleteRow('@markupSubHotel.MarkupSubHotelOID', '@markupSubHotel.MinPrice','@markupSubHotel.MarkupHotelOID')"><i class="fas fa-trash"></i> Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        var isSave = '@Request["save"]';
+        $(document).ready(function () {
+            $('#grid').DataTable({
+                columnDefs: [{
+                    "orderable": false,
+                    "targets": [4]
+                }, {
+                    "render": function (data, type) {
+                        if (type == 'sort') {
+                            return data + '';
+                        } else {
+                            var html = '';
+                            if (data == 1) {
+                                html = '<i class="fas fa-check" style= "color: #00ff21" ></i>'
+                            } else {
+                                html = '<i class="fas fa-times" style= "color: #ff0000" ></i>'
+                            }
+                            return html;
+                        }
+                    },
+                    "targets": [0]
+                }]
+            });
+
+            if (isSave == 't') {
+                new PNotify({
+                    title: 'Success',
+                    text: 'Data have been updated',
+                    type: 'success',
+                    styling: 'bootstrap3',
+                    delay: 2000,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    buttons: {
+                        show_on_nonblock: true
+                    }
+                });
+            }
+        });
+
+        var deleteRow = function (id, name, hoteloid) {
+            if (confirm("Do you want to delete " + name + "?")) {
+                window.location.href = '@Url.Action("MarkupHotelSublDelete")' + '/' + id + "?MarkupHotelOID=" +  hoteloid;
+            }
+        }
+    </script>
+}

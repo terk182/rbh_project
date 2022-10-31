@@ -1,0 +1,2017 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GogojiiWebDBModelStoreContainer" CdmEntityContainer="GogojiiWebDBEntities">
+    <EntitySetMapping Name="AirlineCodes">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.AirlineCode">
+        <MappingFragment StoreEntitySet="AirlineCode">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Language" ColumnName="Language" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirlineControls">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.AirlineControl">
+        <MappingFragment StoreEntitySet="AirlineControl">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="DestinationCountryCode" ColumnName="DestinationCountryCode" />
+          <ScalarProperty Name="OriginalCountryCode" ColumnName="OriginalCountryCode" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="AirlineOID" ColumnName="AirlineOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirlineControlSubs">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.AirlineControlSub">
+        <MappingFragment StoreEntitySet="AirlineControlSub">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="FareBasis" ColumnName="FareBasis" />
+          <ScalarProperty Name="ClassOfService" ColumnName="ClassOfService" />
+          <ScalarProperty Name="AirlineCode" ColumnName="AirlineCode" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="AirlineOID" ColumnName="AirlineOID" />
+          <ScalarProperty Name="AirlineSubOID" ColumnName="AirlineSubOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirlineQtaxControls">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.AirlineQtaxControl">
+        <MappingFragment StoreEntitySet="AirlineQtaxControl">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="DestinationCountryCode" ColumnName="DestinationCountryCode" />
+          <ScalarProperty Name="OriginalCountryCode" ColumnName="OriginalCountryCode" />
+          <ScalarProperty Name="AirlineCode" ColumnName="AirlineCode" />
+          <ScalarProperty Name="AirlineQtaxOID" ColumnName="AirlineQtaxOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirportCodes">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.AirportCode">
+        <MappingFragment StoreEntitySet="AirportCode">
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Language" ColumnName="Language" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirportLocations">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.AirportLocation">
+        <MappingFragment StoreEntitySet="AirportLocation">
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="CityCode" ColumnName="CityCode" />
+          <ScalarProperty Name="AirportCode" ColumnName="AirportCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirportTranfers">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.AirportTranfer">
+        <MappingFragment StoreEntitySet="AirportTranfer">
+          <ScalarProperty Name="AirportCode" ColumnName="AirportCode" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsPercentDiscount" ColumnName="IsPercentDiscount" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="FinishTravelDate" ColumnName="FinishTravelDate" />
+          <ScalarProperty Name="StartTravelDate" ColumnName="StartTravelDate" />
+          <ScalarProperty Name="FinishBookingDate" ColumnName="FinishBookingDate" />
+          <ScalarProperty Name="StartBookingDate" ColumnName="StartBookingDate" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="AirportTranferOID" ColumnName="AirportTranferOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirportWithCities">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.AirportWithCity">
+        <MappingFragment StoreEntitySet="AirportWithCity">
+          <ScalarProperty Name="ProvinceCountryCode" ColumnName="ProvinceCountryCode" />
+          <ScalarProperty Name="ProvinceCode" ColumnName="ProvinceCode" />
+          <ScalarProperty Name="IsCommercialAirport" ColumnName="IsCommercialAirport" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="CityCode" ColumnName="CityCode" />
+          <ScalarProperty Name="FacilityCode" ColumnName="FacilityCode" />
+          <ScalarProperty Name="AirportCode" ColumnName="AirportCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AirPromotions">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.AirPromotion">
+        <MappingFragment StoreEntitySet="AirPromotion">
+          <ScalarProperty Name="AirlineCode" ColumnName="AirlineCode" />
+          <ScalarProperty Name="DeepLinkText" ColumnName="DeepLinkText" />
+          <ScalarProperty Name="PeriodEnd" ColumnName="PeriodEnd" />
+          <ScalarProperty Name="PeriodStart" ColumnName="PeriodStart" />
+          <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+          <ScalarProperty Name="DepartDate" ColumnName="DepartDate" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Origin" ColumnName="Origin" />
+          <ScalarProperty Name="AirPromotionOID" ColumnName="AirPromotionOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="APITokens">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.APIToken">
+        <MappingFragment StoreEntitySet="APIToken">
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="Expires" ColumnName="Expires" />
+          <ScalarProperty Name="APIUserOID" ColumnName="APIUserOID" />
+          <ScalarProperty Name="Token" ColumnName="Token" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="APIUsers">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.APIUser">
+        <MappingFragment StoreEntitySet="APIUser">
+          <ScalarProperty Name="WebMode" ColumnName="WebMode" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="APIUserOID" ColumnName="APIUserOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BackOfficeAdmins">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.BackOfficeAdmin">
+        <MappingFragment StoreEntitySet="BackOfficeAdmin">
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="BackOfficeAdminOID" ColumnName="BackOfficeAdminOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BundleSearches">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.BundleSearch">
+        <MappingFragment StoreEntitySet="BundleSearch">
+          <ScalarProperty Name="DestinationCity" ColumnName="DestinationCity" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="FlightStartPrice" ColumnName="FlightStartPrice" />
+          <ScalarProperty Name="SearchJson" ColumnName="SearchJson" />
+          <ScalarProperty Name="SearchOID" ColumnName="SearchOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CityCodes">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.CityCode">
+        <MappingFragment StoreEntitySet="CityCode">
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Language" ColumnName="Language" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CountryCodes">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.CountryCode">
+        <MappingFragment StoreEntitySet="CountryCode">
+          <ScalarProperty Name="Alpha3" ColumnName="Alpha3" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Language" ColumnName="Language" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CurrencyExchanges">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.CurrencyExchange">
+        <MappingFragment StoreEntitySet="CurrencyExchange">
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="ExchangeRate" ColumnName="ExchangeRate" />
+          <ScalarProperty Name="CurrencyExchangeOID" ColumnName="CurrencyExchangeOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DiscountTransactions">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.DiscountTransaction">
+        <MappingFragment StoreEntitySet="DiscountTransaction">
+          <ScalarProperty Name="PromotionCodeID" ColumnName="PromotionCodeID" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="Success" ColumnName="Success" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="DiscountCode" ColumnName="DiscountCode" />
+          <ScalarProperty Name="JsonRequest" ColumnName="JsonRequest" />
+          <ScalarProperty Name="RequestDateTime" ColumnName="RequestDateTime" />
+          <ScalarProperty Name="DiscountProductType" ColumnName="DiscountProductType" />
+          <ScalarProperty Name="DiscountRequestID" ColumnName="DiscountRequestID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingBaggages">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.FlightBookingBaggage">
+        <MappingFragment StoreEntitySet="FlightBookingBaggage">
+          <ScalarProperty Name="BaggageUnit" ColumnName="BaggageUnit" />
+          <ScalarProperty Name="BaggageNo" ColumnName="BaggageNo" />
+          <ScalarProperty Name="Baggages" ColumnName="Baggages" />
+          <ScalarProperty Name="FlightBookingFareOID" ColumnName="FlightBookingFareOID" />
+          <ScalarProperty Name="FlightBookingBaggageOID" ColumnName="FlightBookingBaggageOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingContactInfoes">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.FlightBookingContactInfo">
+        <MappingFragment StoreEntitySet="FlightBookingContactInfo">
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+          <ScalarProperty Name="Middlename" ColumnName="Middlename" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="FlightBookingContactInfoOID" ColumnName="FlightBookingContactInfoOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingFares">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.FlightBookingFare">
+        <MappingFragment StoreEntitySet="FlightBookingFare">
+          <ScalarProperty Name="Net" ColumnName="Net" />
+          <ScalarProperty Name="LessFare" ColumnName="LessFare" />
+          <ScalarProperty Name="Qtax" ColumnName="Qtax" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+          <ScalarProperty Name="SellingBaseFare" ColumnName="SellingBaseFare" />
+          <ScalarProperty Name="BaseFare" ColumnName="BaseFare" />
+          <ScalarProperty Name="PessengerType" ColumnName="PessengerType" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="FlightBookingFareOID" ColumnName="FlightBookingFareOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingFareRules">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.FlightBookingFareRule">
+        <MappingFragment StoreEntitySet="FlightBookingFareRule">
+          <ScalarProperty Name="FareBasis" ColumnName="FareBasis" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Origin" ColumnName="Origin" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="FlightBookingFareRuleOID" ColumnName="FlightBookingFareRuleOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingFareRuleDatails">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.FlightBookingFareRuleDatail">
+        <MappingFragment StoreEntitySet="FlightBookingFareRuleDatail">
+          <ScalarProperty Name="FareRuleText" ColumnName="FareRuleText" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="FlightBookingFareRuleOID" ColumnName="FlightBookingFareRuleOID" />
+          <ScalarProperty Name="FlightBookingFareRuleDatailOID" ColumnName="FlightBookingFareRuleDatailOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingFlightDetails">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.FlightBookingFlightDetail">
+        <MappingFragment StoreEntitySet="FlightBookingFlightDetail">
+          <ScalarProperty Name="Seq" ColumnName="Seq" />
+          <ScalarProperty Name="TripType" ColumnName="TripType" />
+          <ScalarProperty Name="OperatedAirline" ColumnName="OperatedAirline" />
+          <ScalarProperty Name="Airline" ColumnName="Airline" />
+          <ScalarProperty Name="ArrCity" ColumnName="ArrCity" />
+          <ScalarProperty Name="DepCity" ColumnName="DepCity" />
+          <ScalarProperty Name="EquipmentType" ColumnName="EquipmentType" />
+          <ScalarProperty Name="Cabin" ColumnName="Cabin" />
+          <ScalarProperty Name="FareType" ColumnName="FareType" />
+          <ScalarProperty Name="AvailableSeat" ColumnName="AvailableSeat" />
+          <ScalarProperty Name="FareBasis" ColumnName="FareBasis" />
+          <ScalarProperty Name="Rbd" ColumnName="Rbd" />
+          <ScalarProperty Name="ConnectingTime" ColumnName="ConnectingTime" />
+          <ScalarProperty Name="FlightTime" ColumnName="FlightTime" />
+          <ScalarProperty Name="ArrivalDateTime" ColumnName="ArrivalDateTime" />
+          <ScalarProperty Name="DepartureDateTime" ColumnName="DepartureDateTime" />
+          <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="FlightBookingFlightDetailOID" ColumnName="FlightBookingFlightDetailOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingRefunds">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.FlightBookingRefund">
+        <MappingFragment StoreEntitySet="FlightBookingRefund">
+          <ScalarProperty Name="OldPNR" ColumnName="OldPNR" />
+          <ScalarProperty Name="DueDateOfRefund" ColumnName="DueDateOfRefund" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="RefundGMDate" ColumnName="RefundGMDate" />
+          <ScalarProperty Name="RefundCreateDate" ColumnName="RefundCreateDate" />
+          <ScalarProperty Name="RefundNo" ColumnName="RefundNo" />
+          <ScalarProperty Name="NewPNR" ColumnName="NewPNR" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="FlightBookingRefundOID" ColumnName="FlightBookingRefundOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingReissues">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.FlightBookingReissue">
+        <MappingFragment StoreEntitySet="FlightBookingReissue">
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="DetailChage" ColumnName="DetailChage" />
+          <ScalarProperty Name="TypeChage" ColumnName="TypeChage" />
+          <ScalarProperty Name="ReissueCreateDate" ColumnName="ReissueCreateDate" />
+          <ScalarProperty Name="NewPNR" ColumnName="NewPNR" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="FlightBookingReissueOID" ColumnName="FlightBookingReissueOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightSearchLogs">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.FlightSearchLog">
+        <MappingFragment StoreEntitySet="FlightSearchLog">
+          <ScalarProperty Name="TransactionDateTime" ColumnName="TransactionDateTime" />
+          <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+          <ScalarProperty Name="AirlinePreference" ColumnName="AirlinePreference" />
+          <ScalarProperty Name="SeatClass" ColumnName="SeatClass" />
+          <ScalarProperty Name="NoOfInfant" ColumnName="NoOfInfant" />
+          <ScalarProperty Name="NoOfChild" ColumnName="NoOfChild" />
+          <ScalarProperty Name="NoOfAdult" ColumnName="NoOfAdult" />
+          <ScalarProperty Name="Date6" ColumnName="Date6" />
+          <ScalarProperty Name="Date5" ColumnName="Date5" />
+          <ScalarProperty Name="Date4" ColumnName="Date4" />
+          <ScalarProperty Name="Date3" ColumnName="Date3" />
+          <ScalarProperty Name="Date2" ColumnName="Date2" />
+          <ScalarProperty Name="Date1" ColumnName="Date1" />
+          <ScalarProperty Name="TripType" ColumnName="TripType" />
+          <ScalarProperty Name="To6" ColumnName="To6" />
+          <ScalarProperty Name="To5" ColumnName="To5" />
+          <ScalarProperty Name="To4" ColumnName="To4" />
+          <ScalarProperty Name="To3" ColumnName="To3" />
+          <ScalarProperty Name="To2" ColumnName="To2" />
+          <ScalarProperty Name="To1" ColumnName="To1" />
+          <ScalarProperty Name="From6" ColumnName="From6" />
+          <ScalarProperty Name="From5" ColumnName="From5" />
+          <ScalarProperty Name="From4" ColumnName="From4" />
+          <ScalarProperty Name="From3" ColumnName="From3" />
+          <ScalarProperty Name="From2" ColumnName="From2" />
+          <ScalarProperty Name="From1" ColumnName="From1" />
+          <ScalarProperty Name="FlightSearchLog1" ColumnName="FlightSearchLog" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FourDigitControls">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.FourDigitControl">
+        <MappingFragment StoreEntitySet="FourDigitControl">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="DestinationCountryCode" ColumnName="DestinationCountryCode" />
+          <ScalarProperty Name="OriginalCountryCode" ColumnName="OriginalCountryCode" />
+          <ScalarProperty Name="AirlineCode" ColumnName="AirlineCode" />
+          <ScalarProperty Name="FourDigitOID" ColumnName="FourDigitOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GogojiiPassports">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.GogojiiPassport">
+        <MappingFragment StoreEntitySet="GogojiiPassport">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="DestinationCodes" ColumnName="DestinationCodes" />
+          <ScalarProperty Name="OriginCodes" ColumnName="OriginCodes" />
+          <ScalarProperty Name="AirlineCodes" ColumnName="AirlineCodes" />
+          <ScalarProperty Name="PassportOID" ColumnName="PassportOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBCategories">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBCategory">
+        <MappingFragment StoreEntitySet="HBCategory">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="SimpleCode" ColumnName="SimpleCode" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="AccommodationCode" ColumnName="AccommodationCode" />
+          <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBCountries">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBCountry">
+        <MappingFragment StoreEntitySet="HBCountry">
+          <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBDestinations">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBDestination">
+        <MappingFragment StoreEntitySet="HBDestination">
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="DestinationName" ColumnName="DestinationName" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="DestinationCode" ColumnName="DestinationCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBFacilities">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBFacility">
+        <MappingFragment StoreEntitySet="HBFacility">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="FacilityTypologyCode" ColumnName="FacilityTypologyCode" />
+          <ScalarProperty Name="FacilityGroupCode" ColumnName="FacilityGroupCode" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="FacilityCode" ColumnName="FacilityCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBFacilityGroups">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBFacilityGroup">
+        <MappingFragment StoreEntitySet="HBFacilityGroup">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="FacilityGroupCode" ColumnName="FacilityGroupCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBHotelAirports">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBHotelAirport">
+        <MappingFragment StoreEntitySet="HBHotelAirport">
+          <ScalarProperty Name="Distance" ColumnName="Distance" />
+          <ScalarProperty Name="AirportCode" ColumnName="AirportCode" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBHotelDetails">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBHotelDetail">
+        <MappingFragment StoreEntitySet="HBHotelDetail">
+          <ScalarProperty Name="HotelTermCond" ColumnName="HotelTermCond" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="HotelDescription" ColumnName="HotelDescription" />
+          <ScalarProperty Name="HotelName" ColumnName="HotelName" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBHotelFacilities">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBHotelFacility">
+        <MappingFragment StoreEntitySet="HBHotelFacility">
+          <ScalarProperty Name="ExtraFee" ColumnName="ExtraFee" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="FacilityGroupCode" ColumnName="FacilityGroupCode" />
+          <ScalarProperty Name="FacilityCode" ColumnName="FacilityCode" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBHotelImages">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBHotelImage">
+        <MappingFragment StoreEntitySet="HBHotelImage">
+          <ScalarProperty Name="RoomType" ColumnName="RoomType" />
+          <ScalarProperty Name="RoomCode" ColumnName="RoomCode" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="ImageTypeCode" ColumnName="ImageTypeCode" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+          <ScalarProperty Name="HotelImageOID" ColumnName="HotelImageOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBHotelInterestPoints">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBHotelInterestPoint">
+        <MappingFragment StoreEntitySet="HBHotelInterestPoint">
+          <ScalarProperty Name="Distance" ColumnName="Distance" />
+          <ScalarProperty Name="POI" ColumnName="POI" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+          <ScalarProperty Name="HotelInterestPointOID" ColumnName="HotelInterestPointOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBHotelMains">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBHotelMain">
+        <MappingFragment StoreEntitySet="HBHotelMain">
+          <ScalarProperty Name="Ranking" ColumnName="Ranking" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="Phones" ColumnName="Phones" />
+          <ScalarProperty Name="URL" ColumnName="URL" />
+          <ScalarProperty Name="AccommodationTypeCode" ColumnName="AccommodationTypeCode" />
+          <ScalarProperty Name="ChainCode" ColumnName="ChainCode" />
+          <ScalarProperty Name="CategoryGroupCode" ColumnName="CategoryGroupCode" />
+          <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="ZoneCode" ColumnName="ZoneCode" />
+          <ScalarProperty Name="DestinationCode" ColumnName="DestinationCode" />
+          <ScalarProperty Name="StateCode" ColumnName="StateCode" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBHotelRooms">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBHotelRoom">
+        <MappingFragment StoreEntitySet="HBHotelRoom">
+          <ScalarProperty Name="RoomDescription" ColumnName="RoomDescription" />
+          <ScalarProperty Name="RoomName" ColumnName="RoomName" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="RoomCode" ColumnName="RoomCode" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBHotelRoomFacilities">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBHotelRoomFacility">
+        <MappingFragment StoreEntitySet="HBHotelRoomFacility">
+          <ScalarProperty Name="FacilityGroup" ColumnName="FacilityGroup" />
+          <ScalarProperty Name="FacilityCode" ColumnName="FacilityCode" />
+          <ScalarProperty Name="RoomCode" ColumnName="RoomCode" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBHotelUpdates">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBHotelUpdate">
+        <MappingFragment StoreEntitySet="HBHotelUpdate">
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+          <ScalarProperty Name="HotelUpdateLogOID" ColumnName="HotelUpdateLogOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBImageTypes">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBImageType">
+        <MappingFragment StoreEntitySet="HBImageType">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="ImageTypeCode" ColumnName="ImageTypeCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBImportedHotelNames">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBImportedHotelName">
+        <MappingFragment StoreEntitySet="HBImportedHotelName">
+          <ScalarProperty Name="HotelName" ColumnName="HotelName" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="DestinationCode" ColumnName="DestinationCode" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBLanguages">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBLanguage">
+        <MappingFragment StoreEntitySet="HBLanguage">
+          <ScalarProperty Name="HotelBedLanguage" ColumnName="HotelBedLanguage" />
+          <ScalarProperty Name="LanguageName" ColumnName="LanguageName" />
+          <ScalarProperty Name="Alpha2" ColumnName="Alpha2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBTerminals">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBTerminal">
+        <MappingFragment StoreEntitySet="HBTerminal">
+          <ScalarProperty Name="TerminalName" ColumnName="TerminalName" />
+          <ScalarProperty Name="TerminalType" ColumnName="TerminalType" />
+          <ScalarProperty Name="TerminalTypeCode" ColumnName="TerminalTypeCode" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="TerminalCode" ColumnName="TerminalCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBZones">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBZone">
+        <MappingFragment StoreEntitySet="HBZone">
+          <ScalarProperty Name="ZoneName" ColumnName="ZoneName" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="ZoneCode" ColumnName="ZoneCode" />
+          <ScalarProperty Name="DestinationCode" ColumnName="DestinationCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HFBundleBookingMains">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HFBundleBookingMain">
+        <MappingFragment StoreEntitySet="HFBundleBookingMain">
+          <ScalarProperty Name="MemberOID" ColumnName="MemberOID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UUID" ColumnName="UUID" />
+          <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
+          <ScalarProperty Name="InstallmentMonthly" ColumnName="InstallmentMonthly" />
+          <ScalarProperty Name="InstallmentPlan" ColumnName="InstallmentPlan" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="PromoCode" ColumnName="PromoCode" />
+          <ScalarProperty Name="PaymentFee" ColumnName="PaymentFee" />
+          <ScalarProperty Name="SourceBy" ColumnName="SourceBy" />
+          <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+          <ScalarProperty Name="TotalPackagePrice" ColumnName="TotalPackagePrice" />
+          <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+          <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="HotelBookingOID" ColumnName="HotelBookingOID" />
+          <ScalarProperty Name="FlightBookingOID" ColumnName="FlightBookingOID" />
+          <ScalarProperty Name="GogojiiID" ColumnName="GogojiiID" />
+          <ScalarProperty Name="BookingKeyReference" ColumnName="BookingKeyReference" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HFBundleExBookingMains">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HFBundleExBookingMain">
+        <MappingFragment StoreEntitySet="HFBundleExBookingMain">
+          <ScalarProperty Name="MemberOID" ColumnName="MemberOID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UUID" ColumnName="UUID" />
+          <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
+          <ScalarProperty Name="InstallmentMonthly" ColumnName="InstallmentMonthly" />
+          <ScalarProperty Name="InstallmentPlan" ColumnName="InstallmentPlan" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="PromoCode" ColumnName="PromoCode" />
+          <ScalarProperty Name="PaymentFee" ColumnName="PaymentFee" />
+          <ScalarProperty Name="SourceBy" ColumnName="SourceBy" />
+          <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+          <ScalarProperty Name="TotalPackagePrice" ColumnName="TotalPackagePrice" />
+          <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+          <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="HotelExBookingOID" ColumnName="HotelExBookingOID" />
+          <ScalarProperty Name="FlightBookingOID" ColumnName="FlightBookingOID" />
+          <ScalarProperty Name="GogojiiID" ColumnName="GogojiiID" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelBookings">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelBooking">
+        <MappingFragment StoreEntitySet="HotelBooking">
+          <ScalarProperty Name="DiscountRequestID" ColumnName="DiscountRequestID" />
+          <ScalarProperty Name="MemberOID" ColumnName="MemberOID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UUID" ColumnName="UUID" />
+          <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
+          <ScalarProperty Name="InstallmentMonthly" ColumnName="InstallmentMonthly" />
+          <ScalarProperty Name="InstallmentPlan" ColumnName="InstallmentPlan" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="PromoCode" ColumnName="PromoCode" />
+          <ScalarProperty Name="PaymentFee" ColumnName="PaymentFee" />
+          <ScalarProperty Name="SourceBy" ColumnName="SourceBy" />
+          <ScalarProperty Name="IsBundle" ColumnName="IsBundle" />
+          <ScalarProperty Name="CheckOut" ColumnName="CheckOut" />
+          <ScalarProperty Name="CheckIn" ColumnName="CheckIn" />
+          <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+          <ScalarProperty Name="TotalPackagePrice" ColumnName="TotalPackagePrice" />
+          <ScalarProperty Name="SearchKey" ColumnName="SearchKey" />
+          <ScalarProperty Name="StatusBooking" ColumnName="StatusBooking" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="StatusPayment" ColumnName="StatusPayment" />
+          <ScalarProperty Name="GogojiiID" ColumnName="GogojiiID" />
+          <ScalarProperty Name="IsError" ColumnName="IsError" />
+          <ScalarProperty Name="HotelBookingOID" ColumnName="HotelBookingOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelBookingContactInfoes">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelBookingContactInfo">
+        <MappingFragment StoreEntitySet="HotelBookingContactInfo">
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+          <ScalarProperty Name="Middlename" ColumnName="Middlename" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="HotelBookingOID" ColumnName="HotelBookingOID" />
+          <ScalarProperty Name="ContactInfoOID" ColumnName="ContactInfoOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelBookingHolders">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelBookingHolder">
+        <MappingFragment StoreEntitySet="HotelBookingHolder">
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="HotelBookingOID" ColumnName="HotelBookingOID" />
+          <ScalarProperty Name="HotelHolderOID" ColumnName="HotelHolderOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelBookingHotels">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelBookingHotel">
+        <MappingFragment StoreEntitySet="HotelBookingHotel">
+          <ScalarProperty Name="DefaultImage" ColumnName="DefaultImage" />
+          <ScalarProperty Name="HotelAddress" ColumnName="HotelAddress" />
+          <ScalarProperty Name="TotalSelling" ColumnName="TotalSelling" />
+          <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+          <ScalarProperty Name="HotelName" ColumnName="HotelName" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+          <ScalarProperty Name="HotelBookingOID" ColumnName="HotelBookingOID" />
+          <ScalarProperty Name="HotelOID" ColumnName="HotelOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelBookingHotelRooms">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelBookingHotelRoom">
+        <MappingFragment StoreEntitySet="HotelBookingHotelRoom">
+          <ScalarProperty Name="RoomName" ColumnName="RoomName" />
+          <ScalarProperty Name="RoomCode" ColumnName="RoomCode" />
+          <ScalarProperty Name="HotelOID" ColumnName="HotelOID" />
+          <ScalarProperty Name="HotelRoomOID" ColumnName="HotelRoomOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelBookingHotelRoomRates">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelBookingHotelRoomRate">
+        <MappingFragment StoreEntitySet="HotelBookingHotelRoomRate">
+          <ScalarProperty Name="RateComment" ColumnName="RateComment" />
+          <ScalarProperty Name="BoardName" ColumnName="BoardName" />
+          <ScalarProperty Name="BoardCode" ColumnName="BoardCode" />
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="SellingPrice" ColumnName="SellingPrice" />
+          <ScalarProperty Name="RateKey" ColumnName="RateKey" />
+          <ScalarProperty Name="HotelRoomOID" ColumnName="HotelRoomOID" />
+          <ScalarProperty Name="HotelRateOID" ColumnName="HotelRateOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelBookingHotelRoomRateCancells">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelBookingHotelRoomRateCancell">
+        <MappingFragment StoreEntitySet="HotelBookingHotelRoomRateCancell">
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="CancellationFee" ColumnName="CancellationFee" />
+          <ScalarProperty Name="HotelRateOID" ColumnName="HotelRateOID" />
+          <ScalarProperty Name="CancellOID" ColumnName="CancellOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelBookingHotelRoomRatePromotions">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelBookingHotelRoomRatePromotion">
+        <MappingFragment StoreEntitySet="HotelBookingHotelRoomRatePromotion">
+          <ScalarProperty Name="PromotionName" ColumnName="PromotionName" />
+          <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
+          <ScalarProperty Name="HotelRateOID" ColumnName="HotelRateOID" />
+          <ScalarProperty Name="PromotionOID" ColumnName="PromotionOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelBookingHotelRoomRateRooms">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelBookingHotelRoomRateRoom">
+        <MappingFragment StoreEntitySet="HotelBookingHotelRoomRateRoom">
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="ChildAge" ColumnName="ChildAge" />
+          <ScalarProperty Name="Children" ColumnName="Children" />
+          <ScalarProperty Name="Adult" ColumnName="Adult" />
+          <ScalarProperty Name="HotelRateOID" ColumnName="HotelRateOID" />
+          <ScalarProperty Name="RoomOID" ColumnName="RoomOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelBookingResponseBookings">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelBookingResponseBooking">
+        <MappingFragment StoreEntitySet="HotelBookingResponseBooking">
+          <ScalarProperty Name="VatNumber" ColumnName="VatNumber" />
+          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+          <ScalarProperty Name="BookingKeyReference" ColumnName="BookingKeyReference" />
+          <ScalarProperty Name="IsError" ColumnName="IsError" />
+          <ScalarProperty Name="HotelBookingNo" ColumnName="HotelBookingNo" />
+          <ScalarProperty Name="HotelBookingOID" ColumnName="HotelBookingOID" />
+          <ScalarProperty Name="ResponseBookingOID" ColumnName="ResponseBookingOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelBookingSearchRequests">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelBookingSearchRequest">
+        <MappingFragment StoreEntitySet="HotelBookingSearchRequest">
+          <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+          <ScalarProperty Name="CheckOut" ColumnName="CheckOut" />
+          <ScalarProperty Name="CheckIn" ColumnName="CheckIn" />
+          <ScalarProperty Name="HotelBookingOID" ColumnName="HotelBookingOID" />
+          <ScalarProperty Name="SearchRequestOID" ColumnName="SearchRequestOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExAdmins">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExAdmin">
+        <MappingFragment StoreEntitySet="HotelExAdmin">
+          <ScalarProperty Name="CurrentLogin" ColumnName="CurrentLogin" />
+          <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+          <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="CompanyOID" ColumnName="CompanyOID" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="AdminOID" ColumnName="AdminOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExAdminHotels">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExAdminHotel">
+        <MappingFragment StoreEntitySet="HotelExAdminHotel">
+          <ScalarProperty Name="HotelOID" ColumnName="HotelOID" />
+          <ScalarProperty Name="AdminOID" ColumnName="AdminOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExBookings">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExBooking">
+        <MappingFragment StoreEntitySet="HotelExBooking">
+          <ScalarProperty Name="DiscountRequestID" ColumnName="DiscountRequestID" />
+          <ScalarProperty Name="IsBundle" ColumnName="IsBundle" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
+          <ScalarProperty Name="InstallmentMonthly" ColumnName="InstallmentMonthly" />
+          <ScalarProperty Name="InstallmentPlan" ColumnName="InstallmentPlan" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="PromoCode" ColumnName="PromoCode" />
+          <ScalarProperty Name="PaymentFee" ColumnName="PaymentFee" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="AcencyAccountOID" ColumnName="AcencyAccountOID" />
+          <ScalarProperty Name="EmailTxt" ColumnName="EmailTxt" />
+          <ScalarProperty Name="BookingCode" ColumnName="BookingCode" />
+          <ScalarProperty Name="ContactCountryCode" ColumnName="ContactCountryCode" />
+          <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
+          <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+          <ScalarProperty Name="ContactLastName" ColumnName="ContactLastName" />
+          <ScalarProperty Name="ContactMiddleName" ColumnName="ContactMiddleName" />
+          <ScalarProperty Name="ContactFirstName" ColumnName="ContactFirstName" />
+          <ScalarProperty Name="ContactTitle" ColumnName="ContactTitle" />
+          <ScalarProperty Name="MemberOID" ColumnName="MemberOID" />
+          <ScalarProperty Name="CheckOut" ColumnName="CheckOut" />
+          <ScalarProperty Name="CheckIn" ColumnName="CheckIn" />
+          <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+          <ScalarProperty Name="StatusBooking" ColumnName="StatusBooking" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="StatusPayment" ColumnName="StatusPayment" />
+          <ScalarProperty Name="GogojiiID" ColumnName="GogojiiID" />
+          <ScalarProperty Name="IsError" ColumnName="IsError" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExBookingHotels">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExBookingHotel">
+        <MappingFragment StoreEntitySet="HotelExBookingHotel">
+          <ScalarProperty Name="SyncDateTime" ColumnName="SyncDateTime" />
+          <ScalarProperty Name="SyncPMS" ColumnName="SyncPMS" />
+          <ScalarProperty Name="HotelPMSCode" ColumnName="HotelPMSCode" />
+          <ScalarProperty Name="StatusBooking" ColumnName="StatusBooking" />
+          <ScalarProperty Name="NoOfRooms" ColumnName="NoOfRooms" />
+          <ScalarProperty Name="CompanyOID" ColumnName="CompanyOID" />
+          <ScalarProperty Name="CheckOutDate" ColumnName="CheckOutDate" />
+          <ScalarProperty Name="CheckInDate" ColumnName="CheckInDate" />
+          <ScalarProperty Name="TotalSelling" ColumnName="TotalSelling" />
+          <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+          <ScalarProperty Name="HotelName" ColumnName="HotelName" />
+          <ScalarProperty Name="HotelOID" ColumnName="HotelOID" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="BookingHotelOID" ColumnName="BookingHotelOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExBookingHotelRates">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExBookingHotelRate">
+        <MappingFragment StoreEntitySet="HotelExBookingHotelRate">
+          <ScalarProperty Name="RateCode" ColumnName="RateCode" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="CheckOutDate" ColumnName="CheckOutDate" />
+          <ScalarProperty Name="CheckInDate" ColumnName="CheckInDate" />
+          <ScalarProperty Name="CancelBeforeCheckinRate" ColumnName="CancelBeforeCheckinRate" />
+          <ScalarProperty Name="CancelBeforeCheckinDate" ColumnName="CancelBeforeCheckinDate" />
+          <ScalarProperty Name="CancelRate" ColumnName="CancelRate" />
+          <ScalarProperty Name="Policy" ColumnName="Policy" />
+          <ScalarProperty Name="IncludeBF" ColumnName="IncludeBF" />
+          <ScalarProperty Name="CommissionPercent" ColumnName="CommissionPercent" />
+          <ScalarProperty Name="Commission" ColumnName="Commission" />
+          <ScalarProperty Name="ServiceIsPercent" ColumnName="ServiceIsPercent" />
+          <ScalarProperty Name="ServiceCharge" ColumnName="ServiceCharge" />
+          <ScalarProperty Name="TaxIsPercent" ColumnName="TaxIsPercent" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+          <ScalarProperty Name="ChildAge" ColumnName="ChildAge" />
+          <ScalarProperty Name="Children" ColumnName="Children" />
+          <ScalarProperty Name="Adults" ColumnName="Adults" />
+          <ScalarProperty Name="BoardName" ColumnName="BoardName" />
+          <ScalarProperty Name="BoardCode" ColumnName="BoardCode" />
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="SellingPrice" ColumnName="SellingPrice" />
+          <ScalarProperty Name="HotelRateOID" ColumnName="HotelRateOID" />
+          <ScalarProperty Name="BookingHotelRoomOID" ColumnName="BookingHotelRoomOID" />
+          <ScalarProperty Name="BookingHotelRateOID" ColumnName="BookingHotelRateOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExBookingHotelRateCancels">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExBookingHotelRateCancel">
+        <MappingFragment StoreEntitySet="HotelExBookingHotelRateCancel">
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="CancellationFee" ColumnName="CancellationFee" />
+          <ScalarProperty Name="BookingHotelRateOID" ColumnName="BookingHotelRateOID" />
+          <ScalarProperty Name="BookingHotelCancelOID" ColumnName="BookingHotelCancelOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExBookingHotelRooms">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExBookingHotelRoom">
+        <MappingFragment StoreEntitySet="HotelExBookingHotelRoom">
+          <ScalarProperty Name="RoomCode" ColumnName="RoomCode" />
+          <ScalarProperty Name="RoomName" ColumnName="RoomName" />
+          <ScalarProperty Name="HotelRoomOID" ColumnName="HotelRoomOID" />
+          <ScalarProperty Name="BookingHotelOID" ColumnName="BookingHotelOID" />
+          <ScalarProperty Name="BookingHotelRoomOID" ColumnName="BookingHotelRoomOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExBookingPaxes">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExBookingPax">
+        <MappingFragment StoreEntitySet="HotelExBookingPax">
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="PaxType" ColumnName="PaxType" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="BookingPaxOID" ColumnName="BookingPaxOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExCompanies">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExCompany">
+        <MappingFragment StoreEntitySet="HotelExCompany">
+          <ScalarProperty Name="Logo" ColumnName="Logo" />
+          <ScalarProperty Name="DestinationCode" ColumnName="DestinationCode" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Fax" ColumnName="Fax" />
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="CompanyOID" ColumnName="CompanyOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExHotels">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExHotel">
+        <MappingFragment StoreEntitySet="HotelExHotel">
+          <ScalarProperty Name="HotelPMSCode" ColumnName="HotelPMSCode" />
+          <ScalarProperty Name="SyncEmail" ColumnName="SyncEmail" />
+          <ScalarProperty Name="SyncIP" ColumnName="SyncIP" />
+          <ScalarProperty Name="IsPMSComanche" ColumnName="IsPMSComanche" />
+          <ScalarProperty Name="AdsEnd" ColumnName="AdsEnd" />
+          <ScalarProperty Name="AdsStart" ColumnName="AdsStart" />
+          <ScalarProperty Name="AdsSeq" ColumnName="AdsSeq" />
+          <ScalarProperty Name="Advertise" ColumnName="Advertise" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="DestinationCode" ColumnName="DestinationCode" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="CompanyOID" ColumnName="CompanyOID" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="HotelOID" ColumnName="HotelOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExHotelDetails">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExHotelDetail">
+        <MappingFragment StoreEntitySet="HotelExHotelDetail">
+          <ScalarProperty Name="HotelAddress" ColumnName="HotelAddress" />
+          <ScalarProperty Name="HotelTermCond" ColumnName="HotelTermCond" />
+          <ScalarProperty Name="HotelDescription" ColumnName="HotelDescription" />
+          <ScalarProperty Name="HotelName" ColumnName="HotelName" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="HotelOID" ColumnName="HotelOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExHotelDetailFacilities">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExHotelDetailFacility">
+        <MappingFragment StoreEntitySet="HotelExHotelDetailFacility">
+          <ScalarProperty Name="FacilityCode" ColumnName="FacilityCode" />
+          <ScalarProperty Name="HotelOID" ColumnName="HotelOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExHotelDetailFacilityRooms">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExHotelDetailFacilityRoom">
+        <MappingFragment StoreEntitySet="HotelExHotelDetailFacilityRoom">
+          <ScalarProperty Name="FacilityCode" ColumnName="FacilityCode" />
+          <ScalarProperty Name="HotelRoomOID" ColumnName="HotelRoomOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExHotelDetailImages">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExHotelDetailImage">
+        <MappingFragment StoreEntitySet="HotelExHotelDetailImage">
+          <ScalarProperty Name="HotelOID" ColumnName="HotelOID" />
+          <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+          <ScalarProperty Name="HotelImageOID" ColumnName="HotelImageOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExHotelMainImages">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExHotelMainImage">
+        <MappingFragment StoreEntitySet="HotelExHotelMainImage">
+          <ScalarProperty Name="HotelOID" ColumnName="HotelOID" />
+          <ScalarProperty Name="MainImageName" ColumnName="MainImageName" />
+          <ScalarProperty Name="HotelMainImageOID" ColumnName="HotelMainImageOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExHotelPricings">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExHotelPricing">
+        <MappingFragment StoreEntitySet="HotelExHotelPricing">
+          <ScalarProperty Name="ServiceIsPercent" ColumnName="ServiceIsPercent" />
+          <ScalarProperty Name="ServiceCharge" ColumnName="ServiceCharge" />
+          <ScalarProperty Name="CommissionPercent" ColumnName="CommissionPercent" />
+          <ScalarProperty Name="Commission" ColumnName="Commission" />
+          <ScalarProperty Name="SunAllotment" ColumnName="SunAllotment" />
+          <ScalarProperty Name="SatAllotment" ColumnName="SatAllotment" />
+          <ScalarProperty Name="FriAllotment" ColumnName="FriAllotment" />
+          <ScalarProperty Name="ThuAllotment" ColumnName="ThuAllotment" />
+          <ScalarProperty Name="WedAllotment" ColumnName="WedAllotment" />
+          <ScalarProperty Name="TueAllotment" ColumnName="TueAllotment" />
+          <ScalarProperty Name="MonAllotment" ColumnName="MonAllotment" />
+          <ScalarProperty Name="SunCost" ColumnName="SunCost" />
+          <ScalarProperty Name="SatCost" ColumnName="SatCost" />
+          <ScalarProperty Name="FriCost" ColumnName="FriCost" />
+          <ScalarProperty Name="ThuCost" ColumnName="ThuCost" />
+          <ScalarProperty Name="WedCost" ColumnName="WedCost" />
+          <ScalarProperty Name="TueCost" ColumnName="TueCost" />
+          <ScalarProperty Name="MonCost" ColumnName="MonCost" />
+          <ScalarProperty Name="IncludeBF" ColumnName="IncludeBF" />
+          <ScalarProperty Name="ExtraBed" ColumnName="ExtraBed" />
+          <ScalarProperty Name="MarkupIsPercentB2B" ColumnName="MarkupIsPercentB2B" />
+          <ScalarProperty Name="MarkupB2B" ColumnName="MarkupB2B" />
+          <ScalarProperty Name="MarkupIsPercent" ColumnName="MarkupIsPercent" />
+          <ScalarProperty Name="Markup" ColumnName="Markup" />
+          <ScalarProperty Name="TaxIsPercent" ColumnName="TaxIsPercent" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="SpecialDate" ColumnName="SpecialDate" />
+          <ScalarProperty Name="IsSpecialDate" ColumnName="IsSpecialDate" />
+          <ScalarProperty Name="HotelRateOID" ColumnName="HotelRateOID" />
+          <ScalarProperty Name="HotelPricingOID" ColumnName="HotelPricingOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExHotelRates">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExHotelRate">
+        <MappingFragment StoreEntitySet="HotelExHotelRate">
+          <ScalarProperty Name="RateCode" ColumnName="RateCode" />
+          <ScalarProperty Name="CancelBeforeCheckinRate" ColumnName="CancelBeforeCheckinRate" />
+          <ScalarProperty Name="CancelBeforeCheckinDate" ColumnName="CancelBeforeCheckinDate" />
+          <ScalarProperty Name="CancelRate" ColumnName="CancelRate" />
+          <ScalarProperty Name="Policy" ColumnName="Policy" />
+          <ScalarProperty Name="BookBeforeHour" ColumnName="BookBeforeHour" />
+          <ScalarProperty Name="TermCond" ColumnName="TermCond" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="RateName" ColumnName="RateName" />
+          <ScalarProperty Name="PeriodEnd" ColumnName="PeriodEnd" />
+          <ScalarProperty Name="PeriodStart" ColumnName="PeriodStart" />
+          <ScalarProperty Name="HotelRoomOID" ColumnName="HotelRoomOID" />
+          <ScalarProperty Name="HotelOID" ColumnName="HotelOID" />
+          <ScalarProperty Name="HotelRateOID" ColumnName="HotelRateOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExHotelRooms">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExHotelRoom">
+        <MappingFragment StoreEntitySet="HotelExHotelRoom">
+          <ScalarProperty Name="RoomCode" ColumnName="RoomCode" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="NoOfExtraBed" ColumnName="NoOfExtraBed" />
+          <ScalarProperty Name="NoOfPax" ColumnName="NoOfPax" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="HotelOID" ColumnName="HotelOID" />
+          <ScalarProperty Name="HotelRoomOID" ColumnName="HotelRoomOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExHotelRoomDetails">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExHotelRoomDetail">
+        <MappingFragment StoreEntitySet="HotelExHotelRoomDetail">
+          <ScalarProperty Name="RoomDescription" ColumnName="RoomDescription" />
+          <ScalarProperty Name="RoomName" ColumnName="RoomName" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="HotelRoomOID" ColumnName="HotelRoomOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelExHotelRoomImages">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelExHotelRoomImage">
+        <MappingFragment StoreEntitySet="HotelExHotelRoomImage">
+          <ScalarProperty Name="HotelRoomOID" ColumnName="HotelRoomOID" />
+          <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+          <ScalarProperty Name="HotelRoomImageOID" ColumnName="HotelRoomImageOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelFlightBookingMains">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelFlightBookingMain">
+        <MappingFragment StoreEntitySet="HotelFlightBookingMain">
+          <ScalarProperty Name="TotalPackagePrice" ColumnName="TotalPackagePrice" />
+          <ScalarProperty Name="SearchKey" ColumnName="SearchKey" />
+          <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+          <ScalarProperty Name="GogojiiID" ColumnName="GogojiiID" />
+          <ScalarProperty Name="BookingFlightOID" ColumnName="BookingFlightOID" />
+          <ScalarProperty Name="BookingHotelOID" ColumnName="BookingHotelOID" />
+          <ScalarProperty Name="PaymentDatetime" ColumnName="PaymentDatetime" />
+          <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+          <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="vatNumber" ColumnName="vatNumber" />
+          <ScalarProperty Name="supplierName" ColumnName="supplierName" />
+          <ScalarProperty Name="recordLocator" ColumnName="recordLocator" />
+          <ScalarProperty Name="hotelBookingNo" ColumnName="hotelBookingNo" />
+          <ScalarProperty Name="bookingKeyReference" ColumnName="bookingKeyReference" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelFlightDetails">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotelFlightDetail">
+        <MappingFragment StoreEntitySet="HotelFlightDetail">
+          <ScalarProperty Name="GetHotelNights" ColumnName="GetHotelNights" />
+          <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="HotelCheckOut" ColumnName="HotelCheckOut" />
+          <ScalarProperty Name="HotelCheckIn" ColumnName="HotelCheckIn" />
+          <ScalarProperty Name="FlightReturnDate" ColumnName="FlightReturnDate" />
+          <ScalarProperty Name="FlightDepartDate" ColumnName="FlightDepartDate" />
+          <ScalarProperty Name="DirectFlight" ColumnName="DirectFlight" />
+          <ScalarProperty Name="SvcClass" ColumnName="SvcClass" />
+          <ScalarProperty Name="Airline" ColumnName="Airline" />
+          <ScalarProperty Name="DestinationCode" ColumnName="DestinationCode" />
+          <ScalarProperty Name="OriginCode" ColumnName="OriginCode" />
+          <ScalarProperty Name="HotelBookingOID" ColumnName="HotelBookingOID" />
+          <ScalarProperty Name="HotelFlightDetailOID" ColumnName="HotelFlightDetailOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotPromotions">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotPromotion">
+        <MappingFragment StoreEntitySet="HotPromotion">
+          <ScalarProperty Name="URLForSearch" ColumnName="URLForSearch" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+          <ScalarProperty Name="Product" ColumnName="Product" />
+          <ScalarProperty Name="Seq" ColumnName="Seq" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="HotPromotionOID" ColumnName="HotPromotionOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Information">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.Information">
+        <MappingFragment StoreEntitySet="Information">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="InformationOID" ColumnName="InformationOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KBankCharges">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.KBankCharge">
+        <MappingFragment StoreEntitySet="KBankCharge">
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="ref2" ColumnName="ref2" />
+          <ScalarProperty Name="ref1" ColumnName="ref1" />
+          <ScalarProperty Name="transaction_state" ColumnName="transaction_state" />
+          <ScalarProperty Name="ChargeID" ColumnName="ChargeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MarkupAirportTransfers">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.MarkupAirportTransfer">
+        <MappingFragment StoreEntitySet="MarkupAirportTransfer">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsPercentDiscount" ColumnName="IsPercentDiscount" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="FinishTravelDate" ColumnName="FinishTravelDate" />
+          <ScalarProperty Name="StartTravelDate" ColumnName="StartTravelDate" />
+          <ScalarProperty Name="FinishBookingDate" ColumnName="FinishBookingDate" />
+          <ScalarProperty Name="StartBookingDate" ColumnName="StartBookingDate" />
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="AirportCode" ColumnName="AirportCode" />
+          <ScalarProperty Name="AirportTranferOID" ColumnName="AirportTranferOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MarkupBundles">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.MarkupBundle">
+        <MappingFragment StoreEntitySet="MarkupBundle">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsPercentHotel" ColumnName="IsPercentHotel" />
+          <ScalarProperty Name="IsPercentAtpcofare" ColumnName="IsPercentAtpcofare" />
+          <ScalarProperty Name="IsPercentPublishedfare" ColumnName="IsPercentPublishedfare" />
+          <ScalarProperty Name="IsPercentNetfare" ColumnName="IsPercentNetfare" />
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+          <ScalarProperty Name="HotelValue" ColumnName="HotelValue" />
+          <ScalarProperty Name="AtpcofareValue" ColumnName="AtpcofareValue" />
+          <ScalarProperty Name="PublishedfareValue" ColumnName="PublishedfareValue" />
+          <ScalarProperty Name="NetfareValue" ColumnName="NetfareValue" />
+          <ScalarProperty Name="FinishTravelDate" ColumnName="FinishTravelDate" />
+          <ScalarProperty Name="StartTravelDate" ColumnName="StartTravelDate" />
+          <ScalarProperty Name="FinishBookingDate" ColumnName="FinishBookingDate" />
+          <ScalarProperty Name="StartBookingDate" ColumnName="StartBookingDate" />
+          <ScalarProperty Name="HotelDestination" ColumnName="HotelDestination" />
+          <ScalarProperty Name="AirportOrigin" ColumnName="AirportOrigin" />
+          <ScalarProperty Name="MarkupBundleOID" ColumnName="MarkupBundleOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MarkupFlights">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.MarkupFlight">
+        <MappingFragment StoreEntitySet="MarkupFlight">
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+          <ScalarProperty Name="FinishTravelDate" ColumnName="FinishTravelDate" />
+          <ScalarProperty Name="StartTravelDate" ColumnName="StartTravelDate" />
+          <ScalarProperty Name="IsPercentLV2" ColumnName="IsPercentLV2" />
+          <ScalarProperty Name="IsPercentLV1" ColumnName="IsPercentLV1" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="LV2Value" ColumnName="LV2Value" />
+          <ScalarProperty Name="LV2Type" ColumnName="LV2Type" />
+          <ScalarProperty Name="LV1Value" ColumnName="LV1Value" />
+          <ScalarProperty Name="LV1Type" ColumnName="LV1Type" />
+          <ScalarProperty Name="MaxPrice" ColumnName="MaxPrice" />
+          <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="ZoneTo" ColumnName="ZoneTo" />
+          <ScalarProperty Name="ZoneFrom" ColumnName="ZoneFrom" />
+          <ScalarProperty Name="FinishBookingDate" ColumnName="FinishBookingDate" />
+          <ScalarProperty Name="StartBookingDate" ColumnName="StartBookingDate" />
+          <ScalarProperty Name="PaxTypeINF" ColumnName="PaxTypeINF" />
+          <ScalarProperty Name="PaxTypeCHD" ColumnName="PaxTypeCHD" />
+          <ScalarProperty Name="PaxTypeADT" ColumnName="PaxTypeADT" />
+          <ScalarProperty Name="FlightNo" ColumnName="FlightNo" />
+          <ScalarProperty Name="FareBasis" ColumnName="FareBasis" />
+          <ScalarProperty Name="RBD" ColumnName="RBD" />
+          <ScalarProperty Name="MixAirlineCodes" ColumnName="MixAirlineCodes" />
+          <ScalarProperty Name="AirlineCodes" ColumnName="AirlineCodes" />
+          <ScalarProperty Name="GogojiiMarkupOID" ColumnName="GogojiiMarkupOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MarkupHotels">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.MarkupHotel">
+        <MappingFragment StoreEntitySet="MarkupHotel">
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+          <ScalarProperty Name="ZoneCode" ColumnName="ZoneCode" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="FinishTravelDate" ColumnName="FinishTravelDate" />
+          <ScalarProperty Name="StartTravelDate" ColumnName="StartTravelDate" />
+          <ScalarProperty Name="FinishBookingDate" ColumnName="FinishBookingDate" />
+          <ScalarProperty Name="StartBookingDate" ColumnName="StartBookingDate" />
+          <ScalarProperty Name="HotelID" ColumnName="HotelID" />
+          <ScalarProperty Name="CityCode" ColumnName="CityCode" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="MarkupHotelOID" ColumnName="MarkupHotelOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MarkupSubHotels">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.MarkupSubHotel">
+        <MappingFragment StoreEntitySet="MarkupSubHotel">
+          <ScalarProperty Name="IsPercentMarkupValue" ColumnName="IsPercentMarkupValue" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="MarkupValue" ColumnName="MarkupValue" />
+          <ScalarProperty Name="MaxPrice" ColumnName="MaxPrice" />
+          <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
+          <ScalarProperty Name="MarkupHotelOID" ColumnName="MarkupHotelOID" />
+          <ScalarProperty Name="MarkupSubHotelOID" ColumnName="MarkupSubHotelOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Members">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.Member">
+        <MappingFragment StoreEntitySet="Member">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+          <ScalarProperty Name="ImageProfile" ColumnName="ImageProfile" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
+          <ScalarProperty Name="LoginType" ColumnName="LoginType" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="MemberOID" ColumnName="MemberOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MemberLogs">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.MemberLog">
+        <MappingFragment StoreEntitySet="MemberLog">
+          <ScalarProperty Name="ErrorMsg" ColumnName="ErrorMsg" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Details" ColumnName="Details" />
+          <ScalarProperty Name="Activity" ColumnName="Activity" />
+          <ScalarProperty Name="LogDateTime" ColumnName="LogDateTime" />
+          <ScalarProperty Name="MemberOID" ColumnName="MemberOID" />
+          <ScalarProperty Name="MemberLogOID" ColumnName="MemberLogOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MoreThanJustHotel_BOL">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.MoreThanJustHotel_BOL">
+        <MappingFragment StoreEntitySet="MoreThanJustHotel_BOL">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="StartPrice" ColumnName="StartPrice" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+          <ScalarProperty Name="Seq" ColumnName="Seq" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="MoreThanJustHotelOID" ColumnName="MoreThanJustHotelOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MoreThanJustHotel_EXT">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.MoreThanJustHotel_EXT">
+        <MappingFragment StoreEntitySet="MoreThanJustHotel_EXT">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="StartPrice" ColumnName="StartPrice" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="HotelOID" ColumnName="HotelOID" />
+          <ScalarProperty Name="Seq" ColumnName="Seq" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="MoreThanJustHotelOID" ColumnName="MoreThanJustHotelOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NewsAndActivities">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.NewsAndActivity">
+        <MappingFragment StoreEntitySet="NewsAndActivity">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
+          <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+          <ScalarProperty Name="FileName_Paragraph32" ColumnName="FileName_Paragraph32" />
+          <ScalarProperty Name="FileName_Paragraph31" ColumnName="FileName_Paragraph31" />
+          <ScalarProperty Name="FileName_Paragraph22" ColumnName="FileName_Paragraph22" />
+          <ScalarProperty Name="FileName_Paragraph21" ColumnName="FileName_Paragraph21" />
+          <ScalarProperty Name="FileName_Paragraph12" ColumnName="FileName_Paragraph12" />
+          <ScalarProperty Name="FileName_Paragraph11" ColumnName="FileName_Paragraph11" />
+          <ScalarProperty Name="BannerName" ColumnName="BannerName" />
+          <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+          <ScalarProperty Name="Seq" ColumnName="Seq" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="NewsAndActivityOID" ColumnName="NewsAndActivityOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaxTypes">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.PaxType">
+        <MappingFragment StoreEntitySet="PaxType">
+          <ScalarProperty Name="PaxTypeName" ColumnName="PaxTypeName" />
+          <ScalarProperty Name="PaxTypeID" ColumnName="PaxTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Payments">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.Payment">
+        <MappingFragment StoreEntitySet="Payment">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IIspercentUnionpay" ColumnName="IIspercentUnionpay" />
+          <ScalarProperty Name="IspercentPayInstall" ColumnName="IspercentPayInstall" />
+          <ScalarProperty Name="IspercentPayCouter" ColumnName="IspercentPayCouter" />
+          <ScalarProperty Name="IspercentKbankInstall" ColumnName="IspercentKbankInstall" />
+          <ScalarProperty Name="IspercentKbankFull" ColumnName="IspercentKbankFull" />
+          <ScalarProperty Name="IspercentBankTranfer" ColumnName="IspercentBankTranfer" />
+          <ScalarProperty Name="UnionpayValue" ColumnName="UnionpayValue" />
+          <ScalarProperty Name="PaySolutionInstallValue" ColumnName="PaySolutionInstallValue" />
+          <ScalarProperty Name="PaySolutionCounterValue" ColumnName="PaySolutionCounterValue" />
+          <ScalarProperty Name="KbankInstallValue" ColumnName="KbankInstallValue" />
+          <ScalarProperty Name="KbankFullValue" ColumnName="KbankFullValue" />
+          <ScalarProperty Name="BankTranferValue" ColumnName="BankTranferValue" />
+          <ScalarProperty Name="PaymentOID" ColumnName="PaymentOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductInTopDestinations">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.ProductInTopDestination">
+        <MappingFragment StoreEntitySet="ProductInTopDestination">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="StartPrice" ColumnName="StartPrice" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="Seq" ColumnName="Seq" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+          <ScalarProperty Name="HotelSource" ColumnName="HotelSource" />
+          <ScalarProperty Name="Product" ColumnName="Product" />
+          <ScalarProperty Name="TopDestinationOID" ColumnName="TopDestinationOID" />
+          <ScalarProperty Name="ProductInTopDesOID" ColumnName="ProductInTopDesOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PromotionCodeBundles">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.PromotionCodeBundle">
+        <MappingFragment StoreEntitySet="PromotionCodeBundle">
+          <ScalarProperty Name="HotelID" ColumnName="HotelID" />
+          <ScalarProperty Name="HotelZone" ColumnName="HotelZone" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="AddBundle" ColumnName="AddBundle" />
+          <ScalarProperty Name="RemoveBundle" ColumnName="RemoveBundle" />
+          <ScalarProperty Name="UseBundle" ColumnName="UseBundle" />
+          <ScalarProperty Name="Allotment" ColumnName="Allotment" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="FinishTravelDate" ColumnName="FinishTravelDate" />
+          <ScalarProperty Name="StartTravelDate" ColumnName="StartTravelDate" />
+          <ScalarProperty Name="FinishCampaignDate" ColumnName="FinishCampaignDate" />
+          <ScalarProperty Name="StartCampaignDate" ColumnName="StartCampaignDate" />
+          <ScalarProperty Name="IsPercentDiscountAmount" ColumnName="IsPercentDiscountAmount" />
+          <ScalarProperty Name="MaxAmount" ColumnName="MaxAmount" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="Discountper" ColumnName="Discountper" />
+          <ScalarProperty Name="HotelDestination" ColumnName="HotelDestination" />
+          <ScalarProperty Name="AirportOrigin" ColumnName="AirportOrigin" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="CampaignName" ColumnName="CampaignName" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="PromotionCodeBundleOID" ColumnName="PromotionCodeBundleOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PromotionCodeByProducts">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.PromotionCodeByProduct">
+        <MappingFragment StoreEntitySet="PromotionCodeByProduct">
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="AddProduct" ColumnName="AddProduct" />
+          <ScalarProperty Name="RemoveProduct" ColumnName="RemoveProduct" />
+          <ScalarProperty Name="UseProduct" ColumnName="UseProduct" />
+          <ScalarProperty Name="Allotment" ColumnName="Allotment" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="FinishTravelDate" ColumnName="FinishTravelDate" />
+          <ScalarProperty Name="StartTravelDate" ColumnName="StartTravelDate" />
+          <ScalarProperty Name="FinishCampaignDate" ColumnName="FinishCampaignDate" />
+          <ScalarProperty Name="StartCampaignDate" ColumnName="StartCampaignDate" />
+          <ScalarProperty Name="IsPercentDiscountAmount" ColumnName="IsPercentDiscountAmount" />
+          <ScalarProperty Name="MaxAmount" ColumnName="MaxAmount" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="Discountper" ColumnName="Discountper" />
+          <ScalarProperty Name="DiscountForProductTransfer" ColumnName="DiscountForProductTransfer" />
+          <ScalarProperty Name="DiscountForProductBundle" ColumnName="DiscountForProductBundle" />
+          <ScalarProperty Name="DiscountForProductHotel" ColumnName="DiscountForProductHotel" />
+          <ScalarProperty Name="DiscountForProductFlight" ColumnName="DiscountForProductFlight" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="CampaignName" ColumnName="CampaignName" />
+          <ScalarProperty Name="PromotionCodeProductOID" ColumnName="PromotionCodeProductOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PromotionCodeFlights">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.PromotionCodeFlight">
+        <MappingFragment StoreEntitySet="PromotionCodeFlight">
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="AddFlight" ColumnName="AddFlight" />
+          <ScalarProperty Name="RemoveFlight" ColumnName="RemoveFlight" />
+          <ScalarProperty Name="UseFlight" ColumnName="UseFlight" />
+          <ScalarProperty Name="Allotment" ColumnName="Allotment" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="FinishTravelDate" ColumnName="FinishTravelDate" />
+          <ScalarProperty Name="StartTravelDate" ColumnName="StartTravelDate" />
+          <ScalarProperty Name="FinishCampaignDate" ColumnName="FinishCampaignDate" />
+          <ScalarProperty Name="StartCampaignDate" ColumnName="StartCampaignDate" />
+          <ScalarProperty Name="IsPercentDiscountAmount" ColumnName="IsPercentDiscountAmount" />
+          <ScalarProperty Name="MaxAmount" ColumnName="MaxAmount" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="Discountper" ColumnName="Discountper" />
+          <ScalarProperty Name="Airlines" ColumnName="Airlines" />
+          <ScalarProperty Name="DestinationCity" ColumnName="DestinationCity" />
+          <ScalarProperty Name="DepartureCity" ColumnName="DepartureCity" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="CampaignName" ColumnName="CampaignName" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="PromotionCodeFlightOID" ColumnName="PromotionCodeFlightOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PromotionCodeHotels">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.PromotionCodeHotel">
+        <MappingFragment StoreEntitySet="PromotionCodeHotel">
+          <ScalarProperty Name="IsDiscountHotelExtranet" ColumnName="IsDiscountHotelExtranet" />
+          <ScalarProperty Name="ZoneCode" ColumnName="ZoneCode" />
+          <ScalarProperty Name="UseHotel" ColumnName="UseHotel" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="AddHotel" ColumnName="AddHotel" />
+          <ScalarProperty Name="RemoveHotel" ColumnName="RemoveHotel" />
+          <ScalarProperty Name="Allotment" ColumnName="Allotment" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="FinishTravelDate" ColumnName="FinishTravelDate" />
+          <ScalarProperty Name="StartTravelDate" ColumnName="StartTravelDate" />
+          <ScalarProperty Name="FinishCampaignDate" ColumnName="FinishCampaignDate" />
+          <ScalarProperty Name="StartCampaignDate" ColumnName="StartCampaignDate" />
+          <ScalarProperty Name="IsPercentDiscountAmount" ColumnName="IsPercentDiscountAmount" />
+          <ScalarProperty Name="MaxAmount" ColumnName="MaxAmount" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="Discountper" ColumnName="Discountper" />
+          <ScalarProperty Name="CityCode" ColumnName="CityCode" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="HotelID" ColumnName="HotelID" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="CampaignName" ColumnName="CampaignName" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="PromotionCodeHotelOID" ColumnName="PromotionCodeHotelOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PromotionCodeTransfers">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.PromotionCodeTransfer">
+        <MappingFragment StoreEntitySet="PromotionCodeTransfer">
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="AddTransfer" ColumnName="AddTransfer" />
+          <ScalarProperty Name="RemoveTransfer" ColumnName="RemoveTransfer" />
+          <ScalarProperty Name="UseTransfer" ColumnName="UseTransfer" />
+          <ScalarProperty Name="Allotment" ColumnName="Allotment" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="FinishTravelDate" ColumnName="FinishTravelDate" />
+          <ScalarProperty Name="StartTravelDate" ColumnName="StartTravelDate" />
+          <ScalarProperty Name="FinishCampaignDate" ColumnName="FinishCampaignDate" />
+          <ScalarProperty Name="StartCampaignDate" ColumnName="StartCampaignDate" />
+          <ScalarProperty Name="IsPercentDiscountAmount" ColumnName="IsPercentDiscountAmount" />
+          <ScalarProperty Name="MaxAmount" ColumnName="MaxAmount" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="Discountper" ColumnName="Discountper" />
+          <ScalarProperty Name="AirportCode" ColumnName="AirportCode" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="CampaignName" ColumnName="CampaignName" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="PromotionCodeTransferOID" ColumnName="PromotionCodeTransferOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PromotionUsings">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.PromotionUsing">
+        <MappingFragment StoreEntitySet="PromotionUsing">
+          <ScalarProperty Name="UsingDateTime" ColumnName="UsingDateTime" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="GogojiiID" ColumnName="GogojiiID" />
+          <ScalarProperty Name="PromotionCode" ColumnName="PromotionCode" />
+          <ScalarProperty Name="PromotionOID" ColumnName="PromotionOID" />
+          <ScalarProperty Name="PromotionUsingOID" ColumnName="PromotionUsingOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RunningNumbers">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.RunningNumber">
+        <MappingFragment StoreEntitySet="RunningNumber">
+          <ScalarProperty Name="RunningNo" ColumnName="RunningNo" />
+          <ScalarProperty Name="RunningKey" ColumnName="RunningKey" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SeatMapControls">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.SeatMapControl">
+        <MappingFragment StoreEntitySet="SeatMapControl">
+          <ScalarProperty Name="RBD" ColumnName="RBD" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="DestinationCountryCode" ColumnName="DestinationCountryCode" />
+          <ScalarProperty Name="OriginalCountryCode" ColumnName="OriginalCountryCode" />
+          <ScalarProperty Name="AirlineCode" ColumnName="AirlineCode" />
+          <ScalarProperty Name="SeatMapOID" ColumnName="SeatMapOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShortenURLs">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.ShortenURL">
+        <MappingFragment StoreEntitySet="ShortenURL">
+          <ScalarProperty Name="FullURL" ColumnName="FullURL" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubScribeDeals">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.SubScribeDeal">
+        <MappingFragment StoreEntitySet="SubScribeDeals">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="SubScribeDatetime" ColumnName="SubScribeDatetime" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="SubScribeDealsOID" ColumnName="SubScribeDealsOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TopDestinations">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.TopDestination">
+        <MappingFragment StoreEntitySet="TopDestination">
+          <ScalarProperty Name="FileName_Paragraph32" ColumnName="FileName_Paragraph32" />
+          <ScalarProperty Name="FileName_Paragraph31" ColumnName="FileName_Paragraph31" />
+          <ScalarProperty Name="FileName_Paragraph22" ColumnName="FileName_Paragraph22" />
+          <ScalarProperty Name="FileName_Paragraph21" ColumnName="FileName_Paragraph21" />
+          <ScalarProperty Name="FileName_Paragraph12" ColumnName="FileName_Paragraph12" />
+          <ScalarProperty Name="FileName_Paragraph11" ColumnName="FileName_Paragraph11" />
+          <ScalarProperty Name="BannerName" ColumnName="BannerName" />
+          <ScalarProperty Name="IsInternational" ColumnName="IsInternational" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+          <ScalarProperty Name="DestinationName" ColumnName="DestinationName" />
+          <ScalarProperty Name="DestinationCode" ColumnName="DestinationCode" />
+          <ScalarProperty Name="Seq" ColumnName="Seq" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="TopDestinationOID" ColumnName="TopDestinationOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransferBookings">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.TransferBooking">
+        <MappingFragment StoreEntitySet="TransferBooking">
+          <ScalarProperty Name="IsBundle" ColumnName="IsBundle" />
+          <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="WelcomeMessage" ColumnName="WelcomeMessage" />
+          <ScalarProperty Name="TransferBookingOID" ColumnName="TransferBookingOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransferBookingContactInfoes">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.TransferBookingContactInfo">
+        <MappingFragment StoreEntitySet="TransferBookingContactInfo">
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+          <ScalarProperty Name="Middlename" ColumnName="Middlename" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="TransferBookingOID" ColumnName="TransferBookingOID" />
+          <ScalarProperty Name="TransferBookingContactInferOID" ColumnName="TransferBookingContactInferOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransferBookingHolders">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.TransferBookingHolder">
+        <MappingFragment StoreEntitySet="TransferBookingHolder">
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="TransferBookingOID" ColumnName="TransferBookingOID" />
+          <ScalarProperty Name="TransferBookingHolderOID" ColumnName="TransferBookingHolderOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransferBookingMains">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.TransferBookingMain">
+        <MappingFragment StoreEntitySet="TransferBookingMain">
+          <ScalarProperty Name="MemberOID" ColumnName="MemberOID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UUID" ColumnName="UUID" />
+          <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
+          <ScalarProperty Name="InstallmentMonthly" ColumnName="InstallmentMonthly" />
+          <ScalarProperty Name="InstallmentPlan" ColumnName="InstallmentPlan" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="PromoCode" ColumnName="PromoCode" />
+          <ScalarProperty Name="PaymentFee" ColumnName="PaymentFee" />
+          <ScalarProperty Name="SourceBy" ColumnName="SourceBy" />
+          <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+          <ScalarProperty Name="EmergencyContact" ColumnName="EmergencyContact" />
+          <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+          <ScalarProperty Name="PaymentDatetime" ColumnName="PaymentDatetime" />
+          <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+          <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="GogojiiID" ColumnName="GogojiiID" />
+          <ScalarProperty Name="VatNumber" ColumnName="VatNumber" />
+          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+          <ScalarProperty Name="TransferReferenceNumber" ColumnName="TransferReferenceNumber" />
+          <ScalarProperty Name="TransferBookingOID" ColumnName="TransferBookingOID" />
+          <ScalarProperty Name="BookingKeyReference" ColumnName="BookingKeyReference" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransferBookingPickupInfoes">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.TransferBookingPickupInfo">
+        <MappingFragment StoreEntitySet="TransferBookingPickupInfo">
+          <ScalarProperty Name="StopName" ColumnName="StopName" />
+          <ScalarProperty Name="PickupTime" ColumnName="PickupTime" />
+          <ScalarProperty Name="PickupDateString" ColumnName="PickupDateString" />
+          <ScalarProperty Name="PickupDate" ColumnName="PickupDate" />
+          <ScalarProperty Name="PickupPlace" ColumnName="PickupPlace" />
+          <ScalarProperty Name="TransferBookingTransferServiceOID" ColumnName="TransferBookingTransferServiceOID" />
+          <ScalarProperty Name="TransferBookingPickupInfoOID" ColumnName="TransferBookingPickupInfoOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransferBookingTransferDetails">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.TransferBookingTransferDetail">
+        <MappingFragment StoreEntitySet="TransferBookingTransferDetail">
+          <ScalarProperty Name="TripType" ColumnName="TripType" />
+          <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+          <ScalarProperty Name="RateKey" ColumnName="RateKey" />
+          <ScalarProperty Name="TransferBookingOID" ColumnName="TransferBookingOID" />
+          <ScalarProperty Name="TransferBookingDetailOID" ColumnName="TransferBookingDetailOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransferBookingTransferServices">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.TransferBookingTransferService">
+        <MappingFragment StoreEntitySet="TransferBookingTransferService">
+          <ScalarProperty Name="TripType" ColumnName="TripType" />
+          <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+          <ScalarProperty Name="SourcePrice" ColumnName="SourcePrice" />
+          <ScalarProperty Name="SourceCurrencyCode" ColumnName="SourceCurrencyCode" />
+          <ScalarProperty Name="SupplierMaxWaitingTime" ColumnName="SupplierMaxWaitingTime" />
+          <ScalarProperty Name="CustomerMaxWaitingTime" ColumnName="CustomerMaxWaitingTime" />
+          <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+          <ScalarProperty Name="PricePerPerson" ColumnName="PricePerPerson" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="RateKey" ColumnName="RateKey" />
+          <ScalarProperty Name="MaxPassengers" ColumnName="MaxPassengers" />
+          <ScalarProperty Name="MinPassengers" ColumnName="MinPassengers" />
+          <ScalarProperty Name="DropOffPlace" ColumnName="DropOffPlace" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
+          <ScalarProperty Name="VehicleName" ColumnName="VehicleName" />
+          <ScalarProperty Name="VehicleCode" ColumnName="VehicleCode" />
+          <ScalarProperty Name="TransferType" ColumnName="TransferType" />
+          <ScalarProperty Name="Infants" ColumnName="Infants" />
+          <ScalarProperty Name="Children" ColumnName="Children" />
+          <ScalarProperty Name="Adult" ColumnName="Adult" />
+          <ScalarProperty Name="TransferBookingOID" ColumnName="TransferBookingOID" />
+          <ScalarProperty Name="TransferBookingTransferServiceOID" ColumnName="TransferBookingTransferServiceOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransferDetails">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.TransferDetail">
+        <MappingFragment StoreEntitySet="TransferDetail">
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="infants" ColumnName="infants" />
+          <ScalarProperty Name="children" ColumnName="children" />
+          <ScalarProperty Name="adults" ColumnName="adults" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="SourcePrice" ColumnName="SourcePrice" />
+          <ScalarProperty Name="SourceCurrency" ColumnName="SourceCurrency" />
+          <ScalarProperty Name="TransferDetailInfo" ColumnName="TransferDetailInfo" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="VehicleImages" ColumnName="VehicleImages" />
+          <ScalarProperty Name="SupplierMaxWaitingTime" ColumnName="SupplierMaxWaitingTime" />
+          <ScalarProperty Name="CustomerMaxWaitingTime" ColumnName="CustomerMaxWaitingTime" />
+          <ScalarProperty Name="CancellationPolicy" ColumnName="CancellationPolicy" />
+          <ScalarProperty Name="MaxPax" ColumnName="MaxPax" />
+          <ScalarProperty Name="MinPax" ColumnName="MinPax" />
+          <ScalarProperty Name="DropOffPlace" ColumnName="DropOffPlace" />
+          <ScalarProperty Name="PickupStopName" ColumnName="PickupStopName" />
+          <ScalarProperty Name="PickupCheckBeforeHour" ColumnName="PickupCheckBeforeHour" />
+          <ScalarProperty Name="PickupCheckURL" ColumnName="PickupCheckURL" />
+          <ScalarProperty Name="PickupMustCheckTime" ColumnName="PickupMustCheckTime" />
+          <ScalarProperty Name="PickupLongitude" ColumnName="PickupLongitude" />
+          <ScalarProperty Name="PickupLatitude" ColumnName="PickupLatitude" />
+          <ScalarProperty Name="PickupDescription" ColumnName="PickupDescription" />
+          <ScalarProperty Name="PickupZipCode" ColumnName="PickupZipCode" />
+          <ScalarProperty Name="PickupTown" ColumnName="PickupTown" />
+          <ScalarProperty Name="PickupAddress" ColumnName="PickupAddress" />
+          <ScalarProperty Name="PickupTime" ColumnName="PickupTime" />
+          <ScalarProperty Name="PickupDate" ColumnName="PickupDate" />
+          <ScalarProperty Name="PickupPlace" ColumnName="PickupPlace" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
+          <ScalarProperty Name="VehicleName" ColumnName="VehicleName" />
+          <ScalarProperty Name="VehicleCode" ColumnName="VehicleCode" />
+          <ScalarProperty Name="TransferType" ColumnName="TransferType" />
+          <ScalarProperty Name="IsBooking" ColumnName="IsBooking" />
+          <ScalarProperty Name="RateKey" ColumnName="RateKey" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="TransferDetailOID" ColumnName="TransferDetailOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WhyTravelWiths">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.WhyTravelWith">
+        <MappingFragment StoreEntitySet="WhyTravelWith">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+          <ScalarProperty Name="Seq" ColumnName="Seq" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="WhyTravelWithOID" ColumnName="WhyTravelWithOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HBHotelNames">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HBHotelName">
+        <MappingFragment StoreEntitySet="HBHotelName">
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="HotelName" ColumnName="HotelName" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="DestinationCode" ColumnName="DestinationCode" />
+          <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookings">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.FlightBooking">
+        <MappingFragment StoreEntitySet="FlightBooking">
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="MemberOID" ColumnName="MemberOID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UUID" ColumnName="UUID" />
+          <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
+          <ScalarProperty Name="InstallmentMonthly" ColumnName="InstallmentMonthly" />
+          <ScalarProperty Name="InstallmentPlan" ColumnName="InstallmentPlan" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="PromoCode" ColumnName="PromoCode" />
+          <ScalarProperty Name="PaymentFee" ColumnName="PaymentFee" />
+          <ScalarProperty Name="sourceBy" ColumnName="sourceBy" />
+          <ScalarProperty Name="IsBundle" ColumnName="IsBundle" />
+          <ScalarProperty Name="StatusBooking" ColumnName="StatusBooking" />
+          <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+          <ScalarProperty Name="StatusPayment" ColumnName="StatusPayment" />
+          <ScalarProperty Name="GogoiiID" ColumnName="GogoiiID" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="CountryOfResidence" ColumnName="CountryOfResidence" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+          <ScalarProperty Name="Middlename" ColumnName="Middlename" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="bookingDate" ColumnName="bookingDate" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Origin" ColumnName="Origin" />
+          <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+          <ScalarProperty Name="IsError" ColumnName="IsError" />
+          <ScalarProperty Name="CounterServiceFee" ColumnName="CounterServiceFee" />
+          <ScalarProperty Name="PaypalFee" ColumnName="PaypalFee" />
+          <ScalarProperty Name="CreditCardFee" ColumnName="CreditCardFee" />
+          <ScalarProperty Name="TotalFare" ColumnName="TotalFare" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="TKTL" ColumnName="TKTL" />
+          <ScalarProperty Name="OldPrice" ColumnName="OldPrice" />
+          <ScalarProperty Name="PriceChange" ColumnName="PriceChange" />
+          <ScalarProperty Name="MedId" ColumnName="MedId" />
+          <ScalarProperty Name="Platform" ColumnName="Platform" />
+          <ScalarProperty Name="PNR" ColumnName="PNR" />
+          <ScalarProperty Name="IsPassportRequired" ColumnName="IsPassportRequired" />
+          <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+          <ScalarProperty Name="Svc_class" ColumnName="Svc_class" />
+          <ScalarProperty Name="NoOfInfants" ColumnName="NoOfInfants" />
+          <ScalarProperty Name="NoOfChildren" ColumnName="NoOfChildren" />
+          <ScalarProperty Name="NoOfAdults" ColumnName="NoOfAdults" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotPromotionDetails">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.HotPromotionDetail">
+        <MappingFragment StoreEntitySet="HotPromotionDetail">
+          <ScalarProperty Name="ImageALT" ColumnName="ImageALT" />
+          <ScalarProperty Name="ShortDescriptions" ColumnName="ShortDescriptions" />
+          <ScalarProperty Name="PromotionName" ColumnName="PromotionName" />
+          <ScalarProperty Name="LangCode" ColumnName="LangCode" />
+          <ScalarProperty Name="HotPromotionOID" ColumnName="HotPromotionOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NewsAndActivityDetails">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.NewsAndActivityDetail">
+        <MappingFragment StoreEntitySet="NewsAndActivityDetails">
+          <ScalarProperty Name="ImageALT" ColumnName="ImageALT" />
+          <ScalarProperty Name="Descriptions_Paragraph3" ColumnName="Descriptions_Paragraph3" />
+          <ScalarProperty Name="Descriptions_Paragraph2" ColumnName="Descriptions_Paragraph2" />
+          <ScalarProperty Name="Descriptions_Paragraph1" ColumnName="Descriptions_Paragraph1" />
+          <ScalarProperty Name="ShortDescriptions" ColumnName="ShortDescriptions" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="LangCode" ColumnName="LangCode" />
+          <ScalarProperty Name="NewsAndActivityOID" ColumnName="NewsAndActivityOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TopDestinationDetails">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.TopDestinationDetail">
+        <MappingFragment StoreEntitySet="TopDestinationDetail">
+          <ScalarProperty Name="ImageALT" ColumnName="ImageALT" />
+          <ScalarProperty Name="Descriptions_Paragraph3" ColumnName="Descriptions_Paragraph3" />
+          <ScalarProperty Name="Descriptions_Paragraph2" ColumnName="Descriptions_Paragraph2" />
+          <ScalarProperty Name="Descriptions_Paragraph1" ColumnName="Descriptions_Paragraph1" />
+          <ScalarProperty Name="ShortDescriptions" ColumnName="ShortDescriptions" />
+          <ScalarProperty Name="DestinationName" ColumnName="DestinationName" />
+          <ScalarProperty Name="LangCode" ColumnName="LangCode" />
+          <ScalarProperty Name="TopDestinationOID" ColumnName="TopDestinationOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WhyTravelWithDetails">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.WhyTravelWithDetail">
+        <MappingFragment StoreEntitySet="WhyTravelWithDetail">
+          <ScalarProperty Name="ImageALT" ColumnName="ImageALT" />
+          <ScalarProperty Name="ShortDescriptions" ColumnName="ShortDescriptions" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="LangCode" ColumnName="LangCode" />
+          <ScalarProperty Name="WhyTravelWithOID" ColumnName="WhyTravelWithOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightBookingPaxInfoes">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.FlightBookingPaxInfo">
+        <MappingFragment StoreEntitySet="FlightBookingPaxInfo">
+          <ScalarProperty Name="KiwiBagWeight" ColumnName="KiwiBagWeight" />
+          <ScalarProperty Name="KiwiBagPrice" ColumnName="KiwiBagPrice" />
+          <ScalarProperty Name="KiwiBag" ColumnName="KiwiBag" />
+          <ScalarProperty Name="StatusReissue" ColumnName="StatusReissue" />
+          <ScalarProperty Name="StatusRefund" ColumnName="StatusRefund" />
+          <ScalarProperty Name="RemarkReissue" ColumnName="RemarkReissue" />
+          <ScalarProperty Name="TickNoReissueNew" ColumnName="TickNoReissueNew" />
+          <ScalarProperty Name="TickNoReissueOld" ColumnName="TickNoReissueOld" />
+          <ScalarProperty Name="ReissueSelling" ColumnName="ReissueSelling" />
+          <ScalarProperty Name="AgentReissue" ColumnName="AgentReissue" />
+          <ScalarProperty Name="NetReissue" ColumnName="NetReissue" />
+          <ScalarProperty Name="RemarkRefund" ColumnName="RemarkRefund" />
+          <ScalarProperty Name="TickNoRefund" ColumnName="TickNoRefund" />
+          <ScalarProperty Name="RefundAmount" ColumnName="RefundAmount" />
+          <ScalarProperty Name="AgentRefund" ColumnName="AgentRefund" />
+          <ScalarProperty Name="NetRefund" ColumnName="NetRefund" />
+          <ScalarProperty Name="PessengerType" ColumnName="PessengerType" />
+          <ScalarProperty Name="PassportNationality" ColumnName="PassportNationality" />
+          <ScalarProperty Name="PassportIssuingCountry" ColumnName="PassportIssuingCountry" />
+          <ScalarProperty Name="PassportExpiryDate" ColumnName="PassportExpiryDate" />
+          <ScalarProperty Name="PassportIssuingDate" ColumnName="PassportIssuingDate" />
+          <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+          <ScalarProperty Name="Middlename" ColumnName="Middlename" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="PaxType" ColumnName="PaxType" />
+          <ScalarProperty Name="BookingOID" ColumnName="BookingOID" />
+          <ScalarProperty Name="FlightBookingPaxInfoOID" ColumnName="FlightBookingPaxInfoOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomerReviews">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.CustomerReview">
+        <MappingFragment StoreEntitySet="CustomerReview">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="CustomerImageName" ColumnName="CustomerImageName" />
+          <ScalarProperty Name="Seq" ColumnName="Seq" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CustomerReviewOID" ColumnName="CustomerReviewOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomerReviewDetails">
+      <EntityTypeMapping TypeName="GogojiiWebDBModel.CustomerReviewDetail">
+        <MappingFragment StoreEntitySet="CustomerReviewDetail">
+          <ScalarProperty Name="ImageALT" ColumnName="ImageALT" />
+          <ScalarProperty Name="Review" ColumnName="Review" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="LangCode" ColumnName="LangCode" />
+          <ScalarProperty Name="CustomerReviewOID" ColumnName="CustomerReviewOID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

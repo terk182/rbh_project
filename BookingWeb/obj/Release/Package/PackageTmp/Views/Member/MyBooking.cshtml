@@ -1,0 +1,186 @@
+﻿@model GogojiiWeb.Models.MyBookingModel
+@section styles
+{
+    <link href="~/mpgogojii/style.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .div-Profile {
+            background-color: #FFF;
+            border: #E8E8E8 2px solid;
+            border-radius: 10px;
+        }
+
+        .div-border-left {
+            border-left: #E8E8E8 1px solid;
+        }
+
+        .btn-edit-profile {
+            margin-bottom: 10px;
+            background-color: #06B0F4;
+            border-width: 2px;
+            border-color: #06B0F4;
+            color: #fff;
+            border-radius: 20px !important;
+            padding: 5px 20px 5px 20px;
+        }
+
+        .div-booking {
+            border-top: #E8E8E8 2px solid;
+            padding: 15px;
+        }
+
+        .div-booking:first-child {
+            border-top: none
+        }
+        .bookingMore {
+            display: none;
+        }
+        @@media(max-width: 767px) {
+            .div-border-left {
+                border-left: none;
+            }
+        }
+    </style>
+}
+<section class="Profile">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title mb-40">
+                    <h2 class="mb-10">@Localize.Show("MY_PROFILE")</h2>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row  div-Profile">
+                    <div class="col-md-3 col-12 text-center" style="padding: 25px 10px;">
+                        <div>
+                            @if (Model.member.ImageProfile != null && Model.member.ImageProfile.Length > 0)
+                            {
+                                <img class="img-member-profile" src="@(Model.member.ImageProfile+(Model.member.LoginType=="GJ"?("?id="+Guid.NewGuid()):""))" />
+                            }
+                            else
+                            {
+                                <img src="~/Images/member/no-avatar.png" class="img-member-profile" />
+                            }
+                        </div>
+                        <div class="font-bold font-18 mt-10 mb-10">@(String.Format("{0} {1}", Model.member.FirstName, Model.member.LastName))</div>
+                        <div style="display: flex;justify-content: center;">
+                            <a href="@Url.Action("MyProfile", "Member")">
+                                <div class="btn-edit-profile">
+                                    @Localize.Show("EDIT_PROFILE")
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-9 col-12 div-border-left" style="padding: 25px 20px;">
+                        <div class="mb-10">@Localize.Show("GENDER"): <span class="font-bold">@(Model.member.Sex != null ? Model.member.Sex : "-")</span></div>
+                        <div class="mb-10">@Localize.Show("BIRTHDAY"): <span class="font-bold">@(Model.member.BirthDate != null && Model.member.BirthDate.Value.ToString("dd/MM/yyyy") != "01/01/0001" ? Model.member.BirthDate.Value.ToString("dd/MM/yyyy") : "-")</span></div>
+                        <div class="mb-10">@Localize.Show("PHONE_NUMBER"): <span class="font-bold">@(Model.member.Phone != null ? Model.member.Phone : "-")</span></div>
+                        <div class="mb-10">@Localize.Show("EMAIL"): <span class="font-bold">@(Model.member.Email != null ? Model.member.Email : "-")</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<section class="Booking">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title mb-40">
+                    <h2 class="mb-10">@Localize.Show("MY_BOOKING")</h2>
+                </div>
+            </div>
+            @if (Model.bookings != null && Model.bookings.Count > 0)
+            {
+                string urlBookingDetail = "";
+                string img_product = "";
+        <div class="col-12 mb-40">
+            <div class="row  div-Profile">
+                @foreach (var book in Model.bookings)
+                {
+                    switch (book.BookingType)
+                    {
+                        case "Flight":img_product = "flight"; urlBookingDetail = Url.Action("Voucher", "Flight", new { id = book.BookingOID }); break;
+                        case "Hotel": img_product = "hotel"; urlBookingDetail = Url.Action("Voucher", "Hotel", new { id = book.BookingOID }); break;
+                        case "Transfer": img_product = "airport-transfer"; urlBookingDetail = Url.Action("Voucher", "Transfer", new { id = book.BookingOID }); break;
+                        case "HFPackage": img_product = "hotelflight"; urlBookingDetail = Url.Action("Voucher", "HFPackage", new { id = book.BookingOID }); break;
+                    }
+                    <div class="col-12 div-booking bookingMore">
+                        <div class="row mt10">
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-2">
+                                        @if (book.BookingImage != null)
+                                        {
+                                            <img src="@book.BookingImage" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/images/hotel_blank.jpg" />
+                                        }
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="font-bold"> @book.BookingName <img src="~/mpgogojii/assets/icon/@(img_product).svg" style="height: 32px;" /></div>
+                                        <div> @book.TravelPeriod</div>
+                                        <div>@Localize.Show("BOOKING_STATUS"): <span style="color: var(--primary-color);">@book.BookingStatus</span></div>
+                                        <div>@Localize.Show("PAYMENT_STATUS"): <span style="color: var(--primary-color);">@book.PaymentStatus</span></div>
+                                        <div>@Localize.Show("PAYMENT_METHOD"): <span style="color: var(--primary-color);">@book.PaymentMethod</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 text-right">
+                                <a href="@urlBookingDetail?F=view">
+                                    <span class="font-bold" style="padding-right:15px"> @book.TotalPrice</span> <i class="fa fa-ellipsis-v" style="color: var(--primary-color);"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            @if (Model.bookings.Count > 5)
+            {
+                <div class="row mt-30">
+                    <div class="col-md-12">
+                        <div style="display: flex;justify-content: center;">
+                            <div id="btnbookingMore" class="seemore-btn">@Localize.Show("SEE_MORE")</div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+            }
+            else
+            {
+                <div class="col-12">
+                    <div class="row mt10">
+                        <div class="col-12 text-center"> <img src="~/Images/member/empty-box.png"></div>
+                    </div>
+                    <div class="row mt10 mb-40">
+                        <div class="col-12 text-center">
+                            @Localize.Show("NO_BOOKING")
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".bookingMore").slice(0, 5).show();    
+            $("#btnbookingMore").on('click', function (e) {
+                e.preventDefault();
+                $(".bookingMore:hidden").slice(0, 1).slideDown();
+                if ($(".bookingMore:hidden").length == 0) {
+                    $("#btnbookingMore").fadeOut('slow');
+                }
+            });
+        });
+
+    </script>
+}

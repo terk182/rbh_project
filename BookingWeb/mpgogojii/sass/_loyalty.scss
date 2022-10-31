@@ -1,0 +1,73 @@
+section.loyalty {
+  background: #ffffff;
+  padding: 50px 0 35px 0;
+  .container {
+    .row {
+      .col-12 {
+        h2 {
+          color: var(--primary-color);
+          margin-bottom: 15px;
+        }
+      }
+    }
+  }
+}
+
+section.cities {
+  padding: 40px 0 66px 0;
+  .container {
+    .row {
+      .links {
+        display: grid;
+        .col-link {
+          ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+            li {
+              a {
+                color: var(--text-color-dark);
+                font-weight: 500;
+                &:hover {
+                  color: var(--primary-color);
+                  text-decoration: none;
+                }
+              }
+            }
+          }
+        }
+      } //links
+      .col-md-12 {
+        .links {
+          grid-template-columns: 1fr 1fr 1fr 1fr;
+        } //links
+      }
+    }
+  }
+}
+
+section.download-app {
+  background: var(--primary-color);
+  padding: 51px 0;
+
+  .row {
+    align-items: center;
+    h2,
+    p {
+      color: #ffffff;
+    }
+
+    .image-container {
+      float: right;
+      img {
+        max-width: 160px;
+      }
+
+      a:nth-of-type(2) {
+        img {
+          margin-left: 28px;
+        }
+      }
+    }
+  }
+}

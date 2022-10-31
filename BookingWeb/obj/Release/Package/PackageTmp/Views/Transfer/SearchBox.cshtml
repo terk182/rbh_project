@@ -1,0 +1,186 @@
+﻿@model GogojiiWeb.Models.TransferSearchModel
+
+@Html.Hidden("city_url", Url.Action("SearchDestination", "Transfer"))
+@using (Html.BeginForm("ResultList", "Transfer", FormMethod.Get, new { @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.Hidden("lang", Localize.GetLang())
+    <div class="container mt-2 mb-2">
+        <div class="font-24 d-none"><span>@Localize.Show("FIND_TRIP")</span></div>
+        <div class="row">
+            <div class="col-12">
+                <label class="radio">
+                    @Localize.Show("ROUNDTRIP")
+                    <input type="radio" @(Model.tripType == "R" ? "checked" : "") name="tripType" value="R">
+                    <span class="checkround"></span>
+                </label>
+                <label class="radio">
+                    @Localize.Show("ONEWAY")
+                    <input type="radio" @(Model.tripType == "O" ? "checked" : "") name="tripType" value="O">
+                    <span class="checkround"></span>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5 col-md-12 col-12 padding-lr-2 mt-1">
+                <div class="white-search-box">
+                    <div class="row">
+                        <div class="col-6 form-border-right">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 25px; vertical-align: top;">
+                                        <img src="~/Images/icon_gogo/pin.svg" style="width: 18px" />
+                                    </td>
+                                    <td>
+                                        <div class="font-14 text-muted">
+                                            @Localize.Show("PICKUP_LOCATION")
+                                        </div>
+                                        <input name="fromText" id="fromText" type="text" value="@Model.fromText" class="form-search-inside" placeholder="@Localize.Show("AIRPORT_OR_HOTEL")" required />
+                                        @Html.HiddenFor(x => x.fromCode)
+                                        @Html.HiddenFor(x => x.fromType)
+                                        @Html.Hidden("fromCountry", "")
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 25px; vertical-align: top;">
+                                        <img src="~/Images/icon_gogo/pin.svg" style="width: 18px" />
+                                    </td>
+                                    <td>
+                                        <div class="font-14 text-muted">
+                                            @Localize.Show("DROPOFF_LOCATION")
+                                        </div>
+                                        <input name="toText" id="toText" type="text" value="@Model.toText" class="form-search-inside" placeholder="@Localize.Show("AIRPORT_OR_HOTEL")" required />
+                                        @Html.HiddenFor(x => x.toCode)
+                                        @Html.HiddenFor(x => x.toType)
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-12 padding-lr-2  mt-1">
+                <div class="white-search-box">
+                    <table class="w-100">
+                        <tr>
+                            <td style="width: 50%" class="date-dep">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td style="width: 25px; vertical-align: top;">
+                                            <img src="~/Images/icon_gogo/calendar.svg" style="width: 18px" />
+                                        </td>
+                                        <td>
+                                            <div class="font-14 text-muted">
+                                                @Localize.Show("DEPARTURE_DATE")
+                                            </div>
+                                            <input name="outbound" id="outbound" type="text" value="@Model.outbound" class="form-search-inside" required readonly />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td class="date-ret">
+
+                                <img src="~/Images/icon_gogo/arrow_right.svg" style="width: 18px; margin-right: 18px" />
+                            </td>
+                            <td style="width: 50%" class="date-ret">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>
+                                            <div class="font-14 text-muted">
+                                                @Localize.Show("RETURN_DATE")
+                                            </div>
+                                            <input name="inbound" id="inbound" type="text" value="@Model.inbound" class="form-search-inside" placeholder="" readonly />
+                                            <input name="onewaydate" id="onewaydate" type="text" value="" class="form-search-inside" placeholder="@Model.inbound" style="display: none" disabled />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-1 col-12 padding-lr-2   mt-1">
+                <div class=" white-search-box">
+                    <div class="row">
+                        <div class="col-12 pax-select" role="button" data-toggle="collapse" data-target="#navbarDropdown" aria-controls="navbarDropdown" aria-expanded="false" aria-haspopup="true" readonly>
+                            <img src="~/Images/icon_gogo/pax.svg" style="height: 14px; " class="mr-1" />
+                            <span class="font-12 text-muted">Pax</span>
+                            <div class="font-14" id="paxNo" style="margin-left: 20px; color:#000">@(Model.adults + Model.children + Model.infants)</div>
+
+                            <div id="navbarDropdown" class="dropdown-menu pax-dropdown" aria-labelledby="paxValue">
+                                <table class="w-100" cellpadding="10">
+                                    <tr>
+                                        <td><span class="font-12 text-muted">@(Localize.Show("ADULT"))(12+)</span></td>
+                                        <td>
+                                            <select class=" form-search-inside" style="width: 90%" name="adults" id="adults">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="font-12 text-muted">@Localize.Show("CHILD") (2-12)</span>
+                                        </td>
+                                        <td>
+                                            <select class=" form-search-inside" style="width: 90%" name="children" id="children">
+                                                <option>0</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="font-12 text-muted">@Localize.Show("INFANT") (0-2)</span>
+                                        </td>
+                                        <td>
+                                            <select class=" form-search-inside" style="width: 90%" name="infants" id="infants">
+                                                <option>0</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-12 padding-lr-2   mt-1">
+                <button class="btn cust-btn search-btn" style="height: 60px" type="submit" id="submit"><i class="fas fa-search"></i> @Localize.Show("SEARCH")</button>
+            </div>
+        </div>
+        <div class="row row-mt" id="divOption">
+            <div class="col-lg-4 col-12 padding-lr-2 ">
+            </div>
+        </div>
+
+    </div>
+}
+<script src="~/Scripts/input-add-minus.js"></script>
+<script src="~/Scripts/transfer_searchbox.js?v2"></script>
+<script>
+        $(document).ready(function () {
+            $('#adults').val('@Model.adults');
+            $('#children').val('@Model.children');
+            $('#infants').val('@Model.infants');
+        });
+</script>

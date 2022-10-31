@@ -1,0 +1,9 @@
+﻿<br />
+<form id="payment-form" action="@ViewBag.url" method="post" role="form" class="form-horizontal">
+    <modernpay:widget id="modernpay-widget-container"
+                      data-merchantid="@ViewBag.merchantid" data-amount="@ViewBag.amount" data-orderno="@ViewBag.orderno" data-customerid="@ViewBag.customerid"
+                      data-mobileno="@ViewBag.mobileno" data-clientip="@ViewBag.clientip" data-routeno="@ViewBag.routeno" data-currency="@ViewBag.currency"
+                      data-description="@ViewBag.description" data-apikey="@ViewBag.apikey">
+    </modernpay:widget>
+</form>
+<script async src="https://sandbox-cdnv3.chillpay.co/js/widgets.js?v=1.00" charset="utf-8"></script>

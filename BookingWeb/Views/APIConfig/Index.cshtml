@@ -1,0 +1,18 @@
+﻿<h3>API User Control</h3>
+
+@using (Html.BeginForm("Index", "APIConfig", FormMethod.Post, new { @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    <div class="col-md-4 col-12">
+        <div class="card">
+            <div class="card-header"><strong>Login</strong></div>
+            <div class="card-body">
+                <br />
+                @Html.Password("PWD", "", new { @class = "form-control ", placeholder = "Password" })
+                <br />
+                <div class="text-right">
+                    <button class="btn btn-info">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

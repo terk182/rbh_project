@@ -1,0 +1,82 @@
+﻿@model DataModel.AirlineQtaxControl
+
+@using (Html.BeginForm("Details", "AirlineQtax", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.AirlineQtaxOID)
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Airline QTax Control Config</h6>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Active <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    Disable  @Html.EditorFor(m => m.IsActive, new { required = "required" })  Enable
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Airline Code <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.AirlineCode, new { required = "required", @class = "form-control form-control-sm col-lg-4" , @onkeypress = "return ValidateKey1()"})
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Original Country Code <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.OriginalCountryCode, new { required = "required", @class = "form-control form-control-sm col-lg-4", @onkeypress = "return ValidateKey3()" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    Destination Country Code <span class="asterisk">*</span>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    @Html.TextBoxFor(x => x.DestinationCountryCode, new { required = "required", @class = "form-control form-control-sm col-lg-4", @onkeypress = "return ValidateKey3()" })
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="text-right">
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="btn_Save">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+                <button type="submit" id="btn_submit" style="display: none;"></button>
+                <a href="@Url.Action("AirlineQtaxList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts
+{
+    <script>
+        function ValidateKey1() {
+            var key1 = window.event.keyCode;
+            var allowed1 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890,*';
+
+            return allowed1.indexOf(String.fromCharCode(key1)) != -1;
+        }
+
+        function ValidateKey3() {
+            var key3 = window.event.keyCode;
+            var allowed3 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,*';
+
+            return allowed3.indexOf(String.fromCharCode(key3)) != -1;
+        }
+
+    </script>
+}

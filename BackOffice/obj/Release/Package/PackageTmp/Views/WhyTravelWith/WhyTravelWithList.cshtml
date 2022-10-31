@@ -1,0 +1,113 @@
+﻿@model List<BL.Entities.WhyTravelWith.AllWhyTravelWith>
+@{
+    string URL = System.Configuration.ConfigurationManager.AppSettings["webpages_URL"].ToString();
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Top Destination List</h6>
+            <a href="@Url.Action("WhyTravelWithDetail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-plus fa-sm text-white-50"></i>
+                Create New
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="width: 20px;">Active</th>
+                        <th>Seq</th>
+                        <th>Title</th>
+                        <th>Icon</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var why in Model)
+                    {
+                    <tr>
+                        <td>
+                            @(why.WhyTravelWith.IsActive.GetValueOrDefault() ? "1" : "2")
+                        </td>
+                        <td>
+                            @why.WhyTravelWith.Seq
+                        </td>
+                        <td>
+                            @why.WhyTravelWithDetails.Find(x => x.LangCode == "en").Title
+                        </td>
+                        <td>
+                            <img src="@(String.Format("{0}images/why_travel_with/{1}?id={2}", URL, why.WhyTravelWith.ImageName, Guid.NewGuid()))" align="absMiddle" style="max-width:140px;max-height:140px;" border="0" onerror="this.src='../images/space.gif';" />
+                        </td>
+                        <td>
+                            <a href="@Url.Action("WhyTravelWithDetail", new { id = why.WhyTravelWith.WhyTravelWithOID })">
+                                <i class="fas fa-edit"></i> Edit
+                            </a><br />
+                        </td>
+                        <td>
+                            <a href="#" onclick="deleteRow('@why.WhyTravelWith.WhyTravelWithOID', '@why.WhyTravelWithDetails.Find(x => x.LangCode == "en").Title')"><i class="fas fa-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        var isSave = '@Request["save"]';
+        $(document).ready(function () {
+            $('#grid').DataTable({
+                columnDefs: [{
+                    "orderable": false,
+                    "targets": [4]
+                }, {
+                    "render": function (data, type) {
+                        if (type == 'sort') {
+                            return data + '';
+                        } else {
+                            var html = '';
+                            if (data == 1) {
+                                html = '<i class="fas fa-check" style= "color: #00ff21" ></i>'
+                            } else {
+                                html = '<i class="fas fa-times" style= "color: #ff0000" ></i>'
+                            }
+                            return html;
+                        }
+                    },
+                    "targets": [0]
+                }]
+            });
+
+            if (isSave == 't') {
+                new PNotify({
+                    title: 'Success',
+                    text: 'Data have been updated',
+                    type: 'success',
+                    styling: 'bootstrap3',
+                    delay: 2000,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    buttons: {
+                        show_on_nonblock: true
+                    }
+                });
+            }
+        });
+
+        var deleteRow = function (id, name) {
+            if (confirm("Do you want to delete " + name + "?")) {
+                window.location.href = '@Url.Action("WhyTravelWithDelete")' + '/' + id;
+            }
+        }
+    </script>
+}
+

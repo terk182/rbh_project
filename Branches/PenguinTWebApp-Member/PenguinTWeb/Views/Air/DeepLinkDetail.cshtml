@@ -1,0 +1,139 @@
+﻿@model DataModel.AirPromotion
+
+<h3>Deep Link Control</h3>
+<hr />
+
+<div class="card">
+    <h5 class="card-header"><i class="fa fa-ticket-alt"></i> Deep Link Detail</h5>
+    <div class="card-body">
+        @using (Html.BeginForm("DeepLinkDetail", "Air", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-div-left", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.AirPromotionOID)
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Deep Link Title <span class="required">*</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBoxFor(m => m.DeepLinkText, new { required = "required", @class = "form-control form-control-sm col-md-7 col-xs-12" })
+                </div>
+            </div>
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Origin <span class="required">*</span> <small>(City Code)</small>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBoxFor(m => m.Origin, new { required = "required", @class = "form-control form-control-sm col-md-7 col-xs-12" })
+                </div>
+            </div>
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Destination <span class="required">*</span> <small>(City Code)</small>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBoxFor(m => m.Destination, new { required = "required", @class = "form-control form-control-sm col-md-7 col-xs-12" })
+                </div>
+            </div>
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Airline <small>(Airline Code)</small>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBoxFor(m => m.AirlineCode, new { @class = "form-control form-control-sm col-md-7 col-xs-12" })
+                </div>
+            </div>
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Price <span class="required">*</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBoxFor(m => m.Price, "{0:0}", new { required = "required", @class = "form-control form-control-sm col-md-7 col-xs-12", @type="number" })
+                </div>
+            </div>
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Detail <span class="required">*</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextAreaFor(m => m.Detail, new { required = "required", @class = "form-control form-control-sm col-12" })
+                </div>
+            </div>
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Departure Date <span class="required">*</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBox("dDate", "", new { required = "required", @class = "form-control form-control-sm col-md-7 col-xs-12", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Return Date <span class="required">*</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBox("rDate", "", new { required = "required", @class = "form-control form-control-sm col-md-7 col-xs-12", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Show Start Date <span class="required">*</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBox("sDate", "", new { required = "required", @class = "form-control form-control-sm col-md-7 col-xs-12", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Show End Date <span class="required">*</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @Html.TextBox("eDate", "", new { required = "required", @class = "form-control form-control-sm col-md-7 col-xs-12", @readonly= "readonly" })
+                </div>
+            </div>
+            <div class="row row-mt">
+                <div class="col-lg-3 col-md-3 col-12">
+                    Image
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    @{
+                        var urlPath = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+                        string imgName = urlPath + "images/promotions/" + Model.AirPromotionOID + ".jpg?" + DateTime.Now.ToString("hhmmss");
+                    }
+                    <input type="file" name="file" id="file" style="width: 100%;" />
+                    <img src="@imgName" />
+                </div>
+            </div>
+            <hr />
+            <div class="row row-mt">
+                <div class="col-lg-6 col-md-6 col-12 offset-md-3">
+                    <button type="submit" id="btnSubmit" class="btn btn-primary btn-sm">Save</button>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+            var option = {
+                language: 'th',
+                autoClose: true,
+                toggleSelected: false
+            };
+            $('#dDate').datepicker(option);
+            $('#dDate').val('@Model.DepartDate.GetValueOrDefault().ToString("dd'/'MM'/'yyyy")');
+            $('#rDate').datepicker(option);
+            $('#rDate').val('@Model.ReturnDate.GetValueOrDefault().ToString("dd'/'MM'/'yyyy")');
+            $('#sDate').datepicker(option);
+            $('#sDate').val('@Model.PeriodStart.GetValueOrDefault().ToString("dd'/'MM'/'yyyy")');
+            $('#eDate').datepicker(option);
+            $('#eDate').val('@Model.PeriodEnd.GetValueOrDefault().ToString("dd'/'MM'/'yyyy")');
+
+        });
+    </script>
+}

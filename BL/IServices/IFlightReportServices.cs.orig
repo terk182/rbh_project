@@ -1,0 +1,30 @@
+﻿using BL.Entities;
+using BL.Entities.GogojiiFare;
+using DataModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BL
+{
+    public interface IFlightReportServices
+    {
+        List<AirFare> GetAll();
+        Information GetAllInfo();
+        List<AirFare.Refund> GetAllRefund();
+        List<AirFare.Reissue> GetAllReissue();
+        List<AirFare> GetAllBysearch(DateTime? StartDate, DateTime? FinishDate, DateTime? Paybefore_StartDate, DateTime? Paybefore_FinishDate,String StatusBooking,String PaymentMethod,String SourceBy);
+        List<AirFare> GetByPayBefore(DateTime StartPayBefore, DateTime FinishPayBefore);
+        AirFare GetByID(Guid id);
+        void SaveOrUpdate(AirFare airfare);
+<<<<<<< HEAD
+        void SaveOrUpdateRefund(AirFare airfare);
+        void SaveOrUpdateReissue(AirFare airfare);
+        //AirFare SendEmail(AirFare mail);
+=======
+        void SendBookingEmail(Guid id, string subject);
+>>>>>>> NewAPI
+    }
+}

@@ -1,0 +1,593 @@
+﻿@model GogojiiWeb.Models.TransferSearchModel
+@section styles
+{
+    <link href="~/Content/transfer/result.css?@(DateTime.Now.ToString("ddMMyyhhmmss"))" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.structure.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet" />
+    <link href="~/Vendors/jRange/jquery.range.css" rel="stylesheet" />
+}
+
+@{
+
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang().ToLower() == "th" ? "th-TH" : "en-US");
+}
+
+@section width100head
+{
+
+    <div class="transfer-search-box-bg d-none d-md-block" id="searchBox">
+        <div class="container">
+            <div class="font-60">@Localize.Show("BANNER_TRANSFER_1") </div>
+            <div class="font-20 mb-3">
+                @Localize.Show("BANNER_TRANSFER_2")
+            </div>
+            @Html.Partial("~/Views/Transfer/SearchBox.cshtml", Model)
+        </div>
+    </div>
+}
+
+<div class="container container-transfer" id="loading">
+    <div class="row">
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="font-24"><strong>@Localize.Show("FILTER")</strong></div>
+            <div class="transfer-box">
+                <div class="loader">Loading...</div>
+            </div>
+        </div>
+        <div class='col-lg-9 col-sm-12'>
+            <div class="transfer-box text-center">
+                <img src="~/Images/waiting.gif" style="vertical-align:middle; width: 120px;" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container container-transfer" id="error" style="display: none;">
+    <div class="text-center">
+        <h4>transfers not found!!</h4>
+    </div>
+</div>
+<form action="@Url.Action("Select", "Transfer")" style="display:none">
+    @Html.Hidden("Trip_D", "")
+    @Html.Hidden("Trip_R", "")
+    <button type="submit" id="carsubmit"></button>
+</form>
+<div class="container container-transfer" id="result" style="display: none;">
+    <div class='row'>
+        <div class="col-lg-3 col-md-12 d-md-block d-lg-none d-xl-none text-right">
+            <button type="button" class="btn btn-outline-warning" id="mobileFilter" style="width: 48%">
+                <strong><i class="fas fa-filter"></i> @Localize.Show("FILTER")</strong>
+            </button>
+            <button type="button" class="btn btn-outline-warning" id="mobileSearch" style="width: 48%">
+                <strong><i class="fas fa-search"></i> @Localize.Show("CHANGE_SEARCH")</strong>
+            </button>
+            <button type="button" class="btn btn-warning" id="mobileCloseFilter" style="display: none;">
+                @Localize.Show("APPLY")
+            </button>
+            <br />
+            <br />
+        </div>
+        <div class="col-lg-3 col-md-12 d-md-none d-lg-block" id="filter-div">
+
+            <div class="transfer-box font-14">
+                <div class="font-18 d-none d-md-block mb-3"><strong>@Localize.Show("FILTER")</strong></div>
+                <div class=" font-weight-bold">@Localize.Show("TRANSFER_TYPE")</div>
+                <div data-bind="foreach: filterType">
+                    <div class="abc-checkbox abc-checkbox-info abc-checkbox-circle">
+                        <input class="styled" type="checkbox" value="" data-bind="checkedValue: id, checked: $parent.selectedType, attr: { id: 'type_' + id }">
+                        <label class="font-12" data-bind="attr: { for: 'type_' + id }">
+                            <span data-bind="text: name"></span>
+                            <div class="text-muted">
+                                <span data-bind="text: results"></span> results
+                            </div>
+                        </label>
+                    </div>
+                    <hr class="mt-2 mb-2" />
+                </div>
+                <br />
+
+                <strong class="mb-2">@Localize.Show("PRICE")</strong>
+                <div class="slider-box mt-3">
+                    <input type="hidden" class="slider-price" value="0,100" />
+                    @*<div id="slider-price"></div>*@
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <span class="font-12" data-bind="text: formatCurrency(filterPrice()[0])"></span>
+                        </div>
+                        <div class="col-6 text-right">
+                            <span class="font-12" data-bind="text: formatCurrency(filterPrice()[1])"></span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+            </div>
+        </div>
+        <div class='col-lg-9 col-md-12' id="transfer-list-div">
+            <div style="display: none" id="depTrip">
+                <div class="transfer-box">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="font-18 text-blue ml-3">@Localize.Show("DEPARTURE_TRIP")</div>
+                        </div>
+                    </div>
+                    <div class="row" id="depTripContent"></div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mt-2 mr-2 text-right">
+                                <div>
+                                    <a data-bind="click: changeTrip" role="button" aria-expanded="false" href="#">@Localize.Show("CHANGE")</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+            </div>
+            <div class="row mt-2 mb-2">
+                <div class="col-md-6 col-12">
+                    <div class="font-weight-bold font-16">
+                        <span id="trip-text">@Localize.Show("DEPARTURE_TRIP")</span>
+                        <span style='padding-left : 10px; padding-right: 10px'>&bull;</span>
+                        <span data-bind="text: records().length"></span> @Localize.Show("SERVICES")
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="text-right font-12">
+                        <table style="margin-right: 0px;margin-left: auto;">
+                            <tr>
+                                <td class="font-weight-bold font-14">@Localize.Show("SORT_BY")</td>
+                                <td>
+                                    <select id="sortBy" class="form-control form-control-sm " style="border: none; background-color:#ECF2FF" data-bind="options: sorting,
+                       optionsText: 'text',
+                       optionsValue: 'value',
+                       value: selectedSort"></select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @Html.Hidden("thisTrip", "D")
+            @Html.HiddenFor(m => m.tripType)
+            <div data-bind="fastForEach: filteredBox" id="tList">
+                <div class="transfer-box transfer-main">
+                    <div class="row" data-bind="attr:{id: 'box_' + index }">
+                        <div class="col-md-4 col-sm-12">
+                            <div class="transfer-image" data-bind="attr:{style: getTransferImage(vehicleImages)}"></div>
+
+                        </div>
+                        <div class="col-md-8 col-sm-12">
+                            <div class="transfer-name" data-bind="text: categoryName + ' ' + vehicleName.replace('-', ' - ') + ' - ' + transferType">
+                            </div>
+                            <div class="mt-1">
+                                <div class="font-12">
+                                    <img src="~/Images/icon_gogo/pax.svg" style="margin-top: -3px;" />
+                                    <span data-bind="text: minPassengers"></span> - <span data-bind="text: maxPassengers"></span>
+                                    @Localize.Show("PASSENGERS")
+                                </div>
+                                <ul data-bind="foreach: transferDetails" class="font-12">
+                                    <!-- ko if: $index() < 3 -->
+                                    <li data-bind="text: name + (description ? ': ' + description : '') "></li>
+                                    <!-- /ko -->
+                                </ul>
+                            </div>
+                            <div class="mt-2 mr-2">
+                                <div class="text-right">
+                                    <strong>
+                                        <span class="font-14">@Currency.GetCurrency()</span>
+                                        <span class="text-blue font-24" data-bind="text: formatCurrency(price)"></span>
+                                    </strong>
+                                    <div>
+                                        <strong class="font-12">
+                                            <span>@Currency.GetCurrency()</span>
+                                            <span data-bind="text: formatCurrency(pricePerPerson)"></span>
+                                            @Localize.Show("PER_PERSON")
+                                        </strong>
+                                        <span class="font-12 text-muted">@Localize.Show("TAX_INCLUDED")</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mt-2 mr-2 text-right">
+                                <div>
+                                    <button data-bind="click: $parent.select" class="btn cust-book-btn">@Localize.Show("SELECT")</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <a data-toggle="collapse" data-bind="attr:{href: '#info_' + $index()}" role="button" aria-expanded="false">@Localize.Show("SEE_MORE")</a>
+                    </div>
+                    <div class="collapse" data-bind="attr:{id: 'info_' + $index()}">
+                        <div class="font-12">
+                            <strong class="font-14">@Localize.Show("PASSENGERS")</strong>
+                            <div>
+                                @Model.adults @Localize.Show("ADULTS")
+                                @if (Model.children > 0)
+                                {
+                                    <span>&bull;</span> @Model.children  @Localize.Show("CHILDREN")
+                                }
+                                @if (Model.infants > 0)
+                                {
+                                    <span>&bull;</span> @Model.infants  @Localize.Show("INFANTS")
+                                }
+                            </div>
+                        </div>
+                        <div class="font-12">
+                            <strong class="font-14">@Localize.Show("PICKUP_INFO")</strong>
+                            <div>
+                                <strong data-bind="text: pickupInformation.pickupDateString"></strong>
+                                <!-- ko if: pickupInformation.mustCheckPickupTime -->
+                                <div>
+                                    @Localize.Show("PLEASE_CHECK_PICK_UP_TIME")
+                                    <span data-bind="text: pickupInformation.checkPickupURL"></span> -
+                                    <span data-bind="text: pickupInformation.hourBeforeCheckPickupTime"></span> hrs before consulting
+                                </div>
+                                <!-- /ko -->
+                                <!-- ko if: !pickupInformation.mustCheckPickupTime -->
+                                (
+                                <span data-bind="text: pickupInformation.pickupTime"></span>)
+                                <!-- /ko -->
+                            </div>
+                            <div>
+                                <strong data-bind="text: pickupInformation.stopName"></strong> 
+                                <strong data-bind="text: pickupInformation.pickupPlace"></strong>
+                            </div>
+                            <div>
+                                <span data-bind="html: newline(pickupInformation.description)"></span>
+                            </div>
+                        </div>
+                        <div class="font-12">
+                            <strong class="font-14">@Localize.Show("DROPOFF_INFO")</strong>
+                            <div>
+                                <span data-bind="text: dropoffPlace"></span>
+
+                            </div>
+                        </div>
+                        <div class="font-12">
+                            <strong class="font-14">@Localize.Show("SERVICE_DETAILS")</strong>
+                            <div>
+                                <ul data-bind="foreach: transferDetails" class="font-12">
+                                    <li data-bind="text: name + (description ? ': ' + description : '') "></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="font-12">
+                            <strong class="font-14">Supplier max waiting time</strong>
+                            <div>
+                                <span data-bind="text: supplierMaxWaitingTime"></span>
+
+                            </div>
+                        </div>
+                        <div class="font-12">
+                            <strong class="font-14">Customer max waiting time</strong>
+                            <div>
+                                <span data-bind="text: customerMaxWaitingTime"></span>
+
+                            </div>
+                        </div>
+                        <div class="font-12">
+                            <strong class="font-14">@Localize.Show("REMARKS")</strong>
+                            <div>
+                                <ul data-bind="foreach: remarks" class="font-12">
+                                    <li data-bind="html: newline($data)"></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="font-12">
+                            <strong class="font-14">@Localize.Show("CANCELLATION_POLICY")</strong>
+                            <div data-bind="foreach: cancellationPolicies" class="font-12">
+                                <span data-bind="text: $data"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/input-add-minus.js"></script>
+    <script src="~/Vendors/knockout/knockout-3.4.2.js"></script>
+    <script src="~/Vendors/knockout/knockout-fast-foreach.min.js"></script>
+    <script src="~/Vendors/jquery-ui-1.12.1/jquery-ui.min.js?v2"></script>
+    <script src="~/Vendors/jRange/jquery.range-min.js"></script>
+    <script>
+        function dealModel() {
+            var self = this;
+            self.records = ko.observableArray([]);
+            self.depTrip = ko.observableArray([]);
+            self.retTrip = ko.observableArray([]);
+            self.filterPrice = ko.observableArray([]);
+            self.filterType = ko.observableArray([]);
+            self.selectedType = ko.observableArray([]);
+            self.sorting = ko.observableArray([]);
+            self.selectedSort = ko.observable('price_asc');
+            self.allHotel = ko.observable(20);
+            self.booked = ko.observable(0);
+
+            self.select = function (s) {
+                var thisTrip = $('#thisTrip').val();
+                var tripType = $('#tripType').val();
+
+                $('#Trip_' + thisTrip).val(s.rateKey);
+                if (thisTrip == 'D' && tripType == 'R') {
+                    //console.log(s);
+                    $('html, body').animate({
+                        scrollTop: $("#result").offset().top
+                    }, 1000);
+                    //$('#tList').slideUp();
+                    $('#depTrip').slideDown();
+
+                    $('#depTripContent').html($('#box_' + s.index).html());
+                    $('#trip-text').html('@Localize.Show("RETURN_TRIP")');
+                    $('#thisTrip').val('R');
+                    self.records(self.retTrip());
+                    self.setupFilter();
+                    //$('#tList').slideDown();
+                } else {
+                    //go to booking
+                    $('#carsubmit').click();
+                }
+
+            };
+            self.changeTrip = function () {
+                    $('#depTrip').slideUp();
+
+                    $('#trip-text').html('@Localize.Show("DEPARTURE_TRIP")');
+                    $('#thisTrip').val('D');
+                    self.records(self.depTrip());
+                    self.setupFilter();
+
+            };
+
+            self.setupFilter = function () {
+                var minPrice = 0;
+                var maxPrice = 0;
+
+                var countShared = 0;
+                var countPrivate = 0;
+
+                for (var i = 0; i < self.records().length; i++) {
+                    if (minPrice === 0 || self.records()[i].price < minPrice) {
+                        minPrice = self.records()[i].price;
+                    }
+                    if (maxPrice === 0 || self.records()[i].price > maxPrice) {
+                        maxPrice = self.records()[i].price;
+                    }
+
+                    if (self.records()[i].transferType == 'SHARED') {
+                        countShared++;
+                    } else {
+                        countPrivate++;
+                    }
+                }
+
+
+                //filter price
+                minPrice -= 1;
+                maxPrice += 1;
+                var fInitPrice = [];
+                minPrice = 0;
+                fInitPrice.push(minPrice);
+                fInitPrice.push(maxPrice);
+                self.filterPrice(fInitPrice);
+
+                var swidth = $('#filter-div').width() * 0.85;
+                if (swidth <= 0) {
+                    swidth = $('#transfer-list-div').width() * 0.85;
+                }
+                //if ($('.slider-price').next().hasClass('slider-container')) {
+
+                //    $('.slider-price').next().remove();
+                //}
+                $('.slider-price').jRange({
+                    from: minPrice,
+                    to: maxPrice,
+                    step: 1,
+                    format: '%s',
+                    showLabels: false,
+                    showScale: false,
+                    isRange: true,
+                    width: swidth,
+                    onstatechange: function (values) {
+                        var val = values.split(',');
+                        self.filterPrice(val);
+                    }
+                });
+                $('.slider-price').jRange('updateRange', minPrice + ',' + maxPrice, minPrice + ',' + maxPrice);
+
+                //filter type
+
+                var fType = [];
+                var fSelectedType = [];
+                var typeObj = {};
+                fSelectedType.push('PRIVATE')
+                typeObj.id = 'PRIVATE';
+                typeObj.name = '@Localize.Show("PRIVATE")';
+                typeObj.results = countPrivate;
+                fType.push(typeObj);
+                typeObj = {};
+                fSelectedType.push('SHARED')
+                typeObj.id = 'SHARED';
+                typeObj.name = '@Localize.Show("SHARED")';
+                typeObj.results = countShared;
+                fType.push(typeObj);
+
+                self.filterType(fType);
+            };
+
+            var count = 0;
+            var searchModel = @Html.Raw(Model.GetJsonModel());
+            //$('#loadingModal').modal('show');
+            $.ajax({
+                url: "@Url.Action("TransferResult", "Transfer")",
+                data: searchModel,
+                cache: true,
+                method: "post",
+                success: function (data) {
+                    if (data && data.departureTransfers && data.departureTransfers.length > 0) {
+                        $('#loading').hide();
+                        $('#result').show();
+                    } else {
+                        $('#loading').hide();
+                        $('#error').show();
+                        return;
+                    }
+
+
+                    var sortObj = [{
+                        text: '@Localize.Show("PRICE_MIN_MAX")',
+                        value: 'price_asc'
+                    }, {
+                        text: '@Localize.Show("PRICE_MAX_MIN")',
+                        value: 'price_desc'
+                    }];
+                    self.sorting(sortObj);
+
+                    console.log(data);
+                    //set
+                    self.records(data.departureTransfers);
+                    self.depTrip(data.departureTransfers);
+                    if (data.returnTransfers) {
+                        self.retTrip(data.returnTransfers);
+                    }
+                    self.setupFilter();
+
+                },
+                error: function () {
+                    $('#loading').hide();
+                    $('#error').show();
+                }
+
+
+            });
+
+            self.formatCurrency = function (amount) {
+                if (!amount) {
+                    amount = 0;
+                }
+            amount = parseFloat(amount);
+            var convertRate = @(Currency.convertFromTHB(1));
+            amount *= convertRate;
+            amount = amount.toFixed(2)
+                amount += '';
+                x = amount.split('.');
+                x1 = x[0];
+                x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                }
+                return x1 + x2;
+            };
+            //filter
+            self.filteredBox = ko.computed(function () {
+                if (!self.selectedSort()) {
+                    return null;
+                }
+                count = 0;
+                var sortBy = self.selectedSort().split('_');
+                var sortedArray = self.records().sort(function (left, right) {
+                    if (sortBy[1] == 'asc') {
+                        return left[sortBy[0]] === right[sortBy[0]] ? 0
+                            : left[sortBy[0]] < right[sortBy[0]] ? -1
+                                : 1;
+                    } else {
+                        return left[sortBy[0]] === right[sortBy[0]] ? 0
+                            : left[sortBy[0]] > right[sortBy[0]] ? -1
+                                : 1;
+                    }
+                });
+                var filtered = ko.utils.arrayFilter(sortedArray, function (record, index) {
+                    var show = true;
+                    if (self.selectedType().length > 0) {
+                        if (show) {
+                            show = self.selectedType().indexOf(record.transferType) >= 0;
+                        }
+                    }
+                    if (show) {
+                        show = record.price >= self.filterPrice()[0] && record.price <= self.filterPrice()[1];
+                    }
+
+                    return show;
+                });
+
+
+                return filtered;
+
+
+            }).extend({ throttle: 300 });  ;
+
+        }
+        ko.applyBindings(new dealModel());
+
+        var getTransferImage = function (imgArray) {
+            if (imgArray && imgArray.length > 0) {
+                for (var i = 0; i < imgArray.length; i++) {
+                    if (imgArray[i].imageType == "MEDIUM") {
+                        return "background-image:url('" + imgArray[i].url + "');";
+                    }
+                }
+                 return "background-image:url('" + imgArray[0].url + "');";
+            }
+            return "";
+        };
+
+        var formatCurrency = function (amount) {
+            if (!amount) {
+                amount = 0;
+            }
+            amount = parseFloat(amount);
+            var convertRate = @(Currency.convertFromTHB(1));
+            amount *= convertRate;
+            amount = amount.toFixed(2)
+            amount += '';
+            x = amount.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return x1 + x2;
+        };
+        function newline(str) {
+            return str.replace(/\./g, '.<br>');
+        }
+
+        $(document).ready(function () {
+            $('#mobileFilter').click(function () {
+                $('#mobileFilter').hide();
+                $('#mobileSearch').hide();
+                $('#mobileCloseFilter').show();
+                $('#transfer-list-div').hide();
+                $('#filter-div').show();
+                $('#filter-div').removeClass("d-md-none");
+            });
+            $('#mobileCloseFilter').click(function () {
+                $('#mobileFilter').show();
+                $('#mobileSearch').show();
+                $('#mobileCloseFilter').hide();
+                $('#transfer-list-div').show();
+                $('#filter-div').hide();
+            });
+
+            $('#mobileSearch').click(function () {
+                if ($('#searchBox').hasClass("d-md-none")) {
+                    $('#searchBox').removeClass("d-md-none");
+                    $('#searchBox').hide();
+                }
+                $('#searchBox').slideToggle();
+            });
+
+        });
+    </script>
+}

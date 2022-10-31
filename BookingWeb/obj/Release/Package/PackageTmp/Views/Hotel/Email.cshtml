@@ -1,0 +1,304 @@
+﻿@model GogojiiWeb.Models.HotelSelected
+@{
+    string URL = System.Configuration.ConfigurationManager.AppSettings["webpages_URL"].ToString();
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo(Localize.GetLang().ToLower() == "th" ? "th-TH" : "en-US");
+    GogojiiWeb.Models.HotelSearchModel searchModel = (GogojiiWeb.Models.HotelSearchModel)ViewBag.SearchModel;
+}
+
+    <div style='background-color:#ecf2ff; color:#212529; font-family:"Quicksand", "Sarabun", sans-serif; font-size:1rem; font-weight:400; line-height:1.5; margin:0; text-align:left' bgcolor="#ecf2ff" align="left">
+        <div style="background-color:#0393CD; color:#fff; padding:20px; width:100%; text-align:center" bgcolor="#0393CD" width="100%" align="center">
+
+            <div style="font-size:24px">
+                @Localize.Show("BOOKING_IS_CONFIRMED")
+            </div>
+            <div style="font-size:30px">
+                @Model.hotelRate.gogojiiID
+            </div>
+        </div>
+        <div style="background-image:url(@(URL)Images/icon_gogo/summary-bg.png), linear-gradient(180deg, rgba(3, 147, 205, 1) 0%, rgba(3, 147, 205, 1) 10%, rgba(236, 242, 255, 1) 10%, rgba(236, 242, 255, 1) 100%); background-position:center; background-repeat:no-repeat; width:100%" width="100%">
+            <div style="-ms-flex-direction:column; background-clip:border-box; background-color:#fff; border:none; border-radius:0.25rem;  flex-direction:column; min-width:0; position:relative; word-wrap:break-word; margin-left:auto; margin-right:auto; max-width:630px; margin-bottom:3rem" bgcolor="#ffffff">
+                <div style="background-color:#FAA90D; border-bottom:1px solid rgba(0, 0, 0, 0.125); margin-bottom:0; padding:0.75rem 1.25rem; border-radius:calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0; color:#fff" bgcolor="#FAA90D">
+                    <div style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                        <div style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 50%; flex:0 0 50%; max-width:50%" width="100%">
+                            <img src="@(URL)Images/icon_gogo/logo-w-b.png" style="border-style:none; vertical-align:middle" valign="middle">
+
+                        </div>
+                    </div>
+                </div>
+                <div style="-ms-flex:1 1 auto; flex:1 1 auto; padding:1.25rem">
+
+                    <div style="margin-top:1rem">
+                        <div style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                            <div style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 100%; flex:0 0 100%; max-width:100%" width="100%">
+                                <div style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                                    <div style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%" width="100%">
+                                        @if (Model.hotelDetail.hotel.images != null && Model.hotelDetail.hotel.images.Count > 0)
+                                        {
+                                            var hotelImg = Model.hotelDetail.hotel.images.FirstOrDefault(x => x.url.IndexOf("_a_") >= 0);
+                                            if (hotelImg == null)
+                                            {
+                                                hotelImg = Model.hotelDetail.hotel.images[0];
+                                            }
+                                            if (Model.hotelDetail.hotel.hotelSource == "EXT")
+                                            {
+                                                <img src="@ViewBag.hotelExtURL/@(hotelImg.url)" height="140" />
+                                            }
+                                            else
+                                            {
+                                                <img src="https://photos.hotelbeds.com/giata/@(hotelImg.url)" height="140" />
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <img src="@(WebContent.bookingWeb)Images/hotel_blank.jpg" height="140" />
+                                        }
+                                    </div>
+                                    <div style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%" width="100%">
+                                        <strong style="font-weight:bolder; font-size:14px">
+                                            @Model.hotelDetail.hotel.hotelName
+                                        </strong>
+                                        <div style="font-size:12px">
+                                            <img src="@(URL)Images/icon_gogo/pin.png" style="border-style:none; vertical-align:middle; height:12px; margin-right:10px" valign="middle" height="12">   @Model.hotelDetail.hotel.address @Model.hotelDetail.hotel.postalCode, @Model.hotelDetail.hotel.country.name
+                                        </div>
+                                        <div style="font-size:12px">
+                                            @if (!String.IsNullOrEmpty(Model.hotelBooking.hotelBookingNo))
+                                            {
+                                                <strong>Ref No.:</strong> @Model.hotelBooking.hotelBookingNo
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="font-size:14px; margin-top:0.5rem; font-weight:700">
+                                    <div>
+                                        <img src="@(URL)Images/icon_gogo/calendar.png" style="border-style:none; vertical-align:middle; height:12px; margin-right:10px" valign="middle" height="12">  @searchModel.dtCheckIn.ToString("dd MMM yyyy", ci) - @searchModel.dtCheckOut.ToString("dd MMM yyyy", ci)
+                                        <span style="font-size:12px">@searchModel.night @Localize.Show("NIGHTS")</span>
+                                    </div>
+                                    @{
+                                        int iRoom = 1;
+                                    }
+                                    @foreach (var room in Model.hotelRate.hotel.rooms)
+                                    {
+                                        foreach (var rate in room.rates)
+                                        {
+                                            if (iRoom != 1)
+                                            {
+                                                <hr />
+                                            }
+                                            <div>
+                                                <img src="@(URL)Images/icon_gogo/hotel.png" style="border-style:none; vertical-align:middle; height:12px; margin-right:10px" valign="middle" height="12">
+                                                @Localize.Show("ROOM") @iRoom:
+                                                @room.roomName
+                                                (@rate.boardName)
+                                            </div>
+                                            <div style="font-size:14px">
+                                                <img src="@(URL)Images/icon_gogo/pax.png" style="border-style:none; vertical-align:middle; height:12px; margin-right:10px" valign="middle" height="12">
+                                                @rate.forRoom.adults @Localize.Show("ADULTS")
+                                                @if (rate.forRoom.children > 0)
+                                                {
+                                                    <span>
+                                                        , @rate.forRoom.children  @Localize.Show("CHILDREN")
+
+                                                        (@Localize.Show("AGE"): @String.Join(",", rate.forRoom.childAge))
+                                                    </span>
+                                                }
+                                            </div>
+                                            <div>
+                                                @if (rate.cancellationPolicies != null && rate.cancellationPolicies.Count > 0)
+                                                {
+                                                    <span class="hotel-facility">
+                                                        @Localize.Show("FREE_CANCELLATION_BEFORE") @rate.cancellationPolicies.Min(x => x.fromDate).ToString("dd MMM yyyy", ci)
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="hotel-facility">
+                                                        @Localize.Show("NON_REFUNDABLE")
+                                                    </span>
+                                                }
+                                            </div>
+                                            iRoom++;
+                                        }
+                                    }
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                        <div style="font-size:16px"><strong style="font-weight:bolder">@Localize.Show("CONTACT_DETAIL")</strong></div>
+                        <div style="font-size:14px">
+                            <div style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px; margin-top:4px">
+                                <div style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 100%; flex:0 0 100%; max-width:100%" width="100%">
+
+                                    <div>
+                                        <strong>@Localize.Show("NAME"):</strong>
+                                        @Model.hotelRate.contactInfo.firstname @Model.hotelRate.contactInfo.middlename    @Model.hotelRate.contactInfo.lastname
+                                    </div>
+                                    <div>
+                                        <strong>@Localize.Show("EMAIL"):</strong> @Model.hotelRate.contactInfo.email
+                                        <br />
+                                        <strong>@Localize.Show("TELNO"):</strong> @Model.hotelRate.contactInfo.telNo
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div style="font-size:16px"><strong style="font-weight:bolder">@Localize.Show("GUEST_INFORMATION")</strong></div>
+                        <div style="font-size:14px">
+                            <div style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px; margin-top:4px">
+                                <div style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 100%; flex:0 0 100%; max-width:100%" width="100%">
+                                    <div>
+                                        @Model.hotelRate.bookingHolder.firstName @Model.hotelRate.bookingHolder.lastName
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.hotelRate.bookingHolder.remark != null && Model.hotelRate.bookingHolder.remark.Trim() != "")
+                        {
+                        <div style="font-size:16px"><strong style="font-weight:bolder">@Localize.Show("SPECIAL_REQUEST")</strong></div>
+                        <div style="font-size:14px">
+                            <div style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px; margin-top:4px">
+                                <div style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 100%; flex:0 0 100%; max-width:100%" width="100%">
+                                    <div>
+                                        @Model.hotelRate.bookingHolder.remark
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        <div style="-ms-flex-wrap:wrap;  flex-wrap:wrap; margin-left:-15px; margin-right:-15px">
+                            <div style="min-height:1px; padding-left:15px; padding-right:15px; position:relative; width:100%; -ms-flex:0 0 100%; flex:0 0 100%; max-width:100%" width="100%">
+                                <div style="margin-top:1.5rem">
+                                    <strong style="font-weight:bolder; font-size:16px">
+                                        @Localize.Show("PRICE_DETAIL")
+                                    </strong>
+                                    <table style="border-collapse:collapse; font-size:14px; width:90%" width="90%">
+                                        @{
+                                            decimal total = 0;
+                                        }
+                                        @foreach (var room in Model.hotelRate.hotel.rooms)
+                                        {
+                                            foreach (var rate in room.rates)
+                                            {
+                                                total += rate.sellingPrice;
+                                                <tr>
+                                                    <td>
+                                                        <strong>@room.roomName</strong>
+                                                        <br />
+                                                        <small>@rate.boardName</small>
+                                                    </td>
+                                                    <td class="text-muted" style="vertical-align: top">
+                                                        @Model.hotelRate.hotel.currencyCode
+                                                    </td>
+                                                    <td class="text-right" style="vertical-align: top; text-align:right;">
+                                                        <strong>
+                                                            @rate.sellingPrice.ToString("N2")
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        @if (Model.discount.discountAmount > 0)
+                                        {
+                                            total -= Model.discount.discountAmount;
+                                            <tr class="row-promotion-discount">
+                                                <td><small>@Localize.Show("DISCOUNT")</small></td>
+                                                <td class="text-muted" style="vertical-align: top">@Model.hotelRate.hotel.currencyCode</td>
+                                                <td class="text-right" style="vertical-align: top; text-align:right;">-@Model.discount.discountAmount.ToString("N2")</td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td style="color:#72CA15">
+                                                <strong style="font-weight:bolder">@Localize.Show("TOTAL")</strong>
+                                            </td>
+                                            <td style="color:#6c757d; vertical-align:top" valign="top">
+                                                @Model.hotelRate.hotel.currencyCode
+                                            </td>
+                                            <td style="font-size:18px; color:#72CA15; text-align:right; vertical-align:top" align="right" valign="top">
+                                                <strong style="font-weight:bolder">
+                                                    @total.ToString("N2")
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:3rem">
+
+
+                        <div style="font-size:18px"><strong style="font-weight:bolder">@Localize.Show("ROOM_CONDITIONS")</strong></div>
+                        <div style="-ms-flex-direction:column; background-clip:border-box; background-color:#fff; border:1px solid rgba(0, 0, 0, 0.125); border-radius:0.25rem;  flex-direction:column; min-width:0; position:relative; word-wrap:break-word" bgcolor="#ffffff">
+                            <div style="-ms-flex:1 1 auto; flex:1 1 auto; padding:1.25rem">
+                                <div style="font-size:14px">
+
+                                    @{
+                                        int ir = 1;
+                                    }
+                                    @foreach (var room in Model.hotelRate.hotel.rooms)
+                                    {
+                                        foreach (var rate in room.rates)
+                                        {
+                                            if (ir != 1)
+                                            {
+                                                <hr />
+                                            }
+                                            <div>
+                                                <strong>
+                                                    @Localize.Show("ROOM") @ir:
+                                                    @room.roomName
+                                                </strong>
+                                            </div>
+                                            <div>
+                                                @rate.boardName
+                                            </div>
+
+                                            <div>
+                                                @if (!String.IsNullOrEmpty(rate.rateComment))
+                                                {
+                                                    <small>
+                                                        @Html.Raw(rate.rateComment.Replace(".", "<br>"))
+                                                    </small>
+                                                }
+                                            </div>
+                                            ir++;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary-head-bg text-center" style="width:100%; text-align:center" width="100%" align="center">
+            <a href="@(WebContent.bookingWeb)Hotel/Voucher/@Model.hotelBooking.bookingKeyReference" style="background-color: #0393cd; color: #ffffff; padding: 18px; font-size:20px; border-radius: 10px; text-decoration:none;">
+                @Localize.Show("MANAGE_BOOKING")
+            </a>
+            <br />
+            <br />
+            <br />
+            <br />
+            <a href="@WebContent.mainWeb" style="text-decoration:none;">
+                @switch (DateTime.Now.Second % 3)
+                {
+                    case 0:
+                        <img src="@(WebContent.bookingWeb)Images/moreF.jpg" />
+                        break;
+                    case 1:
+                        <img src="@(WebContent.bookingWeb)Images/moreHF.jpg" />
+                        break;
+                    case 2:
+                        <img src="@(WebContent.bookingWeb)Images/moreT.jpg" />
+                        break;
+                }
+            </a>
+        </div>
+        <br />
+        <br />
+    </div>

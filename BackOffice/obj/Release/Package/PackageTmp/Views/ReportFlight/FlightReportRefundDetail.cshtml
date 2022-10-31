@@ -1,0 +1,2111 @@
+﻿@*@model BackOffice.Models.FlightReportList*@
+@*@model DataModel.FlightBooking*@
+
+@model  BL.Entities.GogojiiFare.AirFare
+
+@using (Html.BeginForm("FlightReportRefundDetailsave", "ReportFlight", FormMethod.Post, new { data_parsley_validate = "", @class = "form-horizontal form-label-left", role = "form", enctype = "multipart/form-data", @onSubmit = "return check(this)" }))
+{
+    @Html.HiddenFor(m => m.bookingOID)
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-header py-3" style="text-align:right;">
+                @*<div class="d-sm-flex align-items-center justify-content-between">*@
+                <a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                    Back
+                </a>
+
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primaryblue shadow-sm" id="btn_Save" onclick="testCheck()">
+                    <i class="fas fa-save fa-sm text-white-50"></i>
+                    &nbsp;&nbsp;Save &nbsp;&nbsp;
+                </button>
+                @*</div>*@
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        @*<div class="col-lg-12">*@
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Ticketing Task</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-1">
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Status :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @{
+                                SelectList selectListStatusRefund = (SelectList)ViewData["StatysRefundList"];
+                                SelectList selectListschd = (SelectList)ViewData["chdTitleList"];
+                            }
+                            @*//ใน text บวก value จาก controller มาด้วย*@
+                            @Html.DropDownListFor(m => m.refund.status, selectListStatusRefund.OrderBy(x => x.Text).Select(s => new SelectListItem { Text = (s.Text), Value = s.Value.ToString(), Selected = (Model.refund.status == Convert.ToInt32(s.Value)) }), new
+                                               {
+                                                   @class = "form-control ADT-TT-",
+                                                   required = "required"
+                                               })
+
+                            @*<select class="form-control form-control-sm">
+                                    <option value="0" selected>None-รอการระบุ</option>
+                                    <option value="1">Precressing-กำลังดำเนินการ</option>
+                                    <option value="2">Complete-เสร็จสิ้น</option>
+                                </select>*@
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            New PNR :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Html.TextBoxFor(x => x.refund.newPNR, new { @class = "form-control form-control-sm" })
+                        </div>
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Refund No. :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Html.TextBoxFor(x => x.refund.refundNo, new { @class = "form-control form-control-sm" })
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Refund Create Date :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @*<input type="text" class="form-control form-control-sm" value="@Model.refund.refundCreateDate.ToString("MM/dd/yyyy")" readonly>*@
+                            @Html.TextBoxFor(m => m.refund.refundCreateDate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm", @id = "RefundCreateDate", @name = "RefundCreateDate", @readonly = "readonly" })
+                            @Html.Hidden("refundCreateDate", Model.refund.refundCreateDate)
+                        </div>
+
+
+
+                        <div class="col-lg-3" style="text-align:right;">
+                            Due date of refund(90days) :
+                        </div>
+                        <div class="col-lg-3 text">
+                            @Html.TextBoxFor(m => m.refund.dueDateOfRefund, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm", @id = "DueDateOfRefund", @name = "DueDateOfRefund", @readonly = "readonly" })
+                            @Html.Hidden("dueDateOfRefund", Model.refund.dueDateOfRefund, "{0:dd/MM/yyyy}")
+                        </div>
+
+                        <div class="col-lg-3" style="text-align:right;">
+                            GM Refund Date :
+                        </div>
+                        <div class="col-lg-3 text">
+                            @Html.TextBoxFor(m => m.refund.refundGMDate, "{0:dd/MM/yyyy}", new { required = "required", @class = "form-control form-control-sm", @id = "RefundGMDate", @readonly = "readonly" })
+                            @Html.Hidden("refundGMDate", Model.refund.refundGMDate, "{0:dd/MM/yyyy}")
+                        </div>
+
+                        <div class="col-lg-3" style="text-align:right;">
+                            Remark :
+                        </div>
+                        <div class="col-lg-9 text">
+                            @Html.TextAreaFor(m => m.refund.remark, new { @class = "form-control form-control-sm", @style = "font-size:18px;" })
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    @*<div class="text-right">
+
+                            <a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                                <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                                Back
+                            </a>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Booking Detail</h6>
+                    </div>
+                </div>
+                @*<div class="row">
+                        <div class="col-lg-12" style="border-bottom:dotted solid dashed">
+                            Booking Deatail
+                        </div>
+                    </div>*@
+                <div class="card-body">
+                    <div class="row mb-1">
+                        <div class="col-lg-3" style="text-align:right;">
+                            PNR :
+                        </div>
+                        <div class="col-lg-3 text">
+                            <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;"><b>@Model.PNR</b></span>
+                            @Html.HiddenFor(x => x.PNR)
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Booking Date :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.bookingDate.ToString("dd MMMM yyyy HH:mm:ss tt")
+                            @*@Html.TextBoxFor(m => m.bookingDate, "{0:yyyy-MM-dd}", new { required = "required", @class = "form-control form-control-sm", @type = "date", @id = "datetime1", @readonly = "readonly" })*@
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            From City :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                            {
+                                @Model.depFlight[0].depCity.code
+                            }
+                        </div>
+
+
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            To City :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                            {
+                                @Model.depFlight[Model.depFlight.Count - 1].arrCity.code
+                            }
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Airline :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                            {
+                                @Model.depFlight[0].airline.code
+                            }
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            No Of Pax :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @(Model.noOfAdults + Model.noOfChildren + Model.noOfInfants)
+                            @*<input type="text" class="form-control form-control-sm" value="@(Model.noOfAdults+Model.noOfChildren+Model.noOfInfants)" readonly>*@
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Segment/PNR :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            -
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            All Segment :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            -
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Discount :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            -
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-5" style="text-align:right;">
+                            Total(฿) :
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-5 text">
+                            @Model.grandTotal.ToString("N0")
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+
+                        @*<a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                                <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                                Back
+                            </a>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-edit"></i>&nbsp;Contact Detail</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-1">
+                        @if (Model.contactInfo.firstname != null && Model.contactInfo.email != null && Model.contactInfo.telNo != null)
+                        {
+                            <div class="col-lg-1">
+                                Title
+                            </div>
+                            <div class="col-lg-2 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.title" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                First Name
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.firstname" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                Middle Name
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.middlename" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                Last Name
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.lastname" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                Email
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.email" readonly>
+                            </div>
+
+                            <div class="col-lg-1 col-md-5 col-sm-5">
+                                Phone number
+                            </div>
+                            <div class="col-lg-2 col-md-5 col-sm-5 text">
+                                <input type="text" class="form-control form-control-sm" value="@Model.contactInfo.telNo" readonly>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+
+                        @*<a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                                <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                                Back
+                            </a>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-plane"></i>&nbsp;Passenger Details</h6>
+
+            </div>
+        </div>
+        <div class="card-body">
+
+
+            <div class="row" id="checkRefund" name="checkRefund">
+                <table class="table table-bordered">
+
+                    <thead class="table">
+                        <tr>
+                            <th><input type="checkbox" name="select-all" id="select-all" /></th>
+                            <th>PaxNo</th>
+                            <th>PaxType</th>
+                            <th>Title</th>
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Last Name</th>
+                            <th>Net (Refund)</th>
+                            <th>Agent (Refund)</th>
+                            <th>Refund Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int paxNo = 1;
+                        }
+                        @for (int i = 0; i < Model.adtPaxs.Count; i++)
+                        {
+                            if (Model.adtPaxs[i].StatusRefund == true)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td>@(paxNo.ToString())</td>
+                                    <td>@Model.adtPaxs[i].paxType</td>
+                                    <td>@Model.adtPaxs[i].title</td>
+                                    <td>@Model.adtPaxs[i].firstname</td>
+                                    <td>@Model.adtPaxs[i].middlename</td>
+                                    <td>@Model.adtPaxs[i].lastname</td>
+                                    <td>@Html.TextBoxFor(x => x.adtPaxs[i].netRefund, new { @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(x => x.adtPaxs[i].agentRefund, new { @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(x => x.adtPaxs[i].refundAmount, new { @class = "form-control form-control-sm", @placeholder = "Refund Amount", @readonly = "readonly" })</td>
+                                    @*<td>@Model.adtFare.sellingBaseFare.ToString("N2")</td>*@
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align:right;">TicketNo.:</td>
+                                    <td colspan="4">@Html.TextBoxFor(x => x.adtPaxs[i].tickNoRefund, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @readonly = "readonly" })</td>
+                                    <td colspan="6">
+                                        @if (Model.adtPaxs[i].StatusRefund == true)
+                                        {
+                                            <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                <b>
+                                                    <label>Refund</label>
+                                                </b>
+                                            </span>
+
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align:right;">Remark:</td>
+                                    <td colspan="10">@Html.TextBoxFor(x => x.adtPaxs[i].remarkRefund, new { @class = "form-control form-control-sm", @placeholder = "Remark", @readonly = "readonly" })</td>
+                                </tr>
+
+
+                                paxNo++;
+                            }
+
+                            else
+                            {
+                                <tr>
+                                    <td>@Html.CheckBoxFor(m => m.adtPaxs[i].StatusRefund, new { @type = "checkbox" })</td>
+                                    <td>@(paxNo.ToString())</td>
+                                    <td>@Model.adtPaxs[i].paxType</td>
+                                    <td>@Model.adtPaxs[i].title</td>
+                                    <td>@Model.adtPaxs[i].firstname</td>
+                                    <td>@Model.adtPaxs[i].middlename</td>
+                                    <td>@Model.adtPaxs[i].lastname</td>
+                                    <td>@Html.TextBoxFor(x => x.adtPaxs[i].netRefund, new { @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @disabled = "disabled" })</td>
+                                    <td>@Html.TextBoxFor(x => x.adtPaxs[i].agentRefund, new { @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @disabled = "disabled" })</td>
+                                    <td>@Html.TextBoxFor(x => x.adtPaxs[i].refundAmount, new { @class = "form-control form-control-sm", @placeholder = "Refund Amount", @disabled = "disabled" })</td>
+                                    @*<td>@Model.adtFare.sellingBaseFare.ToString("N2")</td>*@
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align:right;">TicketNo.:</td>
+                                    <td colspan="4">@Html.TextBoxFor(x => x.adtPaxs[i].tickNoRefund, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @disabled = "disabled" })</td>
+                                    <td colspan="6">
+                                        @if (Model.adtPaxs[i].StatusRefund == true)
+                                        {
+                                            <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                <b>
+                                                    <label>Refund</label>
+                                                </b>
+                                            </span>
+
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align:right;">Remark:</td>
+                                    <td colspan="10">@Html.TextBoxFor(x => x.adtPaxs[i].remarkRefund, new { @class = "form-control form-control-sm", @placeholder = "Remark", @disabled = "disabled" })</td>
+                                </tr>
+
+
+                                paxNo++;
+                            }
+                        }
+
+                        @if (Model.chdPaxs.Count > 0 && Model.chdPaxs != null)
+                        {
+                            for (int j = 0; j < Model.chdPaxs.Count; j++)
+                            {
+                                if (Model.chdPaxs[j].StatusRefund == true)
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td>@(paxNo.ToString())</td>
+                                        <td>@Model.chdPaxs[j].paxType</td>
+                                        <td>@Model.chdPaxs[j].title</td>
+                                        <td>@Model.chdPaxs[j].firstname</td>
+                                        <td>@Model.chdPaxs[j].middlename</td>
+                                        <td>@Model.chdPaxs[j].lastname</td>
+                                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].netRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @readonly = "readonly" })</td>
+                                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].agentRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @readonly = "readonly" })</td>
+                                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].refundAmount, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Refund Amount", @readonly = "readonly" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">TicketNo.:</td>
+                                        <td colspan="4">@Html.TextBoxFor(x => x.chdPaxs[j].tickNoRefund, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @readonly = "readonly" })</td>
+                                        <td colspan="6">
+                                            @if (Model.chdPaxs[j].StatusRefund == true)
+                                            {
+                                                <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                    <b>
+                                                        <label>Refund</label>
+                                                    </b>
+                                                </span>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">Remark:</td>
+                                        <td colspan="10">@Html.TextBoxFor(x => x.chdPaxs[j].remarkRefund, new { @class = "form-control form-control-sm", @placeholder = "Remark", @readonly = "readonly" })</td>
+                                    </tr>
+                                    paxNo++;
+                                }
+
+                                else
+                                {
+                                    <tr>
+                                        <td>@Html.CheckBoxFor(m => m.chdPaxs[j].StatusRefund, new { @type = "checkbox" })</td>
+                                        <td>@(paxNo.ToString())</td>
+                                        <td>@Model.chdPaxs[j].paxType</td>
+                                        <td>@Model.chdPaxs[j].title</td>
+                                        <td>@Model.chdPaxs[j].firstname</td>
+                                        <td>@Model.chdPaxs[j].middlename</td>
+                                        <td>@Model.chdPaxs[j].lastname</td>
+                                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].netRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @disabled = "disabled" })</td>
+                                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].agentRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @disabled = "disabled" })</td>
+                                        <td>@Html.TextBoxFor(x => x.chdPaxs[j].refundAmount, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Refund Amount", @disabled = "disabled" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">TicketNo.:</td>
+                                        <td colspan="4">@Html.TextBoxFor(x => x.chdPaxs[j].tickNoRefund, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @disabled = "disabled" })</td>
+                                        <td colspan="6">
+                                            @if (Model.chdPaxs[j].StatusRefund == true)
+                                            {
+                                                <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                    <b>
+                                                        <label>Refund</label>
+                                                    </b>
+                                                </span>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">Remark:</td>
+                                        <td colspan="10">@Html.TextBoxFor(x => x.chdPaxs[j].remarkRefund, new { @class = "form-control form-control-sm", @placeholder = "Remark", @disabled = "disabled" })</td>
+                                    </tr>
+                                    paxNo++;
+                                }
+                            }
+                        }
+
+                        @if (Model.infPaxs.Count > 0 && Model.infPaxs != null)
+                        {
+                            for (int j = 0; j < Model.infPaxs.Count; j++)
+                            {
+                                if (Model.infPaxs[j].StatusRefund == true)
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td>@(paxNo.ToString())</td>
+                                        <td>@Model.infPaxs[j].paxType</td>
+                                        <td>@Model.infPaxs[j].title</td>
+                                        <td>@Model.infPaxs[j].firstname</td>
+                                        <td>@Model.infPaxs[j].middlename</td>
+                                        <td>@Model.infPaxs[j].lastname</td>
+                                        <td>@Html.TextBoxFor(x => x.infPaxs[j].netRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @readonly = "readonly" })</td>
+                                        <td>@Html.TextBoxFor(x => x.infPaxs[j].agentRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @readonly = "readonly" })</td>
+                                        <td>@Html.TextBoxFor(x => x.infPaxs[j].refundAmount, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Refund Amount", @readonly = "readonly" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">TicketNo.:</td>
+                                        <td colspan="4">@Html.TextBoxFor(x => x.infPaxs[j].tickNoRefund, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @readonly = "readonly" })</td>
+                                        <td colspan="6">
+                                            @if (Model.infPaxs[j].StatusRefund == true)
+                                            {
+                                                <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                    <b>
+                                                        <label>Refund</label>
+                                                    </b>
+                                                </span>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">Remark:</td>
+                                        <td colspan="10">@Html.TextBoxFor(x => x.infPaxs[j].remarkRefund, new { @class = "form-control form-control-sm", @placeholder = "Remark", @readonly = "readonly" })</td>
+                                    </tr>
+                                    paxNo++;
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>@Html.CheckBoxFor(m => m.infPaxs[j].StatusRefund, new { @type = "checkbox" })</td>
+                                        <td>@(paxNo.ToString())</td>
+                                        <td>@Model.infPaxs[j].paxType</td>
+                                        <td>@Model.infPaxs[j].title</td>
+                                        <td>@Model.infPaxs[j].firstname</td>
+                                        <td>@Model.infPaxs[j].middlename</td>
+                                        <td>@Model.infPaxs[j].lastname</td>
+                                        <td>@Html.TextBoxFor(x => x.infPaxs[j].netRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Net (Refund)", @disabled = "disabled" })</td>
+                                        <td>@Html.TextBoxFor(x => x.infPaxs[j].agentRefund, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Agent (Refund)", @disabled = "disabled" })</td>
+                                        <td>@Html.TextBoxFor(x => x.infPaxs[j].refundAmount, new { required = "required", @class = "form-control form-control-sm", @placeholder = "Refund Amount", @disabled = "disabled" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">TicketNo.:</td>
+                                        <td colspan="4">@Html.TextBoxFor(x => x.infPaxs[j].tickNoRefund, new { @class = "form-control form-control-sm", @placeholder = "TicketNo.", @disabled = "disabled" })</td>
+                                        <td colspan="6">
+                                            @if (Model.infPaxs[j].StatusRefund == true)
+                                            {
+                                                <span style="background-color:#FBAC02;padding:2px 10px;border-radius:10px;color:white;">
+                                                    <b>
+                                                        <label>Refund</label>
+                                                    </b>
+                                                </span>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;">Remark:</td>
+                                        <td colspan="10">@Html.TextBoxFor(x => x.infPaxs[j].remarkRefund, new { @class = "form-control form-control-sm", @placeholder = "Remark", @disabled = "disabled" })</td>
+                                    </tr>
+                                    paxNo++;
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-plane"></i>&nbsp;Booking Pax Fare</h6>
+                @*<a href="@Url.Action("MarkupDetail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                        <i class="fas fa-file-export text-white-50"></i>
+                        Export
+                    </a>*@
+            </div>
+        </div>
+        <div class="card-body">
+
+
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead class="table">
+                        <tr>
+                            <th>No</th>
+                            <th>PaxType</th>
+                            <th>Fare with tax</th>
+                            <th>Fare without tax</th>
+                            <th>tax</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int fareNo = 1;
+                        }
+                        @if (Model.adtFare != null)
+                        {
+
+                            <tr>
+                                <td>@(fareNo.ToString())</td>
+                                <td>@Model.adtPaxs[0].paxType</td>
+                                <td>@Model.adtFare.net.ToString("N2")</td>
+                                <td>@Model.adtFare.sellingBaseFare.ToString("N2")</td>
+                                <td>@Model.adtFare.tax.ToString("N2")</td>
+                            </tr>
+
+
+                            fareNo++;
+                        }
+
+                        @if (Model.chdFare != null)
+                        {
+
+                            <tr>
+                                <td>@(fareNo.ToString())</td>
+                                <td>@Model.chdPaxs[0].paxType</td>
+                                <td>@Model.chdFare.net.ToString("N2")</td>
+                                <td>@Model.chdFare.sellingBaseFare.ToString("N2")</td>
+                                <td>@Model.chdFare.tax.ToString("N2")</td>
+                            </tr>
+
+
+                            fareNo++;
+                        }
+
+                        @if (Model.infFare != null)
+                        {
+
+                            <tr>
+                                <td>@(fareNo.ToString())</td>
+                                <td>@Model.infPaxs[0].paxType</td>
+                                <td>@Model.infFare.net.ToString("N2")</td>
+                                <td>@Model.infFare.sellingBaseFare.ToString("N2")</td>
+                                <td>@Model.infFare.tax.ToString("N2")</td>
+                            </tr>
+
+
+                            fareNo++;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-plane"></i>&nbsp;Flight Details</h6>
+                @*<a href="@Url.Action("MarkupDetail", new { id = Guid.Empty })" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                        <i class="fas fa-file-export text-white-50"></i>
+                        Export
+                    </a>*@
+            </div>
+        </div>
+        <div class="card-body">
+
+
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead class="table">
+                        <tr>
+                            <th>RouteNo</th>
+                            <th>SegmentNo</th>
+                            <th>FromCity</th>
+                            <th>ToCity</th>
+                            <th>Market Airline</th>
+                            <th>Operate Airline</th>
+                            <th>FareBasis</th>
+                            <th>FareType</th>
+                            <th>DepartureDateTime</th>
+                            <th>ArrivalDateTime</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int flightNo = 1;
+                        }
+                        @if (Model.depFlight != null && Model.depFlight.Count > 0)
+                        {
+                            for (int i = 0; i < Model.depFlight.Count; i++)
+                            {
+
+                                <tr>
+                                    <td>@(flightNo.ToString())</td>
+                                    <td></td>
+                                    <td>@Model.depFlight[i].depCity.code</td>
+                                    <td>@Model.depFlight[i].arrCity.code</td>
+                                    <td>@Model.depFlight[i].airline.code</td>
+                                    <td>@Model.depFlight[i].operatedAirline.code</td>
+                                    <td>@Model.depFlight[i].fareBasis</td>
+                                    <td>@Model.depFlight[i].fareType</td>
+                                    <td>@Model.depFlight[i].departureDateTime.ToString("dd MMMM yyyy HH:mm tt")</td>
+                                    <td>@Model.depFlight[i].arrivalDateTime.ToString("dd MMMM yyyy HH:mm tt")</td>
+                                </tr>
+                                flightNo++;
+                            }
+
+
+                        }
+
+                        @if (Model.retFlight != null && Model.retFlight.Count > 0)
+                        {
+                            for (int i = 0; i < Model.retFlight.Count; i++)
+                            {
+
+                                <tr>
+                                    <td>@(flightNo.ToString())</td>
+                                    <td></td>
+                                    <td>@Model.retFlight[i].depCity.code</td>
+                                    <td>@Model.retFlight[i].arrCity.code</td>
+                                    <td>@Model.retFlight[i].airline.code</td>
+                                    <td>@Model.retFlight[i].operatedAirline.code</td>
+                                    <td>@Model.retFlight[i].fareBasis</td>
+                                    <td>@Model.retFlight[i].fareType</td>
+                                    <td>@Model.retFlight[i].departureDateTime.ToString("dd MMMM yyyy HH:mm tt")</td>
+                                    <td>@Model.retFlight[i].arrivalDateTime.ToString("dd MMMM yyyy HH:mm tt")</td>
+                                </tr>
+
+                                flightNo++;
+                            }
+
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    if (Model.note != null)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <div class="d-sm-flex align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-pen-square"></i>&nbsp;Note</h6>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-1">
+                            @Html.TextAreaFor(m => m.note, new { @class = "form-control form-control-sm", @cols = 90, @rows = 6, @readonly = "readonly", @style = "font-size:18px;" })
+                            @*<textarea rows="5" cols="100" readonly>@Model.note</textarea>*@
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+                        <div class="text-right">
+
+                            @*<a href="@Url.Action("FlightReportList")" class=" d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                                    <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i>
+                                    Back
+                                </a>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @*</div>*@
+}
+
+
+@section Scripts
+{
+    <script>
+        //$(document).ready(function () {
+        //    //Date Picker
+        //    var today = new Date();
+        //    var defaultDepDateText = $('#DueDateOfRefund').val().split('/');
+        //    var defaultDepDate = new Date(parseInt(defaultDepDateText[2]), parseInt(defaultDepDateText[1]) - 1, parseInt(defaultDepDateText[0]));
+        //    console.log(defaultDepDate);
+
+
+        //    var depDatepicker = $('#DueDateOfRefund').datepicker({
+        //        minDate: today,
+        //        maxDate: addDays(today, 365),
+        //        language: 'en',
+        //        autoClose: true,
+        //        toggleSelected: false,
+        //        onSelect: function onSelect(fd, date) {
+
+        //        }
+        //    });
+        //    var depDateDate = depDatepicker.data('datepicker');
+        //    depDateDate.selectDate(defaultDepDate);
+
+        //});
+        //var addDays = function (date, days) {
+        //    var result = new Date(date);
+        //    result.setDate(result.getDate() + days);
+        //    return result;
+        //}
+
+        $(document).ready(function () {
+            //Date Picker
+            var today = new Date();
+            var defaultDepDateText = $('#RefundCreateDate').val().split('/');
+            var defaultDepDate = new Date(parseInt(defaultDepDateText[2]), parseInt(defaultDepDateText[1]) - 1, parseInt(defaultDepDateText[0]));
+            console.log(defaultDepDate);
+            var defaultRetDateText = $('#DueDateOfRefund').val().split('/');
+            var defaultRetDate = new Date(parseInt(defaultRetDateText[2]), parseInt(defaultRetDateText[1]) - 1, parseInt(defaultRetDateText[0]));
+
+            var depDatepicker = $('#RefundCreateDate').datepicker({
+                minDate: today,
+                maxDate: addDays(today, 365),
+                language: 'en',
+                autoClose: true,
+                toggleSelected: false,
+                onSelect: function onSelect(fd, date) {
+                    var d = new Date(date),
+                        mnth = ((d.getMonth() + 1)),
+                        day = (d.getDate());
+                    $("#refundCreateDate").val(day + "/" + mnth + "/" + d.getFullYear());
+
+                    if (retDatepicker) {
+                        var retDate = retDatepicker.data('datepicker');
+                        var ret = retDate.selectedDates[0];
+                        //alert(ret);
+                        if (date > ret) {
+                            retDate.selectDate(addDays(date, 90));
+                        }
+                        retDate.update('minDate', date);
+                    }
+                }
+            });
+            var depDateDate = depDatepicker.data('datepicker');
+            depDateDate.selectDate(defaultDepDate);
+            var retDatepicker = $('#DueDateOfRefund').datepicker({
+                minDate: today,
+                maxDate: addDays(today, 1095),
+                language: 'en',
+                autoClose: true,
+                toggleSelected: false,
+                onSelect: function onSelect(fd, date) {
+
+                    var d = new Date(date),
+                        mnth = ((d.getMonth() + 1)),
+                        day = (d.getDate());
+                    $("#dueDateOfRefund").val(day + "/" + mnth + "/" + d.getFullYear());
+
+
+
+
+
+                    //var d = new Date(date),
+                    //    month = '' + (d.getMonth() + 1),
+                    //    day = '' + d.getDate(),
+                    //    year = d.getFullYear();
+                    //if (month.length < 2)
+                    //    month = '0' + month;
+                    //if (day.length < 2)
+                    //    day = '0' + day;
+                    //return date;
+
+
+
+                }
+
+            });
+            var retDateDate = retDatepicker.data('datepicker');
+            retDateDate.selectDate(defaultRetDate);
+
+            //Date Picker
+            var today = new Date();
+            var gmDepDateText = $('#RefundGMDate').val().split('/');
+            var gmdefaultDepDate = new Date(parseInt(gmDepDateText[2]), parseInt(gmDepDateText[1]) - 1, parseInt(gmDepDateText[0]));
+            console.log(gmdefaultDepDate);
+
+
+            var gmdepDatepicker = $('#RefundGMDate').datepicker({
+                minDate: today,
+                maxDate: addDays(today, 365),
+                language: 'en',
+                autoClose: true,
+                toggleSelected: false,
+                onSelect: function onSelect(fd, date) {
+                    var d = new Date(date),
+                        mnth = ((d.getMonth() + 1)),
+                        day = (d.getDate());
+                    $("#refundGMDate").val(day + "/" + mnth + "/" + d.getFullYear());
+                }
+            });
+            var gmdepDateDate = gmdepDatepicker.data('datepicker');
+            gmdepDateDate.selectDate(gmdefaultDepDate);
+
+
+        });
+        var addDays = function (date, days) {
+            var result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
+        }
+
+
+        $(function () {
+            //Adult
+            $("#adtPaxs_0__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_0__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_0__netRefund").focus();
+                    $("#adtPaxs_0__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_0__agentRefund").focus();
+                    $("#adtPaxs_0__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_0__refundAmount").focus();
+                    $("#adtPaxs_0__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_0__tickNoRefund").focus();
+                    $("#adtPaxs_0__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_0__remarkRefund").focus();
+                } else {
+                    $("#adtPaxs_0__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_0__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_0__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_0__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_0__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#adtPaxs_1__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_1__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_1__netRefund").focus();
+                    $("#adtPaxs_1__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_1__agentRefund").focus();
+                    $("#adtPaxs_1__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_1__refundAmount").focus();
+                    $("#adtPaxs_1__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_1__tickNoRefund").focus();
+                    $("#adtPaxs_1__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_1__remarkRefund").focus();
+                } else {
+                    $("#adtPaxs_1__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_1__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_1__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_1__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_1__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#adtPaxs_2__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_2__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_2__netRefund").focus();
+                    $("#adtPaxs_2__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_2__agentRefund").focus();
+                    $("#adtPaxs_2__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_2__refundAmount").focus();
+                    $("#adtPaxs_2__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_2__tickNoRefund").focus();
+                    $("#adtPaxs_2__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_2__remarkRefund").focus();
+                } else {
+                    $("#adtPaxs_2__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_2__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_2__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_2__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_2__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_3__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_3__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_3__netRefund").focus();
+                    $("#adtPaxs_3__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_3__agentRefund").focus();
+                    $("#adtPaxs_3__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_3__refundAmount").focus();
+                    $("#adtPaxs_3__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_3__tickNoRefund").focus();
+                    $("#adtPaxs_3__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_3__remarkRefund").focus();
+                } else {
+                    $("#adtPaxs_3__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_3__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_3__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_3__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_3__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_4__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_4__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_4__netRefund").focus();
+                    $("#adtPaxs_4__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_4__agentRefund").focus();
+                    $("#adtPaxs_4__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_4__refundAmount").focus();
+                    $("#adtPaxs_4__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_4__tickNoRefund").focus();
+                    $("#adtPaxs_4__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_4__remarkRefund").focus();
+                } else {
+                    $("#adtPaxs_4__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_4__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_4__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_4__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_4__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_5__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_5__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_5__netRefund").focus();
+                    $("#adtPaxs_5__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_5__agentRefund").focus();
+                    $("#adtPaxs_5__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_5__refundAmount").focus();
+                    $("#adtPaxs_5__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_5__tickNoRefund").focus();
+                    $("#adtPaxs_5__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_5__remarkRefund").focus();
+                } else {
+                    $("#adtPaxs_5__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_5__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_5__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_5__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_5__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_6__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_6__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_6__netRefund").focus();
+                    $("#adtPaxs_6__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_6__agentRefund").focus();
+                    $("#adtPaxs_6__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_6__refundAmount").focus();
+                    $("#adtPaxs_6__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_6__tickNoRefund").focus();
+                    $("#adtPaxs_6__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_6__remarkRefund").focus();
+                } else {
+                    $("#adtPaxs_6__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_6__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_6__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_6__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_6__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_7__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_7__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_7__netRefund").focus();
+                    $("#adtPaxs_7__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_7__agentRefund").focus();
+                    $("#adtPaxs_7__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_7__refundAmount").focus();
+                    $("#adtPaxs_7__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_7__tickNoRefund").focus();
+                    $("#adtPaxs_7__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_7__remarkRefund").focus();
+                } else {
+                    $("#adtPaxs_7__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_7__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_7__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_7__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_7__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_8__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_8__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_8__netRefund").focus();
+                    $("#adtPaxs_8__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_8__agentRefund").focus();
+                    $("#adtPaxs_8__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_8__refundAmount").focus();
+                    $("#adtPaxs_8__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_8__tickNoRefund").focus();
+                    $("#adtPaxs_8__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_8__remarkRefund").focus();
+                } else {
+                    $("#adtPaxs_8__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_8__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_8__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_8__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_8__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_9__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_9__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_9__netRefund").focus();
+                    $("#adtPaxs_9__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_9__agentRefund").focus();
+                    $("#adtPaxs_9__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_9__refundAmount").focus();
+                    $("#adtPaxs_9__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_9__tickNoRefund").focus();
+                    $("#adtPaxs_9__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_9__remarkRefund").focus();
+                } else {
+                    $("#adtPaxs_9__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_9__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_9__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_9__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_9__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            //Child
+            $("#chdPaxs_0__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_0__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_0__netRefund").focus();
+                    $("#chdPaxs_0__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_0__agentRefund").focus();
+                    $("#chdPaxs_0__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_0__refundAmount").focus();
+                    $("#chdPaxs_0__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_0__tickNoRefund").focus();
+                    $("#chdPaxs_0__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_0__remarkRefund").focus();
+                } else {
+                    $("#chdPaxs_0__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_0__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_0__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_0__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_0__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#chdPaxs_1__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_1__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_1__netRefund").focus();
+                    $("#chdPaxs_1__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_1__agentRefund").focus();
+                    $("#chdPaxs_1__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_1__refundAmount").focus();
+                    $("#chdPaxs_1__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_1__tickNoRefund").focus();
+                    $("#chdPaxs_1__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_1__remarkRefund").focus();
+                } else {
+                    $("#chdPaxs_1__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_1__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_1__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_1__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_1__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#chdPaxs_2__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_2__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_2__netRefund").focus();
+                    $("#chdPaxs_2__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_2__agentRefund").focus();
+                    $("#chdPaxs_2__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_2__refundAmount").focus();
+                    $("#chdPaxs_2__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_2__tickNoRefund").focus();
+                    $("#chdPaxs_2__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_2__remarkRefund").focus();
+                } else {
+                    $("#chdPaxs_2__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_2__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_2__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_2__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_2__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#chdPaxs_3__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_3__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_3__netRefund").focus();
+                    $("#chdPaxs_3__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_3__agentRefund").focus();
+                    $("#chdPaxs_3__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_3__refundAmount").focus();
+                    $("#chdPaxs_3__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_3__tickNoRefund").focus();
+                    $("#chdPaxs_3__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_3__remarkRefund").focus();
+                } else {
+                    $("#chdPaxs_3__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_3__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_3__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_3__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_3__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_4__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_4__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_4__netRefund").focus();
+                    $("#chdPaxs_4__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_4__agentRefund").focus();
+                    $("#chdPaxs_4__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_4__refundAmount").focus();
+                    $("#chdPaxs_4__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_4__tickNoRefund").focus();
+                    $("#chdPaxs_4__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_4__remarkRefund").focus();
+                } else {
+                    $("#chdPaxs_4__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_4__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_4__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_4__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_4__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_5__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_5__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_5__netRefund").focus();
+                    $("#chdPaxs_5__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_5__agentRefund").focus();
+                    $("#chdPaxs_5__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_5__refundAmount").focus();
+                    $("#chdPaxs_5__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_5__tickNoRefund").focus();
+                    $("#chdPaxs_5__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_5__remarkRefund").focus();
+                } else {
+                    $("#chdPaxs_5__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_5__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_5__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_5__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_5__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#adtPaxs_6__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_6__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_6__netRefund").focus();
+                    $("#chdPaxs_6__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_6__agentRefund").focus();
+                    $("#chdPaxs_6__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_6__refundAmount").focus();
+                    $("#chdPaxs_6__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_6__tickNoRefund").focus();
+                    $("#chdPaxs_6__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_6__remarkRefund").focus();
+                } else {
+                    $("#chdPaxs_6__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_6__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_6__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_6__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_6__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#adtPaxs_7__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_7__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_7__netRefund").focus();
+                    $("#chdPaxs_7__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_7__agentRefund").focus();
+                    $("#chdPaxs_7__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_7__refundAmount").focus();
+                    $("#chdPaxs_7__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_7__tickNoRefund").focus();
+                    $("#chdPaxs_7__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_7__remarkRefund").focus();
+                } else {
+                    $("#chdPaxs_7__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_7__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_7__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_7__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_7__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#adtPaxs_8__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_8__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_8__netRefund").focus();
+                    $("#chdPaxs_8__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_8__agentRefund").focus();
+                    $("#chdPaxs_8__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_8__refundAmount").focus();
+                    $("#chdPaxs_8__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_8__tickNoRefund").focus();
+                    $("#chdPaxs_8__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_8__remarkRefund").focus();
+                } else {
+                    $("#chdPaxs_8__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_8__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_8__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_8__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_8__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+
+            $("#adtPaxs_9__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#chdPaxs_9__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_9__netRefund").focus();
+                    $("#chdPaxs_9__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_9__agentRefund").focus();
+                    $("#chdPaxs_9__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_9__refundAmount").focus();
+                    $("#chdPaxs_9__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_9__tickNoRefund").focus();
+                    $("#chdPaxs_9__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_9__remarkRefund").focus();
+                } else {
+                    $("#chdPaxs_9__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_9__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_9__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_9__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_9__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            //Infants
+            $("#infPaxs_0__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_0__netRefund").removeAttr("disabled");
+                    $("#infPaxs_0__netRefund").focus();
+                    $("#infPaxs_0__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_0__agentRefund").focus();
+                    $("#infPaxs_0__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_0__refundAmount").focus();
+                    $("#infPaxs_0__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_0__tickNoRefund").focus();
+                    $("#infPaxs_0__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_0__remarkRefund").focus();
+                } else {
+                    $("#infPaxs_0__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_0__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_0__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_0__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_0__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_1__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_1__netRefund").removeAttr("disabled");
+                    $("#infPaxs_1__netRefund").focus();
+                    $("#infPaxs_1__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_1__agentRefund").focus();
+                    $("#infPaxs_1__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_1__refundAmount").focus();
+                    $("#infPaxs_1__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_1__tickNoRefund").focus();
+                    $("#infPaxs_1__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_1__remarkRefund").focus();
+                } else {
+                    $("#infPaxs_1__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_1__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_1__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_1__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_1__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_2__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_2__netRefund").removeAttr("disabled");
+                    $("#infPaxs_2__netRefund").focus();
+                    $("#infPaxs_2__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_2__agentRefund").focus();
+                    $("#infPaxs_2__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_2__refundAmount").focus();
+                    $("#infPaxs_2__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_2__tickNoRefund").focus();
+                    $("#infPaxs_2__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_2__remarkRefund").focus();
+                } else {
+                    $("#infPaxs_2__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_2__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_2__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_2__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_2__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_3__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_3__netRefund").removeAttr("disabled");
+                    $("#infPaxs_3__netRefund").focus();
+                    $("#infPaxs_3__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_3__agentRefund").focus();
+                    $("#infPaxs_3__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_3__refundAmount").focus();
+                    $("#infPaxs_3__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_3__tickNoRefund").focus();
+                    $("#infPaxs_3__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_3__remarkRefund").focus();
+                } else {
+                    $("#infPaxs_3__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_3__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_3__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_3__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_3__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_4__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_4__netRefund").removeAttr("disabled");
+                    $("#infPaxs_4__netRefund").focus();
+                    $("#infPaxs_4__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_4__agentRefund").focus();
+                    $("#infPaxs_4__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_4__refundAmount").focus();
+                    $("#infPaxs_4__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_4__tickNoRefund").focus();
+                    $("#infPaxs_4__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_4__remarkRefund").focus();
+                } else {
+                    $("#infPaxs_4__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_4__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_4__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_4__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_4__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_5__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_5__netRefund").removeAttr("disabled");
+                    $("#infPaxs_5__netRefund").focus();
+                    $("#infPaxs_5__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_5__agentRefund").focus();
+                    $("#infPaxs_5__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_5__refundAmount").focus();
+                    $("#infPaxs_5__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_5__tickNoRefund").focus();
+                    $("#infPaxs_5__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_5__remarkRefund").focus();
+                } else {
+                    $("#infPaxs_5__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_5__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_5__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_5__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_5__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_6__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_6__netRefund").removeAttr("disabled");
+                    $("#infPaxs_6__netRefund").focus();
+                    $("#infPaxs_6__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_6__agentRefund").focus();
+                    $("#infPaxs_6__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_6__refundAmount").focus();
+                    $("#infPaxs_6__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_6__tickNoRefund").focus();
+                    $("#infPaxs_6__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_6__remarkRefund").focus();
+                } else {
+                    $("#infPaxs_6__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_6__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_6__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_6__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_6__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_7__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_7__netRefund").removeAttr("disabled");
+                    $("#infPaxs_7__netRefund").focus();
+                    $("#infPaxs_7__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_7__agentRefund").focus();
+                    $("#infPaxs_7__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_7__refundAmount").focus();
+                    $("#infPaxs_7__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_7__tickNoRefund").focus();
+                    $("#infPaxs_7__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_7__remarkRefund").focus();
+                } else {
+                    $("#infPaxs_7__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_7__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_7__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_7__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_7__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_8__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_8__netRefund").removeAttr("disabled");
+                    $("#infPaxs_8__netRefund").focus();
+                    $("#infPaxs_8__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_8__agentRefund").focus();
+                    $("#infPaxs_8__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_8__refundAmount").focus();
+                    $("#infPaxs_8__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_8__tickNoRefund").focus();
+                    $("#infPaxs_8__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_8__remarkRefund").focus();
+                } else {
+                    $("#infPaxs_8__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_8__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_8__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_8__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_8__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+            $("#infPaxs_9__StatusRefund").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#infPaxs_9__netRefund").removeAttr("disabled");
+                    $("#infPaxs_9__netRefund").focus();
+                    $("#infPaxs_9__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_9__agentRefund").focus();
+                    $("#infPaxs_9__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_9__refundAmount").focus();
+                    $("#infPaxs_9__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_9__tickNoRefund").focus();
+                    $("#infPaxs_9__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_9__remarkRefund").focus();
+                } else {
+                    $("#infPaxs_9__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_9__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_9__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_9__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_9__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+
+
+
+
+        });
+
+        $(function () {
+            $("#select-all").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#adtPaxs_0__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_0__netRefund").focus();
+                    $("#adtPaxs_0__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_0__agentRefund").focus();
+                    $("#adtPaxs_0__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_0__refundAmount").focus();
+                    $("#adtPaxs_0__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_0__tickNoRefund").focus();
+                    $("#adtPaxs_0__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_0__remarkRefund").focus();
+                    $("#adtPaxs_1__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_1__netRefund").focus();
+                    $("#adtPaxs_1__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_1__agentRefund").focus();
+                    $("#adtPaxs_1__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_1__refundAmount").focus();
+                    $("#adtPaxs_1__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_1__tickNoRefund").focus();
+                    $("#adtPaxs_1__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_1__remarkRefund").focus();
+                    $("#adtPaxs_2__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_2__netRefund").focus();
+                    $("#adtPaxs_2__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_2__agentRefund").focus();
+                    $("#adtPaxs_2__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_2__refundAmount").focus();
+                    $("#adtPaxs_2__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_2__tickNoRefund").focus();
+                    $("#adtPaxs_2__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_2__remarkRefund").focus();
+                    $("#adtPaxs_3__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_3__netRefund").focus();
+                    $("#adtPaxs_3__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_3__agentRefund").focus();
+                    $("#adtPaxs_3__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_3__refundAmount").focus();
+                    $("#adtPaxs_3__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_3__tickNoRefund").focus();
+                    $("#adtPaxs_3__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_3__remarkRefund").focus();
+                    $("#adtPaxs_4__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_4__netRefund").focus();
+                    $("#adtPaxs_4__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_4__agentRefund").focus();
+                    $("#adtPaxs_4__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_4__refundAmount").focus();
+                    $("#adtPaxs_4__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_4__tickNoRefund").focus();
+                    $("#adtPaxs_4__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_4__remarkRefund").focus();
+                    $("#adtPaxs_5__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_5__netRefund").focus();
+                    $("#adtPaxs_5__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_5__agentRefund").focus();
+                    $("#adtPaxs_5__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_5__refundAmount").focus();
+                    $("#adtPaxs_5__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_5__tickNoRefund").focus();
+                    $("#adtPaxs_5__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_5__remarkRefund").focus();
+                    $("#adtPaxs_6__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_6__netRefund").focus();
+                    $("#adtPaxs_6__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_6__agentRefund").focus();
+                    $("#adtPaxs_6__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_6__refundAmount").focus();
+                    $("#adtPaxs_6__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_6__tickNoRefund").focus();
+                    $("#adtPaxs_6__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_6__remarkRefund").focus();
+                    $("#adtPaxs_7__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_7__netRefund").focus();
+                    $("#adtPaxs_7__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_7__agentRefund").focus();
+                    $("#adtPaxs_7__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_7__refundAmount").focus();
+                    $("#adtPaxs_7__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_7__tickNoRefund").focus();
+                    $("#adtPaxs_7__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_7__remarkRefund").focus();
+                    $("#adtPaxs_8__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_8__netRefund").focus();
+                    $("#adtPaxs_8__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_8__agentRefund").focus();
+                    $("#adtPaxs_8__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_8__refundAmount").focus();
+                    $("#adtPaxs_8__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_8__tickNoRefund").focus();
+                    $("#adtPaxs_8__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_8__remarkRefund").focus();
+                    $("#adtPaxs_9__netRefund").removeAttr("disabled");
+                    $("#adtPaxs_9__netRefund").focus();
+                    $("#adtPaxs_9__agentRefund").removeAttr("disabled");
+                    $("#adtPaxs_9__agentRefund").focus();
+                    $("#adtPaxs_9__refundAmount").removeAttr("disabled");
+                    $("#adtPaxs_9__refundAmount").focus();
+                    $("#adtPaxs_9__tickNoRefund").removeAttr("disabled");
+                    $("#adtPaxs_9__tickNoRefund").focus();
+                    $("#adtPaxs_9__remarkRefund").removeAttr("disabled");
+                    $("#adtPaxs_9__remarkRefund").focus();
+                    $("#chdPaxs_0__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_0__netRefund").focus();
+                    $("#chdPaxs_0__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_0__agentRefund").focus();
+                    $("#chdPaxs_0__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_0__refundAmount").focus();
+                    $("#chdPaxs_0__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_0__tickNoRefund").focus();
+                    $("#chdPaxs_0__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_0__remarkRefund").focus();
+                    $("#chdPaxs_1__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_1__netRefund").focus();
+                    $("#chdPaxs_1__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_1__agentRefund").focus();
+                    $("#chdPaxs_1__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_1__refundAmount").focus();
+                    $("#chdPaxs_1__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_1__tickNoRefund").focus();
+                    $("#chdPaxs_1__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_1__remarkRefund").focus();
+                    $("#chdPaxs_2__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_2__netRefund").focus();
+                    $("#chdPaxs_2__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_2__agentRefund").focus();
+                    $("#chdPaxs_2__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_2__refundAmount").focus();
+                    $("#chdPaxs_2__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_2__tickNoRefund").focus();
+                    $("#chdPaxs_2__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_2__remarkRefund").focus();
+                    $("#chdPaxs_3__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_3__netRefund").focus();
+                    $("#chdPaxs_3__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_3__agentRefund").focus();
+                    $("#chdPaxs_3__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_3__refundAmount").focus();
+                    $("#chdPaxs_3__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_3__tickNoRefund").focus();
+                    $("#chdPaxs_3__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_3__remarkRefund").focus();
+                    $("#chdPaxs_4__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_4__netRefund").focus();
+                    $("#chdPaxs_4__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_4__agentRefund").focus();
+                    $("#chdPaxs_4__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_4__refundAmount").focus();
+                    $("#chdPaxs_4__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_4__tickNoRefund").focus();
+                    $("#chdPaxs_4__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_4__remarkRefund").focus();
+                    $("#chdPaxs_5__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_5__netRefund").focus();
+                    $("#chdPaxs_5__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_5__agentRefund").focus();
+                    $("#chdPaxs_5__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_5__refundAmount").focus();
+                    $("#chdPaxs_5__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_5__tickNoRefund").focus();
+                    $("#chdPaxs_5__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_5__remarkRefund").focus();
+                    $("#chdPaxs_6__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_6__netRefund").focus();
+                    $("#chdPaxs_6__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_6__agentRefund").focus();
+                    $("#chdPaxs_6__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_6__refundAmount").focus();
+                    $("#chdPaxs_6__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_6__tickNoRefund").focus();
+                    $("#chdPaxs_6__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_6__remarkRefund").focus();
+                    $("#chdPaxs_7__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_7__netRefund").focus();
+                    $("#chdPaxs_7__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_7__agentRefund").focus();
+                    $("#chdPaxs_7__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_7__refundAmount").focus();
+                    $("#chdPaxs_7__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_7__tickNoRefund").focus();
+                    $("#chdPaxs_7__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_7__remarkRefund").focus();
+                    $("#chdPaxs_8__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_8__netRefund").focus();
+                    $("#chdPaxs_8__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_8__agentRefund").focus();
+                    $("#chdPaxs_8__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_8__refundAmount").focus();
+                    $("#chdPaxs_8__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_8__tickNoRefund").focus();
+                    $("#chdPaxs_8__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_8__remarkRefund").focus();
+                    $("#chdPaxs_9__netRefund").removeAttr("disabled");
+                    $("#chdPaxs_9__netRefund").focus();
+                    $("#chdPaxs_9__agentRefund").removeAttr("disabled");
+                    $("#chdPaxs_9__agentRefund").focus();
+                    $("#chdPaxs_9__refundAmount").removeAttr("disabled");
+                    $("#chdPaxs_9__refundAmount").focus();
+                    $("#chdPaxs_9__tickNoRefund").removeAttr("disabled");
+                    $("#chdPaxs_9__tickNoRefund").focus();
+                    $("#chdPaxs_9__remarkRefund").removeAttr("disabled");
+                    $("#chdPaxs_9__remarkRefund").focus();
+                    $("#infPaxs_0__netRefund").removeAttr("disabled");
+                    $("#infPaxs_0__netRefund").focus();
+                    $("#infPaxs_0__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_0__agentRefund").focus();
+                    $("#infPaxs_0__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_0__refundAmount").focus();
+                    $("#infPaxs_0__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_0__tickNoRefund").focus();
+                    $("#infPaxs_0__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_0__remarkRefund").focus();
+                    $("#infPaxs_1__netRefund").removeAttr("disabled");
+                    $("#infPaxs_1__netRefund").focus();
+                    $("#infPaxs_1__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_1__agentRefund").focus();
+                    $("#infPaxs_1__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_1__refundAmount").focus();
+                    $("#infPaxs_1__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_1__tickNoRefund").focus();
+                    $("#infPaxs_1__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_1__remarkRefund").focus();
+                    $("#infPaxs_2__netRefund").removeAttr("disabled");
+                    $("#infPaxs_2__netRefund").focus();
+                    $("#infPaxs_2__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_2__agentRefund").focus();
+                    $("#infPaxs_2__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_2__refundAmount").focus();
+                    $("#infPaxs_2__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_2__tickNoRefund").focus();
+                    $("#infPaxs_2__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_2__remarkRefund").focus();
+                    $("#infPaxs_3__netRefund").removeAttr("disabled");
+                    $("#infPaxs_3__netRefund").focus();
+                    $("#infPaxs_3__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_3__agentRefund").focus();
+                    $("#infPaxs_3__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_3__refundAmount").focus();
+                    $("#infPaxs_3__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_3__tickNoRefund").focus();
+                    $("#infPaxs_3__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_3__remarkRefund").focus();
+                    $("#infPaxs_4__netRefund").removeAttr("disabled");
+                    $("#infPaxs_4__netRefund").focus();
+                    $("#infPaxs_4__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_4__agentRefund").focus();
+                    $("#infPaxs_4__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_4__refundAmount").focus();
+                    $("#infPaxs_4__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_4__tickNoRefund").focus();
+                    $("#infPaxs_4__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_4__remarkRefund").focus();
+                    $("#infPaxs_5__netRefund").removeAttr("disabled");
+                    $("#infPaxs_5__netRefund").focus();
+                    $("#infPaxs_5__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_5__agentRefund").focus();
+                    $("#infPaxs_5__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_5__refundAmount").focus();
+                    $("#infPaxs_5__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_5__tickNoRefund").focus();
+                    $("#infPaxs_5__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_5__remarkRefund").focus();
+                    $("#infPaxs_6__netRefund").removeAttr("disabled");
+                    $("#infPaxs_6__netRefund").focus();
+                    $("#infPaxs_6__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_6__agentRefund").focus();
+                    $("#infPaxs_6__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_6__refundAmount").focus();
+                    $("#infPaxs_6__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_6__tickNoRefund").focus();
+                    $("#infPaxs_6__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_6__remarkRefund").focus();
+                    $("#infPaxs_7__netRefund").removeAttr("disabled");
+                    $("#infPaxs_7__netRefund").focus();
+                    $("#infPaxs_7__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_7__agentRefund").focus();
+                    $("#infPaxs_7__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_7__refundAmount").focus();
+                    $("#infPaxs_7__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_7__tickNoRefund").focus();
+                    $("#infPaxs_7__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_7__remarkRefund").focus();
+                    $("#infPaxs_8__netRefund").removeAttr("disabled");
+                    $("#infPaxs_8__netRefund").focus();
+                    $("#infPaxs_8__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_8__agentRefund").focus();
+                    $("#infPaxs_8__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_8__refundAmount").focus();
+                    $("#infPaxs_8__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_8__tickNoRefund").focus();
+                    $("#infPaxs_8__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_8__remarkRefund").focus();
+                    $("#infPaxs_9__netRefund").removeAttr("disabled");
+                    $("#infPaxs_9__netRefund").focus();
+                    $("#infPaxs_9__agentRefund").removeAttr("disabled");
+                    $("#infPaxs_9__agentRefund").focus();
+                    $("#infPaxs_9__refundAmount").removeAttr("disabled");
+                    $("#infPaxs_9__refundAmount").focus();
+                    $("#infPaxs_9__tickNoRefund").removeAttr("disabled");
+                    $("#infPaxs_9__tickNoRefund").focus();
+                    $("#infPaxs_9__remarkRefund").removeAttr("disabled");
+                    $("#infPaxs_9__remarkRefund").focus();
+                } else {
+                    $("#adtPaxs_0__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_0__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_0__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_0__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_0__remarkRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_1__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_1__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_1__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_1__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_1__remarkRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_2__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_2__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_2__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_2__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_2__remarkRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_3__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_3__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_3__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_3__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_3__remarkRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_4__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_4__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_4__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_4__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_4__remarkRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_5__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_5__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_5__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_5__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_5__remarkRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_6__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_6__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_6__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_6__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_6__remarkRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_7__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_7__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_7__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_7__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_7__remarkRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_8__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_8__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_8__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_8__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_8__remarkRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_9__netRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_9__agentRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_9__refundAmount").attr("disabled", "disabled");
+                    $("#adtPaxs_9__tickNoRefund").attr("disabled", "disabled");
+                    $("#adtPaxs_9__remarkRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_0__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_0__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_0__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_0__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_0__remarkRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_1__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_1__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_1__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_1__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_1__remarkRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_2__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_2__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_2__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_2__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_2__remarkRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_3__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_3__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_3__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_3__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_3__remarkRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_4__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_4__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_4__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_4__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_4__remarkRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_5__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_5__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_5__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_5__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_5__remarkRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_6__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_6__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_6__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_6__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_6__remarkRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_7__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_7__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_7__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_7__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_7__remarkRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_8__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_8__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_8__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_8__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_8__remarkRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_9__netRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_9__agentRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_9__refundAmount").attr("disabled", "disabled");
+                    $("#chdPaxs_9__tickNoRefund").attr("disabled", "disabled");
+                    $("#chdPaxs_9__remarkRefund").attr("disabled", "disabled");
+                    $("#infPaxs_0__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_0__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_0__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_0__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_0__remarkRefund").attr("disabled", "disabled");
+                    $("#infPaxs_1__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_1__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_1__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_1__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_1__remarkRefund").attr("disabled", "disabled");
+                    $("#infPaxs_2__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_2__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_2__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_2__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_2__remarkRefund").attr("disabled", "disabled");
+                    $("#infPaxs_3__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_3__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_3__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_3__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_3__remarkRefund").attr("disabled", "disabled");
+                    $("#infPaxs_4__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_4__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_4__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_4__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_4__remarkRefund").attr("disabled", "disabled");
+                    $("#infPaxs_5__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_5__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_5__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_5__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_5__remarkRefund").attr("disabled", "disabled");
+                    $("#infPaxs_6__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_6__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_6__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_6__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_6__remarkRefund").attr("disabled", "disabled");
+                    $("#infPaxs_7__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_7__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_7__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_7__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_7__remarkRefund").attr("disabled", "disabled");
+                    $("#infPaxs_8__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_8__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_8__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_8__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_8__remarkRefund").attr("disabled", "disabled");
+                    $("#infPaxs_9__netRefund").attr("disabled", "disabled");
+                    $("#infPaxs_9__agentRefund").attr("disabled", "disabled");
+                    $("#infPaxs_9__refundAmount").attr("disabled", "disabled");
+                    $("#infPaxs_9__tickNoRefund").attr("disabled", "disabled");
+                    $("#infPaxs_9__remarkRefund").attr("disabled", "disabled");
+                }
+            });
+
+
+        });
+
+        $('#select-all').click(function (event) {
+            if (this.checked) {
+                // Iterate each checkbox
+                $(':checkbox').each(function () {
+                    this.checked = true;
+                });
+            } else {
+                $(':checkbox').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+
+        function check(frm) {
+            var inputs = frm.getElementsByTagName('input');
+            for (var i = 0; i < inputs.length; i++) {
+                input = inputs[i];
+                if (input.type == 'checkbox') {
+                    if (input.checked) {
+                        return true;
+                    };
+                };
+            };
+            alert('กรุณาเลือกผู้โดยสารก่อนทำการ Refund');
+            return false;
+        }
+
+        $("#btn_Save").click(function () {
+            $("#StatusRefund").val($("#StatusRefund").val())
+        });
+
+
+
+    </script>
+}
+
+<style>
+    .text {
+        margin-bottom: 10px;
+    }
+</style>
+
+@*<input type="checkbox" class="ba" checked="checked" />
+    <input type="text" class="tex" />
+
+    <script>
+        $(function () {
+        $('.ba').on('change', function () {
+            var checked = $(this).prop('checked');
+            $('.tex').prop('disabled', !checked);
+        });
+    });
+    </script>*@
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+@*<label for="chkPassport">
+        <input type="checkbox" id="chkPassport" />
+        Do you have Passport?
+    </label>
+    <br />
+    Passport Number:
+    <input type="text" id="txtPassportNumber" disabled="disabled" />*@
+
+@*<form id="form1"  name="form1" method="post">
+        <input type="checkbox"/> ตัวเลือกที่ 1<br>
+        <input type="checkbox" /> ตัวเลือกที่ 2
+        <br><br>
+        <input type="submit" name="submit_bt" value="Submit" /> <input type="reset" name="reset_bt" value="Reset" />
+    </form>*@
+

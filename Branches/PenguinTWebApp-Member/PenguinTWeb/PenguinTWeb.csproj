@@ -1,0 +1,955 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8395E39A-C13C-4998-AA1D-5FE7A1AA240C}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GogojiiWeb</RootNamespace>
+    <AssemblyName>GogojiiWeb</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http">
+      <HintPath>..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <HintPath>..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Unity.Mvc5, Version=1.2.3.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Mvc5.1.2.3\lib\net45\Unity.Mvc5.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.WebApi, Version=5.2.3.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.WebAPI.5.2.3\lib\net45\Unity.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Westwind.Utilities, Version=3.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Utilities.3.0.3\lib\net45\Westwind.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Westwind.Web, Version=2.76.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Web.2.76\lib\net45\Westwind.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Westwind.Web.Mvc, Version=2.76.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Web.Mvc.2.76\lib\net45\Westwind.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Controllers\AboutUsController.cs" />
+    <Compile Include="Controllers\AirController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\FlightController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CounterServiceModel.cs" />
+    <Compile Include="Models\PaypalModel.cs" />
+    <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Models\SelectedFlightsModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\JsonNetResult.cs" />
+    <Compile Include="Utilities\Aircraft.cs" />
+    <Compile Include="Utilities\Localize.cs" />
+    <Compile Include="Utilities\Naming.cs" />
+    <Compile Include="Utilities\Utility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\flights\paxinfo.css" />
+    <Content Include="Content\flights\result.css" />
+    <Content Include="Content\Gogojii.css" />
+    <Content Include="DownloadAppPG.aspx" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\36.png" />
+    <Content Include="Images\799px-KBank_Logo.png" />
+    <Content Include="Images\aboutus\cable_car.png" />
+    <Content Include="Images\aboutus\corporate.png" />
+    <Content Include="Images\aboutus\Cover.png" />
+    <Content Include="Images\aboutus\Dailynews.png" />
+    <Content Include="Images\aboutus\hotel.png" />
+    <Content Include="Images\aboutus\Gogojii.png" />
+    <Content Include="Images\aboutus\plane.png" />
+    <Content Include="Images\aboutus\Service.png" />
+    <Content Include="Images\aboutus\Spark.png" />
+    <Content Include="Images\aboutus\spark_logo.png" />
+    <Content Include="Images\aboutus\ThaiPBS.png" />
+    <Content Include="Images\aboutus\thairathtv.png" />
+    <Content Include="Images\aboutus\vacation.png" />
+    <Content Include="Images\ads.jpg" />
+    <Content Include="Images\bag.png" />
+    <Content Include="Images\banner.jpg" />
+    <Content Include="Images\black_plane - Copy.png" />
+    <Content Include="Images\black_plane.png" />
+    <Content Include="Images\blue_plane - Copy.png" />
+    <Content Include="Images\blue_plane.png" />
+    <Content Include="Images\Bolt.png" />
+    <Content Include="Images\book.png" />
+    <Content Include="Images\brown_plane - Copy.png" />
+    <Content Include="Images\brown_plane.png" />
+    <Content Include="Images\clock_black.png" />
+    <Content Include="Images\clock_blue.png" />
+    <Content Include="Images\correct-symbol.png" />
+    <Content Include="Images\dropdown_black.png" />
+    <Content Include="Images\footer\bns_registered.png" />
+    <Content Include="Images\footer\Chat.png" />
+    <Content Include="Images\footer\facebook.png" />
+    <Content Include="Images\footer\Instagram.png" />
+    <Content Include="Images\footer\Line.png" />
+    <Content Include="Images\footer\magnifying-glass.png" />
+    <Content Include="Images\footer\Mail.png" />
+    <Content Include="Images\footer\Mobile.png" />
+    <Content Include="Images\footer\Gogojii.png" />
+    <Content Include="Images\footer\Phone.png" />
+    <Content Include="Images\footer\tat logo.png" />
+    <Content Include="Images\footer\Twitter.png" />
+    <Content Include="Images\Hero_03.png" />
+    <Content Include="Images\Hero_04.png" />
+    <Content Include="Images\Hero_05.png" />
+    <Content Include="Images\icon_web\android.png" />
+    <Content Include="Images\icon_web\arrow_down.png" />
+    <Content Include="Images\icon_web\arrow_up.png" />
+    <Content Include="Images\icon_web\Bag.png" />
+    <Content Include="Images\icon_web\Check.png" />
+    <Content Include="Images\icon_web\Cllock.png" />
+    <Content Include="Images\icon_web\Clock_blue.png" />
+    <Content Include="Images\icon_web\Clock_brown.png" />
+    <Content Include="Images\icon_web\Close.png" />
+    <Content Include="Images\icon_web\counterservice.png" />
+    <Content Include="Images\icon_web\Flash_deal.png" />
+    <Content Include="Images\icon_web\Guint1.png" />
+    <Content Include="Images\icon_web\Guint_hand.png" />
+    <Content Include="Images\icon_web\Head_bg.png" />
+    <Content Include="Images\icon_web\Hero1.png" />
+    <Content Include="Images\icon_web\Hero2.png" />
+    <Content Include="Images\icon_web\Hero3.png" />
+    <Content Include="Images\icon_web\ios.png" />
+    <Content Include="Images\icon_web\Kasikorn.png" />
+    <Content Include="Images\icon_web\ktb.png" />
+    <Content Include="Images\icon_web\magnifying-glass.png" />
+    <Content Include="Images\icon_web\paypal.png" />
+    <Content Include="Images\icon_web\Gogojii.png" />
+    <Content Include="Images\icon_web\Plane_black_left.png" />
+    <Content Include="Images\icon_web\Plane_black_right.png" />
+    <Content Include="Images\icon_web\Plane_blue_left.png" />
+    <Content Include="Images\icon_web\Plane_blue_right.png" />
+    <Content Include="Images\icon_web\Plane_brown_left.png" />
+    <Content Include="Images\icon_web\Plane_brown_right.png" />
+    <Content Include="Images\icon_web\Plane_white_right.png" />
+    <Content Include="Images\icon_web\Pukard.png" />
+    <Content Include="Images\icon_web\Red_clock.png" />
+    <Content Include="Images\icon_web\Round_trip.png" />
+    <Content Include="Images\icon_web\Shortest.png" />
+    <Content Include="Images\icon_web\timeline-connection-head.png" />
+    <Content Include="Images\icon_web\timeline-connection-line.png" />
+    <Content Include="Images\icon_web\timeline-connection.png" />
+    <Content Include="Images\icon_web\timeline-end.png" />
+    <Content Include="Images\icon_web\timeline-flight.png" />
+    <Content Include="Images\icon_web\timeline-head.png" />
+    <Content Include="Images\icon_web\timeline-line.png" />
+    <Content Include="Images\icon_web\user.png" />
+    <Content Include="Images\icon_web\Visa_master.png" />
+    <Content Include="Images\icon_web\Yellow_plane.png" />
+    <Content Include="Images\ktb_01.png" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\magnifying-glass.png" />
+    <Content Include="Images\new-payment-types-cards.png" />
+    <Content Include="Images\passenger.png" />
+    <Content Include="Images\paypal_logo.png" />
+    <Content Include="Images\Gogojii_logo.png" />
+    <Content Include="Images\Gogojii_logo2.png" />
+    <Content Include="Images\Gogojii_slider-assets\Gogojii_slider13.png" />
+    <Content Include="Images\Gogojii_slider-assets\Slide1.png" />
+    <Content Include="Images\Gogojii_slider-assets\Slide2.png" />
+    <Content Include="Images\Gogojii_slider-assets\Slide3.png" />
+    <Content Include="Images\Gogojii_slider-assets\Slide4.png" />
+    <Content Include="Images\plane2.png" />
+    <Content Include="Images\promotions\2a42b3d0-40ee-4668-bb49-e530713eef39.jpg" />
+    <Content Include="Images\roundtrip_plane.png" />
+    <Content Include="Images\search_result_bg.png" />
+    <Content Include="Images\social1.png" />
+    <Content Include="Images\social2.png" />
+    <Content Include="Images\social3.png" />
+    <Content Include="Images\waiting.gif" />
+    <Content Include="Images\yellow_dropdown.png" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Scripts\searchbox.js" />
+    <Content Include="Scripts\input-add-minus.js" />
+    <Content Include="Vendors\air-datepicker\dist\css\datepicker.css" />
+    <Content Include="Vendors\air-datepicker\dist\css\datepicker.min.css" />
+    <Content Include="Vendors\air-datepicker\dist\js\datepicker.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\datepicker.min.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.cs.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.da.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.de.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.th.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.en.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.es.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.fi.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.fr.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.hu.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.nl.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.pl.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.pt-BR.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.pt.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.ro.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.sk.js" />
+    <Content Include="Vendors\air-datepicker\dist\js\i18n\datepicker.zh.js" />
+    <Content Include="Vendors\air-datepicker\docs\css\github-gist.css" />
+    <Content Include="Vendors\air-datepicker\docs\css\style.css" />
+    <Content Include="Vendors\air-datepicker\docs\img\en.png" />
+    <Content Include="Vendors\air-datepicker\docs\img\promo-img-time.png" />
+    <Content Include="Vendors\air-datepicker\docs\img\ru.png" />
+    <Content Include="Vendors\air-datepicker\docs\index-ru.html" />
+    <Content Include="Vendors\air-datepicker\docs\index.html" />
+    <Content Include="Vendors\air-datepicker\docs\js\highlight.pack.js" />
+    <Content Include="Vendors\air-datepicker\docs\js\logger.js" />
+    <Content Include="Vendors\air-datepicker\docs\js\navigation.js" />
+    <Content Include="Vendors\air-datepicker\gulpfile.js" />
+    <Content Include="Vendors\air-datepicker\src\js\air-datepicker.js" />
+    <Content Include="Vendors\air-datepicker\src\js\body.js" />
+    <Content Include="Vendors\air-datepicker\src\js\datepicker.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.cs.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.da.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.de.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.en.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.es.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.fi.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.fr.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.hu.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.nl.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.pl.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.pt-BR.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.pt.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.ro.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.sk.js" />
+    <Content Include="Vendors\air-datepicker\src\js\i18n\datepicker.zh.js" />
+    <Content Include="Vendors\air-datepicker\src\js\navigation.js" />
+    <Content Include="Vendors\air-datepicker\src\js\timepicker.js" />
+    <Content Include="Vendors\air-datepicker\static-server.js" />
+    <Content Include="Vendors\air-datepicker\tasks\css.js" />
+    <Content Include="Vendors\air-datepicker\tasks\cssPage.js" />
+    <Content Include="Vendors\air-datepicker\tasks\gzip.js" />
+    <Content Include="Vendors\air-datepicker\tasks\i18n.js" />
+    <Content Include="Vendors\air-datepicker\tasks\jade.js" />
+    <Content Include="Vendors\air-datepicker\tasks\js.js" />
+    <Content Include="Vendors\air-datepicker\tests\index.html" />
+    <Content Include="Vendors\air-datepicker\tests\specs\api.js" />
+    <Content Include="Vendors\air-datepicker\tests\specs\events.js" />
+    <Content Include="Vendors\air-datepicker\tests\specs\options.js" />
+    <Content Include="Vendors\air-datepicker\tests\specs\static-methods.js" />
+    <Content Include="Vendors\air-datepicker\visual-tests.html" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-grid.css" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-grid.min.css" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-reboot.css" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-reboot.min.css" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap.css" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap.min.css" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.bundle.js" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.bundle.min.js" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.js" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.min.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.bootstrap.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.bootstrap.min.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.bootstrap4.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.foundation.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.foundation.min.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.jqueryui.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.jqueryui.min.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.semanticui.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\dataTables.semanticui.min.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\jquery.dataTables.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\css\jquery.dataTables.min.css" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\images\sort_asc.png" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\images\sort_asc_disabled.png" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\images\sort_both.png" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\images\sort_desc.png" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\images\sort_desc_disabled.png" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.bootstrap.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.bootstrap.min.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.bootstrap4.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.foundation.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.foundation.min.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.jqueryui.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.jqueryui.min.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.semanticui.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\dataTables.semanticui.min.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\jquery.dataTables.js" />
+    <Content Include="Vendors\Datatable\DataTables-1.10.18\js\jquery.dataTables.min.js" />
+    <Content Include="Vendors\Datatable\datatables.css" />
+    <Content Include="Vendors\Datatable\datatables.js" />
+    <Content Include="Vendors\Datatable\datatables.min.css" />
+    <Content Include="Vendors\Datatable\datatables.min.js" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\easy-autocomplete.css" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\easy-autocomplete.min.css" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\easy-autocomplete.themes.css" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\easy-autocomplete.themes.min.css" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\jquery.easy-autocomplete.js" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\jquery.easy-autocomplete.min.js" />
+    <Content Include="Vendors\fontawesome\css\fa-brands.css" />
+    <Content Include="Vendors\fontawesome\css\fa-brands.min.css" />
+    <Content Include="Vendors\fontawesome\css\fa-regular.css" />
+    <Content Include="Vendors\fontawesome\css\fa-regular.min.css" />
+    <Content Include="Vendors\fontawesome\css\fa-solid.css" />
+    <Content Include="Vendors\fontawesome\css\fa-solid.min.css" />
+    <Content Include="Vendors\fontawesome\css\fontawesome-all.css" />
+    <Content Include="Vendors\fontawesome\css\fontawesome-all.min.css" />
+    <Content Include="Vendors\fontawesome\css\fontawesome.css" />
+    <Content Include="Vendors\fontawesome\css\fontawesome.min.css" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-brands-400.svg" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-regular-400.svg" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-solid-900.svg" />
+    <Content Include="Vendors\jquery-ui-1.12.1\AUTHORS.txt" />
+    <Content Include="Vendors\jquery-ui-1.12.1\external\jquery\jquery.js" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_diagonals-medium_20_d34d17_40x40.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_gloss-wave_45_817865_500x100.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_gloss-wave_60_fece2f_500x100.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_gloss-wave_70_ffdd57_500x100.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_gloss-wave_90_fff9e5_500x100.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_highlight-soft_100_feeebd_1x100.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-bg_inset-soft_30_ffffff_1x100.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_3d3d3d_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_bd7b00_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_d19405_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_eb990f_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_ed9f26_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_fadc7a_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\images\ui-icons_ffe180_256x240.png" />
+    <Content Include="Vendors\jquery-ui-1.12.1\index.html" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.css" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.js" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.min.css" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.min.js" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.structure.css" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.structure.min.css" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.theme.css" />
+    <Content Include="Vendors\jquery-ui-1.12.1\jquery-ui.theme.min.css" />
+    <Content Include="Vendors\jquery-ui-1.12.1\LICENSE.txt" />
+    <Content Include="Vendors\jQuery3.3.1\jquery.min.js" />
+    <Content Include="Vendors\jRange\demo\index.html" />
+    <Content Include="Vendors\jRange\demo\main.css" />
+    <Content Include="Vendors\jRange\demo\normalize.css" />
+    <Content Include="Vendors\jRange\demo\prism\prism.css" />
+    <Content Include="Vendors\jRange\demo\prism\prism.js" />
+    <Content Include="Vendors\jRange\jquery.range-min.js" />
+    <Content Include="Vendors\jRange\jquery.range.css" />
+    <Content Include="Vendors\jRange\jquery.range.js" />
+    <Content Include="Vendors\knockout\knockout-3.4.2.js" />
+    <Content Include="Vendors\knockout\knockout-fast-foreach.min.js" />
+    <Content Include="Vendors\pickadate\Gruntfile.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\legacy.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\picker.date.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\picker.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\picker.time.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\classic.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\classic.date.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\classic.time.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\default.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\default.date.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\default.time.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\themes\rtl.css" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ar.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\bg_BG.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\bs_BA.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ca_ES.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\cs_CZ.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\da_DK.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\de_DE.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\el_GR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\es_ES.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\et_EE.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\eu_ES.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\fa_IR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\fi_FI.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\fr_FR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ge_GEO.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\gl_ES.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\he_IL.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\hi_IN.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\hr_HR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\hu_HU.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\id_ID.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\is_IS.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\it_IT.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ja_JP.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ko_KR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\lt_LT.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\lv_LV.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\nb_NO.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ne_NP.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\nl_NL.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\no_NO.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\pl_PL.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\pt_BR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\pt_PT.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ro_RO.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\ru_RU.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\sk_SK.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\sl_SI.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\sv_SE.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\th_TH.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\tr_TR.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\uk_UA.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\vi_VN.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\zh_CN.js" />
+    <Content Include="Vendors\pickadate\lib\compressed\translations\zh_TW.js" />
+    <Content Include="Vendors\pickadate\lib\legacy.js" />
+    <Content Include="Vendors\pickadate\lib\picker.date.js" />
+    <Content Include="Vendors\pickadate\lib\picker.js" />
+    <Content Include="Vendors\pickadate\lib\picker.time.js" />
+    <Content Include="Vendors\pickadate\lib\themes\classic.css" />
+    <Content Include="Vendors\pickadate\lib\themes\classic.date.css" />
+    <Content Include="Vendors\pickadate\lib\themes\classic.time.css" />
+    <Content Include="Vendors\pickadate\lib\themes\default.css" />
+    <Content Include="Vendors\pickadate\lib\themes\default.date.css" />
+    <Content Include="Vendors\pickadate\lib\themes\default.time.css" />
+    <Content Include="Vendors\pickadate\lib\themes\rtl.css" />
+    <Content Include="Vendors\pickadate\lib\translations\ar.js" />
+    <Content Include="Vendors\pickadate\lib\translations\bg_BG.js" />
+    <Content Include="Vendors\pickadate\lib\translations\bs_BA.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ca_ES.js" />
+    <Content Include="Vendors\pickadate\lib\translations\cs_CZ.js" />
+    <Content Include="Vendors\pickadate\lib\translations\da_DK.js" />
+    <Content Include="Vendors\pickadate\lib\translations\de_DE.js" />
+    <Content Include="Vendors\pickadate\lib\translations\el_GR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\es_ES.js" />
+    <Content Include="Vendors\pickadate\lib\translations\et_EE.js" />
+    <Content Include="Vendors\pickadate\lib\translations\eu_ES.js" />
+    <Content Include="Vendors\pickadate\lib\translations\fa_IR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\fi_FI.js" />
+    <Content Include="Vendors\pickadate\lib\translations\fr_FR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ge_GEO.js" />
+    <Content Include="Vendors\pickadate\lib\translations\gl_ES.js" />
+    <Content Include="Vendors\pickadate\lib\translations\he_IL.js" />
+    <Content Include="Vendors\pickadate\lib\translations\hi_IN.js" />
+    <Content Include="Vendors\pickadate\lib\translations\hr_HR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\hu_HU.js" />
+    <Content Include="Vendors\pickadate\lib\translations\id_ID.js" />
+    <Content Include="Vendors\pickadate\lib\translations\is_IS.js" />
+    <Content Include="Vendors\pickadate\lib\translations\it_IT.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ja_JP.js" />
+    <Content Include="Vendors\pickadate\lib\translations\km_KH.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ko_KR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\lt_LT.js" />
+    <Content Include="Vendors\pickadate\lib\translations\lv_LV.js" />
+    <Content Include="Vendors\pickadate\lib\translations\nb_NO.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ne_NP.js" />
+    <Content Include="Vendors\pickadate\lib\translations\nl_NL.js" />
+    <Content Include="Vendors\pickadate\lib\translations\pl_PL.js" />
+    <Content Include="Vendors\pickadate\lib\translations\pt_BR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\pt_PT.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ro_RO.js" />
+    <Content Include="Vendors\pickadate\lib\translations\ru_RU.js" />
+    <Content Include="Vendors\pickadate\lib\translations\sk_SK.js" />
+    <Content Include="Vendors\pickadate\lib\translations\sl_SI.js" />
+    <Content Include="Vendors\pickadate\lib\translations\sr_RS_cy.js" />
+    <Content Include="Vendors\pickadate\lib\translations\sr_RS_lt.js" />
+    <Content Include="Vendors\pickadate\lib\translations\sv_SE.js" />
+    <Content Include="Vendors\pickadate\lib\translations\th_TH.js" />
+    <Content Include="Vendors\pickadate\lib\translations\tr_TR.js" />
+    <Content Include="Vendors\pickadate\lib\translations\uk_UA.js" />
+    <Content Include="Vendors\pickadate\lib\translations\vi_VN.js" />
+    <Content Include="Vendors\pickadate\lib\translations\zh_CN.js" />
+    <Content Include="Vendors\pickadate\lib\translations\zh_TW.js" />
+    <Content Include="Vendors\pickadate\tests\dev\date.htm" />
+    <Content Include="Vendors\pickadate\tests\dev\time.htm" />
+    <Content Include="Vendors\pickadate\tests\units\all.htm" />
+    <Content Include="Vendors\pickadate\tests\units\base.js" />
+    <Content Include="Vendors\pickadate\tests\units\date.js" />
+    <Content Include="Vendors\pickadate\tests\units\time.js" />
+    <Content Include="Vendors\pickadate\version-bump.js" />
+    <Content Include="Vendors\pickadate\version-commit.js" />
+    <Content Include="Vendors\popper\popper.js" />
+    <Content Include="Vendors\SmartApp\smart-app-banner.css" />
+    <Content Include="Vendors\SmartApp\smart-app-banner.js" />
+    <Content Include="Vendors\webui-popover\demo\async-content-another.html" />
+    <Content Include="Vendors\webui-popover\demo\async-content.html" />
+    <Content Include="Vendors\webui-popover\demo\bootstrap.css" />
+    <Content Include="Vendors\webui-popover\demo\bootstrap.js" />
+    <Content Include="Vendors\webui-popover\demo\demo.css" />
+    <Content Include="Vendors\webui-popover\demo\index-dev.html" />
+    <Content Include="Vendors\webui-popover\demo\index-old.html" />
+    <Content Include="Vendors\webui-popover\demo\index.html" />
+    <Content Include="Vendors\webui-popover\demo\jquery.js" />
+    <Content Include="Vendors\webui-popover\demo\mobile.html" />
+    <Content Include="Vendors\webui-popover\demo\test-auto-bottom.html" />
+    <Content Include="Vendors\webui-popover\demo\test-body-height.html" />
+    <Content Include="Vendors\webui-popover\demo\test-cache.html" />
+    <Content Include="Vendors\webui-popover\demo\test-canvas.html" />
+    <Content Include="Vendors\webui-popover\demo\test-container-scroll-fix.html" />
+    <Content Include="Vendors\webui-popover\demo\test-container-scroll.html" />
+    <Content Include="Vendors\webui-popover\demo\test-container.html" />
+    <Content Include="Vendors\webui-popover\demo\test-global-api.html" />
+    <Content Include="Vendors\webui-popover\demo\test-issue193.html" />
+    <Content Include="Vendors\webui-popover\demo\test-issue195.html" />
+    <Content Include="Vendors\webui-popover\demo\test-issue197.html" />
+    <Content Include="Vendors\webui-popover\demo\test-issue214.html" />
+    <Content Include="Vendors\webui-popover\demo\test-manual-show-bug.html" />
+    <Content Include="Vendors\webui-popover\demo\test-svg.html" />
+    <Content Include="Vendors\webui-popover\demo\test-wenzhixin-bstable.html" />
+    <Content Include="Vendors\webui-popover\demo\test.html" />
+    <Content Include="Vendors\webui-popover\demo\text.txt" />
+    <Content Include="Vendors\webui-popover\dist\jquery.webui-popover.css" />
+    <Content Include="Vendors\webui-popover\dist\jquery.webui-popover.js" />
+    <Content Include="Vendors\webui-popover\dist\jquery.webui-popover.min.css" />
+    <Content Include="Vendors\webui-popover\dist\jquery.webui-popover.min.js" />
+    <Content Include="Vendors\webui-popover\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Vendors\webui-popover\Gruntfile.js" />
+    <Content Include="Vendors\webui-popover\img\loading.gif" />
+    <Content Include="Vendors\webui-popover\LICENSE.txt" />
+    <Content Include="Vendors\webui-popover\src\jquery.webui-popover.css" />
+    <Content Include="Vendors\webui-popover\src\jquery.webui-popover.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="logs\" />
+    <Folder Include="TestJSON\" />
+    <Folder Include="Views\Base\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BL\BL.csproj">
+      <Project>{9cc1e2a1-e5ca-407b-a71d-c344b9905197}</Project>
+      <Name>BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataModel\DataModel.csproj">
+      <Project>{12ea02ab-4eb6-4375-9e5d-d3c6589fdd20}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Resolver\Resolver.csproj">
+      <Project>{20cf0616-011b-4a2e-9817-58f058d81cf0}</Project>
+      <Name>Resolver</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-grid.css.map" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-grid.min.css.map" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-reboot.css.map" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap-reboot.min.css.map" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap.css.map" />
+    <Content Include="Vendors\Bootstrap4\css\bootstrap.min.css.map" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.bundle.js.map" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.js.map" />
+    <Content Include="Vendors\Bootstrap4\js\bootstrap.min.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\localization.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\fonts\CSChatThai.ttf" />
+    <Content Include="Content\fonts\CSChatThaiUI.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vendors\fontawesome\less\fa-brands.less" />
+    <Content Include="Vendors\fontawesome\less\fa-regular.less" />
+    <Content Include="Vendors\fontawesome\less\fa-solid.less" />
+    <Content Include="Vendors\fontawesome\less\fontawesome.less" />
+    <Content Include="Vendors\fontawesome\less\_animated.less" />
+    <Content Include="Vendors\fontawesome\less\_bordered-pulled.less" />
+    <Content Include="Vendors\fontawesome\less\_core.less" />
+    <Content Include="Vendors\fontawesome\less\_fixed-width.less" />
+    <Content Include="Vendors\fontawesome\less\_icons.less" />
+    <Content Include="Vendors\fontawesome\less\_larger.less" />
+    <Content Include="Vendors\fontawesome\less\_list.less" />
+    <Content Include="Vendors\fontawesome\less\_mixins.less" />
+    <Content Include="Vendors\fontawesome\less\_rotated-flipped.less" />
+    <Content Include="Vendors\fontawesome\less\_screen-reader.less" />
+    <Content Include="Vendors\fontawesome\less\_stacked.less" />
+    <Content Include="Vendors\fontawesome\less\_variables.less" />
+    <Content Include="Vendors\fontawesome\scss\fa-brands.scss" />
+    <Content Include="Vendors\fontawesome\scss\fa-regular.scss" />
+    <Content Include="Vendors\fontawesome\scss\fa-solid.scss" />
+    <Content Include="Vendors\fontawesome\scss\fontawesome.scss" />
+    <Content Include="Vendors\fontawesome\scss\_animated.scss" />
+    <Content Include="Vendors\fontawesome\scss\_bordered-pulled.scss" />
+    <Content Include="Vendors\fontawesome\scss\_core.scss" />
+    <Content Include="Vendors\fontawesome\scss\_fixed-width.scss" />
+    <Content Include="Vendors\fontawesome\scss\_icons.scss" />
+    <Content Include="Vendors\fontawesome\scss\_larger.scss" />
+    <Content Include="Vendors\fontawesome\scss\_list.scss" />
+    <Content Include="Vendors\fontawesome\scss\_mixins.scss" />
+    <Content Include="Vendors\fontawesome\scss\_rotated-flipped.scss" />
+    <Content Include="Vendors\fontawesome\scss\_screen-reader.scss" />
+    <Content Include="Vendors\fontawesome\scss\_stacked.scss" />
+    <Content Include="Vendors\fontawesome\scss\_variables.scss" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-brands-400.eot" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-brands-400.ttf" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-brands-400.woff" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-brands-400.woff2" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-regular-400.eot" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-regular-400.ttf" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-regular-400.woff" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-regular-400.woff2" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-solid-900.eot" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-solid-900.ttf" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-solid-900.woff" />
+    <Content Include="Vendors\fontawesome\webfonts\fa-solid-900.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\maps\easy-autocomplete.css.map" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\maps\easy-autocomplete.min.css.map" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\maps\easy-autocomplete.themes.css.map" />
+    <Content Include="Vendors\EasyAutocomplete-1.3.5\maps\easy-autocomplete.themes.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vendors\pickadate\.gitignore" />
+    <Content Include="Vendors\pickadate\.jshintrc" />
+    <Content Include="Vendors\pickadate\.travis.yml" />
+    <Content Include="Vendors\pickadate\bower.json" />
+    <Content Include="Vendors\pickadate\CHANGELOG.md" />
+    <Content Include="Vendors\pickadate\CONTRIBUTING.md" />
+    <Content Include="Vendors\pickadate\lib\themes-source\base.date.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\base.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\base.time.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\classic.date.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\classic.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\classic.time.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\default.date.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\default.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\default.time.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\rtl.less" />
+    <Content Include="Vendors\pickadate\lib\themes-source\_variables.less" />
+    <Content Include="Vendors\pickadate\lib\translations\FORMATTING.md" />
+    <Content Include="Vendors\pickadate\lib\translations\NAMING.md" />
+    <Content Include="Vendors\pickadate\LICENSE.md" />
+    <Content Include="Vendors\pickadate\package.json" />
+    <Content Include="Vendors\pickadate\README.md" />
+    <Content Include="Vendors\pickadate\yarn.lock" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vendors\webui-popover\.gitignore" />
+    <Content Include="Vendors\webui-popover\.jshintrc" />
+    <Content Include="Vendors\webui-popover\.npmignore" />
+    <Content Include="Vendors\webui-popover\bower.json" />
+    <Content Include="Vendors\webui-popover\CONTRIBUTING.md" />
+    <Content Include="Vendors\webui-popover\demo\table-data.json" />
+    <Content Include="Vendors\webui-popover\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Vendors\webui-popover\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Vendors\webui-popover\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Vendors\webui-popover\HISTORY.md" />
+    <Content Include="Vendors\webui-popover\node_modules\grunt-contrib-cssmin\node_modules\.bin\cleancss" />
+    <Content Include="Vendors\webui-popover\node_modules\grunt\node_modules\.bin\cake" />
+    <Content Include="Vendors\webui-popover\node_modules\grunt\node_modules\.bin\coffee" />
+    <Content Include="Vendors\webui-popover\node_modules\grunt\node_modules\.bin\js-yaml" />
+    <Content Include="Vendors\webui-popover\node_modules\grunt\node_modules\.bin\nopt" />
+    <Content Include="Vendors\webui-popover\node_modules\grunt\node_modules\.bin\rimraf" />
+    <Content Include="Vendors\webui-popover\node_modules\grunt\node_modules\.bin\which" />
+    <Content Include="Vendors\webui-popover\package.json" />
+    <Content Include="Vendors\webui-popover\README.md" />
+    <Content Include="Vendors\webui-popover\ROADMAP.md" />
+    <Content Include="Vendors\webui-popover\src\jquery.webui-popover.less" />
+    <Content Include="Vendors\webui-popover\src\webui-layout.sublime-workspace" />
+    <Content Include="Vendors\webui-popover\webui-popover.jquery.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Flight\FlightResult.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Flight\ResultList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vendors\jquery-ui-1.12.1\package.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Flight\PaxInfo.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\SystemProblem.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Flight\Booking.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Flight\Summary.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\fonts\SukhumvitSet.ttf" />
+    <Content Include="Content\fonts\SukhumvitSet-Bold.ttf" />
+    <Content Include="Content\fonts\SukhumvitSet-Light.ttf" />
+    <Content Include="App_Data\aircraft.json" />
+    <None Include="Properties\PublishProfiles\Gogojiitravelweb - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\Gogojiitravelweb - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Gogojiiwebuat - Web Deploy.pubxml" />
+    <Content Include="Views\Flight\SearchBox.cshtml" />
+    <Content Include="Views\Flight\Pay.cshtml" />
+    <Content Include="Views\Flight\Thankyou.cshtml" />
+    <Content Include="Views\Flight\InitialKTC.cshtml" />
+    <Content Include="Views\Flight\InitialCS.cshtml" />
+    <Content Include="Views\Flight\ResultList - Copy.cshtml" />
+    <Content Include="Views\Flight\FareRule.cshtml" />
+    <Content Include="Views\AboutUs\Index.cshtml" />
+    <Content Include="Views\Flight\FlightDetailBox.cshtml" />
+    <Content Include="Vendors\air-datepicker\.gitignore" />
+    <Content Include="Vendors\air-datepicker\.npmignore" />
+    <Content Include="Vendors\air-datepicker\bower.json" />
+    <Content Include="Vendors\air-datepicker\docs\jade\layout.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\mixins\example-code.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\mixins\example-content.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\mixins\example-inline.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\mixins\example.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\mixins\param-header.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\mixins\param.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\pages\index-ru.jade" />
+    <Content Include="Vendors\air-datepicker\docs\jade\pages\index.jade" />
+    <Content Include="Vendors\air-datepicker\docs\sass\init.scss" />
+    <Content Include="Vendors\air-datepicker\docs\sass\_docs.scss" />
+    <Content Include="Vendors\air-datepicker\docs\sass\_reset.scss" />
+    <Content Include="Vendors\air-datepicker\LICENSE.md" />
+    <Content Include="Vendors\air-datepicker\package.json" />
+    <Content Include="Vendors\air-datepicker\README.md" />
+    <Content Include="Vendors\air-datepicker\src\sass\cell.scss" />
+    <Content Include="Vendors\air-datepicker\src\sass\datepicker.scss" />
+    <Content Include="Vendors\air-datepicker\src\sass\navigation.scss" />
+    <Content Include="Vendors\air-datepicker\src\sass\timepicker.scss" />
+    <Content Include="Vendors\air-datepicker\src\sass\_datepicker-config.scss" />
+    <Content Include="Views\Air\DeepLink.cshtml" />
+    <Content Include="Views\Air\DeepLinkList.cshtml" />
+    <Content Include="Views\Air\DeepLinkDetail.cshtml" />
+    <Content Include="Views\Air\Promotion.cshtml" />
+    <Content Include="Vendors\jRange\.gitignore" />
+    <Content Include="Vendors\jRange\demo\main.less" />
+    <Content Include="Vendors\jRange\jquery.range.less" />
+    <Content Include="Vendors\jRange\LICENSE" />
+    <Content Include="Vendors\jRange\package.json" />
+    <Content Include="Vendors\jRange\README.md" />
+    <Content Include="Views\Air\ShortenList.cshtml" />
+    <Content Include="Views\Air\ShortenDetail.cshtml" />
+    <Content Include="Views\S\U.cshtml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49019</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49019/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

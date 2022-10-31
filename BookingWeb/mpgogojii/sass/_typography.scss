@@ -1,0 +1,91 @@
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 60px;
+  font-weight: bold;
+  line-height: 75px;
+}
+h2 {
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 45px;
+}
+h3 {
+  font-size: 26px;
+  font-weight: bold;
+  line-height: 33px;
+}
+h4 {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 25px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 23px;
+}
+
+.title--primary {
+  @extend .title;
+  color: var(--primary-color);
+}
+
+.sub-title {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+}
+
+.body-text {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.body-text--primary {
+  @extend .body-text;
+  color: var(--primary-color);
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 18px;
+}
+
+.body-text-small {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.btn-default {
+  border-radius: 28px;
+  width: 160px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  min-height: 48px;
+  padding: 14px 0;
+}
+
+.btn--primary {
+  @extend .btn-default;
+  background: var(--primary-color);
+  &:hover {
+    background-color: #0393cd;
+  }
+}
+
+.btn--secondary {
+  @extend .btn-default;
+  background: var(--secondary-color);
+}

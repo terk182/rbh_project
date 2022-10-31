@@ -1,0 +1,152 @@
+﻿@section styles
+{
+    <link href="~/mpgogojii/style.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .btn__facebook {
+            background-color: #4367b2;
+            width: 100% !important;
+            color: white;
+        }
+
+            .btn__facebook:hover {
+                color: white;
+            }
+
+        .btn-register {
+            width: 100% !important;
+        }
+
+        .icon-fb-span {
+            position: absolute;
+            margin-left: 20px;
+            height: 50px;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            color: white;
+        }
+
+        .text-link {
+            color: var(--text-color-light);
+        }
+
+        a.text-link:link {
+            color: var(--text-color-light);
+        }
+
+        a.text-link:hover {
+            color: var(--text-color-light);
+        }
+
+        a.text-link:visited {
+            color: var(--text-color-light);
+        }
+
+        .text-blue-link {
+            color: var(--primary-color);
+        }
+
+        a.text-blue-link:link {
+            color: var(--primary-color);
+        }
+
+        a.text-blue-link:hover {
+            color: var(--primary-color);
+        }
+
+        a.text-blue-link:visited {
+            color: var(--primary-color);
+        }
+    </style>
+}
+@section width100head {
+    <div id="content" class="site-content">
+
+
+
+        <div id="primary" class="content-area">
+            <main id="main" class="site-main" role="main">
+                <section class="login register">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col col-xl-6 offset-xl-3 col-md-8 offset-md-2 col-sm-10 offset-sm-1">
+                                <div class="logo text-center">
+                                    <img src="~/mpgogojii/StrapPress/assets/icon/logo.svg" class="logo__image">
+                                    <label class="logo__label">Gets You Going</label>
+                                </div>
+
+
+                                <div class="facebook-google">
+                                    <h4 class="text-center mb-20">@Localize.Show("TITLE_LOGIN")</h4>
+                                    <p class="body-text text-center mb-30">@Localize.Show("LOGIN_WITH")</p>
+                                    <div>
+                                        <span class="icon-fb-span"><i class="fab fa-facebook-f"></i></span>
+                                        <button type="button" class="btn btn-default btn__facebook" name="btn_facebook" id="btn_facebook">@Localize.Show("LOGIN_WITH_FB")</button>
+                                    </div>
+                                    <div id="status">
+                                    </div>
+                                </div>
+
+                                <hr class="hr-text" data-content="@Localize.Show("OR")">
+                                @using (Html.BeginForm("DoLogin", "Member", FormMethod.Post, new { name = "loginform", @class = "form-default", data_parsley_validate = "", role = "form", enctype = "multipart/form-data" }))
+                                {
+                                    if (TempData["ErrorMessage"] != null)
+                                    {
+                                        <div class="input-group">
+                                            <div class="col-md-12"><span class="text-error">@TempData["ErrorMessage"]</span></div>
+                                        </div>
+                                    }
+                                    <div class="input-group">
+                                        <span class="input__icon"><img src="~/mpgogojii/StrapPress/assets/icon/email.svg"></span>
+                                        <input type="email" value="" name="user_email" id="user_email" required="required" placeholder="@Localize.Show("EMAIL")">
+                                    </div>
+
+                                    <div class="input-group">
+                                        <span class="input__icon"><img src="~/mpgogojii/StrapPress/assets/icon/password.svg"></span>
+                                        <input type="password" value="" name="user_password" id="user_password" required="required" placeholder="@Localize.Show("PASSWORD")">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 text-center mb-10">
+                                            <a class="text-link" href="@Url.Action("Forgot", "Member")"> @Localize.Show("FORGOT_PASSWORD")</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="btn-container">
+                                        <button type="submit" class="btn-default btn--primary btn-register" name="submit" id="submit">@Localize.Show("SIGNIN")</button>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 text-center mb-10 mt-10">
+                                            <span class="text-link"> @Localize.Show("NOT_REGISTERED")</span> <a class="text-blue-link" href="@Url.Action("Register", "Member")"> @Localize.Show("CREATE_ACCOUNT")</a>
+                                        </div>
+                                    </div>
+
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+
+
+
+
+
+            </main><!-- #main -->
+        </div><!-- #primary -->
+
+
+    </div>
+}
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#submit').focus();
+        });
+
+    </script>
+}
